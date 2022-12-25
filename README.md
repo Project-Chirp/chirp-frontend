@@ -1,2 +1,2 @@
 # tweeter-frontend
-Backend of Twitter clone
+Frontend of Twitter clone
