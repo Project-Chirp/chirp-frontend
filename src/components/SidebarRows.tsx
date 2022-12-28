@@ -1,4 +1,4 @@
-import { SvgIconTypeMap } from "@mui/material";
+import { SvgIconTypeMap, Typography } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import React, {SVGProps} from "react";
 
@@ -11,8 +11,9 @@ interface Props{
 function SidebarRows({Icon,title}:Props)
 {
     return(
-        <div>
-            <Icon />
+        <div style={{display:'flex',alignItems:'center',margin:'30px'}}>
+            <Icon className="h-6 w-6"/>
+            <Typography variant='h1' fontFamily={'Inter'} fontSize={15} paddingLeft={2}>{title}</Typography>
         </div>
     )
 }

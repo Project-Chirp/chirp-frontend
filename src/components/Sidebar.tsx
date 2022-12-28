@@ -10,11 +10,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 function Sidebar() {
   return (
     <div>
-        <img className='h-1- w-10' src='https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png' />
+        <img style={{width:'50px'}}
+        
+        src='https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png' alt=""/>
 
         <SidebarRows Icon={HomeIcon} title="Home" />
         <SidebarRows Icon={MailIcon} title="Inbox" />
-        <SidebarRows Icon={AccountCircleIcon} title="USer" />
+        <SidebarRows Icon={AccountCircleIcon} title="User" />
     </div>
   )
 }
