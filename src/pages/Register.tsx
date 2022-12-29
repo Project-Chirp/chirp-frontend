@@ -3,6 +3,7 @@ import "../styles/Register.css";
 import { Box, Button, Typography, TextField, Link } from "@mui/material/";
 import { Link as RouterLink } from "react-router-dom";
 import { display } from "@mui/system";
+import { Email } from "@mui/icons-material";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -15,6 +16,8 @@ const Register = () => {
 
   const [minDNameCheck, setMinDNameCheck] = useState(false);
   const [maxDNameCheck, setMaxDNameCheck] = useState(false);
+  const [emailCheck, setEmailCheck] = useState(false);
+  const [emailRegex, setEmailRegex] = useState(true);
   const [formatCheck, setFormatCheck] = useState(true);
   const [dNameCheck, setDNameCheck] = useState(false);
   const [pwordRules, setPwordRules] = useState(false);
@@ -25,14 +28,38 @@ const Register = () => {
     setFormatCheck(/^[A-Za-z0-9_.]*$/.test(displayName));
   }, [displayName]);
 
+  useEffect(() => {
+    setEmailRegex(
+      /^[^/\\*;:,{}\[\]()$?]+@+[^/\\~`*;:,|{}\[\]=()%$?]+[.]{1}[^/\\~`*;:,|{}\[\]=()%$?]+$/.test(
+        email
+      )
+    );
+  }, [email]);
+
+  function EmailRules() {
+    if (!emailCheck || emailRegex) {
+      return <></>;
+    } else {
+      return <Typography color={"primary"}>Invalid email address</Typography>;
+    }
+  }
+
   function DisplayNameRules() {
     if (displayName && dNameCheck && !minDNameCheck) {
-      return <Typography>Username must have atleast 4 characters.</Typography>;
+      return (
+        <Typography textAlign={"center"} color="primary">
+          Username must have atleast 4 characters.
+        </Typography>
+      );
     } else if (maxDNameCheck) {
-      return <Typography>Maximum length reached.</Typography>;
+      return (
+        <Typography textAlign={"center"} color="primary">
+          Maximum length reached.
+        </Typography>
+      );
     } else if (!formatCheck) {
       return (
-        <Typography>
+        <Typography textAlign={"center"} color="primary">
           Username can only include letters, numbers, underscore (_) and dot (.)
         </Typography>
       );
@@ -102,12 +129,16 @@ const Register = () => {
           required={true}
           margin="normal"
           value={email}
-          onChange={(email) => setEmail(email.target.value)}
+          onChange={(email) => {
+            setEmail(email.target.value.replace(/\s+/g, ""));
+          }}
+          onBlur={() => setEmailCheck(true)}
           type={"email"}
           variant="outlined"
           placeholder="Email"
           id="email"
         />
+        <EmailRules />
         <Typography
           variant="h2"
           textAlign={"center"}
