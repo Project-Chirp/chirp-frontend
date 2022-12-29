@@ -20,7 +20,9 @@ const Login = () => {
         placeholder="Password"
         id="password"
       />
-      <Link>Forgot Password?</Link>
+      <Link component={RouterLink} to="/forgotpassword">
+        Forgot Password?
+      </Link>
       <Link component={RouterLink} to="/register">
         Need to sign up for an account?
       </Link>
