@@ -28,14 +28,14 @@ const Register = () => {
 
   useEffect(() => {
     setEmailRegex(
-      /^[^/\\*;:,{}\[\]()$?]+@+[^/\\~`*;:,|{}\[\]=()%$?]+[.]{1}[^/\\~`*;:,|{}\[\]=()%$?]+$/.test(
+      /^[^/\\*;:,{}\]()$?]+@+[^/\\~`*;:,|{}\]=()%$?]+[.]{1}[^/\\~`*;:,|{}\]=()%$?]+$/.test(
         email
       )
     );
   }, [email]);
 
   function EmailRules() {
-    if (!emailCheck || emailRegex) {
+    if (!emailCheck || !email || emailRegex) {
       return <></>;
     } else {
       return <Typography color={"primary"}>Invalid email address</Typography>;
