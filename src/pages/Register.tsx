@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import "../styles/Register.css";
 import { Box, Button, Typography, TextField, Link } from "@mui/material/";
 import { Link as RouterLink } from "react-router-dom";
-import { display } from "@mui/system";
-import { Email } from "@mui/icons-material";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -20,7 +18,7 @@ const Register = () => {
   const [emailRegex, setEmailRegex] = useState(true);
   const [formatCheck, setFormatCheck] = useState(true);
   const [dNameCheck, setDNameCheck] = useState(false);
-  const [pwordRules, setPwordRules] = useState(false);
+  // const [pwordRules, setPwordRules] = useState(false);
 
   useEffect(() => {
     setMinDNameCheck(displayName.length >= 4);
