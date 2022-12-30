@@ -14,17 +14,29 @@ const Register = () => {
 
   const [minDNameCheck, setMinDNameCheck] = useState(false);
   const [maxDNameCheck, setMaxDNameCheck] = useState(false);
+  const [passwordRules, setPasswordRules] = useState(false);
+  const [passwordCheck, setPasswordCheck] = useState(false);
   const [emailCheck, setEmailCheck] = useState(false);
   const [emailRegex, setEmailRegex] = useState(true);
   const [formatCheck, setFormatCheck] = useState(true);
   const [dNameCheck, setDNameCheck] = useState(false);
-  // const [pwordRules, setPwordRules] = useState(false);
+  const [lengthCheck, setLengthCheck] = useState(true);
+  const [lettersCheck, setLettersCheck] = useState(true);
+  const [numberCheck, setNumberCheck] = useState(true);
+  const [specialCheck, setSpecialCheck] = useState(true);
 
   useEffect(() => {
     setMinDNameCheck(displayName.length >= 4);
     setMaxDNameCheck(displayName.length === 20);
     setFormatCheck(/^[A-Za-z0-9_.]*$/.test(displayName));
   }, [displayName]);
+
+  useEffect(() => {
+    setLengthCheck(password.length >= 8);
+    setLettersCheck(/[A-Z]/.test(password) && /[a-z]/.test(password));
+    setNumberCheck(/\d/.test(password));
+    setSpecialCheck(/[^A-Za-z0-9]/.test(password));
+  }, [password]);
 
   useEffect(() => {
     setEmailRegex(
@@ -38,8 +50,54 @@ const Register = () => {
     if (!emailCheck || !email || emailRegex) {
       return <></>;
     } else {
-      return <Typography color={"primary"}>Invalid email address</Typography>;
+      return (
+        <Typography textAlign={"center"} color="primary">
+          Invalid email address
+        </Typography>
+      );
     }
+  }
+
+  function PasswordRules() {
+    if (lettersCheck && lengthCheck && numberCheck && specialCheck) {
+      return <></>;
+    }
+
+    return (
+      <Box>
+        <Typography textAlign={"center"} color="primary" fontWeight={1000}>
+          Password requirements:
+        </Typography>
+        {lengthCheck ? (
+          <></>
+        ) : (
+          <Typography textAlign={"center"} color="primary">
+            - 8 characters minimum
+          </Typography>
+        )}
+        {lettersCheck ? (
+          <></>
+        ) : (
+          <Typography textAlign={"center"} color="primary">
+            - Upper and lower case letters
+          </Typography>
+        )}
+        {numberCheck ? (
+          <></>
+        ) : (
+          <Typography textAlign={"center"} color="primary">
+            - At least one number
+          </Typography>
+        )}
+        {specialCheck ? (
+          <></>
+        ) : (
+          <Typography textAlign={"center"} color="primary">
+            - At least one special character
+          </Typography>
+        )}
+      </Box>
+    );
   }
 
   function DisplayNameRules() {
@@ -160,21 +218,37 @@ const Register = () => {
           margin="normal"
           value={password}
           onChange={(pword) => setPassword(pword.target.value)}
+          onFocus={() => setPasswordRules(true)}
+          onBlur={() => setPasswordRules(false)}
           type={"password"}
           variant="outlined"
           placeholder="Password"
           id="password"
         />
+        <Box>{passwordRules ? <PasswordRules /> : <></>}</Box>
         <TextField
           required={true}
           margin="normal"
           value={confirmPword}
-          onChange={(cpword) => setConfirmPword(cpword.target.value)}
+          onChange={(cpword) => {
+            setConfirmPword(cpword.target.value);
+            setPasswordCheck(false);
+          }}
+          onBlur={() => setPasswordCheck(true)}
           type={"password"}
           variant="outlined"
           placeholder="Confirm password"
           id="confirmpassword"
         />
+        <Box>
+          {!passwordCheck || confirmPword === password ? (
+            <></>
+          ) : (
+            <Typography textAlign={"center"} color="primary">
+              Password fields need to match
+            </Typography>
+          )}
+        </Box>
         <Button
           size={"large"}
           sx={{
