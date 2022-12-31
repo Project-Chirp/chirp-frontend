@@ -1,29 +1,29 @@
 .ChatICon {
   height: 8px;
   width: 8px;
-  cursor: pointer;
 }
 
-.ChatICon.hover {
-  color: 22AA6F;
-}
-
-.header {
+.Messagesheader {
   font-weight: bold;
 }
 
 /*need to center the icons and text*/
-.flexbox {
+.Messagesflexbox {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5;
 }
 
-/*need to center the icons and text*/
-.searchflexbox {
-  display: flex;
-  background-color: gray;
+.title {
+  font-weight: bold;
+  text-align: center;
 }
 
-.searchDM {
-  outline: none;
-  background: none;
+.messagethread {
+  text-align: center;
+}
+
+.MessagesButton {
+  text-align: center;
 }

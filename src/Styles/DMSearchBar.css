@@ -1,0 +1,13 @@
+/*need to center the icons and text*/
+.searchflexbox {
+  display: flex;
+  background-color: gray;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+}
+
+.searchDM {
+  outline: none;
+  background: none;
+}

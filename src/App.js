@@ -1,12 +1,12 @@
 import "./App.css";
-import Login from "./pages/Login";
 import { Route, Routes } from "react-router-dom";
+import Messages from "./pages/Messages.tsx";
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Messages />} />
       </Routes>
     </div>
   );
