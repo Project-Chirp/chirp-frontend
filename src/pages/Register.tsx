@@ -47,28 +47,32 @@ const Register = () => {
   }, [email]);
 
   const submitUser = async () => {
-    const myData = {
-      email: "email@email.com",
-      password_hash: "password",
-      last_name: "lastName",
-      first_name: "firstName",
-      birth_date: "1999-01-08T07:00:00.000Z",
-    };
+    if (email && password && lastName && firstName) {
+      const myData = {
+        email: email,
+        password_hash: password,
+        last_name: lastName,
+        first_name: firstName,
+        birth_date: "1999-01-08T07:00:00.000Z",
+      };
 
-    console.log(myData);
-    const result = await fetch("http://localhost:3001/api/appUsers/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(myData),
-    }).then(function (response) {
-      return response.json();
-    });
+      console.log(myData);
+      const result = await fetch("http://localhost:3001/api/appUsers/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(myData),
+      }).then(function (response) {
+        return response;
+      });
 
-    const resultJSON = await result.json();
+      const resultJSON = await result;
 
-    console.log(resultJSON);
+      console.log(resultJSON);
+    } else {
+      <Typography>TESTING THIS ELEMENT</Typography>;
+    }
   };
 
   function EmailRules() {
