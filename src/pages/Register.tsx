@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Register.css";
-import { Box, Button, Typography, TextField, Link } from "@mui/material/";
+import { Box, Button, Typography, TextField, Link, Grid } from "@mui/material/";
 import { Link as RouterLink } from "react-router-dom";
 
 const Register = () => {
@@ -12,6 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPword, setConfirmPword] = useState("");
 
+  const [filled, setFilled] = useState(false);
   const [minDNameCheck, setMinDNameCheck] = useState(false);
   const [maxDNameCheck, setMaxDNameCheck] = useState(false);
   const [passwordRules, setPasswordRules] = useState(false);
@@ -137,142 +138,176 @@ const Register = () => {
         margin={"auto"}
         marginTop={5}
         padding={3}
+        width={1000}
       >
-        <Typography
-          variant="h1"
-          textAlign={"center"}
-          fontWeight={700}
-          fontSize={32}
+        <Grid
+          container
+          spacing={1}
+          alignContent="center"
+          justifyContent={"center"}
         >
-          Create a new account
-        </Typography>
-        <TextField
-          margin="normal"
-          value={firstName}
-          onChange={(fname) => setFirstName(fname.target.value)}
-          type={"text"}
-          variant="outlined"
-          placeholder="First Name"
-          id="firstname"
-          required={true}
-        />
-        <TextField
-          required={true}
-          margin="normal"
-          value={lastName}
-          onChange={(lname) => setLastName(lname.target.value)}
-          type={"text"}
-          variant="outlined"
-          placeholder="Last Name"
-          id="lastname"
-        />
-        <TextField
-          required={true}
-          margin="normal"
-          value={displayName}
-          onChange={(dName) => {
-            setDisplayName(dName.target.value.substring(0, 20));
-            setDNameCheck(false);
-          }}
-          onBlur={() => setDNameCheck(true)}
-          type={"text"}
-          variant="outlined"
-          placeholder="Display Name"
-          id="displayname"
-        />
-        <DisplayNameRules />
-        <TextField
-          required={true}
-          margin="normal"
-          value={email}
-          onChange={(email) => {
-            setEmail(email.target.value.replace(/\s+/g, ""));
-          }}
-          onBlur={() => setEmailCheck(true)}
-          type={"email"}
-          variant="outlined"
-          placeholder="Email"
-          id="email"
-        />
-        <EmailRules />
-        <Typography
-          variant="h2"
-          textAlign={"center"}
-          fontWeight={1000}
-          fontSize={15}
-        >
-          Date of Birth
-        </Typography>
-        <TextField
-          required={true}
-          margin="normal"
-          value={day}
-          onChange={(date) => setDay(new Date(date.target.value))}
-          type={"date"}
-          variant="outlined"
-          placeholder="Date"
-          id="date"
-        />
-        <TextField
-          required={true}
-          margin="normal"
-          value={password}
-          onChange={(pword) => setPassword(pword.target.value)}
-          onFocus={() => setPasswordRules(true)}
-          onBlur={() => setPasswordRules(false)}
-          type={"password"}
-          variant="outlined"
-          placeholder="Password"
-          id="password"
-        />
-        <Box>{passwordRules ? <PasswordRules /> : <></>}</Box>
-        <TextField
-          required={true}
-          margin="normal"
-          value={confirmPword}
-          onChange={(cpword) => {
-            setConfirmPword(cpword.target.value);
-            setPasswordCheck(false);
-          }}
-          onBlur={() => setPasswordCheck(true)}
-          type={"password"}
-          variant="outlined"
-          placeholder="Confirm password"
-          id="confirmpassword"
-        />
-        <Box>
-          {!passwordCheck || confirmPword === password ? (
-            <></>
-          ) : (
-            <Typography textAlign={"center"} color="primary">
-              Password fields need to match
-            </Typography>
-          )}
-        </Box>
-        <Button
-          size={"large"}
-          sx={{
-            marginTop: 3,
-            marginBottom: 2,
-            borderRadius: 10,
-          }}
-          color="primary"
-          variant="contained"
-          type="submit"
-          onClick={() => handleSubmit()}
-        >
-          Create account
-        </Button>
-        <Link
-          variant="h6"
-          component={RouterLink}
-          to="/login"
-          underline="hover"
-          color="inherit"
-          fontSize={15}
-        >
-          Already have an account?
-        </Link>
+          <Typography
+            variant="h1"
+            textAlign={"center"}
+            fontWeight={700}
+            fontSize={32}
+            paddingBottom={5}
+          >
+            Create a new account
+          </Typography>
+          <Grid item>
+            <TextField
+              fullWidth
+              label="First Name"
+              margin="dense"
+              value={firstName}
+              onChange={(fname) => setFirstName(fname.target.value)}
+              type={"text"}
+              variant="outlined"
+              placeholder="First Name"
+              id="firstname"
+              required={true}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              fullWidth
+              label="Last Name"
+              required={true}
+              margin="dense"
+              value={lastName}
+              onChange={(lname) => setLastName(lname.target.value)}
+              type={"text"}
+              variant="outlined"
+              placeholder="Last Name"
+              id="lastname"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              fullWidth
+              label="Display Name"
+              required={true}
+              margin="dense"
+              value={displayName}
+              onChange={(dName) => {
+                setDisplayName(dName.target.value.substring(0, 20));
+                setDNameCheck(false);
+              }}
+              onBlur={() => setDNameCheck(true)}
+              type={"text"}
+              variant="outlined"
+              placeholder="Display Name"
+              id="displayname"
+            />
+          </Grid>
+          <DisplayNameRules />
+          <Grid item>
+            <TextField
+              fullWidth
+              label="Email"
+              required={true}
+              margin="dense"
+              value={email}
+              onChange={(email) => {
+                setEmail(email.target.value.replace(/\s+/g, ""));
+              }}
+              onBlur={() => setEmailCheck(true)}
+              type={"email"}
+              variant="outlined"
+              placeholder="Email"
+              id="email"
+            />
+          </Grid>
+          <EmailRules />
+          <Grid item>
+            <TextField
+              fullWidth
+              sx={{ width: 253.4 }}
+              label="Date of Birth"
+              required={true}
+              margin="dense"
+              value={day}
+              onChange={(date) => setDay(new Date(date.target.value))}
+              type={"date"}
+              variant="outlined"
+              placeholder="Date"
+              id="date"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              fullWidth
+              label="Password"
+              required={true}
+              margin="dense"
+              value={password}
+              onChange={(pword) => setPassword(pword.target.value)}
+              onFocus={() => setPasswordRules(true)}
+              onBlur={() => setPasswordRules(false)}
+              type={"password"}
+              variant="outlined"
+              placeholder="Password"
+              id="password"
+            />
+          </Grid>
+          <Box>{passwordRules ? <PasswordRules /> : <></>}</Box>
+          <Grid item>
+            <TextField
+              fullWidth
+              label="Confirm password"
+              required={true}
+              margin="dense"
+              value={confirmPword}
+              onChange={(cpword) => {
+                setConfirmPword(cpword.target.value);
+                setPasswordCheck(false);
+              }}
+              onBlur={() => setPasswordCheck(true)}
+              type={"password"}
+              variant="outlined"
+              placeholder="Confirm password"
+              id="confirmpassword"
+            />
+          </Grid>
+          <Box>
+            {!passwordCheck || confirmPword === password ? (
+              <></>
+            ) : (
+              <Typography textAlign={"center"} color="primary">
+                Password fields need to match
+              </Typography>
+            )}
+          </Box>
+          <Grid item>
+            <Button
+              fullWidth
+              size={"large"}
+              sx={{
+                marginTop: 3,
+                marginBottom: 2,
+                borderRadius: 10,
+                width: 253.4,
+              }}
+              color="primary"
+              variant="contained"
+              type="submit"
+              onClick={() => handleSubmit()}
+            >
+              Create account
+            </Button>
+          </Grid>
+          <Link
+            variant="h6"
+            component={RouterLink}
+            to="/login"
+            underline="hover"
+            color="inherit"
+            fontSize={15}
+          >
+            Already have an account?
+          </Link>
+        </Grid>
       </Box>
     </main>
   );
