@@ -1,5 +1,5 @@
 import React from "react";
-import PageWrapper from "./PageWrapper.tsx";
+import PageWrapper from "./PageWrapper";
 
 const Login = () => {
   return (

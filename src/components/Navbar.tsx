@@ -1,5 +1,3 @@
-import React from "react";
-
 // Importing the icons for the navigation bar
 import HomeIcon from "@mui/icons-material/Home";
 import MailIcon from "@mui/icons-material/Mail";
@@ -10,8 +8,8 @@ import { Button, List, Stack, Toolbar } from "@mui/material";
 import { Drawer } from "@mui/material";
 
 // Link is used to let us move from one page to another basically.
-import UserAvatar from "./UserAvatar.tsx";
-import NavItem from "./NavItem.tsx";
+import UserAvatar from "./UserAvatar";
+import NavItem from "./NavItem";
 
 const navItems = [
   {

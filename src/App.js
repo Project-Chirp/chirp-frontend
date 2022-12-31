@@ -1,5 +1,5 @@
 import "./App.css";
-import Login from "./pages/Login.tsx";
+import Login from "./pages/Login";
 import { Route, Routes } from "react-router-dom";
 
 function App() {

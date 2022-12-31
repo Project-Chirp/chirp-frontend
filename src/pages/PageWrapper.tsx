@@ -1,7 +1,6 @@
-import React from "react";
-import NavBar from "../components/NavBar.tsx";
+import NavBar from "../components/NavBar";
 
-const PageWrapper = (props) => {
+const PageWrapper = (props: any) => {
   return (
     <>
       <div style={{ display: "flex" }}>
