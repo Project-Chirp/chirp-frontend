@@ -1,4 +1,4 @@
-import { Avatar } from "@mui/material";
+import { Avatar, Link } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
@@ -11,19 +11,24 @@ const UserAvatar = () => {
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+    console.log(event);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  console.log(anchorEl);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+  console.log(open);
 
   return (
-    <Button onClick={handleClick}>
-      <Avatar />
-      <Typography sx={{ padding: 1.5 }}>Buzz</Typography>
+    <>
+      <Button onClick={handleClick}>
+        <Avatar />
+        <Typography sx={{ padding: 1.5 }}>Buzz</Typography>
+      </Button>
       <Popover
         id={id}
         open={open}
@@ -38,9 +43,9 @@ const UserAvatar = () => {
           horizontal: "center",
         }}
       >
-        The content of the Popover.
+        <Link>Log Out</Link>
       </Popover>
-    </Button>
+    </>
   );
 };
 
