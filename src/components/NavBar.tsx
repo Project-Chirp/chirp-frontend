@@ -10,7 +10,6 @@ import { Drawer } from "@mui/material";
 // Link is used to let us move from one page to another basically.
 import UserAvatar from "./UserAvatar";
 import NavItem from "./NavItem";
-import { auto } from "@popperjs/core";
 
 const navItems = [
   {
@@ -39,6 +38,7 @@ const NavBar = () => {
       anchor="left"
       sx={{
         width: drawerWidth,
+        height: "100%",
         "& .MuiDrawer-paper": {
           width: drawerWidth,
           boxSizing: "border-box",
@@ -46,7 +46,7 @@ const NavBar = () => {
       }}
     >
       <Toolbar>
-        <Stack sx={{ margin: auto }}>
+        <Stack sx={{ margin: "auto" }}>
           <Avatar
             sx={{ alignSelf: "center", padding: 2 }}
             alt="logo"
