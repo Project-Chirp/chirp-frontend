@@ -4,12 +4,13 @@ import MailIcon from "@mui/icons-material/Mail";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 // Importing the tools to make the navigation bar
-import { Button, List, Stack, Toolbar } from "@mui/material";
+import { Avatar, Button, List, Stack, Toolbar } from "@mui/material";
 import { Drawer } from "@mui/material";
 
 // Link is used to let us move from one page to another basically.
 import UserAvatar from "./UserAvatar";
 import NavItem from "./NavItem";
+import { auto } from "@popperjs/core";
 
 const navItems = [
   {
@@ -31,20 +32,25 @@ const navItems = [
 
 // To declare a variable in JS, we use const or let. Variables declared with const can't be redefined but let can.
 const NavBar = () => {
+  const drawerWidth = 250;
   return (
     <Drawer
       variant="permanent"
       anchor="left"
       sx={{
-        width: 150,
+        width: drawerWidth,
+        "& .MuiDrawer-paper": {
+          width: drawerWidth,
+          boxSizing: "border-box",
+        },
       }}
     >
       <Toolbar>
-        <Stack>
-          <img
-            style={{ width: "50px" }}
+        <Stack sx={{ margin: auto }}>
+          <Avatar
+            sx={{ alignSelf: "center" }}
+            alt="logo"
             src="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
-            alt=""
           />
           <List component="nav">
             {navItems.map((navItem, index) => (
