@@ -48,7 +48,7 @@ const NavBar = () => {
       <Toolbar>
         <Stack sx={{ margin: auto }}>
           <Avatar
-            sx={{ alignSelf: "center" }}
+            sx={{ alignSelf: "center", padding: 2 }}
             alt="logo"
             src="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
           />

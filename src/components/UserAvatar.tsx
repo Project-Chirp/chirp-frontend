@@ -23,7 +23,7 @@ const UserAvatar = () => {
   return (
     <Button onClick={handleClick}>
       <Avatar />
-      <Typography>Buzz</Typography>
+      <Typography sx={{ padding: 1.5 }}>Buzz</Typography>
       <Popover
         id={id}
         open={open}
