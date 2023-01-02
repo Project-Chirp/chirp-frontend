@@ -53,7 +53,7 @@ const Register = () => {
         password_hash: password,
         last_name: lastName,
         first_name: firstName,
-        birth_date: "1999-01-08T07:00:00.000Z",
+        birth_date: day.toLocaleDateString(),
       };
 
       console.log(myData);
@@ -234,6 +234,7 @@ const Register = () => {
           required={true}
           margin="dense"
           value={day}
+          InputLabelProps={{ shrink: true }}
           onChange={(date) => setDay(new Date(date.target.value))}
           type={"date"}
           variant="outlined"
