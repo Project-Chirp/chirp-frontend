@@ -1,33 +1,10 @@
-import { Button, Link, TextField, Typography } from "@mui/material";
-import React from "react";
-import { Link as RouterLink } from "react-router-dom";
+import PageWrapper from "./PageWrapper";
 
 const Login = () => {
   return (
-    <>
-      <Typography>Sign into your account</Typography>
-      <TextField
-        margin="normal"
-        type={"text"}
-        variant="outlined"
-        placeholder="Username"
-        id="username"
-      />
-      <TextField
-        margin="normal"
-        type={"text"}
-        variant="outlined"
-        placeholder="Password"
-        id="password"
-      />
-      <Link component={RouterLink} to="/forgotpassword">
-        Forgot Password?
-      </Link>
-      <Link component={RouterLink} to="/register">
-        Need to sign up for an account?
-      </Link>
-      <Button>Sign In</Button>
-    </>
+    <PageWrapper>
+      <h1 style={{ flexGrow: 1 }}>Login</h1>
+    </PageWrapper>
   );
 };
 
