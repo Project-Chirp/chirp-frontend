@@ -1,21 +1,29 @@
-import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 
-const DMViewProfile = () => {
+const Conversation = () => {
   return (
-    <div>
-      <Box sx={{ padding: "10px", display: "flex" }}>
-        <AccountCircleIcon sx={{ fontSize: 40 }} />
-        <Box sx={{ flexDirection: "column" }}>
-          <Typography>Username</Typography>
-          <Box>
-            <Typography sx={{}}>Hey</Typography>
-          </Box>
+    <ListItem>
+      <ListItemButton>
+        <Box sx={{ padding: "10px", display: "flex" }}>
+          <ListItemAvatar sx={{ margin: "auto" }}>
+            <AccountCircleIcon sx={{ fontSize: 40 }} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={<Typography>Buzzkill @itsthebuzzkill - 3h</Typography>}
+            secondary={<Typography>Hey what's up</Typography>}
+          />
         </Box>
-      </Box>
-    </div>
+      </ListItemButton>
+    </ListItem>
   );
 };
 
-export default DMViewProfile;
+export default Conversation;
