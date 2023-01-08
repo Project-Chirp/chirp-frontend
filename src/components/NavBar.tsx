@@ -15,7 +15,7 @@ const navItems = [
   {
     icon: <HomeIcon />,
     label: "Home",
-    route: "/login",
+    route: "/home",
   },
   {
     icon: <MailIcon />,
