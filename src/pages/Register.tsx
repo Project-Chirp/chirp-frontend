@@ -26,7 +26,23 @@ const Register = () => {
   const [lettersCheck, setLettersCheck] = useState(true);
   const [numberCheck, setNumberCheck] = useState(true);
   const [specialCheck, setSpecialCheck] = useState(true);
+  const [submitButton, setSubmitButton] = useState(false);
 
+  useEffect(() => {
+    if (
+      firstName &&
+      lastName &&
+      displayName &&
+      email &&
+      dob &&
+      password &&
+      confirmPword
+    ) {
+      setSubmitButton(true);
+    } else {
+      setSubmitButton(false);
+    }
+  }, [firstName, lastName, email, dob, displayName, password, confirmPword]);
   useEffect(() => {
     setMinDNameCheck(displayName.length >= 4);
     setMaxDNameCheck(displayName.length === 20);
@@ -291,6 +307,7 @@ const Register = () => {
           )}
         </Box>
         <Button
+          disabled={submitButton === false}
           size={"large"}
           sx={{
             marginTop: 3,
