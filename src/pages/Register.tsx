@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import "../styles/Register.css";
 import { Box, Button, Typography, TextField, Link } from "@mui/material/";
 import { Link as RouterLink } from "react-router-dom";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
-  const [day, setDay] = useState(new Date());
+  const [dob, setDob] = useState<Date>(new Date());
   const [password, setPassword] = useState("");
   const [confirmPword, setConfirmPword] = useState("");
 
@@ -47,13 +49,15 @@ const Register = () => {
   }, [email]);
 
   const submitUser = async () => {
+    console.log(dob.toISOString());
+
     if (email && password && lastName && firstName) {
       const myData = {
         email: email,
         password_hash: password,
         last_name: lastName,
         first_name: firstName,
-        birth_date: day.toLocaleDateString(),
+        birth_date: dob.toISOString(),
       };
 
       console.log(myData);
@@ -212,6 +216,26 @@ const Register = () => {
           placeholder="Display Name"
           id="displayname"
         />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            renderInput={(props) => (
+              <TextField
+                sx={{ width: 253.4 }}
+                margin="dense"
+                variant="outlined"
+                id="date"
+                placeholder="Date of Birth"
+                {...props}
+              />
+            )}
+            label="Date of Birth"
+            value={dob}
+            onChange={(newValue) => {
+              newValue && setDob(newValue);
+            }}
+            maxDate={new Date()}
+          />
+        </LocalizationProvider>
         <DisplayNameRules />
         <TextField
           label="Email"
@@ -228,19 +252,6 @@ const Register = () => {
           id="email"
         />
         <EmailRules />
-        <TextField
-          sx={{ width: 253.4 }}
-          label="Date of Birth"
-          required={true}
-          margin="dense"
-          value={day}
-          InputLabelProps={{ shrink: true }}
-          onChange={(date) => setDay(new Date(date.target.value))}
-          type={"date"}
-          variant="outlined"
-          placeholder="Date"
-          id="date"
-        />
         <TextField
           label="Password"
           required={true}
