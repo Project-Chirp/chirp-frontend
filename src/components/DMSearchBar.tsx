@@ -1,16 +1,20 @@
 import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import "../Styles/DMSearchBar.css";
+import { TextField } from "@mui/material";
+import Container from "@mui/material/Container";
 
 const DMSearchBar = () => {
   return (
-    <div className="searchflexbox">
-      <SearchIcon />
-      <input
-        className="searchDM"
-        type="text"
-        placeholder="Search Direct Message"
-      />
+    <div>
+      <Container>
+        <SearchRoundedIcon fontSize="large" />
+        <TextField
+          sx={{ borderRadius: `25px` }}
+          variant="filled"
+          placeholder="Search Direct Messages"
+        />
+      </Container>
     </div>
   );
 };

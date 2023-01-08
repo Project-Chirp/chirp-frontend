@@ -7,6 +7,7 @@ import { Button, Typography } from "@mui/material";
 import "../Styles/Messages.css";
 import DMSearchBar from "../components/DMSearchBar";
 import PageWrapper from "./PageWrapper";
+import DMViewProfile from "../components/Conversation";
 
 const Messages = () => {
   return (
@@ -22,6 +23,7 @@ const Messages = () => {
           </div>
 
           <DMSearchBar />
+          <DMViewProfile />
         </div>
 
         <div>
