@@ -1,20 +1,28 @@
 import React from "react";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import "../Styles/DMSearchBar.css";
-import { TextField } from "@mui/material";
-import Container from "@mui/material/Container";
+import { InputAdornment, TextField } from "@mui/material";
 
 const DMSearchBar = () => {
   return (
     <div>
-      <Container>
-        <SearchRoundedIcon fontSize="large" />
-        <TextField
-          sx={{ borderRadius: `25px` }}
-          variant="filled"
-          placeholder="Search Direct Messages"
-        />
-      </Container>
+      <TextField
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchRoundedIcon />
+            </InputAdornment>
+          ),
+        }}
+        hiddenLabel
+        variant="filled"
+        placeholder="Search Direct Message"
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "50px",
+          },
+        }}
+      />
     </div>
   );
 };

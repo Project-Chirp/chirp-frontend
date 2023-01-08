@@ -1,17 +1,19 @@
 import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Container, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 const DMViewProfile = () => {
   return (
     <div>
-      <Container sx={{ display: "flex" }}>
-        <Container sx={{ display: "flex" }}>
-          <AccountCircleIcon />
-          <Typography>Buzz</Typography>
-        </Container>
-        <Typography>Whats up</Typography>
-      </Container>
+      <Box sx={{ padding: "10px", display: "flex" }}>
+        <AccountCircleIcon sx={{ fontSize: 40 }} />
+        <Box sx={{ flexDirection: "column" }}>
+          <Typography>Username</Typography>
+          <Box>
+            <Typography sx={{}}>Hey</Typography>
+          </Box>
+        </Box>
+      </Box>
     </div>
   );
 };
