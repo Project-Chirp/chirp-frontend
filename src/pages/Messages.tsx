@@ -6,6 +6,7 @@ import "../Styles/Messages.css";
 import DMSearchBar from "../components/DMSearchBar";
 import PageWrapper from "./PageWrapper";
 import Conversation from "../components/Conversation";
+import Chatbox from "../components/Chatbox";
 
 const Messages = () => {
   return (
@@ -25,7 +26,9 @@ const Messages = () => {
         </List>
       </div>
 
-      <div>
+      <Chatbox />
+
+      {/* <div>
         <h1 className="title">Select a Message!</h1>
         <Typography className="messagethread">
           Select an already existing mesage thread or start an entirely new one!
@@ -43,13 +46,13 @@ const Messages = () => {
             size={"large"}
             sx={{ fontFamily: "Inter" }}
             variant="contained"
-            /* Might have to change this */
+           
             type="submit"
           >
             New Message
           </Button>
         </div>
-      </div>
+      </div> */}
     </PageWrapper>
   );
 };
