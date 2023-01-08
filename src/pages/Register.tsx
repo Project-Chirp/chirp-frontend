@@ -65,8 +65,6 @@ const Register = () => {
   }, [email]);
 
   const submitUser = async () => {
-    console.log(dob.toISOString());
-
     if (email && password && lastName && firstName) {
       const myData = {
         email: email,
@@ -76,8 +74,7 @@ const Register = () => {
         birth_date: dob.toISOString(),
       };
 
-      console.log(myData);
-      const result = await fetch("http://localhost:3001/api/appUsers/", {
+      await fetch("http://localhost:3001/api/appUsers/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,12 +83,6 @@ const Register = () => {
       }).then(function (response) {
         return response;
       });
-
-      const resultJSON = await result;
-
-      console.log(resultJSON);
-    } else {
-      <Typography>TESTING THIS ELEMENT</Typography>;
     }
   };
 
