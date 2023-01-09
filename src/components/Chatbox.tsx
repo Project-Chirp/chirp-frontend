@@ -5,6 +5,8 @@ import {
   IconButton,
   TextField,
   InputAdornment,
+  ListItemText,
+  List,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
@@ -17,21 +19,38 @@ const Chatbox = () => {
     <Box>
       {/* Header section */}
       <Box sx={{ display: "flex", alignContent: "flex-start" }}>
+      <IconButton>
         <AccountCircle sx={{ fontSize: 40 }} />
+        </IconButton>
         <Typography sx={{ margin: "auto" }}>UserName</Typography>
-        <IconButton sx={{}}>
+        <IconButton>
           <InfoIcon />
         </IconButton>
       </Box>
 
       {/* Chat Body */}
-      <Box></Box>
+      <Box sx={{height: 1}}>
+       <List> 
 
-      {/* Insering messages */}
+        <Box sx={{justifyContent:'end'}}>
+        <ListItemText  
+        primary="Hey" 
+        secondary="10.00am">
+        </ListItemText>
+       </Box>
+
+
+        <Box sx={{justifyContent:"start"}}>
+        <ListItemText primary="Hey" secondary="12.00am">
+        </ListItemText>
+        </Box>
+ 
+ 
+       </List>
+      </Box>
+
+      {/* Messaging text field */}
       <Box>
-        {/* <AddPhotoAlternateOutlinedIcon />
-        <GifBoxOutlinedIcon />
-        <EmojiEmotionsOutlinedIcon /> */}
         <TextField
           InputProps={{
             startAdornment: (
