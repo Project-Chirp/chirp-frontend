@@ -46,7 +46,7 @@ const NavBar = () => {
       }}
     >
       <Toolbar>
-        <Stack sx={{ margin: "auto" }}>
+        <Stack sx={{ margin: "auto"}}>
           <Avatar
             sx={{ alignSelf: "center", padding: 2 }}
             alt="logo"

@@ -29,7 +29,17 @@ const Chatbox = () => {
       </Box>
 
       {/* Chat Body */}
-      <Box sx={{height: 1}}>
+
+      <Box sx={{height:1}}>
+        
+        <ListItemText  
+        sx={{alignItems:'end'}}
+        primary="Hey" 
+        secondary="10.00am">
+        </ListItemText>
+        
+      </Box>
+      {/* <Box sx={{height: 1}}>
        <List> 
 
         <Box sx={{justifyContent:'end'}}>
@@ -47,7 +57,7 @@ const Chatbox = () => {
  
  
        </List>
-      </Box>
+      </Box> */}
 
       {/* Messaging text field */}
       <Box>
@@ -80,6 +90,14 @@ const Chatbox = () => {
           multiline
           hiddenLabel
           placeholder="Start a new message"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "50px",
+            },
+            "& .MuiInputLabel-outlined": {
+              paddingLeft: "20px"
+            },
+          }}
         ></TextField>
       </Box>
     </Box>

@@ -1,29 +1,30 @@
-import React from "react";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import "../Styles/DMSearchBar.css";
-import { InputAdornment, TextField } from "@mui/material";
+import {  InputAdornment, Stack, TextField } from "@mui/material";
 
 const DMSearchBar = () => {
   return (
-    <div>
-      <TextField
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchRoundedIcon />
-            </InputAdornment>
-          ),
-        }}
-        hiddenLabel
-        variant="filled"
-        placeholder="Search Direct Message"
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            borderRadius: "50px",
-          },
-        }}
-      />
-    </div>
+    //Using a Stack to vary the width of the page
+    <Stack sx={{ width: 400, margin: "auto" }}>
+          <TextField
+          InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchRoundedIcon />
+                    </InputAdornment>
+                  ),
+                }}
+            hiddenLabel
+            placeholder="Search Direct Message"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "50px",
+              },
+              "& .MuiInputLabel-outlined": {
+                paddingLeft: "20px"
+              }
+            }} />
+      </Stack>
   );
 };
 
