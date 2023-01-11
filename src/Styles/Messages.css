@@ -5,6 +5,9 @@
 
 .Messagesheader {
   font-weight: bold;
+  font-family: 'Inter';
+  font-size: larger;
+  padding: 10px;
 }
 
 /*need to center the icons and text*/

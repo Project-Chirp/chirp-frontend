@@ -1,6 +1,6 @@
 import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
-import { Button, List, Typography } from "@mui/material";
+import { Button, Divider, List, Typography } from "@mui/material";
 
 import "../Styles/Messages.css";
 import DMSearchBar from "../components/DMSearchBar";
@@ -21,8 +21,11 @@ const Messages = () => {
         </div>
 
         <DMSearchBar />
+        
         <List>
+        <Divider></Divider>
           <Conversation />
+        <Divider></Divider>
         </List>
       </div>
 

@@ -7,57 +7,45 @@ import {
   InputAdornment,
   ListItemText,
   List,
+  Divider,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
+import { maxHeight } from "@mui/system";
 
 const Chatbox = () => {
   return (
     <Box>
       {/* Header section */}
-      <Box sx={{ display: "flex", alignContent: "flex-start" }}>
+      <Box sx={{ display: "flex" }}>
       <IconButton>
         <AccountCircle sx={{ fontSize: 40 }} />
         </IconButton>
-        <Typography sx={{ margin: "auto" }}>UserName</Typography>
+        <Typography sx={{ margin:"auto" }}>UserName</Typography>
         <IconButton>
           <InfoIcon />
         </IconButton>
       </Box>
 
+    <Divider></Divider>
       {/* Chat Body */}
 
       <Box sx={{height:1}}>
         
-        <ListItemText  
-        sx={{alignItems:'end'}}
-        primary="Hey" 
-        secondary="10.00am">
+        <ListItemText>
+          <Typography sx={{textAlign: "end"}}>Hey</Typography>
+          <Typography sx={{textAlign: "end", fontSize:"small"}}>10.00am</Typography>
+        </ListItemText>
+
+        <ListItemText>
+          <Typography sx={{textAlign: "start"}}>Hey</Typography>
+          <Typography sx={{textAlign: "start", fontSize:"small"}}>12.00am</Typography>
         </ListItemText>
         
       </Box>
-      {/* <Box sx={{height: 1}}>
-       <List> 
-
-        <Box sx={{justifyContent:'end'}}>
-        <ListItemText  
-        primary="Hey" 
-        secondary="10.00am">
-        </ListItemText>
-       </Box>
-
-
-        <Box sx={{justifyContent:"start"}}>
-        <ListItemText primary="Hey" secondary="12.00am">
-        </ListItemText>
-        </Box>
- 
- 
-       </List>
-      </Box> */}
 
       {/* Messaging text field */}
       <Box>
