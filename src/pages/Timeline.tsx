@@ -5,7 +5,7 @@ import PageWrapper from "./PageWrapper";
 const Timeline = () => {
   return (
     <PageWrapper>
-      <Box>
+      <Box sx={{ padding: 3 }}>
         <Post />
       </Box>
     </PageWrapper>

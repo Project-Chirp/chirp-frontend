@@ -25,14 +25,14 @@ const Post = () => {
         subheader="Janauary 8, 2023"
       />
       <CardActionArea>
+        <CardContent sx={{ width: 400 }}>
+          <Typography>Hey y'all! This is a post on our new app!</Typography>
+        </CardContent>
         <CardMedia
           sx={{ maxWidth: 200, margin: "auto" }}
           component="img"
           image="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
         />
-        <CardContent sx={{ width: 400 }}>
-          <Typography>Hey y'all! This is a post on our new app!</Typography>
-        </CardContent>
       </CardActionArea>
       <CardActions>
         <Stack direction="row" justifyContent="space-between">
