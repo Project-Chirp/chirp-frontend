@@ -1,8 +1,6 @@
 import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
-import { Button, Divider, List, Typography } from "@mui/material";
-
-import "../Styles/Messages.css";
+import { Box, Divider, List, Typography } from "@mui/material";
 import DMSearchBar from "../components/DMSearchBar";
 import PageWrapper from "./PageWrapper";
 import Conversation from "../components/Conversation";
@@ -11,51 +9,26 @@ import Chatbox from "../components/Chatbox";
 const Messages = () => {
   return (
     <PageWrapper>
-      <div>
-        <div className="Messagesflexbox">
-          <h1 className="Messagesheader">Messages</h1>
-
+      <Box sx={{ paddingRight: 2, paddingLeft: 2 }}>
+        <Box
+          sx={{
+            padding: 1,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography variant="h6">Messages</Typography>
           <IconButton>
             <ChatIcon className="ChatIcon" />
           </IconButton>
-        </div>
-
+        </Box>
         <DMSearchBar />
-        
-        <List>
-        <Divider></Divider>
+        <List component="div">
+          <Divider />
           <Conversation />
-        <Divider></Divider>
         </List>
-      </div>
-
+      </Box>
       <Chatbox />
-
-      {/* <div>
-        <h1 className="title">Select a Message!</h1>
-        <Typography className="messagethread">
-          Select an already existing mesage thread or start an entirely new one!
-        </Typography>
-
-        <div className="MessagesButton">
-          <Button
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              margin: 10,
-              backgroundColor: "#22AA6F",
-              borderRadius: 10,
-            }}
-            size={"large"}
-            sx={{ fontFamily: "Inter" }}
-            variant="contained"
-           
-            type="submit"
-          >
-            New Message
-          </Button>
-        </div>
-      </div> */}
     </PageWrapper>
   );
 };

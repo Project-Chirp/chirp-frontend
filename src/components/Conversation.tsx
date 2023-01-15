@@ -1,5 +1,5 @@
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
+  Avatar,
   Box,
   ListItem,
   ListItemAvatar,
@@ -10,11 +10,11 @@ import {
 
 const Conversation = () => {
   return (
-    <ListItem>
+    <ListItem disablePadding component="div">
       <ListItemButton>
-        <Box sx={{ padding: "10px", display: "flex" }}>
+        <Box sx={{ display: "flex" }}>
           <ListItemAvatar sx={{ margin: "auto" }}>
-            <AccountCircleIcon sx={{ fontSize: 40 }} />
+            <Avatar />
           </ListItemAvatar>
           <ListItemText
             primary={<Typography>Buzzkill @itsthebuzzkill - 3h</Typography>}
