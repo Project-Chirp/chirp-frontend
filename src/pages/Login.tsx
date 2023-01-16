@@ -1,6 +1,7 @@
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Login = () => {
   const [displayName, setDisplayName] = useState("");
