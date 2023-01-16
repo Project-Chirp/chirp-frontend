@@ -2,8 +2,35 @@ import { Box, Button, Link, Typography } from "@mui/material";
 import React from "react";
 // import logo from "../logo192.png";
 import { Link as RouterLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 
 const Welcome = () => {
+  const {
+    loginWithPopup,
+    loginWithRedirect,
+    logout,
+    user,
+    isAuthenticated,
+    getAccessTokenSilently,
+  } = useAuth0();
+
+  function callApi() {
+    axios
+      .get("http://localhost:3000/")
+      .then((response) => console.log(response.data))
+      .catch((error) => console.log(error.message));
+  }
+
+  async function callProtectedApi() {
+    const token = await getAccessTokenSilently();
+    console.log(token);
+    // axios
+    //   .get("http://localhost:3000/protected")
+    //   .then((response) => console.log(response.data))
+    //   .catch((error) => console.log(error.message));
+  }
+
   return (
     <Box
       zIndex={2}
@@ -43,36 +70,19 @@ const Welcome = () => {
         }}
         color="primary"
         variant="contained"
-        component={RouterLink}
-        to="/login"
+        onClick={loginWithRedirect}
       >
-        Sign In
+        Take me to Tweeter
       </Button>
-      <Link
-        variant="h6"
-        component={RouterLink}
-        to="/register"
-        underline="hover"
-        color="inherit"
-        fontSize={15}
-        margin="dense"
-      >
-        Don't have an account?
-      </Link>
-      <Button
-        size={"large"}
-        sx={{
-          marginBottom: 2,
-          borderRadius: 10,
-          width: 253.4,
-        }}
-        color="primary"
-        variant="contained"
-        component={RouterLink}
-        to="/register"
-      >
-        Create an Account
-      </Button>
+
+      <Typography>
+        User is {isAuthenticated ? "Logged in" : "Not logged in"}
+      </Typography>
+      {isAuthenticated && (
+        <pre style={{ textAlign: "start" }}>
+          {JSON.stringify(user, null, 2)}
+        </pre>
+      )}
     </Box>
   );
 };

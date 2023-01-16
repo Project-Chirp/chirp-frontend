@@ -1,13 +1,13 @@
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 
 const Login = () => {
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [loginButton, setLoginButton] = useState(false);
-
+  // const { user, isAuthenticated } = useAuth0();
   useEffect(() => {
     if (displayName && password) {
       setLoginButton(true);
@@ -120,6 +120,22 @@ const Login = () => {
       >
         Sign In
       </Button>
+      {/* <Typography
+        variant="h3"
+        textAlign={"center"}
+        fontWeight={500}
+        fontSize={16}
+        paddingTop={10}
+        paddingBottom={5}
+        width={300}
+      >
+        User is {isAuthenticated ? "Logged in" : "Not logged in"}
+      </Typography>
+      {isAuthenticated && (
+        <pre style={{ textAlign: "start" }}>
+          {JSON.stringify(user, null, 2)}
+        </pre> */}
+      {/* )} */}
     </Box>
   );
 };
