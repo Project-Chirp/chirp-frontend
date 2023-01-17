@@ -1,8 +1,6 @@
-import { Box, Button, Link, Typography } from "@mui/material";
-import React from "react";
+import { Box, Button, Typography } from "@mui/material";
 // import logo from "../logo192.png";
-import { Link as RouterLink } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { LogoutOptions, useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 
 const Welcome = () => {
@@ -23,13 +21,28 @@ const Welcome = () => {
   }
 
   async function callProtectedApi() {
-    const token = await getAccessTokenSilently();
-    console.log(token);
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await axios.get("http://localhost:3000/protected", {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
     // axios
     //   .get("http://localhost:3000/protected")
     //   .then((response) => console.log(response.data))
     //   .catch((error) => console.log(error.message));
   }
+
+  const handleClick = (
+    logout: (options?: LogoutOptions | undefined) => void
+  ) => {
+    logout();
+  };
 
   return (
     <Box
@@ -73,6 +86,48 @@ const Welcome = () => {
         onClick={loginWithRedirect}
       >
         Take me to Tweeter
+      </Button>
+      <Button
+        size={"large"}
+        sx={{
+          marginTop: 3,
+          marginBottom: 2,
+          borderRadius: 10,
+          width: 253.4,
+        }}
+        color="primary"
+        variant="contained"
+        onClick={() => handleClick(logout)}
+      >
+        Log out
+      </Button>
+      <Button
+        size={"large"}
+        sx={{
+          marginTop: 3,
+          marginBottom: 2,
+          borderRadius: 10,
+          width: 253.4,
+        }}
+        color="primary"
+        variant="contained"
+        onClick={callApi}
+      >
+        Call API
+      </Button>
+      <Button
+        size={"large"}
+        sx={{
+          marginTop: 3,
+          marginBottom: 2,
+          borderRadius: 10,
+          width: 253.4,
+        }}
+        color="primary"
+        variant="contained"
+        onClick={callProtectedApi}
+      >
+        Call Protected API
       </Button>
 
       <Typography>
