@@ -5,7 +5,6 @@ import axios from "axios";
 
 const Welcome = () => {
   const {
-    loginWithPopup,
     loginWithRedirect,
     logout,
     user,
@@ -15,7 +14,7 @@ const Welcome = () => {
 
   function callApi() {
     axios
-      .get("http://localhost:3000/")
+      .get("http://localhost:3001/")
       .then((response) => console.log(response.data))
       .catch((error) => console.log(error.message));
   }
@@ -23,9 +22,10 @@ const Welcome = () => {
   async function callProtectedApi() {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:3000/protected", {
+      console.log(token);
+      const response = await axios.get("http://localhost:3001/protected", {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       console.log(response.data);

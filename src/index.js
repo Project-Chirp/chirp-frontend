@@ -14,6 +14,8 @@ root.render(
       domain="dev-8e2eney2zngtvaof.us.auth0.com"
       clientId="J1dv2HbpggopctXuZX7Y4i4LnZKJsP0t"
       redirectUri={window.location.origin}
+      audience="tweeter identifier"
+      scope="openid profile email"
     >
       <BrowserRouter>
         <ThemeProvider theme={appTheme}>
