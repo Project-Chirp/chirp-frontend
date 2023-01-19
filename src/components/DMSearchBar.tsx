@@ -1,5 +1,5 @@
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import "../Styles/DMSearchBar.css";
+import "../styles/DMSearchBar.css";
 import { InputAdornment, Stack, TextField } from "@mui/material";
 
 const DMSearchBar = () => {

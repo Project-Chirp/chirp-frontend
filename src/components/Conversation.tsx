@@ -8,7 +8,19 @@ import {
   Typography,
 } from "@mui/material";
 
-const Conversation = () => {
+type ConversationProps = {
+  displayName: string;
+  message: string;
+  messageTimestamp: string;
+  userName: string;
+};
+
+const Conversation = ({
+  displayName,
+  message,
+  messageTimestamp,
+  userName,
+}: ConversationProps) => {
   return (
     <ListItem disablePadding component="div">
       <ListItemButton>
@@ -17,8 +29,10 @@ const Conversation = () => {
             <Avatar />
           </ListItemAvatar>
           <ListItemText
-            primary={<Typography>Buzzkill @itsthebuzzkill - 3h</Typography>}
-            secondary={<Typography>Hey what's up</Typography>}
+            primary={
+              <Typography>{`${displayName} @${displayName} - ${messageTimestamp}`}</Typography>
+            }
+            secondary={<Typography>{message}</Typography>}
             sx={{ fontFamily: "Inter" }}
           />
         </Box>

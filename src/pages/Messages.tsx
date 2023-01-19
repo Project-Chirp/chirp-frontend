@@ -6,6 +6,21 @@ import PageWrapper from "./PageWrapper";
 import Conversation from "../components/Conversation";
 import Chatbox from "../components/Chatbox";
 
+const testData = [
+  {
+    displayName: "Buzzkill",
+    message: "Hello",
+    messageTimestamp: "3h",
+    userName: "itsthebuzzkill",
+  },
+  {
+    displayName: "Dennis",
+    message: "Hey",
+    messageTimestamp: "2h",
+    userName: "DennisL",
+  },
+];
+
 const Messages = () => {
   return (
     <PageWrapper>
@@ -25,7 +40,14 @@ const Messages = () => {
         <DMSearchBar />
         <List component="div">
           <Divider />
-          <Conversation />
+          {testData.map((o) => (
+            <Conversation
+              displayName={o.displayName}
+              message={o.message}
+              messageTimestamp={o.messageTimestamp}
+              userName={o.userName}
+            />
+          ))}
         </List>
       </Box>
       <Chatbox />
