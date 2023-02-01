@@ -13,12 +13,19 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 
 type PostProps = {
   displayName: string;
+  imagePath?: string;
   textContent: string;
   timestamp: string;
   username: string;
 };
 
-const Post = ({ displayName, textContent, timestamp, username }: PostProps) => {
+const Post = ({
+  displayName,
+  imagePath,
+  textContent,
+  timestamp,
+  username,
+}: PostProps) => {
   return (
     <Card>
       <CardHeader
@@ -35,11 +42,13 @@ const Post = ({ displayName, textContent, timestamp, username }: PostProps) => {
         <CardContent sx={{ width: 400 }}>
           <Typography>{textContent}</Typography>
         </CardContent>
-        <CardMedia
-          sx={{ maxWidth: 200, margin: "auto" }}
-          component="img"
-          image="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
-        />
+        {imagePath && (
+          <CardMedia
+            sx={{ maxWidth: 200, margin: "auto" }}
+            component="img"
+            image={imagePath}
+          />
+        )}
       </CardActionArea>
       <CardActions>
         <Stack direction="row" justifyContent="space-between">
