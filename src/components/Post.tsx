@@ -11,7 +11,14 @@ import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 
-const Post = () => {
+type PostProps = {
+  displayName: string;
+  textContent: string;
+  timestamp: string;
+  username: string;
+};
+
+const Post = ({ displayName, textContent, timestamp, username }: PostProps) => {
   return (
     <Card>
       <CardHeader
@@ -21,12 +28,12 @@ const Post = () => {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Buzzkill @itsthebuzzkill"
-        subheader="Janauary 8, 2023"
+        title={`${displayName} @${username}`}
+        subheader={timestamp}
       />
       <CardActionArea>
         <CardContent sx={{ width: 400 }}>
-          <Typography>Hey y'all! This is a post on our new app!</Typography>
+          <Typography>{textContent}</Typography>
         </CardContent>
         <CardMedia
           sx={{ maxWidth: 200, margin: "auto" }}
