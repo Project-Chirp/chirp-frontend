@@ -1,28 +1,9 @@
-import { Avatar, Box, Link } from "@mui/material";
+import { Box } from "@mui/material";
 import { Typography } from "@mui/material";
-import { Button, Paper } from "@mui/material";
-import Popover from "@mui/material/Popover";
+import { Button } from "@mui/material";
 import React from "react";
 
 const Welcome = () => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-    console.log(event);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  console.log(anchorEl);
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
-  console.log(open);
-
   return (
     <Box
       zIndex={2}
