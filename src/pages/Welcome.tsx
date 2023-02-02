@@ -2,6 +2,7 @@ import { Box, Button, Typography } from "@mui/material";
 // import logo from "../logo192.png";
 import { LogoutOptions, useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
+import React from "react";
 
 const Welcome = () => {
   const {
