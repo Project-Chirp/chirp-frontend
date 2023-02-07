@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import Post from "../components/Post";
+import Post from "../components/Posts/Post";
 import PageWrapper from "./PageWrapper";
 import axios from "axios";
 

@@ -11,17 +11,14 @@ const UserAvatar = () => {
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-    console.log(event);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  console.log(anchorEl);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-  console.log(open);
 
   return (
     <>
