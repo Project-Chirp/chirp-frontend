@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button } from "@mui/material";
-import React from "react";
 
 const Welcome = () => {
   return (
