@@ -1,11 +1,13 @@
 import Login from "./pages/Login";
-import { Route, Routes } from "react-router-dom";
+import Welcome from "./pages/Welcome";
 import Timeline from "./pages/Timeline";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
       <Routes>
+        <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Timeline />} />
       </Routes>
