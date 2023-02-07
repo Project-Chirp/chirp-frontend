@@ -4,6 +4,10 @@ import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import React from "react";
 
+const styles = {
+  username: { padding: 1.5 },
+};
+
 const UserAvatar = () => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -24,7 +28,7 @@ const UserAvatar = () => {
     <>
       <Button onClick={handleClick}>
         <Avatar />
-        <Typography sx={{ padding: 1.5 }}>Buzz</Typography>
+        <Typography sx={styles.username}>Buzz</Typography>
       </Button>
       <Popover
         id={id}

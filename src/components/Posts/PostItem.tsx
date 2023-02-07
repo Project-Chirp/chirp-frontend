@@ -12,13 +12,19 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Post } from "./PostList";
 
+const styles = {
+  card: {
+    marginBottom: 2,
+  },
+};
+
 type PostProps = {
   post: Post;
 };
 
 const PostItem = ({ post }: PostProps) => {
   return (
-    <Card>
+    <Card sx={styles.card}>
       <CardHeader
         avatar={<Avatar>CK</Avatar>}
         action={

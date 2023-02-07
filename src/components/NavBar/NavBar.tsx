@@ -11,6 +11,23 @@ import { Drawer } from "@mui/material";
 import UserAvatar from "./UserAvatar";
 import NavItem from "./NavItem";
 
+const drawerWidth = 250;
+const styles = {
+  avatar: { alignSelf: "center", padding: 2 },
+  navDrawer: {
+    height: "100%",
+    width: drawerWidth,
+    "& .MuiDrawer-paper": {
+      boxSizing: "border-box",
+      width: drawerWidth,
+    },
+  },
+  postButton: { backgroundColor: "#22AA6F", borderRadius: 10, margin: 2 },
+  stack: {
+    margin: "auto",
+  },
+};
+
 const navItems = [
   {
     icon: <HomeIcon />,
@@ -31,26 +48,14 @@ const navItems = [
 
 // To declare a variable in JS, we use const or let. Variables declared with const can't be redefined but let can.
 const NavBar = () => {
-  const drawerWidth = 250;
   return (
-    <Drawer
-      variant="permanent"
-      anchor="left"
-      sx={{
-        width: drawerWidth,
-        height: "100%",
-        "& .MuiDrawer-paper": {
-          width: drawerWidth,
-          boxSizing: "border-box",
-        },
-      }}
-    >
+    <Drawer variant="permanent" anchor="left" sx={styles.navDrawer}>
       <Toolbar>
-        <Stack sx={{ margin: "auto" }}>
+        <Stack sx={styles.stack}>
           <Avatar
-            sx={{ alignSelf: "center", padding: 2 }}
             alt="logo"
             src="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
+            sx={styles.avatar}
           />
           <List component="nav">
             {navItems.map((navItem, index) => (
@@ -64,9 +69,8 @@ const NavBar = () => {
           </List>
           {/*/ Update the button to post action*/}
           <Button
-            style={{ margin: 10, backgroundColor: "#22AA6F", borderRadius: 10 }}
-            size={"large"}
-            sx={{ fontFamily: "Inter" }}
+            size="large"
+            sx={styles.postButton}
             variant="contained"
             type="submit"
           >

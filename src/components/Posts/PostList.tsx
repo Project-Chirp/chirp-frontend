@@ -21,12 +21,10 @@ const Timeline = () => {
     fetchPosts();
   }, []);
 
-  console.log(posts);
-
   return (
     <>
-      {posts.map((o) => (
-        <PostItem post={o} />
+      {posts.map((o, index) => (
+        <PostItem post={o} key={index} />
       ))}
     </>
   );
