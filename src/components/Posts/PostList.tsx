@@ -16,16 +16,7 @@ const Timeline = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get("http://localhost:3001/api/posts");
-      const data = result.data.map((o: any) => {
-        return {
-          displayName: o.display_name,
-          imagePath: undefined,
-          textContent: o.text_content,
-          timestamp: o.post_timestamp,
-          username: o.email,
-        } as Post;
-      });
-      setPosts(data);
+      setPosts(result.data as Post[]);
     };
     fetchPosts();
   }, []);
