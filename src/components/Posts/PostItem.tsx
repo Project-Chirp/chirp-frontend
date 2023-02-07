@@ -10,22 +10,13 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import { Post } from "./PostList";
 
 type PostProps = {
-  displayName: string;
-  imagePath?: string;
-  textContent: string;
-  timestamp: string;
-  username: string;
+  post: Post;
 };
 
-const Post = ({
-  displayName,
-  imagePath,
-  textContent,
-  timestamp,
-  username,
-}: PostProps) => {
+const PostItem = ({ post }: PostProps) => {
   return (
     <Card>
       <CardHeader
@@ -35,18 +26,18 @@ const Post = ({
             <MoreVertIcon />
           </IconButton>
         }
-        title={`${displayName} @${username}`}
-        subheader={timestamp}
+        title={`${post.displayName} @${post.username}`}
+        subheader={post.timestamp}
       />
       <CardActionArea>
         <CardContent sx={{ width: 400 }}>
-          <Typography>{textContent}</Typography>
+          <Typography>{post.textContent}</Typography>
         </CardContent>
-        {imagePath && (
+        {post.imagePath && (
           <CardMedia
             sx={{ maxWidth: 200, margin: "auto" }}
             component="img"
-            image={imagePath}
+            image={post.imagePath}
           />
         )}
       </CardActionArea>
@@ -70,4 +61,4 @@ const Post = ({
   );
 };
 
-export default Post;
+export default PostItem;
