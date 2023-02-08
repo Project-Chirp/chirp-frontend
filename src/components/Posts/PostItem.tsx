@@ -16,6 +16,12 @@ const styles = {
   card: {
     marginBottom: 2,
   },
+  cardActions: {
+    width: "100%",
+  },
+  actionNumbers: {
+    paddingLeft: 1,
+  },
 };
 
 type PostProps = {
@@ -48,15 +54,22 @@ const PostItem = ({ post }: PostProps) => {
         )}
       </CardActionArea>
       <CardActions>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          sx={styles.cardActions}
+        >
           <IconButton>
             <FavoriteBorderOutlinedIcon />
+            <Typography sx={styles.actionNumbers}>1</Typography>
           </IconButton>
           <IconButton>
             <AddCommentOutlinedIcon />
+            <Typography sx={styles.actionNumbers}>1</Typography>
           </IconButton>
           <IconButton>
             <RepeatOutlinedIcon />
+            <Typography sx={styles.actionNumbers}>1</Typography>
           </IconButton>
           <IconButton>
             <ShareOutlinedIcon />
