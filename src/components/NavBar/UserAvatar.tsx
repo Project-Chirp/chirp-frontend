@@ -2,10 +2,15 @@ import { Avatar, Link } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
+import Stack from "@mui/material/Stack/Stack";
 import React from "react";
 
 const styles = {
-  username: { padding: 1.5 },
+  usernameContainer: { paddingLeft: 2, textAlign: "left" },
+  button: {
+    marginTop: "auto",
+    marginBottom: 2,
+  },
 };
 
 const UserAvatar = () => {
@@ -26,9 +31,12 @@ const UserAvatar = () => {
 
   return (
     <>
-      <Button onClick={handleClick}>
+      <Button onClick={handleClick} sx={styles.button}>
         <Avatar />
-        <Typography sx={styles.username}>Buzz</Typography>
+        <Stack sx={styles.usernameContainer}>
+          <Typography>Buzz</Typography>
+          <Typography>@Buzzkill</Typography>
+        </Stack>
       </Button>
       <Popover
         id={id}

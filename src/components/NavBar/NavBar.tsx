@@ -11,9 +11,9 @@ import { Drawer } from "@mui/material";
 import UserAvatar from "./UserAvatar";
 import NavItem from "./NavItem";
 
-const drawerWidth = 250;
+const drawerWidth = "30%";
 const styles = {
-  avatar: { alignSelf: "center", padding: 2 },
+  avatar: { alignSelf: "left", paddingTop: 2, paddingLeft: 2 },
   navDrawer: {
     height: "100%",
     width: drawerWidth,
@@ -24,7 +24,14 @@ const styles = {
   },
   postButton: { backgroundColor: "#22AA6F", borderRadius: 10, margin: 2 },
   stack: {
-    margin: "auto",
+    marginBottom: "auto",
+    width: "100%",
+    height: "100%",
+  },
+  toolbar: {
+    height: "100%",
+    width: "40%",
+    marginLeft: "auto",
   },
 };
 
@@ -50,7 +57,7 @@ const navItems = [
 const NavBar = () => {
   return (
     <Drawer variant="permanent" anchor="left" sx={styles.navDrawer}>
-      <Toolbar>
+      <Toolbar sx={styles.toolbar}>
         <Stack sx={styles.stack}>
           <Avatar
             alt="logo"
@@ -68,12 +75,7 @@ const NavBar = () => {
             ))}
           </List>
           {/*/ Update the button to post action*/}
-          <Button
-            size="large"
-            sx={styles.postButton}
-            variant="contained"
-            type="submit"
-          >
+          <Button sx={styles.postButton} variant="contained" type="submit">
             Post
           </Button>
           <UserAvatar />
