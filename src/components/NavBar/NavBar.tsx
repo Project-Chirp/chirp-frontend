@@ -1,19 +1,14 @@
-// Importing the icons for the navigation bar
 import HomeIcon from "@mui/icons-material/Home";
 import MailIcon from "@mui/icons-material/Mail";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
-// Importing the tools to make the navigation bar
 import { Avatar, Button, List, Stack, Toolbar } from "@mui/material";
 import { Drawer } from "@mui/material";
-
-// Link is used to let us move from one page to another basically.
 import UserAvatar from "./UserAvatar";
 import NavItem from "./NavItem";
 
 const drawerWidth = "30%";
 const styles = {
-  avatar: { alignSelf: "left", paddingTop: 2, paddingLeft: 2 },
+  logo: { alignSelf: "left", paddingTop: 2, paddingLeft: 2 },
   navDrawer: {
     height: "100%",
     width: drawerWidth,
@@ -62,7 +57,7 @@ const NavBar = () => {
           <Avatar
             alt="logo"
             src="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
-            sx={styles.avatar}
+            sx={styles.logo}
           />
           <List component="nav">
             {navItems.map((navItem, index) => (

@@ -6,11 +6,11 @@ import Stack from "@mui/material/Stack/Stack";
 import React from "react";
 
 const styles = {
-  usernameContainer: { paddingLeft: 2, textAlign: "left" },
   button: {
     marginTop: "auto",
     marginBottom: 2,
   },
+  nameContainer: { paddingLeft: 2, textAlign: "left" },
 };
 
 const UserAvatar = () => {
@@ -33,7 +33,7 @@ const UserAvatar = () => {
     <>
       <Button onClick={handleClick} sx={styles.button}>
         <Avatar />
-        <Stack sx={styles.usernameContainer}>
+        <Stack sx={styles.nameContainer}>
           <Typography>Buzz</Typography>
           <Typography>@Buzzkill</Typography>
         </Stack>
