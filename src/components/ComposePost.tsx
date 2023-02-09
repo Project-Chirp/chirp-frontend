@@ -11,6 +11,17 @@ import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined
 import { useState } from "react";
 import axios from "axios";
 
+const styles = {
+  avatarIcon: { paddingRight: 1.5 },
+  compostPostContainer: { display: "flex", padding: 3 },
+  textFieldContainer: { minWidth: 250 },
+  postActions: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: 1,
+  },
+};
+
 const ComposePost = () => {
   const [postTextContent, setPostTextContent] = useState("");
 
@@ -29,29 +40,23 @@ const ComposePost = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <Box sx={{ display: "flex", padding: 3 }}>
-        <Box sx={{ paddingRight: 1.5 }}>
+      <Box sx={styles.compostPostContainer}>
+        <Box sx={styles.avatarIcon}>
           <Avatar />
         </Box>
-        <Box sx={{ minWidth: 250 }}>
+        <Box sx={styles.textFieldContainer}>
           <TextField
             fullWidth
-            id="standard-multiline-static"
             hiddenLabel
+            id="standard-multiline-static"
             multiline
-            variant="standard"
-            value={postTextContent}
+            onChange={(e) => setPostTextContent(e.target.value)}
             placeholder="What's happening?"
             sx={{ paddingBottom: 1 }}
-            onChange={(e) => setPostTextContent(e.target.value)}
+            value={postTextContent}
+            variant="standard"
           />
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: 1,
-            }}
-          >
+          <Box sx={styles.postActions}>
             <Stack direction="row">
               <IconButton size="small">
                 <AddPhotoAlternateOutlinedIcon />
@@ -61,10 +66,10 @@ const ComposePost = () => {
               </IconButton>
             </Stack>
             <Button
-              variant="contained"
               size="small"
               sx={{ borderRadius: 10 }}
               type="submit"
+              variant="contained"
             >
               Post
             </Button>
