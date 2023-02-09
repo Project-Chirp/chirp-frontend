@@ -66,6 +66,7 @@ const ComposePost = () => {
               </IconButton>
             </Stack>
             <Button
+              disabled={!postTextContent.trim()}
               size="small"
               sx={{ borderRadius: 10 }}
               type="submit"
