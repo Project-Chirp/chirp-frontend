@@ -12,8 +12,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Auth0Provider
-        domain={process.env.REACT_APP_AUTH0_DOMAIN}
+        audience={process.env.REACT_APP_AUTH0_AUDIENCE}
         clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+        domain={process.env.REACT_APP_AUTH0_DOMAIN}
         redirectUri={window.location.origin}
       >
         <ThemeProvider theme={appTheme}>
