@@ -1,4 +1,3 @@
-import "../styles/Register.css";
 import { Typography } from "@mui/material/";
 
 const Register = () => {

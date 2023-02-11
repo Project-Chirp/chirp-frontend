@@ -10,18 +10,16 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <Auth0Provider
-      domain="dev-8e2eney2zngtvaof.us.auth0.com"
-      clientId="J1dv2HbpggopctXuZX7Y4i4LnZKJsP0t"
-      redirectUri={window.location.origin}
-      audience="tweeter identifier"
-      scope="openid profile email"
-    >
-      <BrowserRouter>
+    <BrowserRouter>
+      <Auth0Provider
+        domain={process.env.REACT_APP_AUTH0_DOMAIN}
+        clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+        redirectUri={window.location.origin}
+      >
         <ThemeProvider theme={appTheme}>
           <App />
         </ThemeProvider>
-      </BrowserRouter>
-    </Auth0Provider>
+      </Auth0Provider>
+    </BrowserRouter>
   </React.StrictMode>
 );

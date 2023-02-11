@@ -1,6 +1,15 @@
-import { LogoutOptions, useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Button, Typography } from "@mui/material";
 import axios from "axios";
+
+const styles = {
+  loginButtons: {
+    marginTop: 3,
+    marginBottom: 2,
+    borderRadius: 10,
+    width: 253.4,
+  },
+};
 
 const Welcome = () => {
   const {
@@ -33,12 +42,6 @@ const Welcome = () => {
     }
   }
 
-  const handleClick = (
-    logout: (options?: LogoutOptions | undefined) => void
-  ) => {
-    logout();
-  };
-
   return (
     <Box
       zIndex={2}
@@ -69,41 +72,26 @@ const Welcome = () => {
         alt="Logo"
       />
       <Button
-        size={"large"}
-        sx={{
-          marginTop: 3,
-          marginBottom: 2,
-          borderRadius: 10,
-          width: 253.4,
-        }}
+        size="large"
+        sx={styles.loginButtons}
         color="primary"
         variant="contained"
-        onClick={loginWithRedirect}
+        onClick={() => loginWithRedirect()}
       >
         Take me to Tweeter
       </Button>
       <Button
-        size={"large"}
-        sx={{
-          marginTop: 3,
-          marginBottom: 2,
-          borderRadius: 10,
-          width: 253.4,
-        }}
+        size="large"
+        sx={styles.loginButtons}
         color="primary"
         variant="contained"
-        onClick={() => handleClick(logout)}
+        onClick={() => logout()}
       >
         Log out
       </Button>
       <Button
-        size={"large"}
-        sx={{
-          marginTop: 3,
-          marginBottom: 2,
-          borderRadius: 10,
-          width: 253.4,
-        }}
+        size="large"
+        sx={styles.loginButtons}
         color="primary"
         variant="contained"
         onClick={callApi}
@@ -111,13 +99,8 @@ const Welcome = () => {
         Call API
       </Button>
       <Button
-        size={"large"}
-        sx={{
-          marginTop: 3,
-          marginBottom: 2,
-          borderRadius: 10,
-          width: 253.4,
-        }}
+        size="large"
+        sx={styles.loginButtons}
         color="primary"
         variant="contained"
         onClick={callProtectedApi}
