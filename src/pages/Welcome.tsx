@@ -1,8 +1,6 @@
-import { Box, Button, Typography } from "@mui/material";
-// import logo from "../logo192.png";
 import { LogoutOptions, useAuth0 } from "@auth0/auth0-react";
+import { Box, Button, Typography } from "@mui/material";
 import axios from "axios";
-import React from "react";
 
 const Welcome = () => {
   const {
@@ -33,10 +31,6 @@ const Welcome = () => {
     } catch (error) {
       console.log(error.message);
     }
-    // axios
-    //   .get("http://localhost:3000/protected")
-    //   .then((response) => console.log(response.data))
-    //   .catch((error) => console.log(error.message));
   }
 
   const handleClick = (
