@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { Stack } from "@mui/system";
+import ComposePost from "../components/ComposePost";
 import PostList from "../components/Posts/PostList";
 
 const styles = {
@@ -12,6 +13,9 @@ const styles = {
 const Timeline = () => {
   return (
     <Stack direction="row" sx={styles.root}>
+      <Box>
+        <ComposePost />
+      </Box>
       <Box sx={styles.postListContainer}>
         <PostList />
       </Box>
