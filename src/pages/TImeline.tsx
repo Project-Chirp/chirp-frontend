@@ -1,11 +1,14 @@
 import { Box } from "@mui/material";
 import ComposePost from "../components/ComposePost";
+import PageWrapper from "./PageWrapper";
 
 const Timeline = () => {
   return (
-    <Box>
-      <ComposePost />
-    </Box>
+    <PageWrapper>
+      <Box>
+        <ComposePost />
+      </Box>
+    </PageWrapper>
   );
 };
 
