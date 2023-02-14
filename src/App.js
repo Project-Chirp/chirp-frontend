@@ -1,5 +1,5 @@
 import Welcome from "./pages/Welcome";
-import Timeline from "./pages/Timeline";
+import Timeline from "./pages/TImeline.tsx";
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import "./App.css";
