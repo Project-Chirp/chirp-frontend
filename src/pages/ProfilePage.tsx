@@ -9,7 +9,7 @@ const ProfilePage = () => {
         <h1>User Profile</h1>
       </PageWrapper>
       <img
-        src={process.env.PUBLIC_URL + "/temp_banner.jpg"}
+        src={process.env.PUBLIC_URL + "/blue.jpg"}
         alt="temp"
         width="80%"
         height="200px"
