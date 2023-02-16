@@ -10,10 +10,27 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import { Post } from "./PostList";
 
-const Post = () => {
+const styles = {
+  card: {
+    marginBottom: 2,
+  },
+  cardActions: {
+    width: "100%",
+  },
+  actionNumbers: {
+    paddingLeft: 1,
+  },
+};
+
+type PostProps = {
+  post: Post;
+};
+
+const PostItem = ({ post }: PostProps) => {
   return (
-    <Card>
+    <Card sx={styles.card}>
       <CardHeader
         avatar={<Avatar>CK</Avatar>}
         action={
@@ -21,29 +38,38 @@ const Post = () => {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Buzzkill @itsthebuzzkill"
-        subheader="Janauary 8, 2023"
+        title={`${post.displayName} @${post.username}`}
+        subheader={post.timestamp}
       />
       <CardActionArea>
         <CardContent sx={{ width: 400 }}>
-          <Typography>Hey y'all! This is a post on our new app!</Typography>
+          <Typography>{post.textContent}</Typography>
         </CardContent>
-        <CardMedia
-          sx={{ maxWidth: 200, margin: "auto" }}
-          component="img"
-          image="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
-        />
+        {post.imagePath && (
+          <CardMedia
+            sx={{ maxWidth: 200, margin: "auto" }}
+            component="img"
+            image={post.imagePath}
+          />
+        )}
       </CardActionArea>
       <CardActions>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          sx={styles.cardActions}
+        >
           <IconButton>
             <FavoriteBorderOutlinedIcon />
+            <Typography sx={styles.actionNumbers}>1</Typography>
           </IconButton>
           <IconButton>
             <AddCommentOutlinedIcon />
+            <Typography sx={styles.actionNumbers}>1</Typography>
           </IconButton>
           <IconButton>
             <RepeatOutlinedIcon />
+            <Typography sx={styles.actionNumbers}>1</Typography>
           </IconButton>
           <IconButton>
             <ShareOutlinedIcon />
@@ -54,4 +80,4 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default PostItem;

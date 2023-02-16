@@ -1,14 +1,25 @@
 import { Box } from "@mui/material";
-import Post from "../components/Post";
-import PageWrapper from "./PageWrapper";
+import ComposePost from "../components/ComposePost";
+import { Stack } from "@mui/system";
+import PostList from "../components/Posts/PostList";
+
+const styles = {
+  root: {
+    width: "100%",
+  },
+  postListContainer: { padding: 2, width: "50%" },
+};
 
 const Timeline = () => {
   return (
-    <PageWrapper>
-      <Box sx={{ padding: 3 }}>
-        <Post />
+    <Stack direction="row" sx={styles.root}>
+      <Box>
+        <ComposePost />
       </Box>
-    </PageWrapper>
+      <Box sx={styles.postListContainer}>
+        <PostList />
+      </Box>
+    </Stack>
   );
 };
 
