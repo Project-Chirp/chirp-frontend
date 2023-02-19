@@ -13,10 +13,8 @@ const styles = {
 const Timeline = () => {
   return (
     <Stack direction="row" sx={styles.root}>
-      <Box>
-        <ComposePost />
-      </Box>
       <Box sx={styles.postListContainer}>
+        <ComposePost />
         <PostList />
       </Box>
     </Stack>

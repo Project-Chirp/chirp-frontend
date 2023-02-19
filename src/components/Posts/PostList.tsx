@@ -6,8 +6,8 @@ export type Post = {
   displayName: string;
   imagePath?: string;
   textContent: string;
-  timestamp: string;
-  username: string;
+  postTimestamp: string;
+  userName: string;
 };
 
 const Timeline = () => {
