@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import ComposePost from "../components/ComposePost";
+import ComposePost from "../components/Posts/ComposePost";
 import { Stack } from "@mui/system";
 import PostList from "../components/Posts/PostList";
 

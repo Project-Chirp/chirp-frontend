@@ -38,8 +38,8 @@ const PostItem = ({ post }: PostProps) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={`${post.displayName} @${post.userName}`}
-        subheader={post.postTimestamp}
+        title={`${post.displayName} @${post.username}`}
+        subheader={post.timestamp}
       />
       <CardActionArea>
         <CardContent sx={{ width: 400 }}>
