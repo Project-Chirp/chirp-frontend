@@ -14,13 +14,13 @@ import NavItem from "./NavItem";
 const navItems = [
   {
     icon: <HomeIcon />,
-    label: "Home",
-    route: "/login",
+    label: "Welcome",
+    route: "/",
   },
   {
     icon: <MailIcon />,
-    label: "Messages",
-    route: "/login",
+    label: "Register",
+    route: "/register",
   },
   {
     icon: <AccountCircleIcon />,
