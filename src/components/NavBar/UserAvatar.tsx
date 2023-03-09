@@ -2,7 +2,16 @@ import { Avatar, Link } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
+import Stack from "@mui/material/Stack/Stack";
 import React from "react";
+
+const styles = {
+  button: {
+    marginTop: "auto",
+    marginBottom: 2,
+  },
+  nameContainer: { paddingLeft: 2, textAlign: "left" },
+};
 
 const UserAvatar = () => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -11,23 +20,23 @@ const UserAvatar = () => {
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-    console.log(event);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  console.log(anchorEl);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-  console.log(open);
 
   return (
     <>
-      <Button onClick={handleClick}>
+      <Button onClick={handleClick} sx={styles.button}>
         <Avatar />
-        <Typography sx={{ padding: 1.5 }}>Buzz</Typography>
+        <Stack sx={styles.nameContainer}>
+          <Typography>Buzz</Typography>
+          <Typography>@Buzzkill</Typography>
+        </Stack>
       </Button>
       <Popover
         id={id}
