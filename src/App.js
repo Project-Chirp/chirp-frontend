@@ -8,10 +8,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Register from "./pages/Register";
+import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
 
 function App() {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const [basicUserInfo, setBasicUserInfo] = useState({
     userId: undefined,
     username: undefined,
@@ -44,9 +45,7 @@ function App() {
   }
 
   if (!basicUserInfo.username) {
-    {
-      console.log("IN RENDER", basicUserInfo);
-    }
+    console.log("IN RENDER", basicUserInfo);
     return <Register />;
   }
 
@@ -54,7 +53,7 @@ function App() {
     <div className="App" style={{ display: "flex" }}>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Timeline />} />
+        <Route path="/" element={<ProtectedRoute component={Timeline} />} />
         <Route path="/welcome" element={<Welcome />} />
       </Routes>
     </div>
