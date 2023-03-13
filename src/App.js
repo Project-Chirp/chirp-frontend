@@ -3,7 +3,6 @@ import Timeline from "./pages/Timeline";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
-import "./App.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -14,6 +13,7 @@ import PageLoader from "./pages/PageLoader";
 function App() {
   const { getAccessTokenSilently } = useAuth0();
   const [basicUserInfo, setBasicUserInfo] = useState({
+    isLoading: true,
     userId: undefined,
     username: undefined,
     displayName: undefined,
@@ -40,8 +40,12 @@ function App() {
     getBasicUserInfo();
   }, [getAccessTokenSilently]);
 
-  if (!isAuthenticated) {
-    return <Welcome />;
+  if (basicUserInfo.isLoading) {
+    return (
+      <div className="App" style={{ display: "flex" }}>
+        <PageLoader />
+      </div>
+    );
   }
 
   if (!basicUserInfo.username) {
