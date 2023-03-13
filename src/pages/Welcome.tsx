@@ -30,11 +30,14 @@ const Welcome = () => {
   async function callProtectedApi() {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:3001/protected", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:3001/api/appUsers/basicUserInfo",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(response.data);
     } catch (error) {
       console.log(error);
