@@ -3,6 +3,29 @@ import { Box, Button, Typography, TextField } from "@mui/material/";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
+const styles = {
+  container: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    gap: 2,
+    height: "100%",
+    paddingTop: 5,
+  },
+  datePicker: {
+    width: 253.4,
+  },
+  title: {
+    textAlign: "center",
+    fontWeight: 700,
+    fontSize: 32,
+  },
+  submitButton: {
+    borderRadius: 5,
+    width: 253.4,
+  },
+};
+
 const Register = () => {
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -31,87 +54,62 @@ const Register = () => {
   // };
 
   return (
-    <main>
-      <Box
-        display="flex"
-        flexDirection="column"
-        maxWidth={400}
-        alignItems="center"
-        justifyContent="center"
-        margin="auto"
-        marginTop={5}
-        padding={3}
-        width={1000}
+    <Box sx={styles.container}>
+      <Typography variant="h1" sx={styles.title}>
+        Let's get to know a little more about you
+      </Typography>
+      <TextField
+        label="Username"
+        required
+        value={username}
+        onChange={(e) => {
+          setUsername(e.target.value);
+        }}
+        type="text"
+        variant="outlined"
+        placeholder="Username"
+        id="displayname"
+      />
+      <TextField
+        label="Display Name"
+        value={displayName}
+        onChange={(e) => {
+          setDisplayName(e.target.value);
+        }}
+        type="text"
+        variant="outlined"
+        placeholder="Display Name"
+        id="displayname"
+      />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          renderInput={(props) => (
+            <TextField
+              sx={styles.datePicker}
+              variant="outlined"
+              id="date"
+              placeholder="Date of Birth"
+              {...props}
+            />
+          )}
+          label="Date of Birth"
+          value={dateOfBirth}
+          onChange={(e) => {
+            e && setDateOfBirth(e);
+          }}
+          maxDate={new Date()}
+        />
+      </LocalizationProvider>
+      <Button
+        size="large"
+        sx={styles.submitButton}
+        color="primary"
+        variant="contained"
+        type="submit"
       >
-        <Typography
-          variant="h1"
-          textAlign="center"
-          fontWeight={700}
-          fontSize={32}
-          paddingBottom={5}
-        >
-          Let's get to know a little more about you
-        </Typography>
-        <TextField
-          label="Username"
-          required
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-          type="text"
-          variant="outlined"
-          placeholder="Display Name"
-          id="displayname"
-        />
-        <TextField
-          label="Display Name"
-          margin="dense"
-          value={displayName}
-          onChange={(e) => {
-            setDisplayName(e.target.value);
-          }}
-          type="text"
-          variant="outlined"
-          placeholder="Display Name"
-          id="displayname"
-        />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            renderInput={(props) => (
-              <TextField
-                sx={{ width: 253.4 }}
-                margin="dense"
-                variant="outlined"
-                id="date"
-                placeholder="Date of Birth"
-                {...props}
-              />
-            )}
-            label="Date of Birth"
-            value={dateOfBirth}
-            onChange={(e) => {
-              e && setDateOfBirth(e);
-            }}
-            maxDate={new Date()}
-          />
-        </LocalizationProvider>
-        <Button
-          size="large"
-          sx={{
-            marginTop: 3,
-            marginBottom: 2,
-            borderRadius: 10,
-            width: 253.4,
-          }}
-          color="primary"
-          variant="contained"
-          type="submit"
-        >
-          Submit
-        </Button>
-      </Box>
-    </main>
+        Submit
+      </Button>
+    </Box>
   );
 };
 
