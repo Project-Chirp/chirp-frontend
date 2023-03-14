@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Link } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button } from "@mui/material";
@@ -14,6 +15,8 @@ const styles = {
 };
 
 const UserAvatar = () => {
+  const { logout } = useAuth0();
+
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -52,7 +55,9 @@ const UserAvatar = () => {
           horizontal: "center",
         }}
       >
-        <Link>Log Out</Link>
+        <Button component={Link} onClick={() => logout()}>
+          Log Out
+        </Button>
       </Popover>
     </>
   );

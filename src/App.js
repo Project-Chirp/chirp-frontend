@@ -9,9 +9,11 @@ import { useEffect, useState } from "react";
 import Register from "./pages/Register";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
+import Messages from "./pages/Messages";
+import Profile from "./pages/Profile";
 
 function App() {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [basicUserInfo, setBasicUserInfo] = useState({
     isLoading: true,
     userId: undefined,
@@ -40,16 +42,16 @@ function App() {
     getBasicUserInfo();
   }, [getAccessTokenSilently]);
 
-  if (!isAuthenticated) {
-    return <Welcome />;
-  }
-
-  if (isAuthenticated && basicUserInfo.isLoading) {
+  if (isLoading || (isAuthenticated && basicUserInfo.isLoading)) {
     return (
       <div className="App" style={{ display: "flex" }}>
         <PageLoader />
       </div>
     );
+  }
+
+  if (!isAuthenticated) {
+    return <Welcome />;
   }
 
   if (!basicUserInfo.username) {
@@ -63,8 +65,12 @@ function App() {
         <Route path="/" element={<ProtectedRoute component={Timeline} />} />
         <Route
           path="/messages"
-          element={<ProtectedRoute component={Timeline} />}
+          element={<ProtectedRoute component={Messages} />}
         />
+        <Route
+          path="/profile"
+          element={<ProtectedRoute component={Profile} />}
+        ></Route>
       </Routes>
     </div>
   );
