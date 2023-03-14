@@ -11,7 +11,7 @@ import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
 
 function App() {
-  const { getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [basicUserInfo, setBasicUserInfo] = useState({
     isLoading: true,
     userId: undefined,
@@ -40,7 +40,11 @@ function App() {
     getBasicUserInfo();
   }, [getAccessTokenSilently]);
 
-  if (basicUserInfo.isLoading) {
+  if (!isAuthenticated) {
+    return <Welcome />;
+  }
+
+  if (isAuthenticated && basicUserInfo.isLoading) {
     return (
       <div className="App" style={{ display: "flex" }}>
         <PageLoader />
@@ -49,7 +53,6 @@ function App() {
   }
 
   if (!basicUserInfo.username) {
-    console.log("IN RENDER", basicUserInfo);
     return <Register />;
   }
 
@@ -58,7 +61,10 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<ProtectedRoute component={Timeline} />} />
-        <Route path="/welcome" element={<Welcome />} />
+        <Route
+          path="/messages"
+          element={<ProtectedRoute component={Timeline} />}
+        />
       </Routes>
     </div>
   );

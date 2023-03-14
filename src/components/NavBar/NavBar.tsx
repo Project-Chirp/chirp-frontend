@@ -39,12 +39,12 @@ const navItems = [
   {
     icon: <MailIcon />,
     label: "Messages",
-    route: "/welcome",
+    route: "/messages",
   },
   {
     icon: <AccountCircleIcon />,
     label: "Profile",
-    route: "/welcome",
+    route: "/",
   },
 ];
 

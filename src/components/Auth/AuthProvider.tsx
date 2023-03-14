@@ -2,13 +2,11 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
 
-type Auth0ProviderWithNavigateProps = {
+type AuthProviderProps = {
   children: PropsWithChildren<any>;
 };
 
-const Auth0ProviderWithNavigate = ({
-  children,
-}: Auth0ProviderWithNavigateProps) => {
+const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
 
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
@@ -21,6 +19,7 @@ const Auth0ProviderWithNavigate = ({
   };
 
   if (!(domain && clientId && redirectUri)) {
+    console.log("Authorization Provider Error!");
     return null;
   }
 
@@ -37,4 +36,4 @@ const Auth0ProviderWithNavigate = ({
   );
 };
 
-export default Auth0ProviderWithNavigate;
+export default AuthProvider;
