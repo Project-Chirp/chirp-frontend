@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Box, Button, Typography, TextField } from "@mui/material/";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const styles = {
   container: {
@@ -27,89 +29,94 @@ const styles = {
 };
 
 const Register = () => {
+  const { getAccessTokenSilently } = useAuth0();
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState<Date | undefined>();
+  const [birthDate, setBirthDate] = useState<Date | undefined>();
 
-  // const submitUser = async () => {
-  //   if (email && password && lastName && firstName) {
-  //     const myData = {
-  //       email: email,
-  //       password_hash: password,
-  //       last_name: lastName,
-  //       first_name: firstName,
-  //       birth_date: dateOfBirth.toISOString(),
-  //     };
-
-  //     await fetch("http://localhost:3001/api/appUsers/", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(myData),
-  //     }).then(function (response) {
-  //       return response;
-  //     });
-  //   }
-  // };
+  const submitUserInfo = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const token = await getAccessTokenSilently();
+    try {
+      console.log(token);
+      const response = await axios.put(
+        "http://localhost:3001/api/appUsers/basicUserInfo",
+        {
+          username,
+          displayName,
+          birthDate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <Box sx={styles.container}>
-      <Typography variant="h1" sx={styles.title}>
-        Let's get to know a little more about you
-      </Typography>
-      <TextField
-        label="Username"
-        required
-        value={username}
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}
-        type="text"
-        variant="outlined"
-        placeholder="Username"
-        id="displayname"
-      />
-      <TextField
-        label="Display Name"
-        value={displayName}
-        onChange={(e) => {
-          setDisplayName(e.target.value);
-        }}
-        type="text"
-        variant="outlined"
-        placeholder="Display Name"
-        id="displayname"
-      />
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          renderInput={(props) => (
-            <TextField
-              sx={styles.datePicker}
-              variant="outlined"
-              id="date"
-              placeholder="Date of Birth"
-              {...props}
-            />
-          )}
-          label="Date of Birth"
-          value={dateOfBirth}
+    <form onSubmit={submitUserInfo}>
+      <Box sx={styles.container}>
+        <Typography variant="h1" sx={styles.title}>
+          Let's get to know a little more about you
+        </Typography>
+        <TextField
+          label="Username"
+          required
+          value={username}
           onChange={(e) => {
-            e && setDateOfBirth(e);
+            setUsername(e.target.value);
           }}
-          maxDate={new Date()}
+          type="text"
+          variant="outlined"
+          placeholder="Username"
+          id="displayname"
         />
-      </LocalizationProvider>
-      <Button
-        size="large"
-        sx={styles.submitButton}
-        color="primary"
-        variant="contained"
-        type="submit"
-      >
-        Submit
-      </Button>
-    </Box>
+        <TextField
+          label="Display Name"
+          value={displayName}
+          onChange={(e) => {
+            setDisplayName(e.target.value);
+          }}
+          type="text"
+          variant="outlined"
+          placeholder="Display Name"
+          id="displayname"
+        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            renderInput={(props) => (
+              <TextField
+                sx={styles.datePicker}
+                variant="outlined"
+                id="date"
+                placeholder="Date of Birth"
+                {...props}
+              />
+            )}
+            label="Date of Birth"
+            value={birthDate}
+            onChange={(e) => {
+              e && setBirthDate(e);
+            }}
+            maxDate={new Date()}
+          />
+        </LocalizationProvider>
+        <Button
+          size="large"
+          sx={styles.submitButton}
+          color="primary"
+          variant="contained"
+          type="submit"
+        >
+          Submit
+        </Button>
+      </Box>
+    </form>
   );
 };
 
