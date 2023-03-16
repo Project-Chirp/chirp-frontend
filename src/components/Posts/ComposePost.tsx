@@ -28,11 +28,13 @@ const ComposePost = () => {
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const text_content = postTextContent;
-      const response = await axios.post("http://localhost:3001/api/posts", {
-        text_content,
+      const textContent = postTextContent;
+      await axios.post("http://localhost:3001/api/posts", {
+        userId: 1,
+        textContent,
       });
-      console.log(response);
+      setPostTextContent("");
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
