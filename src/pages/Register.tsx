@@ -38,8 +38,7 @@ const Register = () => {
     e.preventDefault();
     const token = await getAccessTokenSilently();
     try {
-      console.log(token);
-      const response = await axios.put(
+      await axios.put(
         "http://localhost:3001/api/appUsers/basicUserInfo",
         {
           username,
@@ -52,7 +51,7 @@ const Register = () => {
           },
         }
       );
-      console.log(response);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
