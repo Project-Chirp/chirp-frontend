@@ -14,12 +14,14 @@ import axios from "axios";
 const styles = {
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: { display: "flex", padding: 3 },
-  textFieldContainer: { minWidth: 250 },
+  textFieldContainer: { width: "100%" },
+  textField: { paddingBottom: 2 },
   postActions: {
     display: "flex",
     justifyContent: "space-between",
     marginTop: 1,
   },
+  postButton: { borderRadius: 5 },
 };
 
 const ComposePost = () => {
@@ -54,7 +56,7 @@ const ComposePost = () => {
             multiline
             onChange={(e) => setPostTextContent(e.target.value)}
             placeholder="What's happening?"
-            sx={{ paddingBottom: 1 }}
+            sx={styles.textField}
             value={postTextContent}
             variant="standard"
           />
@@ -70,7 +72,7 @@ const ComposePost = () => {
             <Button
               disabled={!postTextContent.trim()}
               size="small"
-              sx={{ borderRadius: 10 }}
+              sx={styles.postButton}
               type="submit"
               variant="contained"
             >
