@@ -1,16 +1,54 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Avatar } from "@mui/material";
-import { Button, Typography } from "@mui/material";
+import { Avatar, MenuItem } from "@mui/material";
+import { Button, Typography, ButtonGroup } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import { Container } from "@mui/system";
+
+const styles = {
+  userProfileArrow: {
+    paddingTop: 30,
+    paddingBottom: 30,
+  },
+  rightBound: {
+    paddingRight: 1000,
+  },
+  arrowBtn: {
+    border: "none",
+    backgroundColor: "white",
+  },
+  arrowText: {
+    paddingLeft: 2,
+    display: "inline",
+  },
+  avatar: {
+    width: 125,
+    height: 125,
+    position: "absolute",
+    left: 20,
+    top: 135,
+  },
+  editBtn: {
+    backgroundColor: "black",
+    borderRadius: 20,
+    textTransform: "none",
+    marginLeft: 62,
+    marginTop: 2,
+  },
+  usernameDisplay: {
+    fontSize: 30,
+    marginTop: 0,
+  },
+  menu: { marginTop: 60, marginRight: 83 },
+};
 
 const ProfilePage = () => {
   return (
-    <div style={{ paddingRight: 1000 }}>
+    <div style={styles.rightBound}>
       {/**Not sure about this */}
-      <div style={{ paddingTop: 30, paddingBottom: 30 }}>
-        <button style={{ border: "none", backgroundColor: "white" }}>
+      <div style={styles.userProfileArrow}>
+        <button style={styles.arrowBtn}>
           <ArrowBackIcon></ArrowBackIcon>
-          <Typography sx={{ display: "inline" }}>User Profile</Typography>
+          <Typography sx={styles.arrowText}>User Profile</Typography>
         </button>
       </div>
       <div style={{ position: "relative" }}>
@@ -23,30 +61,14 @@ const ProfilePage = () => {
         <Avatar
           alt="profile picture"
           src={process.env.PUBLIC_URL + "/rock.jpg"}
-          sx={{
-            width: 125,
-            height: 125,
-            position: "absolute",
-            left: 20,
-            top: 135,
-          }}
+          sx={styles.avatar}
         />
       </div>
-      <Button
-        variant="contained"
-        startIcon={<EditIcon />}
-        sx={{
-          backgroundColor: "black",
-          borderRadius: 20,
-          textTransform: "none",
-          marginLeft: 62,
-          marginTop: 2,
-        }}
-      >
+      <Button variant="contained" startIcon={<EditIcon />} sx={styles.editBtn}>
         Edit Profile
       </Button>
       <div style={{ paddingLeft: 15, overflowWrap: "break-word" }}>
-        <h2 style={{ fontSize: 30, marginTop: 0 }}>Username</h2>
+        <h2 style={styles.usernameDisplay}>Username</h2>
         <p>
           Hi guys!. Im new here and I am a big Manchester United Fan. PS I also
           watch anime and play Valorant!
