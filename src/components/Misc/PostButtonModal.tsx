@@ -1,13 +1,14 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, ReactElement, SetStateAction } from "react";
 import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material/";
 
 type ModalProps = {
+  children: ReactElement<any, any>;
   openModal: boolean;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function PostButtonModal(props: ModalProps) {
-  const { openModal, setOpenModal } = props;
+  const { children, openModal, setOpenModal } = props;
   return (
     <Dialog open={openModal}>
       <DialogTitle>
@@ -15,9 +16,7 @@ export default function PostButtonModal(props: ModalProps) {
           X
         </Button>
       </DialogTitle>
-      <DialogContent>
-        <div>content goes here.</div>
-      </DialogContent>
+      <DialogContent>{children}</DialogContent>
     </Dialog>
   );
 }

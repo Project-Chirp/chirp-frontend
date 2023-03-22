@@ -7,6 +7,7 @@ import UserAvatar from "./UserAvatar";
 import NavItem from "./NavItem";
 import PostButtonModal from "../Misc/PostButtonModal";
 import { useState } from "react";
+import ComposePost from "../Posts/ComposePost";
 
 const drawerWidth = "30%";
 const styles = {
@@ -85,7 +86,9 @@ const NavBar = () => {
           <UserAvatar />
         </Stack>
       </Toolbar>
-      <PostButtonModal openModal={openModal} setOpenModal={setOpenModal} />
+      <PostButtonModal openModal={openModal} setOpenModal={setOpenModal}>
+        <ComposePost />
+      </PostButtonModal>
     </Drawer>
   );
 };
