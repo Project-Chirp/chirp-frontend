@@ -5,6 +5,8 @@ import { Avatar, Button, List, Stack, Toolbar } from "@mui/material";
 import { Drawer } from "@mui/material";
 import UserAvatar from "./UserAvatar";
 import NavItem from "./NavItem";
+import PostButtonModal from "../Misc/PostButtonModal";
+import { useState } from "react";
 
 const drawerWidth = "30%";
 const styles = {
@@ -50,6 +52,8 @@ const navItems = [
 
 // To declare a variable in JS, we use const or let. Variables declared with const can't be redefined but let can.
 const NavBar = () => {
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <Drawer variant="permanent" anchor="left" sx={styles.navDrawer}>
       <Toolbar sx={styles.toolbar}>
@@ -70,12 +74,18 @@ const NavBar = () => {
             ))}
           </List>
           {/*/ Update the button to post action*/}
-          <Button sx={styles.postButton} variant="contained" type="submit">
+          <Button
+            sx={styles.postButton}
+            variant="contained"
+            type="button"
+            onClick={() => setOpenModal(!openModal)}
+          >
             Post
           </Button>
           <UserAvatar />
         </Stack>
       </Toolbar>
+      <PostButtonModal openModal={openModal} setOpenModal={setOpenModal} />
     </Drawer>
   );
 };
