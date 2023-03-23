@@ -5,6 +5,9 @@ import axios from "axios";
 export type Post = {
   displayName: string;
   imagePath?: string;
+  isLikedByCurrentUser: boolean;
+  numberOfLikes: number;
+  postId: number;
   textContent: string;
   timestamp: string;
   username: string;
@@ -15,7 +18,11 @@ const Timeline = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const result = await axios.get("http://localhost:3001/api/posts");
+      const result = await axios.get("http://localhost:3001/api/posts", {
+        params: {
+          userId: 1,
+        },
+      });
       setPosts(result.data as Post[]);
     };
     fetchPosts();
@@ -23,8 +30,9 @@ const Timeline = () => {
 
   return (
     <>
+      {console.log(posts)}
       {posts.map((o, index) => (
-        <PostItem post={o} key={index} />
+        <PostItem key={index} post={o} />
       ))}
     </>
   );
