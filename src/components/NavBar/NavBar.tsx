@@ -3,7 +3,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Avatar, Button, List, Stack, Toolbar } from "@mui/material";
 import { Drawer } from "@mui/material";
-import UserAvatar from "./UserAvatar";
+import AccountMenu from "./UserAvatar";
 import NavItem from "./NavItem";
 
 const drawerWidth = "30%";
@@ -73,7 +73,7 @@ const NavBar = () => {
           <Button sx={styles.postButton} variant="contained" type="submit">
             Post
           </Button>
-          <UserAvatar />
+          <AccountMenu />
         </Stack>
       </Toolbar>
     </Drawer>

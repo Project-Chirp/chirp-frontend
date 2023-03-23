@@ -13,7 +13,7 @@ const styles = {
   nameContainer: { paddingLeft: 2, textAlign: "left" },
 };
 
-const UserAvatar = () => {
+const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -58,4 +58,4 @@ const UserAvatar = () => {
   );
 };
 
-export default UserAvatar;
+export default AccountMenu;
