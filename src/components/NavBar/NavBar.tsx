@@ -3,7 +3,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Avatar, Button, List, Stack, Toolbar } from "@mui/material";
 import { Drawer } from "@mui/material";
-import AccountMenu from "./UserAvatar";
+import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
 
 const drawerWidth = "30%";
