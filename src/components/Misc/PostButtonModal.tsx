@@ -3,8 +3,7 @@ import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material/";
 
 const styles = {
   dialogPosition: {
-    position: "absolute",
-    bottom: "500px",
+    maxHeight: "90%",
   },
 };
 
@@ -22,12 +21,6 @@ export default function PostButtonModal(props: ModalProps) {
       fullWidth
       scroll="paper"
       sx={styles.dialogPosition}
-      PaperProps={{
-        style: {
-          minHeight: "20%",
-          maxHeight: "90%",
-        },
-      }}
     >
       <DialogTitle>
         <Button color="greyButton" onClick={() => setOpenModal(!openModal)}>
