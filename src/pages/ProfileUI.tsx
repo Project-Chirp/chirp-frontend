@@ -2,7 +2,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Avatar, MenuItem } from "@mui/material";
 import { Button, Typography, ButtonGroup } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { Container } from "@mui/system";
+import { Container } from '@mui/material';
+import {Tabs, Tab, AppBar} from '@mui/material'
 
 const styles = {
   userProfileArrow: {
@@ -72,9 +73,10 @@ const ProfileUI = () => {
           <h2>Username</h2>
           <p>
             Hi guys!. Im new here and I am a big Manchester United Fan. PS I
-            also watch anime and play Valorant!
+            also watch anime and play Valorant!!
           </p>
         </div>
+ 
       </div>
     </Container>
   );

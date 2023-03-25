@@ -3,6 +3,10 @@ import { Avatar, MenuItem } from "@mui/material";
 import { Button, Typography, ButtonGroup } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { Container } from "@mui/system";
+import {Tabs, Tab, AppBar} from '@mui/material'
+import React from "react";
+import {useState, useEffect} from "react";
+import Box from "@mui/material/Box";
 
 const styles = {
   userProfileArrow: {
@@ -10,7 +14,7 @@ const styles = {
     paddingBottom: 30,
   },
   rightBound: {
-    paddingRight: 1000,
+
   },
   arrowBtn: {
     border: "none",
@@ -19,6 +23,7 @@ const styles = {
   arrowText: {
     paddingLeft: 2,
     display: "inline",
+    fontSize: 18
   },
   avatar: {
     width: 125,
@@ -39,10 +44,25 @@ const styles = {
     marginTop: 0,
   },
   menu: { marginTop: 60, marginRight: 83 },
+  tabSelection: {
+    marginLeft:55
+  }
 };
 
 const ProfilePage = () => {
+  const [value, setValue] = React.useState('one');
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+    console.log(value);
+  };
+
+  useEffect(() => {
+}, [value])
+
   return (
+    <>
+    <Box width={650}>
     <div style={styles.rightBound}>
       {/**Not sure about this */}
       <div style={styles.userProfileArrow}>
@@ -74,7 +94,20 @@ const ProfilePage = () => {
           watch anime and play Valorant!
         </p>
       </div>
+          <Tabs value = {value} onChange={handleChange}>
+            <Tab value = "one" style = {styles.tabSelection} label="Tweets"/>
+            <Tab value = "two" style = {styles.tabSelection} label="Replies"/>
+            <Tab value = "three" style = {styles.tabSelection} label="Media"/>
+            <Tab value = "four" style = {styles.tabSelection} label="Likes"/>
+          </Tabs>
+
+          {value === "one" && <div> <h1>Header</h1> <p>testing</p></div>} 
+          {value === "two" && <p>testing two</p>} 
+          {value === "three" && <p>testing three</p>} 
+          {value === "four" && <p>testing four</p>} 
     </div>
+    </Box>
+    </>
   );
 };
 

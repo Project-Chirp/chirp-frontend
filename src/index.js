@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "./Styles/Theme.tsx";
+import theme from "./styles/Theme.tsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
