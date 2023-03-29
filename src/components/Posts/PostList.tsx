@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PostItem from "./PostItem";
 import axios from "axios";
+import { usePostContext } from "../../context/PostContext";
 
 export type Post = {
   displayName: string;
@@ -14,7 +15,7 @@ export type Post = {
 };
 
 const Timeline = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const { posts, setPosts } = usePostContext();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -26,11 +27,10 @@ const Timeline = () => {
       setPosts(result.data as Post[]);
     };
     fetchPosts();
-  }, []);
+  }, [setPosts]);
 
   return (
     <>
-      {console.log(posts)}
       {posts.map((o, index) => (
         <PostItem key={index} post={o} />
       ))}

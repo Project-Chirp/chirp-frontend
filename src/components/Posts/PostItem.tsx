@@ -13,6 +13,7 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Post } from "./PostList";
 import axios from "axios";
+import { usePostContext } from "../../context/PostContext";
 
 const styles = {
   card: {
@@ -47,6 +48,7 @@ const unlikePost = async (userId: number, postId: number) => {
 };
 
 const PostItem = ({ post }: PostProps) => {
+  const { updatePost } = usePostContext();
   return (
     <Card sx={styles.card}>
       <CardHeader
@@ -82,8 +84,14 @@ const PostItem = ({ post }: PostProps) => {
               post.isLikedByCurrentUser
                 ? unlikePost(1, post.postId)
                 : likePost(1, post.postId);
-              // Temporary, need to look into a better way of state management like Redux
-              window.location.reload();
+              const updatedPost = {
+                ...post,
+                isLikedByCurrentUser: !post.isLikedByCurrentUser,
+                numberOfLikes: post.isLikedByCurrentUser
+                  ? post.numberOfLikes - 1
+                  : post.numberOfLikes + 1,
+              };
+              updatePost(updatedPost);
             }}
           >
             {post.isLikedByCurrentUser ? (
