@@ -5,21 +5,17 @@ import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Register from "./pages/Register";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
+import { useUserContext } from "./context/UserContext";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [basicUserInfo, setBasicUserInfo] = useState({
-    isLoading: true,
-    userId: undefined,
-    username: undefined,
-    displayName: undefined,
-  });
+  const { user, setUser } = useUserContext();
 
   useEffect(() => {
     const getBasicUserInfo = async () => {
@@ -33,16 +29,15 @@ function App() {
             },
           }
         );
-        console.log(response.data);
-        setBasicUserInfo(response.data);
+        setUser(response.data);
       } catch (error) {
         console.log(error);
       }
     };
     getBasicUserInfo();
-  }, [getAccessTokenSilently]);
+  }, [getAccessTokenSilently, setUser]);
 
-  if (isLoading || (isAuthenticated && basicUserInfo.isLoading)) {
+  if (isLoading || (isAuthenticated && user.isLoading)) {
     return (
       <div className="App" style={{ display: "flex" }}>
         <PageLoader />
@@ -54,7 +49,7 @@ function App() {
     return <Welcome />;
   }
 
-  if (!basicUserInfo.username) {
+  if (!user.username) {
     return <Register />;
   }
 
