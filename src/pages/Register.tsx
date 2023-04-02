@@ -42,7 +42,7 @@ const Register = () => {
     try {
       setUser({ ...user, isLoading: true });
       const newUserInfo = await axios.put(
-        "http://localhost:3001/api/appUsers/basicUserInfo",
+        `http://localhost:3001/api/users/${user.userId}`,
         {
           username,
           displayName,

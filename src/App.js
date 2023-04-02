@@ -21,14 +21,11 @@ function App() {
     const getUser = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get(
-          "http://localhost:3001/api/appUsers/basicUserInfo",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get("http://localhost:3001/api/users/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUser(response.data);
       } catch (error) {
         console.log(error);
