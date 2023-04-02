@@ -10,7 +10,6 @@ type UserType = {
 type UserContextType = {
   user: UserType;
   setUser: (user: UserType) => void;
-  setUserTest: (user: UserType) => void;
 };
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -23,12 +22,8 @@ export const UserContextProvider = ({ children }: any) => {
     displayName: undefined,
   });
 
-  const setUserTest = (user: UserType) => {
-    setUser(user);
-  };
-
   return (
-    <UserContext.Provider value={{ user, setUser, setUserTest }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
   );

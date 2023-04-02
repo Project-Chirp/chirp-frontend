@@ -18,7 +18,7 @@ function App() {
   const { user, setUser } = useUserContext();
 
   useEffect(() => {
-    const getBasicUserInfo = async () => {
+    const getUser = async () => {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
@@ -34,7 +34,7 @@ function App() {
         console.log(error);
       }
     };
-    getBasicUserInfo();
+    getUser();
   }, [getAccessTokenSilently, setUser]);
 
   if (isLoading || (isAuthenticated && user.isLoading)) {
