@@ -88,8 +88,8 @@ const NavBar = () => {
         </Toolbar>
       </Drawer>
       <PostButtonModal
-        openModal={openModal}
         onClose={() => setOpenModal(false)}
+        openModal={openModal}
       >
         <ComposePost />
       </PostButtonModal>

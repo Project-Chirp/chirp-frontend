@@ -10,30 +10,30 @@ const styles = {
   },
   dialogTitle: {
     paddingBottom: 0,
-    paddingTop: 0,
-    paddingRight: 0.5,
     paddingLeft: 0.5,
+    paddingRight: 0.5,
+    paddingTop: 0,
   },
 };
 
 type PostButtonModalProps = {
   children: JSX.Element;
-  openModal: boolean;
   onClose: () => void;
+  openModal: boolean;
 };
 
 export default function PostButtonModal({
   children,
-  openModal,
   onClose,
+  openModal,
 }: PostButtonModalProps) {
   return (
     <Dialog
-      open={openModal}
       fullWidth
+      onClose={onClose}
+      open={openModal}
       scroll="paper"
       sx={styles.dialog}
-      onClose={onClose}
     >
       <DialogTitle sx={styles.dialogTitle}>
         <IconButton disableRipple onClick={onClose}>
