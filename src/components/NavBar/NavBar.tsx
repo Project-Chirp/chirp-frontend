@@ -56,43 +56,44 @@ const NavBar = () => {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <Drawer variant="permanent" anchor="left" sx={styles.navDrawer}>
-      <Toolbar sx={styles.toolbar}>
-        <Stack sx={styles.stack}>
-          <Avatar
-            alt="logo"
-            src="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
-            sx={styles.logo}
-          />
-          <List component="nav">
-            {navItems.map((navItem, index) => (
-              <NavItem
-                key={index}
-                icon={navItem.icon}
-                label={navItem.label}
-                route={navItem.route}
-              />
-            ))}
-          </List>
-          {/*/ Update the button to post action*/}
-          <Button
-            sx={styles.postButton}
-            variant="contained"
-            type="button"
-            onClick={() => setOpenModal(!openModal)}
-          >
-            Post
-          </Button>
-          <UserAvatar />
-        </Stack>
-      </Toolbar>
+    <>
+      <Drawer variant="permanent" anchor="left" sx={styles.navDrawer}>
+        <Toolbar sx={styles.toolbar}>
+          <Stack sx={styles.stack}>
+            <Avatar
+              alt="logo"
+              src="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
+              sx={styles.logo}
+            />
+            <List component="nav">
+              {navItems.map((navItem, index) => (
+                <NavItem
+                  key={index}
+                  icon={navItem.icon}
+                  label={navItem.label}
+                  route={navItem.route}
+                />
+              ))}
+            </List>
+            {/*/ Update the button to post action*/}
+            <Button
+              sx={styles.postButton}
+              variant="contained"
+              onClick={() => setOpenModal(true)}
+            >
+              Post
+            </Button>
+            <UserAvatar />
+          </Stack>
+        </Toolbar>
+      </Drawer>
       <PostButtonModal
         openModal={openModal}
         onClose={() => setOpenModal(false)}
       >
         <ComposePost />
       </PostButtonModal>
-    </Drawer>
+    </>
   );
 };
 

@@ -1,11 +1,18 @@
-import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material/";
+import { Dialog, DialogTitle, DialogContent, IconButton } from "@mui/material/";
+import CloseIcon from "@mui/icons-material/Close";
 
 const styles = {
   dialog: {
     maxHeight: "90%",
   },
-  greyButton: {
-    color: "#D8D8D8",
+  dialogContent: {
+    padding: 0,
+  },
+  dialogTitle: {
+    paddingBottom: 0,
+    paddingTop: 0,
+    paddingRight: 0.5,
+    paddingLeft: 0.5,
   },
 };
 
@@ -28,12 +35,12 @@ export default function PostButtonModal({
       sx={styles.dialog}
       onClose={onClose}
     >
-      <DialogTitle>
-        <Button sx={styles.greyButton} onClick={onClose}>
-          X
-        </Button>
+      <DialogTitle sx={styles.dialogTitle}>
+        <IconButton disableRipple onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
       </DialogTitle>
-      <DialogContent>{children}</DialogContent>
+      <DialogContent sx={styles.dialogContent}>{children}</DialogContent>
     </Dialog>
   );
 }
