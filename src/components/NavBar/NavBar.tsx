@@ -86,7 +86,10 @@ const NavBar = () => {
           <UserAvatar />
         </Stack>
       </Toolbar>
-      <PostButtonModal openModal={openModal} setOpenModal={setOpenModal}>
+      <PostButtonModal
+        openModal={openModal}
+        onClose={() => setOpenModal(false)}
+      >
         <ComposePost />
       </PostButtonModal>
     </Drawer>

@@ -1,29 +1,35 @@
-import React, { Dispatch, ReactElement, SetStateAction } from "react";
 import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material/";
 
 const styles = {
-  dialogPosition: {
+  dialog: {
     maxHeight: "90%",
+  },
+  greyButton: {
+    color: "#D8D8D8",
   },
 };
 
-type ModalProps = {
-  children: ReactElement<any, any>;
+type PostButtonModalProps = {
+  children: JSX.Element;
   openModal: boolean;
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void;
 };
 
-export default function PostButtonModal(props: ModalProps) {
-  const { children, openModal, setOpenModal } = props;
+export default function PostButtonModal({
+  children,
+  openModal,
+  onClose,
+}: PostButtonModalProps) {
   return (
     <Dialog
       open={openModal}
       fullWidth
       scroll="paper"
-      sx={styles.dialogPosition}
+      sx={styles.dialog}
+      onClose={onClose}
     >
       <DialogTitle>
-        <Button color="greyButton" onClick={() => setOpenModal(!openModal)}>
+        <Button sx={styles.greyButton} onClick={onClose}>
           X
         </Button>
       </DialogTitle>

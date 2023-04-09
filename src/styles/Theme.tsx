@@ -1,21 +1,4 @@
-import { createTheme, PaletteColorOptions } from "@mui/material/styles";
-
-declare module "@mui/material/styles" {
-  interface Palette {
-    greyButton: PaletteColorOptions;
-  }
-  interface PaletteOptions {
-    greyButton: PaletteColorOptions;
-  }
-}
-
-declare module "@mui/material/Button" {
-  interface ButtonPropsColorOverrides {
-    greyButton: true;
-  }
-}
-
-const { palette } = createTheme();
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
@@ -35,11 +18,6 @@ const theme = createTheme({
     success: {
       main: "#22AA6F",
     },
-    greyButton: palette.augmentColor({
-      color: {
-        main: "#D8D8D8",
-      },
-    }),
   },
 
   typography: {
