@@ -2,6 +2,7 @@ import { Box, Divider, List, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
 import SearchBar from "../components/Messages/SearchBar";
+import MessagesList from "../components/Messages/MessagesList";
 
 const styles = {
   messagesBox: { paddingRight: 2, paddingLeft: 2 },
@@ -24,14 +25,7 @@ const Messages = () => {
       <SearchBar />
       <List component="div">
         <Divider />
-        {/* {testData.map((o) => (
-          <Conversation
-            displayName={o.displayName}
-            message={o.message}
-            messageTimestamp={o.messageTimestamp}
-            userName={o.userName}
-          />
-        ))} */}
+        <MessagesList />
       </List>
     </Box>
   );
