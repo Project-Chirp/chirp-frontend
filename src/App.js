@@ -3,6 +3,7 @@ import Timeline from "./pages/Timeline";
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import "./App.css";
+import Messages from "./pages/Messages";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/home" element={<Timeline />} />
+        <Route path="/messages" element={<Messages />} />
       </Routes>
     </div>
   );
