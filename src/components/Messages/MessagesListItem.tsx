@@ -14,19 +14,18 @@ const styles = {
   text: { fontFamily: "Inter" },
 };
 
-type MessageListItemProps = {
+export type LatestMessageDetails = {
   displayName: string;
   username: string;
   message: string;
   timestamp: string;
 };
 
-const MessagesListItem = ({
-  displayName,
-  username,
-  message,
-  timestamp,
-}: MessageListItemProps) => {
+type MessageListItemProps = {
+  latestMessageDetails: LatestMessageDetails;
+};
+
+const MessagesListItem = ({ latestMessageDetails }: MessageListItemProps) => {
   return (
     <ListItem disablePadding component="div">
       <ListItemButton>
@@ -36,9 +35,9 @@ const MessagesListItem = ({
           </ListItemAvatar>
           <ListItemText
             primary={
-              <Typography>{`${displayName} @${username} - ${timestamp}`}</Typography>
+              <Typography>{`${latestMessageDetails.displayName} @${latestMessageDetails.username} - ${latestMessageDetails.timestamp}`}</Typography>
             }
-            secondary={<Typography>{message}</Typography>}
+            secondary={<Typography>{latestMessageDetails.message}</Typography>}
             sx={styles.text}
           />
         </Box>
