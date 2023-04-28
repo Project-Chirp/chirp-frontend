@@ -12,6 +12,8 @@ import PageLoader from "./pages/PageLoader";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import { useUserContext } from "./context/UserContext";
+import "./App.css";
+import { PostContextProvider } from "./context/PostContext";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -51,6 +53,7 @@ function App() {
   }
 
   return (
+<PostContextProvider>
     <div className="App" style={{ display: "flex" }}>
       <NavBar />
       <Routes>
@@ -65,6 +68,7 @@ function App() {
         />
       </Routes>
     </div>
+</PostContextProvider>
   );
 }
 
