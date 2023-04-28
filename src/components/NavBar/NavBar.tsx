@@ -37,17 +37,17 @@ const navItems = [
   {
     icon: <HomeIcon />,
     label: "Home",
-    route: "/home",
+    route: "/",
   },
   {
     icon: <MailIcon />,
     label: "Messages",
-    route: "/",
+    route: "/messages",
   },
   {
     icon: <AccountCircleIcon />,
     label: "Profile",
-    route: "/",
+    route: "/profile",
   },
 ];
 
