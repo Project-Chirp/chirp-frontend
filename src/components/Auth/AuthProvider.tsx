@@ -19,8 +19,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   if (!(domain && clientId && redirectUri)) {
-    console.log("Authorization Provider Error!");
-    return null;
+    throw new Error(
+      "Authorization provider error, something is wrong with the authorization config!"
+    );
   }
 
   return (

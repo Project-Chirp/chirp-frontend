@@ -62,7 +62,7 @@ function App() {
         <Route
           path="/profile"
           element={<ProtectedRoute component={Profile} />}
-        ></Route>
+        />
       </Routes>
     </div>
   );
