@@ -7,10 +7,13 @@ import CardMedia from "@mui/material/CardMedia/CardMedia";
 import CardActions from "@mui/material/CardActions/CardActions";
 import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Post } from "./PostList";
+import axios from "axios";
+import { usePostContext } from "../../context/PostContext";
 
 const styles = {
   card: {
@@ -28,7 +31,24 @@ type PostProps = {
   post: Post;
 };
 
+const likePost = async (userId: number, postId: number) => {
+  await axios.post("http://localhost:3001/api/posts/likePost", {
+    postId,
+    userId,
+  });
+};
+
+const unlikePost = async (userId: number, postId: number) => {
+  await axios.delete("http://localhost:3001/api/posts/unlikePost", {
+    params: {
+      postId,
+      userId,
+    },
+  });
+};
+
 const PostItem = ({ post }: PostProps) => {
+  const { updatePost } = usePostContext();
   return (
     <Card sx={styles.card}>
       <CardHeader
@@ -59,9 +79,29 @@ const PostItem = ({ post }: PostProps) => {
           justifyContent="space-between"
           sx={styles.cardActions}
         >
-          <IconButton>
-            <FavoriteBorderOutlinedIcon />
-            <Typography sx={styles.actionNumbers}>1</Typography>
+          <IconButton
+            onClick={() => {
+              post.isLikedByCurrentUser
+                ? unlikePost(1, post.postId)
+                : likePost(1, post.postId);
+              const updatedPost = {
+                ...post,
+                isLikedByCurrentUser: !post.isLikedByCurrentUser,
+                numberOfLikes: post.isLikedByCurrentUser
+                  ? post.numberOfLikes - 1
+                  : post.numberOfLikes + 1,
+              };
+              updatePost(updatedPost);
+            }}
+          >
+            {post.isLikedByCurrentUser ? (
+              <FavoriteOutlinedIcon />
+            ) : (
+              <FavoriteBorderOutlinedIcon />
+            )}
+            <Typography sx={styles.actionNumbers}>
+              {post.numberOfLikes}
+            </Typography>
           </IconButton>
           <IconButton>
             <AddCommentOutlinedIcon />
