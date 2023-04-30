@@ -1,63 +1,49 @@
-import { Box } from "@mui/material";
-import { Typography } from "@mui/material";
-import { Button } from "@mui/material";
-import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Box, Button, Typography } from "@mui/material";
+
+const styles = {
+  container: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    justifyContent: "center",
+    margin: "auto",
+  },
+  loginButton: {
+    borderRadius: 5,
+  },
+  logo: {
+    width: 250,
+    height: 250,
+  },
+  title: {
+    fontWeight: 700,
+    fontSize: 32,
+  },
+};
 
 const Welcome = () => {
+  const { loginWithRedirect } = useAuth0();
+
   return (
-    <Box
-      zIndex={2}
-      display={"flex"}
-      flexDirection={"column"}
-      maxWidth={400}
-      alignItems={"center"}
-      justifyContent={"center"}
-      margin={"auto"}
-      marginTop={5}
-      padding={3}
-      width={1000}
-    >
-      <Typography
-        variant="h1"
-        textAlign={"center"}
-        fontWeight={700}
-        fontSize={32}
-        paddingTop={10}
-        paddingBottom={5}
-      >
+    <Box sx={styles.container}>
+      <Typography sx={styles.title} variant="h1">
         Welcome to Tweeter
       </Typography>
       <img
-        width={250}
-        height={250}
+        style={styles.logo}
         src={process.env.PUBLIC_URL + "/logojade.png"}
         alt="Logo"
       />
       <Button
-        size={"large"}
-        sx={{
-          marginTop: 3,
-          marginBottom: 2,
-          borderRadius: 10,
-          width: 253.4,
-        }}
+        size="large"
+        sx={styles.loginButton}
         color="primary"
         variant="contained"
+        onClick={() => loginWithRedirect()}
       >
         Take me to Tweeter
-      </Button>
-      <Button
-        size={"large"}
-        sx={{
-          marginTop: 3,
-          marginBottom: 2,
-          borderRadius: 10,
-          width: 253.4,
-        }}
-        color="primary"
-        variant="contained"
-      >
-        Log out
       </Button>
     </Box>
   );
