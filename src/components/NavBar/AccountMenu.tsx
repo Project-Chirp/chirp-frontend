@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import Stack from "@mui/material/Stack/Stack";
 import React from "react";
+import { useUserContext } from "../../context/UserContext";
 
 const styles = {
   button: {
@@ -16,6 +17,7 @@ const styles = {
 
 const AccountMenu = () => {
   const { logout } = useAuth0();
+  const { user } = useUserContext();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -37,8 +39,8 @@ const AccountMenu = () => {
       <Button onClick={handleClick} sx={styles.button}>
         <Avatar />
         <Stack sx={styles.nameContainer}>
-          <Typography>Buzz</Typography>
-          <Typography>@Buzzkill</Typography>
+          <Typography>{user.displayName}</Typography>
+          <Typography>{user.username}</Typography>
         </Stack>
       </Button>
       <Popover
