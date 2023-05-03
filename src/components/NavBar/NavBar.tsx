@@ -3,7 +3,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Avatar, Button, List, Stack, Toolbar } from "@mui/material";
 import { Drawer } from "@mui/material";
-import UserAvatar from "./UserAvatar";
+import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
 import PostButtonModal from "../Misc/PostButtonModal";
 import { useState } from "react";
@@ -83,7 +83,7 @@ const NavBar = () => {
             >
               Post
             </Button>
-            <UserAvatar />
+            <AccountMenu />
           </Stack>
         </Toolbar>
       </Drawer>
