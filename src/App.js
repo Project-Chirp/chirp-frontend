@@ -53,22 +53,26 @@ function App() {
   }
 
   return (
-<PostContextProvider>
-    <div className="App" style={{ display: "flex" }}>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<ProtectedRoute component={Timeline} />} />
-        <Route
-          path="/messages"
-          element={<ProtectedRoute component={Messages} />}
-        />
-        <Route
-          path="/profile"
-          element={<ProtectedRoute component={Profile} />}
-        />
-      </Routes>
-    </div>
-</PostContextProvider>
+    <PostContextProvider>
+      <div className="App" style={{ display: "flex" }}>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<ProtectedRoute component={Timeline} />} />
+          <Route
+            path="/messages"
+            element={<ProtectedRoute component={Messages} />}
+          />
+          <Route
+            path="/profile"
+            element={<ProtectedRoute component={Profile} />}
+          />
+          <Route
+            path="/post/:id"
+            element={<ProtectedRoute component={ExpandedPost} />}
+          />
+        </Routes>
+      </div>
+    </PostContextProvider>
   );
 }
 

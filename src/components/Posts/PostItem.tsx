@@ -1,11 +1,17 @@
-import { Card, CardContent, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Avatar from "@mui/material/Avatar/Avatar";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton/IconButton";
 import CardMedia from "@mui/material/CardMedia/CardMedia";
 import CardActions from "@mui/material/CardActions/CardActions";
-import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
@@ -14,6 +20,8 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Post } from "./PostList";
 import axios from "axios";
 import { usePostContext } from "../../context/PostContext";
+import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
+import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
   card: {
@@ -25,6 +33,12 @@ const styles = {
   actionNumbers: {
     paddingLeft: 1,
   },
+  actionArea: {
+    "&:hover $focusHighlight": {
+      opacity: 0,
+    },
+  },
+  focusHighlight: {},
 };
 
 type PostProps = {
@@ -47,6 +61,10 @@ const unlikePost = async (userId: number, postId: number) => {
   });
 };
 
+function openPost(nav: NavigateFunction, post: Post) {
+  nav(`${post.postId}`, { state: post });
+}
+
 const PostItem = ({ post }: PostProps) => {
   const { updatePost } = usePostContext();
   return (
@@ -61,7 +79,10 @@ const PostItem = ({ post }: PostProps) => {
         title={`${post.displayName} @${post.username}`}
         subheader={post.timestamp}
       />
-      <CardActionArea>
+      <CardActionArea
+        component={Routerlink}
+        to={{ pathname: `/post/${post.postId}` }}
+      >
         <CardContent sx={{ width: 400 }}>
           <Typography>{post.textContent}</Typography>
         </CardContent>
