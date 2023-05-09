@@ -39,11 +39,6 @@ const navItems = [
     label: "Home",
     route: "/",
   },
-  // {
-  //   icon: <MailIcon />,
-  //   label: "Messages",
-  //   route: "/messages",
-  // },
   {
     icon: <AccountCircleIcon />,
     label: "Profile",
