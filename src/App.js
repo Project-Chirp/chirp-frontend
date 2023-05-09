@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import Register from "./pages/Register";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
-import Messages from "./pages/Messages";
+// import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import { useUserContext } from "./context/UserContext";
 import "./App.css";
