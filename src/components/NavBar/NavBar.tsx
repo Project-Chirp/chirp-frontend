@@ -1,5 +1,5 @@
 import HomeIcon from "@mui/icons-material/Home";
-import MailIcon from "@mui/icons-material/Mail";
+// import MailIcon from "@mui/icons-material/Mail";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Avatar, Button, List, Stack, Toolbar } from "@mui/material";
 import { Drawer } from "@mui/material";
@@ -39,11 +39,11 @@ const navItems = [
     label: "Home",
     route: "/",
   },
-  {
-    icon: <MailIcon />,
-    label: "Messages",
-    route: "/messages",
-  },
+  // {
+  //   icon: <MailIcon />,
+  //   label: "Messages",
+  //   route: "/messages",
+  // },
   {
     icon: <AccountCircleIcon />,
     label: "Profile",
