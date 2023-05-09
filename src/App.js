@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import Register from "./pages/Register";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
-import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import { useUserContext } from "./context/UserContext";
 import "./App.css";
@@ -53,22 +52,18 @@ function App() {
   }
 
   return (
-<PostContextProvider>
-    <div className="App" style={{ display: "flex" }}>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<ProtectedRoute component={Timeline} />} />
-        <Route
-          path="/messages"
-          element={<ProtectedRoute component={Messages} />}
-        />
-        <Route
-          path="/profile"
-          element={<ProtectedRoute component={Profile} />}
-        />
-      </Routes>
-    </div>
-</PostContextProvider>
+    <PostContextProvider>
+      <div className="App" style={{ display: "flex" }}>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<ProtectedRoute component={Timeline} />} />
+          <Route
+            path="/profile"
+            element={<ProtectedRoute component={Profile} />}
+          />
+        </Routes>
+      </div>
+    </PostContextProvider>
   );
 }
 
