@@ -13,7 +13,6 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Post } from "./PostList";
 import axios from "axios";
-import { usePostContext } from "../../context/PostContext";
 import { useDispatch } from "react-redux";
 import { updatePost } from "../../state/slices/postSlice";
 
@@ -50,8 +49,6 @@ const unlikePost = async (userId: number, postId: number) => {
 };
 
 const PostItem = ({ post }: PostProps) => {
-  // const { updatePost } = usePostContext();
-
   const dispatch = useDispatch();
 
   return (
