@@ -13,8 +13,9 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Post } from "./PostList";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updatePost } from "../../state/slices/postSlice";
+import { RootState } from "../../state/store";
 
 const styles = {
   card: {
@@ -32,14 +33,14 @@ type PostProps = {
   post: Post;
 };
 
-const likePost = async (userId: number, postId: number) => {
+const likePost = async (userId: number | undefined, postId: number) => {
   await axios.post("http://localhost:3001/api/posts/likePost", {
     postId,
     userId,
   });
 };
 
-const unlikePost = async (userId: number, postId: number) => {
+const unlikePost = async (userId: number | undefined, postId: number) => {
   await axios.delete("http://localhost:3001/api/posts/unlikePost", {
     params: {
       postId,
@@ -50,6 +51,7 @@ const unlikePost = async (userId: number, postId: number) => {
 
 const PostItem = ({ post }: PostProps) => {
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.value);
 
   return (
     <Card sx={styles.card}>
@@ -84,8 +86,8 @@ const PostItem = ({ post }: PostProps) => {
           <IconButton
             onClick={() => {
               post.isLikedByCurrentUser
-                ? unlikePost(1, post.postId)
-                : likePost(1, post.postId);
+                ? unlikePost(user.userId, post.postId)
+                : likePost(user.userId, post.postId);
               const updatedPost = {
                 ...post,
                 isLikedByCurrentUser: !post.isLikedByCurrentUser,
