@@ -14,6 +14,8 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Post } from "./PostList";
 import axios from "axios";
 import { usePostContext } from "../../context/PostContext";
+import { useDispatch } from "react-redux";
+import { updatePost } from "../../state/slices/postSlice";
 
 const styles = {
   card: {
@@ -48,7 +50,9 @@ const unlikePost = async (userId: number, postId: number) => {
 };
 
 const PostItem = ({ post }: PostProps) => {
-  const { updatePost } = usePostContext();
+  // const { updatePost } = usePostContext();
+
+  const dispatch = useDispatch();
 
   return (
     <Card sx={styles.card}>
@@ -92,8 +96,7 @@ const PostItem = ({ post }: PostProps) => {
                   ? post.numberOfLikes - 1
                   : post.numberOfLikes + 1,
               };
-              updatePost(updatedPost);
-              // dispatch(updatePost(updatedPost));
+              dispatch(updatePost(updatedPost));
             }}
           >
             {post.isLikedByCurrentUser ? (
