@@ -10,6 +10,8 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { useState } from "react";
 import axios from "axios";
+import { RootState } from "../../state/store";
+import { useSelector } from "react-redux";
 
 const styles = {
   avatarIcon: { paddingRight: 1.5 },
@@ -26,13 +28,14 @@ const styles = {
 
 const ComposePost = () => {
   const [postTextContent, setPostTextContent] = useState("");
+  const user = useSelector((state: RootState) => state.user.value);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
       await axios.post("http://localhost:3001/api/posts", {
-        userId: 1,
+        userId: user.userId,
         textContent,
       });
       setPostTextContent("");

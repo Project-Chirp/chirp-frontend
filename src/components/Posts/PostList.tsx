@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import PostItem from "./PostItem";
 import axios from "axios";
-import { usePostContext } from "../../context/PostContext";
+import { RootState } from "../../state/store";
+import { useDispatch, useSelector } from "react-redux";
+import { addPosts } from "../../state/slices/postSlice";
+// import { usePostContext } from "../../context/PostContext";
 
 export type Post = {
   displayName: string;
@@ -15,19 +18,22 @@ export type Post = {
 };
 
 const Timeline = () => {
-  const { posts, setPosts } = usePostContext();
+  // const { posts, setPosts } = usePostContext();
+  const posts = useSelector((state: RootState) => state.post.value);
+  const user = useSelector((state: RootState) => state.user.value);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get("http://localhost:3001/api/posts", {
         params: {
-          userId: 1,
+          userId: user.userId,
         },
       });
-      setPosts(result.data as Post[]);
+      dispatch(addPosts(result.data as Post[]));
     };
     fetchPosts();
-  }, [setPosts]);
+  }, [dispatch, user]);
 
   return (
     <>
