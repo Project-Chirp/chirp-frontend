@@ -17,8 +17,8 @@ const styles = {
 export type LatestMessageDetails = {
   displayName: string;
   username: string;
-  message: string;
-  timestamp: string;
+  textContent: string;
+  messageTimestamp: string;
 };
 
 type MessageListItemProps = {
@@ -35,9 +35,11 @@ const MessagesListItem = ({ latestMessageDetails }: MessageListItemProps) => {
           </ListItemAvatar>
           <ListItemText
             primary={
-              <Typography>{`${latestMessageDetails.displayName} @${latestMessageDetails.username} - ${latestMessageDetails.timestamp}`}</Typography>
+              <Typography>{`${latestMessageDetails.displayName} @${latestMessageDetails.username} - ${latestMessageDetails.messageTimestamp}`}</Typography>
             }
-            secondary={<Typography>{latestMessageDetails.message}</Typography>}
+            secondary={
+              <Typography>{latestMessageDetails.textContent}</Typography>
+            }
             sx={styles.text}
           />
         </Box>
