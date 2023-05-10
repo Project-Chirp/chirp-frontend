@@ -10,13 +10,18 @@ import Register from "./pages/Register";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
 import Profile from "./pages/Profile";
-import { useUserContext } from "./context/UserContext";
 import "./App.css";
 import { PostContextProvider } from "./context/PostContext";
+import { RootState } from "./state/store";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "./state/slices/userSlice";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const { user, setUser } = useUserContext();
+  // const { user, setUser } = useUserContext();
+
+  const user = useSelector((state: RootState) => state.user.value);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getUser = async () => {
@@ -27,13 +32,15 @@ function App() {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUser(response.data);
+        dispatch(addUser(response.data));
+        // console.log(user.username);
+        // setUser(response.data);
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
-  }, [getAccessTokenSilently, setUser]);
+  }, [getAccessTokenSilently, dispatch]);
 
   if (isLoading || (isAuthenticated && user.isLoading)) {
     return (

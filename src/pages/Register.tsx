@@ -4,7 +4,9 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useUserContext } from "../context/UserContext";
+import { RootState } from "../state/store";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../state/slices/userSlice";
 
 const styles = {
   container: {
@@ -34,13 +36,17 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [birthDate, setBirthDate] = useState<Date | undefined>();
-  const { user, setUser } = useUserContext();
+  // const { user, setUser } = useUserContext();
+
+  const user = useSelector((state: RootState) => state.user.value);
+  const dispatch = useDispatch();
 
   const submitUserInfo = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const token = await getAccessTokenSilently();
     try {
-      setUser({ ...user, isLoading: true });
+      dispatch(addUser({ ...user, isLoading: true }));
+      // setUser({ ...user, isLoading: true });
       const newUserInfo = await axios.put(
         `http://localhost:3001/api/users/${user.userId}`,
         {
@@ -54,7 +60,8 @@ const Register = () => {
           },
         }
       );
-      setUser(newUserInfo.data);
+      // setUser(newUserInfo.data);
+      dispatch(addUser(newUserInfo.data));
     } catch (error) {
       console.log(error);
     }

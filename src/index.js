@@ -5,7 +5,8 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./styles/Theme";
 import AuthProvider from "./components/Auth/AuthProvider";
-import { UserContextProvider } from "./context/UserContext";
+import { Provider } from "react-redux";
+import { store } from "./state/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -13,11 +14,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <UserContextProvider>
+        <Provider store={store}>
           <ThemeProvider theme={theme}>
             <App />
           </ThemeProvider>
-        </UserContextProvider>
+        </Provider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
