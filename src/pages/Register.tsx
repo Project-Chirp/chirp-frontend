@@ -6,7 +6,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { RootState } from "../state/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../state/slices/userSlice";
+import { setUser } from "../state/slices/userSlice";
 
 const styles = {
   container: {
@@ -45,7 +45,7 @@ const Register = () => {
     e.preventDefault();
     const token = await getAccessTokenSilently();
     try {
-      dispatch(addUser({ ...user, isLoading: true }));
+      dispatch(setUser({ ...user, isLoading: true }));
       // setUser({ ...user, isLoading: true });
       const newUserInfo = await axios.put(
         `http://localhost:3001/api/users/${user.userId}`,
@@ -61,7 +61,7 @@ const Register = () => {
         }
       );
       // setUser(newUserInfo.data);
-      dispatch(addUser(newUserInfo.data));
+      dispatch(setUser(newUserInfo.data));
     } catch (error) {
       console.log(error);
     }

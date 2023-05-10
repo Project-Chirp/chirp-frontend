@@ -11,10 +11,10 @@ import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
 import Profile from "./pages/Profile";
 import "./App.css";
-import { PostContextProvider } from "./context/PostContext";
 import { RootState } from "./state/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "./state/slices/userSlice";
+import { setUser } from "./state/slices/userSlice";
+import { PostContextProvider } from "./context/PostContext";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -32,7 +32,7 @@ function App() {
             Authorization: `Bearer ${token}`,
           },
         });
-        dispatch(addUser(response.data));
+        dispatch(setUser(response.data));
         // console.log(user.username);
         // setUser(response.data);
       } catch (error) {

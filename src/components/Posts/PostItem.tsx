@@ -49,6 +49,7 @@ const unlikePost = async (userId: number, postId: number) => {
 
 const PostItem = ({ post }: PostProps) => {
   const { updatePost } = usePostContext();
+
   return (
     <Card sx={styles.card}>
       <CardHeader
@@ -92,6 +93,7 @@ const PostItem = ({ post }: PostProps) => {
                   : post.numberOfLikes + 1,
               };
               updatePost(updatedPost);
+              // dispatch(updatePost(updatedPost));
             }}
           >
             {post.isLikedByCurrentUser ? (
