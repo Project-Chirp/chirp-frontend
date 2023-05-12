@@ -14,12 +14,14 @@ import axios from "axios";
 const styles = {
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: { display: "flex", padding: 3 },
-  textFieldContainer: { minWidth: 250 },
+  textFieldContainer: { width: "100%" },
+  textField: { paddingBottom: 2 },
   postActions: {
     display: "flex",
     justifyContent: "space-between",
     marginTop: 1,
   },
+  postButton: { borderRadius: 5 },
 };
 
 const ComposePost = () => {
@@ -28,11 +30,14 @@ const ComposePost = () => {
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const text_content = postTextContent;
-      const response = await axios.post("http://localhost:3001/api/posts", {
-        text_content,
+      const textContent = postTextContent;
+      await axios.post("http://localhost:3001/api/posts", {
+        userId: 1,
+        textContent,
       });
-      console.log(response);
+      setPostTextContent("");
+      // TODO: Update posts in postContext so that the page rerenders rather than refreshing
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -52,7 +57,7 @@ const ComposePost = () => {
             multiline
             onChange={(e) => setPostTextContent(e.target.value)}
             placeholder="What's happening?"
-            sx={{ paddingBottom: 1 }}
+            sx={styles.textField}
             value={postTextContent}
             variant="standard"
           />
@@ -68,7 +73,7 @@ const ComposePost = () => {
             <Button
               disabled={!postTextContent.trim()}
               size="small"
-              sx={{ borderRadius: 10 }}
+              sx={styles.postButton}
               type="submit"
               variant="contained"
             >

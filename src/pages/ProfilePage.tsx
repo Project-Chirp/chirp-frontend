@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button, Typography, Tabs, Tab, Avatar, Box } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import ProfileTweets from "../components/Posts/ProfileTweets";
 
 const styles = {
   userProfileArrow: {
@@ -101,10 +102,10 @@ const ProfilePage = () => {
           {value === "one" && (
             <div>
               {" "}
-              <h1>Header</h1> <p>testing</p>
+              <ProfileTweets />
             </div>
           )}
-          {value === "two" && <p>testing two</p>}
+          {value === "two" && <p>holder</p>}
           {value === "three" && <p>testing three</p>}
           {value === "four" && <p>testing four</p>}
         </div>
