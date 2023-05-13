@@ -3,7 +3,6 @@ import PostItem from "./PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { addPosts } from "../../state/slices/postSlice";
-// import { usePostContext } from "../../context/PostContext";
 
 export type Post = {
   displayName: string;
@@ -17,8 +16,7 @@ export type Post = {
 };
 
 const Timeline = () => {
-  // const { posts, setPosts } = usePostContext();
-  const posts = useAppSelector((state) => state.post.value);
+  const posts = useAppSelector((state) => state.post);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 

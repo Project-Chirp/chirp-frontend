@@ -36,7 +36,6 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [birthDate, setBirthDate] = useState<Date | undefined>();
-  // const { user, setUser } = useUserContext();
 
   const user = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
@@ -46,7 +45,6 @@ const Register = () => {
     const token = await getAccessTokenSilently();
     try {
       dispatch(setUser({ ...user, isLoading: true }));
-      // setUser({ ...user, isLoading: true });
       const newUserInfo = await axios.put(
         `http://localhost:3001/api/users/${user.userId}`,
         {
@@ -60,7 +58,6 @@ const Register = () => {
           },
         }
       );
-      // setUser(newUserInfo.data);
       dispatch(setUser(newUserInfo.data));
     } catch (error) {
       console.log(error);

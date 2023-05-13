@@ -17,7 +17,6 @@ import { PostContextProvider } from "./context/PostContext";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  // const { user, setUser } = useUserContext();
 
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -32,14 +31,12 @@ function App() {
           },
         });
         dispatch(setUser(response.data));
-        console.log(response.data);
-        // setUser(response.data);
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
-  }, [getAccessTokenSilently, dispatch, user]);
+  }, [getAccessTokenSilently, dispatch]);
 
   if (isLoading || (isAuthenticated && user.isLoading)) {
     return (
@@ -54,7 +51,6 @@ function App() {
   }
 
   if (!user.username) {
-    console.log(user);
     return <Register />;
   }
 
