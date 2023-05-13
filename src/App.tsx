@@ -11,8 +11,7 @@ import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
 import Profile from "./pages/Profile";
 import "./App.css";
-import { RootState } from "./state/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { setUser } from "./state/slices/userSlice";
 import { PostContextProvider } from "./context/PostContext";
 
@@ -20,8 +19,8 @@ function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   // const { user, setUser } = useUserContext();
 
-  const user = useSelector((state: RootState) => state.user.value);
-  const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const getUser = async () => {
@@ -33,14 +32,14 @@ function App() {
           },
         });
         dispatch(setUser(response.data));
-        // console.log(user.username);
+        console.log(response.data);
         // setUser(response.data);
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
-  }, [getAccessTokenSilently, dispatch]);
+  }, [getAccessTokenSilently, dispatch, user]);
 
   if (isLoading || (isAuthenticated && user.isLoading)) {
     return (
@@ -55,6 +54,7 @@ function App() {
   }
 
   if (!user.username) {
+    console.log(user);
     return <Register />;
   }
 

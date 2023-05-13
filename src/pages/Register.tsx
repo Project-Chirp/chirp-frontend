@@ -5,7 +5,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { RootState } from "../state/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "./../state/hooks";
 import { setUser } from "../state/slices/userSlice";
 
 const styles = {
@@ -38,8 +38,8 @@ const Register = () => {
   const [birthDate, setBirthDate] = useState<Date | undefined>();
   // const { user, setUser } = useUserContext();
 
-  const user = useSelector((state: RootState) => state.user.value);
-  const dispatch = useDispatch();
+  const user = useAppSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
 
   const submitUserInfo = async (e: React.SyntheticEvent) => {
     e.preventDefault();

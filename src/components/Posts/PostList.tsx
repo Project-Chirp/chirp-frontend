@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import PostItem from "./PostItem";
 import axios from "axios";
-import { RootState } from "../../state/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { addPosts } from "../../state/slices/postSlice";
 // import { usePostContext } from "../../context/PostContext";
 
@@ -19,9 +18,9 @@ export type Post = {
 
 const Timeline = () => {
   // const { posts, setPosts } = usePostContext();
-  const posts = useSelector((state: RootState) => state.post.value);
-  const user = useSelector((state: RootState) => state.user.value);
-  const dispatch = useDispatch();
+  const posts = useAppSelector((state) => state.post.value);
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchPosts = async () => {

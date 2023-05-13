@@ -5,8 +5,7 @@ import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import Stack from "@mui/material/Stack/Stack";
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../state/store";
+import { useAppSelector } from "../../state/hooks";
 
 const styles = {
   button: {
@@ -18,7 +17,7 @@ const styles = {
 
 const AccountMenu = () => {
   const { logout } = useAuth0();
-  const user = useSelector((state: RootState) => state.user.value);
+  const user = useAppSelector((state) => state.user);
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null

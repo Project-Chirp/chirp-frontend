@@ -1,9 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type UserState = {
-  value: User;
-};
-
 type User = {
   isLoading: boolean;
   userId?: number;
@@ -11,8 +7,8 @@ type User = {
   displayName?: string;
 };
 
-const initialState: UserState = {
-  value: { isLoading: true },
+const initialState: User = {
+  isLoading: false,
 };
 
 export const userSlice = createSlice({
@@ -20,7 +16,12 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
-      state.value = action.payload;
+      // state.displayName = action.payload.displayName;
+      // state.isLoading = action.payload.isLoading;
+      // state.userId = action.payload.userId;
+      // state.username = action.payload.username;
+      state = action.payload;
+      console.log(state);
     },
   },
 });

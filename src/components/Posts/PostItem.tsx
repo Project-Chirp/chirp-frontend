@@ -13,9 +13,8 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Post } from "./PostList";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { updatePost } from "../../state/slices/postSlice";
-import { RootState } from "../../state/store";
 
 const styles = {
   card: {
@@ -50,8 +49,8 @@ const unlikePost = async (userId: number | undefined, postId: number) => {
 };
 
 const PostItem = ({ post }: PostProps) => {
-  const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user.value);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
 
   return (
     <Card sx={styles.card}>

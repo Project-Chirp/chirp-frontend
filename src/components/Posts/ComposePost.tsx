@@ -10,9 +10,7 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { useState } from "react";
 import axios from "axios";
-import { RootState } from "../../state/store";
-import { useSelector } from "react-redux";
-
+import { useAppSelector } from "../../state/hooks";
 const styles = {
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: { display: "flex", padding: 3 },
@@ -28,7 +26,7 @@ const styles = {
 
 const ComposePost = () => {
   const [postTextContent, setPostTextContent] = useState("");
-  const user = useSelector((state: RootState) => state.user.value);
+  const user = useAppSelector((state) => state.user);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
