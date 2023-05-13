@@ -13,7 +13,6 @@ import Profile from "./pages/Profile";
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { setUser } from "./state/slices/userSlice";
-import { PostContextProvider } from "./context/PostContext";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -55,18 +54,16 @@ function App() {
   }
 
   return (
-    <PostContextProvider>
-      <div className="App" style={{ display: "flex" }}>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<ProtectedRoute component={Timeline} />} />
-          <Route
-            path="/profile"
-            element={<ProtectedRoute component={Profile} />}
-          />
-        </Routes>
-      </div>
-    </PostContextProvider>
+    <div className="App" style={{ display: "flex" }}>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<ProtectedRoute component={Timeline} />} />
+        <Route
+          path="/profile"
+          element={<ProtectedRoute component={Profile} />}
+        />
+      </Routes>
+    </div>
   );
 }
 

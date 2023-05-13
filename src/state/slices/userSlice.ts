@@ -8,7 +8,7 @@ type User = {
 };
 
 const initialState: User = {
-  isLoading: false,
+  isLoading: true,
 };
 
 export const userSlice = createSlice({
