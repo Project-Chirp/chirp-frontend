@@ -4,7 +4,6 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { RootState } from "../state/store";
 import { useAppDispatch, useAppSelector } from "./../state/hooks";
 import { setUser } from "../state/slices/userSlice";
 
@@ -37,7 +36,7 @@ const Register = () => {
   const [displayName, setDisplayName] = useState("");
   const [birthDate, setBirthDate] = useState<Date | undefined>();
 
-  const user = useAppSelector((state: RootState) => state.user);
+  const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const submitUserInfo = async (e: React.SyntheticEvent) => {
