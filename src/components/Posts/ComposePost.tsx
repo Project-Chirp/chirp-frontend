@@ -11,6 +11,10 @@ import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined
 import { useState } from "react";
 import axios from "axios";
 
+type ComposePostProps = {
+  placeholder: string;
+};
+
 const styles = {
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: { display: "flex", padding: 3 },
@@ -24,7 +28,7 @@ const styles = {
   postButton: { borderRadius: 5 },
 };
 
-const ComposePost = () => {
+const ComposePost = ({ placeholder }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
 
   const onSubmit = async (e: React.SyntheticEvent) => {
@@ -56,7 +60,7 @@ const ComposePost = () => {
             id="standard-multiline-static"
             multiline
             onChange={(e) => setPostTextContent(e.target.value)}
-            placeholder="What's happening?"
+            placeholder={placeholder}
             sx={styles.textField}
             value={postTextContent}
             variant="standard"
