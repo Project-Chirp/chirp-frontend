@@ -64,7 +64,7 @@ function App() {
           element={<ProtectedRoute component={Profile} />}
         />
         <Route
-          path="/post/:id"
+          path="/post/:postId"
           element={<ProtectedRoute component={ExpandedPost} />}
         />
       </Routes>
