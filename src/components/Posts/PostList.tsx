@@ -1,33 +1,25 @@
 import { useEffect } from "react";
 import PostItem from "./PostItem";
 import axios from "axios";
-import { usePostContext } from "../../context/PostContext";
-
-export type Post = {
-  displayName: string;
-  imagePath?: string;
-  isLikedByCurrentUser: boolean;
-  numberOfLikes: number;
-  postId: number;
-  textContent: string;
-  timestamp: string;
-  username: string;
-};
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { Post, setPosts } from "../../state/slices/postSlice";
 
 const Timeline = () => {
-  const { posts, setPosts } = usePostContext();
+  const posts = useAppSelector((state) => state.post);
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get("http://localhost:3001/api/posts", {
         params: {
-          userId: 1,
+          userId: user.userId,
         },
       });
-      setPosts(result.data as Post[]);
+      dispatch(setPosts(result.data as Post[]));
     };
     fetchPosts();
-  }, [setPosts]);
+  }, [dispatch, user]);
 
   return (
     <>
