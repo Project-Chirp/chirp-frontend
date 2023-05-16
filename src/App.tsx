@@ -9,16 +9,16 @@ import { useEffect } from "react";
 import Register from "./pages/Register";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
-import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
-import ExpandedPost from "./pages/ExpandedPost";
-import { useUserContext } from "./context/UserContext";
 import "./App.css";
-import { PostContextProvider } from "./context/PostContext";
+import { useAppDispatch, useAppSelector } from "./state/hooks";
+import { setUser } from "./state/slices/userSlice";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const { user, setUser } = useUserContext();
+
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const getUser = async () => {
@@ -29,13 +29,13 @@ function App() {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUser(response.data);
+        dispatch(setUser(response.data));
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
-  }, [getAccessTokenSilently, setUser]);
+  }, [getAccessTokenSilently, dispatch]);
 
   if (isLoading || (isAuthenticated && user.isLoading)) {
     return (
@@ -54,26 +54,16 @@ function App() {
   }
 
   return (
-    <PostContextProvider>
-      <div className="App" style={{ display: "flex" }}>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<ProtectedRoute component={Timeline} />} />
-          <Route
-            path="/messages"
-            element={<ProtectedRoute component={Messages} />}
-          />
-          <Route
-            path="/profile"
-            element={<ProtectedRoute component={Profile} />}
-          />
-          <Route
-            path="/post/:id"
-            element={<ProtectedRoute component={ExpandedPost} />}
-          />
-        </Routes>
-      </div>
-    </PostContextProvider>
+    <div className="App" style={{ display: "flex" }}>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<ProtectedRoute component={Timeline} />} />
+        <Route
+          path="/profile"
+          element={<ProtectedRoute component={Profile} />}
+        />
+      </Routes>
+    </div>
   );
 }
 
