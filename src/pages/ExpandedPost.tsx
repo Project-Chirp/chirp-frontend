@@ -1,6 +1,5 @@
 import { Box } from "@mui/material";
 import { Stack } from "@mui/system";
-import ComposePost from "../components/Posts/ComposePost";
 import PostList from "../components/Posts/PostList";
 
 const styles = {
