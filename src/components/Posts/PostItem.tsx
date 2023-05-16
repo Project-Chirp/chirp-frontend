@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -20,8 +19,7 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Post } from "./PostList";
 import axios from "axios";
 import { usePostContext } from "../../context/PostContext";
-import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
-import { Link as Routerlink } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const styles = {
   card: {
@@ -61,9 +59,7 @@ const unlikePost = async (userId: number, postId: number) => {
   });
 };
 
-function openPost(nav: NavigateFunction, post: Post) {
-  nav(`${post.postId}`, { state: post });
-}
+const handleNavigation = async (userId: number, postId: number) => {};
 
 const PostItem = ({ post }: PostProps) => {
   const { updatePost } = usePostContext();
@@ -79,10 +75,7 @@ const PostItem = ({ post }: PostProps) => {
         title={`${post.displayName} @${post.username}`}
         subheader={post.timestamp}
       />
-      <CardActionArea
-        component={Routerlink}
-        to={{ pathname: `/post/${post.postId}` }}
-      >
+      <CardActionArea onClick={() => <Navigate to={`/post/${post.postId}`} />}>
         <CardContent sx={{ width: 400 }}>
           <Typography>{post.textContent}</Typography>
         </CardContent>

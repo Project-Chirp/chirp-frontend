@@ -11,6 +11,7 @@ import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
+import ExpandedPost from "./pages/ExpandedPost";
 import { useUserContext } from "./context/UserContext";
 import "./App.css";
 import { PostContextProvider } from "./context/PostContext";

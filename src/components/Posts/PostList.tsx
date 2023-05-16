@@ -14,7 +14,7 @@ export type Post = {
   username: string;
 };
 
-const Timeline = () => {
+const PostList = () => {
   const { posts, setPosts } = usePostContext();
 
   useEffect(() => {
@@ -38,4 +38,4 @@ const Timeline = () => {
   );
 };
 
-export default Timeline;
+export default PostList;
