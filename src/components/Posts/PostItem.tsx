@@ -11,10 +11,9 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import { Post } from "./PostList";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { updatePost } from "../../state/slices/postSlice";
+import { Post, updatePost } from "../../state/slices/postSlice";
 
 const styles = {
   card: {
@@ -32,25 +31,41 @@ type PostProps = {
   post: Post;
 };
 
-const likePost = async (userId: number | undefined, postId: number) => {
-  await axios.post("http://localhost:3001/api/posts/likePost", {
-    postId,
-    userId,
-  });
-};
-
-const unlikePost = async (userId: number | undefined, postId: number) => {
-  await axios.delete("http://localhost:3001/api/posts/unlikePost", {
-    params: {
-      postId,
-      userId,
-    },
-  });
-};
-
 const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+
+  const likePost = async (postId: number, userId?: number) => {
+    await axios.post("http://localhost:3001/api/posts/likePost", {
+      postId,
+      userId,
+    });
+    const updatedPost = {
+      ...post,
+      isLikedByCurrentUser: !post.isLikedByCurrentUser,
+      numberOfLikes: post.isLikedByCurrentUser
+        ? post.numberOfLikes - 1
+        : post.numberOfLikes + 1,
+    };
+    dispatch(updatePost(updatedPost));
+  };
+
+  const unlikePost = async (postId: number, userId?: number) => {
+    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
+      params: {
+        postId,
+        userId,
+      },
+    });
+    const updatedPost = {
+      ...post,
+      isLikedByCurrentUser: !post.isLikedByCurrentUser,
+      numberOfLikes: post.isLikedByCurrentUser
+        ? post.numberOfLikes - 1
+        : post.numberOfLikes + 1,
+    };
+    dispatch(updatePost(updatedPost));
+  };
 
   return (
     <Card sx={styles.card}>
@@ -85,16 +100,8 @@ const PostItem = ({ post }: PostProps) => {
           <IconButton
             onClick={() => {
               post.isLikedByCurrentUser
-                ? unlikePost(user.userId, post.postId)
-                : likePost(user.userId, post.postId);
-              const updatedPost = {
-                ...post,
-                isLikedByCurrentUser: !post.isLikedByCurrentUser,
-                numberOfLikes: post.isLikedByCurrentUser
-                  ? post.numberOfLikes - 1
-                  : post.numberOfLikes + 1,
-              };
-              dispatch(updatePost(updatedPost));
+                ? unlikePost(post.postId, user.userId)
+                : likePost(post.postId, user.userId);
             }}
           >
             {post.isLikedByCurrentUser ? (

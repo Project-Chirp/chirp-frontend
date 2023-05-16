@@ -2,18 +2,7 @@ import { useEffect } from "react";
 import PostItem from "./PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { addPosts } from "../../state/slices/postSlice";
-
-export type Post = {
-  displayName: string;
-  imagePath?: string;
-  isLikedByCurrentUser: boolean;
-  numberOfLikes: number;
-  postId: number;
-  textContent: string;
-  timestamp: string;
-  username: string;
-};
+import { Post, setPosts } from "../../state/slices/postSlice";
 
 const Timeline = () => {
   const posts = useAppSelector((state) => state.post);
@@ -27,7 +16,7 @@ const Timeline = () => {
           userId: user.userId,
         },
       });
-      dispatch(addPosts(result.data as Post[]));
+      dispatch(setPosts(result.data as Post[]));
     };
     fetchPosts();
   }, [dispatch, user]);

@@ -1,5 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Post } from "../../components/Posts/PostList";
+
+export type Post = {
+  displayName: string;
+  imagePath?: string;
+  isLikedByCurrentUser: boolean;
+  numberOfLikes: number;
+  postId: number;
+  textContent: string;
+  timestamp: string;
+  username: string;
+};
 
 const initialState: Post[] = [];
 
@@ -7,7 +17,7 @@ export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    addPosts: (state, action: PayloadAction<Post[]>) => {
+    setPosts: (_, action: PayloadAction<Post[]>) => {
       return action.payload;
     },
     updatePost: (state, action: PayloadAction<Post>) => {
@@ -22,6 +32,6 @@ export const postSlice = createSlice({
   },
 });
 
-export const { addPosts, updatePost } = postSlice.actions;
+export const { setPosts, updatePost } = postSlice.actions;
 
 export default postSlice.reducer;
