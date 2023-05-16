@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { setUser } from "./state/slices/userSlice";
+import ExpandedPost from "./pages/ExpandedPost";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -61,6 +62,10 @@ function App() {
         <Route
           path="/profile"
           element={<ProtectedRoute component={Profile} />}
+        />
+        <Route
+          path="/post/:id"
+          element={<ProtectedRoute component={ExpandedPost} />}
         />
       </Routes>
     </div>
