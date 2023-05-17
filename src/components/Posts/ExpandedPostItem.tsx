@@ -20,6 +20,7 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const styles = {
   card: {
@@ -43,6 +44,21 @@ const ExpandedPostItem = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
+
+  useEffect(() => {
+    const updatedExpandedPost = async () => {
+      const response = await axios.get(
+        "http://localhost:3001/api/posts/fetchPost",
+        {
+          params: {
+            userId: user.userId,
+            postId: post.postId,
+          },
+        }
+      );
+    };
+    updatedExpandedPost();
+  }, [post, user]);
 
   const likePost = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
