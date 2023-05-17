@@ -1,37 +1,26 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { Post } from "./postsSlice";
 
-export type Post = {
-  displayName: string;
-  imagePath?: string;
-  isLikedByCurrentUser: boolean;
-  numberOfLikes: number;
-  postId: number;
-  textContent: string;
-  timestamp: string;
-  username: string;
+const initialState: Post = {
+  displayName: "",
+  isLikedByCurrentUser: false,
+  numberOfLikes: 0,
+  postId: 0,
+  textContent: "",
+  timestamp: "",
+  username: "",
 };
-
-const initialState: Post[] = [];
 
 export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    setPosts: (_, action: PayloadAction<Post[]>) => {
+    setPost: (_, action: PayloadAction<Post>) => {
       return action.payload;
-    },
-    updatePost: (state, action: PayloadAction<Post>) => {
-      const newPosts = state.map((o) => {
-        if (o.postId === action.payload.postId) {
-          return action.payload;
-        }
-        return o;
-      });
-      return newPosts;
     },
   },
 });
 
-export const { setPosts, updatePost } = postSlice.actions;
+export const { setPost } = postSlice.actions;
 
 export default postSlice.reducer;

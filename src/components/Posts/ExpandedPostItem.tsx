@@ -18,9 +18,8 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, updatePost } from "../../state/slices/postsSlice";
+import { updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
-import { setPost } from "../../state/slices/postSlice";
 
 const styles = {
   card: {
@@ -40,13 +39,10 @@ const styles = {
   focusHighlight: {},
 };
 
-type PostProps = {
-  post: Post;
-};
-
-const PostItem = ({ post }: PostProps) => {
+const ExpandedPostItem = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+  const post = useAppSelector((state) => state.post);
 
   const likePost = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
@@ -83,8 +79,7 @@ const PostItem = ({ post }: PostProps) => {
   const navigate = useNavigate();
   const routeChange = () => {
     const path = `/post/${post.postId}`;
-    navigate(path);
-    dispatch(setPost(post));
+    navigate(path, { state: post.postId });
   };
 
   return (
@@ -150,4 +145,4 @@ const PostItem = ({ post }: PostProps) => {
   );
 };
 
-export default PostItem;
+export default ExpandedPostItem;
