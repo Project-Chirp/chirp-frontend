@@ -14,6 +14,7 @@ import { useAppSelector } from "../../state/hooks";
 
 type ComposePostProps = {
   placeholder: string;
+  isReply: boolean;
 };
 
 const styles = {
@@ -29,18 +30,33 @@ const styles = {
   postButton: { borderRadius: 5 },
 };
 
-const ComposePost = ({ placeholder }: ComposePostProps) => {
+const ComposePost = ({ placeholder, isReply }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
+  const post = useAppSelector((state) => state.post);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      await axios.post("http://localhost:3001/api/posts", {
-        userId: user.userId,
-        textContent,
-      });
+      switch (isReply) {
+        case true:
+          await axios.post("http://localhost:3001/api/posts/postReply", {
+            userId: user.userId,
+            parentPostId: post.postId,
+            textContent,
+          });
+          break;
+        case false:
+          await axios.post("http://localhost:3001/api/posts", {
+            userId: user.userId,
+            textContent,
+          });
+          break;
+        default:
+          break;
+      }
+
       setPostTextContent("");
       // TODO: Update posts in postContext so that the page rerenders rather than refreshing
       window.location.reload();

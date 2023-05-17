@@ -16,7 +16,7 @@ const ExpandedPost = () => {
     <Stack direction="row" sx={styles.root}>
       <Box sx={styles.postListContainer}>
         <ExpandedPostItem />
-        <ComposePost placeholder="Post your reply" />
+        <ComposePost placeholder="Post your reply" isReply={true} />
         <ExpandedPostReplies />
       </Box>
     </Stack>

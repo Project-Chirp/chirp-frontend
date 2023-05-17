@@ -14,7 +14,7 @@ const Timeline = () => {
   return (
     <Stack direction="row" sx={styles.root}>
       <Box sx={styles.postListContainer}>
-        <ComposePost placeholder="What's happening?" />
+        <ComposePost placeholder="What's happening?" isReply={false} />
         <PostList />
       </Box>
     </Stack>
