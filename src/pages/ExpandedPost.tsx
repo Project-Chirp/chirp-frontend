@@ -1,7 +1,8 @@
 import { Box } from "@mui/material";
 import { Stack } from "@mui/system";
 import ExpandedPostItem from "../components/Posts/ExpandedPostItem";
-import { PostReplies } from "../components/Posts/PostReplies";
+import ComposePost from "../components/Posts/ComposePost";
+import ExpandedPostReplies from "../components/Posts/ExpandedPostReplies";
 
 const styles = {
   root: {
@@ -15,7 +16,8 @@ const ExpandedPost = () => {
     <Stack direction="row" sx={styles.root}>
       <Box sx={styles.postListContainer}>
         <ExpandedPostItem />
-        <PostReplies />
+        <ComposePost placeholder="Post your reply" />
+        <ExpandedPostReplies />
       </Box>
     </Stack>
   );

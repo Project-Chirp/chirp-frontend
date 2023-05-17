@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import { PostReplies } from "../components/Posts/PostReplies";
 
 const styles = {
   root: {
@@ -12,9 +11,7 @@ const styles = {
 const Profile = () => {
   return (
     <Stack direction="row" sx={styles.root}>
-      <Box sx={styles.postListContainer}>
-        <PostReplies />
-      </Box>
+      <Box sx={styles.postListContainer}></Box>
     </Stack>
   );
 };
