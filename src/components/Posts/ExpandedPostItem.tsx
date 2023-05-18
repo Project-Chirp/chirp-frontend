@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -20,7 +21,6 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const styles = {
   card: {
@@ -30,14 +30,23 @@ const styles = {
     width: "100%",
   },
   actionNumbers: {
-    paddingLeft: 1,
+    paddingLeft: 2,
+    display: "flex",
+    fontWeight: "bold",
+    fontSize: 14.5,
+  },
+  actionData: {
+    display: "flex",
+  },
+  actionTitles: {
+    paddingLeft: 0.5,
+    fontSize: 14.5,
   },
   actionArea: {
     "&:hover $focusHighlight": {
       opacity: 0,
     },
   },
-  focusHighlight: {},
 };
 
 const ExpandedPostItem = () => {
@@ -45,20 +54,23 @@ const ExpandedPostItem = () => {
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
 
-  useEffect(() => {
-    const updatedExpandedPost = async () => {
-      const response = await axios.get(
-        "http://localhost:3001/api/posts/fetchPost",
-        {
-          params: {
-            userId: user.userId,
-            postId: post.postId,
-          },
-        }
-      );
-    };
-    updatedExpandedPost();
-  }, [post, user]);
+  // TODO: fetch post data when a user may redirect directly to this link
+  // useEffect(() => {
+  //   const updatedExpandedPost = async () => {
+  //     const backupFetch = await axios.get(
+  //       "http://localhost:3001/api/posts/fetchPost",
+  //       {
+  //         params: {
+  //           userId: userId,
+  //           postId: postId,
+  //         },
+  //       }
+  //     );
+  //     console.log(backupFetch.data);
+  //     dispatch(setPost(backupFetch.data));
+  //   };
+  //   updatedExpandedPost();
+  // }, [dispatch, userId, postId]);
 
   const likePost = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
@@ -122,6 +134,18 @@ const ExpandedPostItem = () => {
           />
         )}
       </CardActionArea>
+      <Box sx={styles.actionData}>
+        <Typography sx={styles.actionNumbers}>
+          {post.numberOfLikes}
+          <Typography sx={styles.actionTitles}>Likes</Typography>
+        </Typography>
+        <Typography sx={styles.actionNumbers}>
+          1<Typography sx={styles.actionTitles}>Comments</Typography>
+        </Typography>
+        <Typography sx={styles.actionNumbers}>
+          1<Typography sx={styles.actionTitles}>Retweets</Typography>
+        </Typography>
+      </Box>
       <CardActions>
         <Stack
           direction="row"
@@ -140,9 +164,6 @@ const ExpandedPostItem = () => {
             ) : (
               <FavoriteBorderOutlinedIcon />
             )}
-            <Typography sx={styles.actionNumbers}>
-              {post.numberOfLikes}
-            </Typography>
           </IconButton>
           <IconButton>
             <AddCommentOutlinedIcon />
