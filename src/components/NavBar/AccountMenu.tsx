@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import Stack from "@mui/material/Stack/Stack";
 import React from "react";
-import { useUserContext } from "../../context/UserContext";
+import { useAppSelector } from "../../state/hooks";
 
 const styles = {
   button: {
@@ -17,7 +17,7 @@ const styles = {
 
 const AccountMenu = () => {
   const { logout } = useAuth0();
-  const { user } = useUserContext();
+  const user = useAppSelector((state) => state.user);
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null

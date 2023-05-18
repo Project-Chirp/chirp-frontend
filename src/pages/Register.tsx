@@ -4,7 +4,8 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useUserContext } from "../context/UserContext";
+import { useAppDispatch, useAppSelector } from "./../state/hooks";
+import { setUser } from "../state/slices/userSlice";
 
 const styles = {
   container: {
@@ -34,13 +35,15 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [birthDate, setBirthDate] = useState<Date | undefined>();
-  const { user, setUser } = useUserContext();
+
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const submitUserInfo = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const token = await getAccessTokenSilently();
     try {
-      setUser({ ...user, isLoading: true });
+      dispatch(setUser({ ...user, isLoading: true }));
       const newUserInfo = await axios.put(
         `http://localhost:3001/api/users/${user.userId}`,
         {
@@ -54,7 +57,7 @@ const Register = () => {
           },
         }
       );
-      setUser(newUserInfo.data);
+      dispatch(setUser(newUserInfo.data));
     } catch (error) {
       console.log(error);
     }

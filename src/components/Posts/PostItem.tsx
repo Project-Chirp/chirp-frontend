@@ -1,4 +1,4 @@
-import { Card, CardContent, Stack, Typography } from "@mui/material";
+import { Button, Card, CardContent, Stack, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar/Avatar";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -11,9 +11,9 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import { Post } from "./PostList";
 import axios from "axios";
-import { usePostContext } from "../../context/PostContext";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { Post, updatePost } from "../../state/slices/postSlice";
 
 const styles = {
   card: {
@@ -22,33 +22,48 @@ const styles = {
   cardActions: {
     width: "100%",
   },
-  actionNumbers: {
-    paddingLeft: 1,
-  },
 };
 
 type PostProps = {
   post: Post;
 };
 
-const likePost = async (userId: number, postId: number) => {
-  await axios.post("http://localhost:3001/api/posts/likePost", {
-    postId,
-    userId,
-  });
-};
+const PostItem = ({ post }: PostProps) => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
 
-const unlikePost = async (userId: number, postId: number) => {
-  await axios.delete("http://localhost:3001/api/posts/unlikePost", {
-    params: {
+  const likePost = async (postId: number, userId?: number) => {
+    await axios.post("http://localhost:3001/api/posts/likePost", {
       postId,
       userId,
-    },
-  });
-};
+    });
+    const updatedPost = {
+      ...post,
+      isLikedByCurrentUser: !post.isLikedByCurrentUser,
+      numberOfLikes: post.isLikedByCurrentUser
+        ? post.numberOfLikes - 1
+        : post.numberOfLikes + 1,
+    };
+    dispatch(updatePost(updatedPost));
+  };
 
-const PostItem = ({ post }: PostProps) => {
-  const { updatePost } = usePostContext();
+  const unlikePost = async (postId: number, userId?: number) => {
+    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
+      params: {
+        postId,
+        userId,
+      },
+    });
+    const updatedPost = {
+      ...post,
+      isLikedByCurrentUser: !post.isLikedByCurrentUser,
+      numberOfLikes: post.isLikedByCurrentUser
+        ? post.numberOfLikes - 1
+        : post.numberOfLikes + 1,
+    };
+    dispatch(updatePost(updatedPost));
+  };
+
   return (
     <Card sx={styles.card}>
       <CardHeader
@@ -79,41 +94,25 @@ const PostItem = ({ post }: PostProps) => {
           justifyContent="space-between"
           sx={styles.cardActions}
         >
-          <IconButton
+          <Button
             onClick={() => {
               post.isLikedByCurrentUser
-                ? unlikePost(1, post.postId)
-                : likePost(1, post.postId);
-              const updatedPost = {
-                ...post,
-                isLikedByCurrentUser: !post.isLikedByCurrentUser,
-                numberOfLikes: post.isLikedByCurrentUser
-                  ? post.numberOfLikes - 1
-                  : post.numberOfLikes + 1,
-              };
-              updatePost(updatedPost);
+                ? unlikePost(post.postId, user.userId)
+                : likePost(post.postId, user.userId);
             }}
+            startIcon={
+              post.isLikedByCurrentUser ? (
+                <FavoriteOutlinedIcon />
+              ) : (
+                <FavoriteBorderOutlinedIcon />
+              )
+            }
           >
-            {post.isLikedByCurrentUser ? (
-              <FavoriteOutlinedIcon />
-            ) : (
-              <FavoriteBorderOutlinedIcon />
-            )}
-            <Typography sx={styles.actionNumbers}>
-              {post.numberOfLikes}
-            </Typography>
-          </IconButton>
-          <IconButton>
-            <AddCommentOutlinedIcon />
-            <Typography sx={styles.actionNumbers}>1</Typography>
-          </IconButton>
-          <IconButton>
-            <RepeatOutlinedIcon />
-            <Typography sx={styles.actionNumbers}>1</Typography>
-          </IconButton>
-          <IconButton>
-            <ShareOutlinedIcon />
-          </IconButton>
+            {post.numberOfLikes}
+          </Button>
+          <Button startIcon={<AddCommentOutlinedIcon />}>1</Button>
+          <Button startIcon={<RepeatOutlinedIcon />}>1</Button>
+          <Button startIcon={<ShareOutlinedIcon />} />
         </Stack>
       </CardActions>
     </Card>
