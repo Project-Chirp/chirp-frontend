@@ -6,6 +6,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import ProfileTweets from "../components/Posts/ProfileTweets";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
+import ProfileReplies from "../components/Posts/ProfileReplies";
+import ProfileLikes from "../components/Posts/ProfileLikes";
 
 const styles = {
   userProfileArrow: {
@@ -109,9 +111,19 @@ const Profile = () => {
               <ProfileTweets />
             </div>
           )}
-          {value === "two" && <p>holder</p>}
+          {value === "two" && (
+            <div>
+              {" "}
+              <ProfileReplies />
+            </div>
+          )}
           {value === "three" && <p>testing three</p>}
-          {value === "four" && <p>testing four</p>}
+          {value === "four" && (
+            <div>
+              {" "}
+              <ProfileLikes />
+            </div>
+          )}
         </div>
       </Box>
     </>
