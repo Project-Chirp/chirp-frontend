@@ -1,33 +1,28 @@
 import { useEffect } from "react";
 import PostItem from "./PostItem";
 import axios from "axios";
-import { usePostContext } from "../../context/PostContext";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { Post, setPosts } from "../../state/slices/postSlice";
 
-export type Post = {
-  displayName: string;
-  imagePath?: string;
-  isLikedByCurrentUser: boolean;
-  numberOfLikes: number;
-  postId: number;
-  textContent: string;
-  timestamp: string;
-  username: string;
-};
-
-const Timeline = () => {
-  const { posts, setPosts } = usePostContext();
+const ProfileTweets = () => {
+  const posts = useAppSelector((state) => state.post);
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const result = await axios.get("http://localhost:3001/api/posts", { //rememvber to change this to my endpoint
-        params: {
-          userId: 1,
-        },
-      });
-      setPosts(result.data as Post[]);
+      const result = await axios.get(
+        "http://localhost:3001/api/posts/getOwnTweets",
+        {
+          params: {
+            userId: user.userId,
+          },
+        }
+      );
+      dispatch(setPosts(result.data as Post[]));
     };
     fetchPosts();
-  }, [setPosts]);
+  }, [dispatch, user]);
 
   return (
     <>
@@ -38,4 +33,4 @@ const Timeline = () => {
   );
 };
 
-export default Timeline;
+export default ProfileTweets;

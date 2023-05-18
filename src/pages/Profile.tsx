@@ -5,6 +5,7 @@ import { Button, Typography, Tabs, Tab, Avatar, Box } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ProfileTweets from "../components/Posts/ProfileTweets";
 import axios from "axios";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
 
 const styles = {
   userProfileArrow: {
@@ -53,15 +54,10 @@ const Profile = () => {
     console.log(value);
   };
 
-  async function fetchUsername() {
-    const result = await axios.get("http://localhost:3001/api/users/1");
-    console.log(result);
-  }
-
-  useEffect(() => {
-    fetchUsername();
-  }, [value]);
-
+  useEffect(() => {}, [value]);
+  const posts = useAppSelector((state) => state.post);
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   return (
     <>
       <Box width={650}>
@@ -94,7 +90,7 @@ const Profile = () => {
             Edit Profile
           </Button>
           <div style={{ paddingLeft: 15, overflowWrap: "break-word" }}>
-            <h2 style={styles.usernameDisplay}>Username</h2>
+            <h2 style={styles.usernameDisplay}>{user.username}</h2>
             <p>
               Hi guys!. Im new here and I am a big Manchester United Fan. PS I
               also watch anime and play Valorant!
