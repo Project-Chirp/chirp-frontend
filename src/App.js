@@ -2,7 +2,6 @@ import Welcome from "./pages/Welcome";
 import Timeline from "./pages/Timeline";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import ProfilePage from "./pages/ProfilePage";
 import NavBar from "./components/NavBar/NavBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";

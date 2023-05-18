@@ -19,9 +19,11 @@ const Timeline = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/users/getOwnTweets/1"
-      );
+      const result = await axios.get("http://localhost:3001/api/posts", { //rememvber to change this to my endpoint
+        params: {
+          userId: 1,
+        },
+      });
       setPosts(result.data as Post[]);
     };
     fetchPosts();
