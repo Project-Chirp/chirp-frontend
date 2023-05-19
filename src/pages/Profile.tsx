@@ -51,7 +51,10 @@ const styles = {
 const Profile = () => {
   const [value, setValue] = React.useState("one");
   const [tweetCount, setTweetCount] = React.useState();
-
+  const [bio, setBio] = React.useState();
+  const posts = useAppSelector((state) => state.post);
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
     console.log(value);
@@ -67,15 +70,22 @@ const Profile = () => {
       }
     );
     setTweetCount(result.data);
-    console.log(result.data);
+  }
+
+  async function fetchBio() {
+    const result = await axios.get("http://localhost:3001/api/posts/getBio", {
+      params: {
+        userId: user.userId,
+      },
+    });
+    setBio(result.data);
+    console.log(bio);
   }
 
   useEffect(() => {
+    fetchBio();
     fetchTweetCount();
   }, [value]);
-  const posts = useAppSelector((state) => state.post);
-  const user = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
   return (
     <>
       <Box width={650}>
@@ -113,10 +123,7 @@ const Profile = () => {
           </Button>
           <div style={{ paddingLeft: 15, overflowWrap: "break-word" }}>
             <h2 style={styles.usernameDisplay}>{user.username}</h2>
-            <p>
-              Hi guys!. Im new here and I am a big Manchester United Fan. PS I
-              also watch anime and play Valorant!
-            </p>
+            <p>{bio}</p>
           </div>
           <Tabs value={value} onChange={handleChange}>
             <Tab value="one" style={styles.tabSelection} label="Tweets" />
