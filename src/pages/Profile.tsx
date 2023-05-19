@@ -10,19 +10,17 @@ import ProfileReplies from "../components/Posts/ProfileReplies";
 import ProfileLikes from "../components/Posts/ProfileLikes";
 
 const styles = {
-  userProfileArrow: {
-    paddingTop: 30,
-    paddingBottom: 30,
-  },
+  userProfileArrow: {},
   rightBound: {},
   arrowBtn: {
     border: "none",
     backgroundColor: "white",
+    position: "absolute" as "absolute",
   },
   arrowText: {
-    paddingLeft: 2,
-    display: "inline",
+    paddingLeft: 5,
     fontSize: 18,
+    fontWeight: "bold",
   },
   avatar: {
     width: 125,
@@ -46,17 +44,35 @@ const styles = {
   tabSelection: {
     marginLeft: 55,
   },
+  header: { height: "60px", paddingTop: 10 },
+  tweetCountStyle: { fontWeight: "normal", paddingLeft: 5, fontSize: 18 },
 };
 
 const Profile = () => {
   const [value, setValue] = React.useState("one");
+  const [tweetCount, setTweetCount] = React.useState();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
     console.log(value);
   };
 
-  useEffect(() => {}, [value]);
+  async function fetchTweetCount() {
+    const result = await axios.get(
+      "http://localhost:3001/api/posts/getTweetCount",
+      {
+        params: {
+          userId: user.userId,
+        },
+      }
+    );
+    setTweetCount(result.data);
+    console.log(result.data);
+  }
+
+  useEffect(() => {
+    fetchTweetCount();
+  }, [value]);
   const posts = useAppSelector((state) => state.post);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -65,11 +81,15 @@ const Profile = () => {
       <Box width={650}>
         <div style={styles.rightBound}>
           {/**Not sure about this */}
-          <div style={styles.userProfileArrow}>
+          <div style={styles.header}>
+            {" "}
+            <Typography sx={styles.arrowText}>{user.username}</Typography>
             <button style={styles.arrowBtn}>
               <ArrowBackIcon></ArrowBackIcon>
-              <Typography sx={styles.arrowText}>User Profile</Typography>
             </button>
+            <Typography sx={styles.tweetCountStyle}>
+              {tweetCount} Tweets
+            </Typography>
           </div>
           <div style={{ position: "relative" }}>
             <img
