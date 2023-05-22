@@ -14,7 +14,7 @@ export type LatestMessageDetails = {
   displayName: string;
   username: string;
   textContent: string;
-  messageTimestamp: string;
+  timestamp: string;
 };
 
 type MessageListItemProps = {
@@ -29,7 +29,7 @@ const MessagesListItem = ({ latestMessageDetails }: MessageListItemProps) => {
           <Avatar />
         </ListItemAvatar>
         <ListItemText
-          primary={`${latestMessageDetails.displayName} @${latestMessageDetails.username} - ${latestMessageDetails.messageTimestamp}`}
+          primary={`${latestMessageDetails.displayName} @${latestMessageDetails.username} - ${latestMessageDetails.timestamp}`}
           secondary={latestMessageDetails.textContent}
         />
       </Stack>
