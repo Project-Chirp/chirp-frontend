@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { setUser } from "./state/slices/userSlice";
+import Messages from "./pages/Messages";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -58,6 +59,10 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<ProtectedRoute component={Timeline} />} />
+        <Route
+          path="/messages"
+          element={<ProtectedRoute component={Messages} />}
+        />
         <Route
           path="/profile"
           element={<ProtectedRoute component={Profile} />}
