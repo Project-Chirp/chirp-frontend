@@ -1,17 +1,13 @@
 import {
-  ListItem,
   ListItemButton,
-  Box,
   ListItemAvatar,
   Avatar,
   ListItemText,
-  Typography,
+  Stack,
 } from "@mui/material";
 
 const styles = {
-  box: { display: "flex" },
   avatar: { margin: "auto" },
-  text: { fontFamily: "Inter" },
 };
 
 export type LatestMessageDetails = {
@@ -27,24 +23,17 @@ type MessageListItemProps = {
 
 const MessagesListItem = ({ latestMessageDetails }: MessageListItemProps) => {
   return (
-    <ListItem disablePadding component="div">
-      <ListItemButton>
-        <Box sx={styles.box}>
-          <ListItemAvatar sx={styles.avatar}>
-            <Avatar />
-          </ListItemAvatar>
-          <ListItemText
-            primary={
-              <Typography>{`${latestMessageDetails.displayName} @${latestMessageDetails.username} - ${latestMessageDetails.messageTimestamp}`}</Typography>
-            }
-            secondary={
-              <Typography>{latestMessageDetails.textContent}</Typography>
-            }
-            sx={styles.text}
-          />
-        </Box>
-      </ListItemButton>
-    </ListItem>
+    <ListItemButton>
+      <Stack direction="row">
+        <ListItemAvatar sx={styles.avatar}>
+          <Avatar />
+        </ListItemAvatar>
+        <ListItemText
+          primary={`${latestMessageDetails.displayName} @${latestMessageDetails.username} - ${latestMessageDetails.messageTimestamp}`}
+          secondary={latestMessageDetails.textContent}
+        />
+      </Stack>
+    </ListItemButton>
   );
 };
 

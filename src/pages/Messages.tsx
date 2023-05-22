@@ -5,21 +5,21 @@ import SearchBar from "../components/Messages/SearchBar";
 import MessagesList from "../components/Messages/MessagesList";
 
 const styles = {
-  messagesBox: { paddingRight: 2, paddingLeft: 2 },
-  messagesHeaderBox: {
-    padding: 1,
+  messagesContainer: { paddingLeft: 2, paddingRight: 2 },
+  messagesHeader: {
     display: "flex",
+    padding: 1,
     justifyContent: "space-between",
   },
 };
 
 const Messages = () => {
   return (
-    <Box sx={styles.messagesBox}>
-      <Box sx={styles.messagesHeaderBox}>
+    <Box sx={styles.messagesContainer}>
+      <Box sx={styles.messagesHeader}>
         <Typography variant="h6">Messages</Typography>
         <IconButton>
-          <ChatIcon className="ChatIcon" />
+          <ChatIcon />
         </IconButton>
       </Box>
       <SearchBar />
