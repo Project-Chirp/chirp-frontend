@@ -1,9 +1,11 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Link } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import Stack from "@mui/material/Stack/Stack";
 import React from "react";
+import { useAppSelector } from "../../state/hooks";
 
 const styles = {
   button: {
@@ -13,7 +15,10 @@ const styles = {
   nameContainer: { paddingLeft: 2, textAlign: "left" },
 };
 
-const UserAvatar = () => {
+const AccountMenu = () => {
+  const { logout } = useAuth0();
+  const user = useAppSelector((state) => state.user);
+
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -34,8 +39,8 @@ const UserAvatar = () => {
       <Button onClick={handleClick} sx={styles.button}>
         <Avatar />
         <Stack sx={styles.nameContainer}>
-          <Typography>Buzz</Typography>
-          <Typography>@Buzzkill</Typography>
+          <Typography>{user.displayName}</Typography>
+          <Typography>{user.username}</Typography>
         </Stack>
       </Button>
       <Popover
@@ -52,10 +57,12 @@ const UserAvatar = () => {
           horizontal: "center",
         }}
       >
-        <Link>Log Out</Link>
+        <Button component={Link} onClick={() => logout()}>
+          Log Out
+        </Button>
       </Popover>
     </>
   );
 };
 
-export default UserAvatar;
+export default AccountMenu;

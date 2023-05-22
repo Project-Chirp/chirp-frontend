@@ -10,7 +10,7 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { useState } from "react";
 import axios from "axios";
-
+import { useAppSelector } from "../../state/hooks";
 const styles = {
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: { display: "flex", padding: 3 },
@@ -26,16 +26,18 @@ const styles = {
 
 const ComposePost = () => {
   const [postTextContent, setPostTextContent] = useState("");
+  const user = useAppSelector((state) => state.user);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
       await axios.post("http://localhost:3001/api/posts", {
-        userId: 1,
+        userId: user.userId,
         textContent,
       });
       setPostTextContent("");
+      // TODO: Update posts in postContext so that the page rerenders rather than refreshing
       window.location.reload();
     } catch (err) {
       console.log(err);
