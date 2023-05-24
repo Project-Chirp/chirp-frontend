@@ -12,7 +12,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAppSelector } from "../../state/hooks";
 
-type ComposePostProps = {
+type ComposeReplyProps = {
   placeholder: string;
 };
 
@@ -29,7 +29,7 @@ const styles = {
   postButton: { borderRadius: 5 },
 };
 
-const ComposePost = ({ placeholder }: ComposePostProps) => {
+const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
@@ -38,8 +38,9 @@ const ComposePost = ({ placeholder }: ComposePostProps) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      await axios.post("http://localhost:3001/api/posts", {
+      await axios.post("http://localhost:3001/api/posts/postReply", {
         userId: user.userId,
+        parentPostId: post.postId,
         textContent,
       });
       setPostTextContent("");
@@ -93,4 +94,4 @@ const ComposePost = ({ placeholder }: ComposePostProps) => {
   );
 };
 
-export default ComposePost;
+export default ComposeReply;

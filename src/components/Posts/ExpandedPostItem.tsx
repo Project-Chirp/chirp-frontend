@@ -22,8 +22,12 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { useNavigate } from "react-router-dom";
-import { updateExpandedPost } from "../../state/slices/expandedPostSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  setPost,
+  updateExpandedPost,
+} from "../../state/slices/expandedPostSlice";
+import { useEffect } from "react";
 
 const styles = {
   card: {
@@ -73,24 +77,24 @@ const ExpandedPostItem = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
+  const urlParams = useParams();
 
   // TODO: fetch post data when a user may redirect directly to this link
-  // useEffect(() => {
-  //   const updatedExpandedPost = async () => {
-  //     const backupFetch = await axios.get(
-  //       "http://localhost:3001/api/posts/fetchPost",
-  //       {
-  //         params: {
-  //           userId: userId,
-  //           postId: postId,
-  //         },
-  //       }
-  //     );
-  //     console.log(backupFetch.data);
-  //     dispatch(setPost(backupFetch.data));
-  //   };
-  //   updatedExpandedPost();
-  // }, [dispatch, userId, postId]);
+  useEffect(() => {
+    const updatedExpandedPost = async () => {
+      const backupFetch = await axios.get(
+        "http://localhost:3001/api/posts/fetchPost",
+        {
+          params: {
+            userId: user.userId,
+            postId: urlParams.postId,
+          },
+        }
+      );
+      dispatch(setPost(backupFetch.data));
+    };
+    updatedExpandedPost();
+  }, [dispatch, user.userId, urlParams.postId]);
 
   const likePost = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
