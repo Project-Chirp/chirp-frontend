@@ -6,6 +6,7 @@ import {
   CardContent,
   Stack,
   Typography,
+  Divider,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar/Avatar";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
@@ -31,16 +32,22 @@ const styles = {
     width: "100%",
   },
   actionNumbers: {
-    paddingLeft: 2,
     display: "flex",
     fontWeight: "bold",
+    paddingLeft: 2,
     fontSize: 14.5,
   },
   actionData: {
     display: "flex",
+    paddingTop: 1,
+    paddingBottom: 1,
   },
   actionTitles: {
     paddingLeft: 0.5,
+    fontSize: 14.5,
+  },
+  timestamp: {
+    paddingLeft: 2,
     fontSize: 14.5,
   },
   actionArea: {
@@ -135,6 +142,14 @@ const ExpandedPostItem = () => {
           />
         )}
       </CardActionArea>
+
+      <Divider variant="middle" />
+      <Box sx={styles.actionData}>
+        <Typography component={"span"} sx={styles.timestamp}>
+          {post.timestamp}
+        </Typography>
+      </Box>
+      <Divider variant="middle" />
       <Box sx={styles.actionData}>
         <Typography component={"span"} sx={styles.actionNumbers}>
           {post.numberOfLikes}
@@ -147,6 +162,7 @@ const ExpandedPostItem = () => {
           1<Typography sx={styles.actionTitles}>Retweets</Typography>
         </Typography>
       </Box>
+      <Divider variant="middle" />
       <CardActions>
         <Stack
           direction="row"
