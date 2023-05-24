@@ -9,6 +9,7 @@ import {
   Divider,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar/Avatar";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton/IconButton";
@@ -54,6 +55,17 @@ const styles = {
     "&:hover $focusHighlight": {
       opacity: 0,
     },
+  },
+  topHeader: {
+    display: "flex",
+    alignItems: "center",
+  },
+  backButton: {
+    backgroundColor: "transparent",
+    paddingRight: 20,
+  },
+  headerTitle: {
+    fontWeight: "bold",
   },
 };
 
@@ -120,6 +132,12 @@ const ExpandedPostItem = () => {
 
   return (
     <Card sx={styles.card}>
+      <Box style={styles.topHeader}>
+        <IconButton style={styles.backButton} onClick={() => navigate(-1)}>
+          <KeyboardBackspaceIcon color="secondary" />
+        </IconButton>
+        <Typography style={styles.headerTitle}>Tweet</Typography>
+      </Box>
       <CardHeader
         avatar={<Avatar>CK</Avatar>}
         action={
@@ -143,7 +161,6 @@ const ExpandedPostItem = () => {
         )}
       </CardActionArea>
 
-      <Divider variant="middle" />
       <Box sx={styles.actionData}>
         <Typography component={"span"} sx={styles.timestamp}>
           {post.timestamp}
