@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -19,8 +20,8 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
+import { updateExpandedPost } from "../../state/slices/expandedPostSlice";
 
 const styles = {
   card: {
@@ -84,7 +85,7 @@ const ExpandedPostItem = () => {
         ? post.numberOfLikes - 1
         : post.numberOfLikes + 1,
     };
-    dispatch(updatePost(updatedPost));
+    dispatch(updateExpandedPost(updatedPost));
   };
 
   const unlikePost = async (postId: number, userId?: number) => {
@@ -101,7 +102,7 @@ const ExpandedPostItem = () => {
         ? post.numberOfLikes - 1
         : post.numberOfLikes + 1,
     };
-    dispatch(updatePost(updatedPost));
+    dispatch(updateExpandedPost(updatedPost));
   };
 
   const navigate = useNavigate();
@@ -152,28 +153,23 @@ const ExpandedPostItem = () => {
           justifyContent="space-between"
           sx={styles.cardActions}
         >
-          <IconButton
+          <Button
             onClick={() => {
               post.isLikedByCurrentUser
                 ? unlikePost(post.postId, user.userId)
                 : likePost(post.postId, user.userId);
             }}
-          >
-            {post.isLikedByCurrentUser ? (
-              <FavoriteOutlinedIcon />
-            ) : (
-              <FavoriteBorderOutlinedIcon />
-            )}
-          </IconButton>
-          <IconButton>
-            <AddCommentOutlinedIcon />
-          </IconButton>
-          <IconButton>
-            <RepeatOutlinedIcon />
-          </IconButton>
-          <IconButton>
-            <ShareOutlinedIcon />
-          </IconButton>
+            startIcon={
+              post.isLikedByCurrentUser ? (
+                <FavoriteOutlinedIcon />
+              ) : (
+                <FavoriteBorderOutlinedIcon />
+              )
+            }
+          ></Button>
+          <Button startIcon={<AddCommentOutlinedIcon />}></Button>
+          <Button startIcon={<RepeatOutlinedIcon />}></Button>
+          <Button startIcon={<ShareOutlinedIcon />} />
         </Stack>
       </CardActions>
     </Card>
