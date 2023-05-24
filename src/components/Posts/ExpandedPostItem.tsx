@@ -127,8 +127,8 @@ const ExpandedPostItem = () => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={`${post.displayName} @${post.username}`}
-        subheader={post.timestamp}
+        title={`${post.displayName} `}
+        subheader={`@${post.username}`}
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent sx={{ width: 400 }}>
