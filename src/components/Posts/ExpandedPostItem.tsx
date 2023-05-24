@@ -135,14 +135,14 @@ const ExpandedPostItem = () => {
         )}
       </CardActionArea>
       <Box sx={styles.actionData}>
-        <Typography sx={styles.actionNumbers}>
+        <Typography component={"span"} sx={styles.actionNumbers}>
           {post.numberOfLikes}
           <Typography sx={styles.actionTitles}>Likes</Typography>
         </Typography>
-        <Typography sx={styles.actionNumbers}>
+        <Typography component={"span"} sx={styles.actionNumbers}>
           1<Typography sx={styles.actionTitles}>Comments</Typography>
         </Typography>
-        <Typography sx={styles.actionNumbers}>
+        <Typography component={"span"} sx={styles.actionNumbers}>
           1<Typography sx={styles.actionTitles}>Retweets</Typography>
         </Typography>
       </Box>
@@ -167,11 +167,9 @@ const ExpandedPostItem = () => {
           </IconButton>
           <IconButton>
             <AddCommentOutlinedIcon />
-            <Typography sx={styles.actionNumbers}>1</Typography>
           </IconButton>
           <IconButton>
             <RepeatOutlinedIcon />
-            <Typography sx={styles.actionNumbers}>1</Typography>
           </IconButton>
           <IconButton>
             <ShareOutlinedIcon />
