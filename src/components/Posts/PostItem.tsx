@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -29,15 +30,6 @@ const styles = {
   cardActions: {
     width: "100%",
   },
-  actionNumbers: {
-    paddingLeft: 1,
-  },
-  actionArea: {
-    "&:hover $focusHighlight": {
-      opacity: 0,
-    },
-  },
-  focusHighlight: {},
 };
 
 type PostProps = {
@@ -117,33 +109,25 @@ const PostItem = ({ post }: PostProps) => {
           justifyContent="space-between"
           sx={styles.cardActions}
         >
-          <IconButton
+          <Button
             onClick={() => {
               post.isLikedByCurrentUser
                 ? unlikePost(post.postId, user.userId)
                 : likePost(post.postId, user.userId);
             }}
+            startIcon={
+              post.isLikedByCurrentUser ? (
+                <FavoriteOutlinedIcon />
+              ) : (
+                <FavoriteBorderOutlinedIcon />
+              )
+            }
           >
-            {post.isLikedByCurrentUser ? (
-              <FavoriteOutlinedIcon />
-            ) : (
-              <FavoriteBorderOutlinedIcon />
-            )}
-            <Typography sx={styles.actionNumbers}>
-              {post.numberOfLikes}
-            </Typography>
-          </IconButton>
-          <IconButton>
-            <AddCommentOutlinedIcon />
-            <Typography sx={styles.actionNumbers}>1</Typography>
-          </IconButton>
-          <IconButton>
-            <RepeatOutlinedIcon />
-            <Typography sx={styles.actionNumbers}>1</Typography>
-          </IconButton>
-          <IconButton>
-            <ShareOutlinedIcon />
-          </IconButton>
+            {post.numberOfLikes}
+          </Button>
+          <Button startIcon={<AddCommentOutlinedIcon />}>1</Button>
+          <Button startIcon={<RepeatOutlinedIcon />}>1</Button>
+          <Button startIcon={<ShareOutlinedIcon />} />
         </Stack>
       </CardActions>
     </Card>
