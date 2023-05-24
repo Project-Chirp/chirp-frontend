@@ -21,7 +21,7 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
-import { setPost } from "../../state/slices/postSlice";
+import { setPost } from "../../state/slices/expandedPostSlice";
 
 const styles = {
   card: {
