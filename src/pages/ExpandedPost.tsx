@@ -8,7 +8,7 @@ const styles = {
   root: {
     width: "100%",
   },
-  postListContainer: { padding: 2, width: "50%" },
+  postListContainer: { padding: 0, width: "50%" },
 };
 
 const ExpandedPost = () => {

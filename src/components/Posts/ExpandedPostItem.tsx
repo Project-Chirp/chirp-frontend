@@ -31,7 +31,8 @@ import { useEffect } from "react";
 
 const styles = {
   card: {
-    marginBottom: 2,
+    padding: 0,
+    boxShadow: "none",
   },
   cardActions: {
     width: "100%",
@@ -196,19 +197,25 @@ const ExpandedPostItem = () => {
                 ? unlikePost(post.postId, user.userId)
                 : likePost(post.postId, user.userId);
             }}
-            startIcon={
-              post.isLikedByCurrentUser ? (
-                <FavoriteOutlinedIcon />
-              ) : (
-                <FavoriteBorderOutlinedIcon />
-              )
-            }
-          ></Button>
-          <Button startIcon={<AddCommentOutlinedIcon />}></Button>
-          <Button startIcon={<RepeatOutlinedIcon />}></Button>
-          <Button startIcon={<ShareOutlinedIcon />} />
+          >
+            {post.isLikedByCurrentUser ? (
+              <FavoriteOutlinedIcon />
+            ) : (
+              <FavoriteBorderOutlinedIcon />
+            )}
+          </Button>
+          <Button>
+            <AddCommentOutlinedIcon />
+          </Button>
+          <Button>
+            <RepeatOutlinedIcon />
+          </Button>
+          <Button>
+            <ShareOutlinedIcon />
+          </Button>
         </Stack>
       </CardActions>
+      <Divider variant="middle" />
     </Card>
   );
 };

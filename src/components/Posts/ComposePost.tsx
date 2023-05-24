@@ -32,7 +32,6 @@ const styles = {
 const ComposePost = ({ placeholder }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.post);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
