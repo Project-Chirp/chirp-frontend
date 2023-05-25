@@ -9,9 +9,10 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
-import { useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
+import { appendPost } from "../../state/slices/postsSlice";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -49,19 +50,30 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
   const [focusReply, setFocusReply] = useState(false);
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      await axios.post("http://localhost:3001/api/posts/postReply", {
-        userId: user.userId,
-        parentPostId: post.postId,
-        textContent,
-      });
+      const reply = await axios.post(
+        "http://localhost:3001/api/posts/postReply",
+        {
+          userId: user.userId,
+          parentPostId: post.postId,
+          textContent,
+        }
+      );
       setPostTextContent("");
       // TODO: Update posts in postContext so that the page rerenders rather than refreshing
-      window.location.reload();
+      // window.location.reload();
+      dispatch(
+        appendPost({
+          ...reply.data,
+          username: user.username,
+          displayName: user.displayName,
+        })
+      );
     } catch (err) {
       console.log(err);
     }

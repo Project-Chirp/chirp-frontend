@@ -29,9 +29,13 @@ export const postsSlice = createSlice({
       });
       return newPosts;
     },
+    appendPost: (state, action: PayloadAction<Post>) => {
+      state.push(action.payload);
+      return state;
+    },
   },
 });
 
-export const { setPosts, updatePost } = postsSlice.actions;
+export const { setPosts, updatePost, appendPost } = postsSlice.actions;
 
 export default postsSlice.reducer;

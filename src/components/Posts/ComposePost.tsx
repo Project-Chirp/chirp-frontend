@@ -37,13 +37,14 @@ const ComposePost = ({ placeholder }: ComposePostProps) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      await axios.post("http://localhost:3001/api/posts", {
+      const test = await axios.post("http://localhost:3001/api/posts", {
         userId: user.userId,
         textContent,
       });
       setPostTextContent("");
+      console.log(test.data);
       // TODO: Update posts in postContext so that the page rerenders rather than refreshing
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.log(err);
     }
