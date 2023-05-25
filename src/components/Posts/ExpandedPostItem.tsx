@@ -55,6 +55,7 @@ const styles = {
   timestamp: {
     paddingLeft: 2,
     fontSize: 14.5,
+    color: "#a4a8ab",
   },
   actionArea: {
     "&:hover $focusHighlight": {
