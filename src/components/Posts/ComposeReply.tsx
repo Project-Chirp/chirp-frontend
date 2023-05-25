@@ -65,8 +65,6 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
         }
       );
       setPostTextContent("");
-      // TODO: Update posts in postContext so that the page rerenders rather than refreshing
-      // window.location.reload();
       dispatch(
         appendPost({
           ...reply.data,

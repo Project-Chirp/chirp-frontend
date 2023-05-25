@@ -10,7 +10,8 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { useState } from "react";
 import axios from "axios";
-import { useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { appendPost } from "../../state/slices/postsSlice";
 
 type ComposePostProps = {
   placeholder: string;
@@ -32,19 +33,24 @@ const styles = {
 const ComposePost = ({ placeholder }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      const test = await axios.post("http://localhost:3001/api/posts", {
+      const newPost = await axios.post("http://localhost:3001/api/posts", {
         userId: user.userId,
         textContent,
       });
       setPostTextContent("");
-      console.log(test.data);
-      // TODO: Update posts in postContext so that the page rerenders rather than refreshing
-      // window.location.reload();
+      dispatch(
+        appendPost({
+          ...newPost.data,
+          username: user.username,
+          displayName: user.displayName,
+        })
+      );
     } catch (err) {
       console.log(err);
     }
