@@ -90,44 +90,46 @@ const Profile = () => {
     console.log(value);
   };
 
-  async function fetchTweetCount() {
-    const result = await axios.get(
-      "http://localhost:3001/api/profile/getTweetCount",
-      {
-        params: {
-          userId: user.userId,
-        },
-      }
-    );
-    setTweetCount(result.data);
-  }
-
-  async function fetchBio() {
-    const result = await axios.get("http://localhost:3001/api/profile/getBio", {
-      params: {
-        userId: user.userId,
-      },
-    });
-    setBio(result.data);
-  }
-
-  async function fetchJoinDate() {
-    const result = await axios.get(
-      "http://localhost:3001/api/profile/getJoinDate",
-      {
-        params: {
-          userId: user.userId,
-        },
-      }
-    );
-    setJoinDate(result.data);
-  }
-
   useEffect(() => {
+    const fetchTweetCount = async () => {
+      const result = await axios.get(
+        "http://localhost:3001/api/profile/getTweetCount",
+        {
+          params: {
+            userId: user.userId,
+          },
+        }
+      );
+      setTweetCount(result.data);
+    };
+
+    const fetchBio = async () => {
+      const result = await axios.get(
+        "http://localhost:3001/api/profile/getBio",
+        {
+          params: {
+            userId: user.userId,
+          },
+        }
+      );
+      setBio(result.data);
+    };
+
+    const fetchJoinDate = async () => {
+      const result = await axios.get(
+        "http://localhost:3001/api/profile/getJoinDate",
+        {
+          params: {
+            userId: user.userId,
+          },
+        }
+      );
+      setJoinDate(result.data);
+    };
     fetchBio();
     fetchTweetCount();
     fetchJoinDate();
-  }, [value]);
+  }, [value, user]);
   return (
     <>
       <Box width={650}>
