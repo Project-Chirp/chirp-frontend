@@ -20,7 +20,7 @@ const styles = {
       width: drawerWidth,
     },
   },
-  postButton: { backgroundColor: "#22AA6F", borderRadius: 10, margin: 2 },
+  postButton: { borderRadius: 10, margin: 2 },
   stack: {
     marginBottom: "auto",
     width: "100%",

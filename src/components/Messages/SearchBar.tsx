@@ -4,7 +4,7 @@ import { InputAdornment, Stack, TextField } from "@mui/material";
 const SearchBar = () => {
   return (
     //Using a Stack to vary the width of the page
-    <Stack sx={{ width: 400, margin: "auto", paddingTop: 1, paddingBottom: 1 }}>
+    <Stack sx={{ margin: "auto", padding: 1 }}>
       <TextField
         InputProps={{
           startAdornment: (
@@ -19,10 +19,8 @@ const SearchBar = () => {
           "& .MuiOutlinedInput-root": {
             borderRadius: "50px",
           },
-          "& .MuiInputLabel-outlined": {
-            paddingLeft: "20px",
-          },
         }}
+        size="small"
       />
     </Stack>
   );
