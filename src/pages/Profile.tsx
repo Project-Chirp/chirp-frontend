@@ -5,7 +5,7 @@ import { Button, Typography, Tabs, Tab, Avatar, Box } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ProfileTweets from "../components/Posts/ProfileTweets";
 import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { useAppSelector } from "../state/hooks";
 import ProfileReplies from "../components/Posts/ProfileReplies";
 import ProfileLikes from "../components/Posts/ProfileLikes";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -84,9 +84,7 @@ const Profile = () => {
   const [tweetCount, setTweetCount] = React.useState();
   const [bio, setBio] = React.useState();
   const [joinDate, setJoinDate] = React.useState("YYYY-MM-DD");
-  const posts = useAppSelector((state) => state.post);
   const user = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
     console.log(value);
