@@ -12,7 +12,7 @@ const ProfileLikes = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/posts/getOwnLikes",
+        "http://localhost:3001/api/profile/getOwnLikes",
         {
           params: {
             userId: user.userId,

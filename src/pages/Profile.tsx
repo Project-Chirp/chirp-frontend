@@ -8,6 +8,7 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import ProfileReplies from "../components/Posts/ProfileReplies";
 import ProfileLikes from "../components/Posts/ProfileLikes";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 const styles = {
   userProfileArrow: {},
@@ -36,22 +37,53 @@ const styles = {
     marginLeft: 62,
     marginTop: 2,
   },
-  usernameDisplay: {
+  displayName: {
     fontSize: 30,
-    marginTop: 0,
+    marginTop: 10,
+    marginBottom: 5,
+    fontWeight: "bold",
+  },
+  usernameDisplay: {
+    fontWeight: "normal",
+    fontSize: 20,
+    color: "#71797E",
+    marginBottom: 15,
   },
   menu: { marginTop: 60, marginRight: 83 },
   tabSelection: {
-    marginLeft: 55,
+    marginLeft: 85,
   },
   header: { height: "60px", paddingTop: 10 },
   tweetCountStyle: { fontWeight: "normal", paddingLeft: 5, fontSize: 18 },
+  followercountbtn: {
+    border: "none",
+    fontSize: 15,
+    padding: 0,
+    backgroundColor: "white",
+    color: "black",
+    textTransform: "none",
+    marginTop: 2,
+  },
+  followingcountbtn: {
+    border: "none",
+    fontSize: 15,
+    padding: 0,
+    marginLeft: 5,
+    color: "black",
+    backgroundColor: "white",
+    textTransform: "none",
+    marginTop: 2,
+  },
+  bioDisplay: {
+    marginBottom: 20,
+  },
 };
 
 const Profile = () => {
   const [value, setValue] = React.useState("one");
   const [tweetCount, setTweetCount] = React.useState();
   const [bio, setBio] = React.useState();
+  const [joinDate, setJoinDate] = React.useState("YYYY-MM-DD");
   const posts = useAppSelector((state) => state.post);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -62,7 +94,7 @@ const Profile = () => {
 
   async function fetchTweetCount() {
     const result = await axios.get(
-      "http://localhost:3001/api/posts/getTweetCount",
+      "http://localhost:3001/api/profile/getTweetCount",
       {
         params: {
           userId: user.userId,
@@ -73,18 +105,30 @@ const Profile = () => {
   }
 
   async function fetchBio() {
-    const result = await axios.get("http://localhost:3001/api/posts/getBio", {
+    const result = await axios.get("http://localhost:3001/api/profile/getBio", {
       params: {
         userId: user.userId,
       },
     });
     setBio(result.data);
-    console.log(bio);
+  }
+
+  async function fetchJoinDate() {
+    const result = await axios.get(
+      "http://localhost:3001/api/profile/getJoinDate",
+      {
+        params: {
+          userId: user.userId,
+        },
+      }
+    );
+    setJoinDate(result.data);
   }
 
   useEffect(() => {
     fetchBio();
     fetchTweetCount();
+    fetchJoinDate();
   }, [value]);
   return (
     <>
@@ -122,14 +166,32 @@ const Profile = () => {
             Edit Profile
           </Button>
           <div style={{ paddingLeft: 15, overflowWrap: "break-word" }}>
-            <h2 style={styles.usernameDisplay}>{user.username}</h2>
-            <p>{bio}</p>
+            <Typography variant={"h1"} style={styles.displayName}>
+              {user.displayName}
+            </Typography>
+            <Typography variant={"h2"} style={styles.usernameDisplay}>
+              @{user.username}
+            </Typography>
+            <Typography style={styles.bioDisplay}>{bio}</Typography>
+            <div style={{ alignItems: "center", display: "flex" }}>
+              <CalendarMonthIcon></CalendarMonthIcon>
+              <Typography>Joined {joinDate}</Typography>
+            </div>
+            <Button sx={styles.followercountbtn}>
+              <div>
+                <b>500M</b> Followers
+              </div>
+            </Button>
+            <Button sx={styles.followingcountbtn}>
+              <div>
+                <b>0</b> Following
+              </div>
+            </Button>
           </div>
           <Tabs value={value} onChange={handleChange}>
             <Tab value="one" style={styles.tabSelection} label="Tweets" />
             <Tab value="two" style={styles.tabSelection} label="Replies" />
-            <Tab value="three" style={styles.tabSelection} label="Media" />
-            <Tab value="four" style={styles.tabSelection} label="Likes" />
+            <Tab value="three" style={styles.tabSelection} label="Likes" />
           </Tabs>
 
           {value === "one" && (
@@ -144,8 +206,8 @@ const Profile = () => {
               <ProfileReplies />
             </div>
           )}
-          {value === "three" && <p>testing three</p>}
-          {value === "four" && (
+
+          {value === "three" && (
             <div>
               {" "}
               <ProfileLikes />
