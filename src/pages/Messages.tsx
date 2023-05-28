@@ -9,21 +9,26 @@ const styles = {
     borderRadius: 10,
     marginTop: 1,
   },
-  messagesContainer: {
-    borderColor: "#808080",
-    width: "30%",
-  },
-  selectMessageContainer: { width: "50%", margin: "auto", gap: 1 },
   messagesHeader: {
     display: "flex",
+    justifyContent: "space-between",
     paddingTop: 2,
     paddingRight: 2,
     paddingLeft: 2,
     paddingBottom: 0,
-    justifyContent: "space-between",
+  },
+  messageListContainer: {
+    width: "30%",
   },
   root: {
     width: "100%",
+  },
+  selectMessageContainer: {
+    alignItems: "flex-start",
+    display: "flex",
+    flexDirection: "column",
+    margin: "auto",
+    width: "50%",
   },
 };
 
@@ -34,7 +39,7 @@ const Messages = () => {
       sx={styles.root}
       divider={<Divider orientation="vertical" />}
     >
-      <Box sx={styles.messagesContainer}>
+      <Box sx={styles.messageListContainer}>
         <Box sx={styles.messagesHeader}>
           <Typography variant="h6">Messages</Typography>
           <IconButton>
@@ -47,11 +52,7 @@ const Messages = () => {
           <MessagesList />
         </List>
       </Box>
-      <Stack
-        sx={styles.selectMessageContainer}
-        direction="column"
-        alignItems="start"
-      >
+      <Box sx={styles.selectMessageContainer}>
         <Typography variant="h6">Select a Message</Typography>
         <Typography>
           Choose one of your existing conversations or start a new one!
@@ -59,7 +60,7 @@ const Messages = () => {
         <Button variant="contained" sx={styles.button}>
           New Message
         </Button>
-      </Stack>
+      </Box>
     </Stack>
   );
 };

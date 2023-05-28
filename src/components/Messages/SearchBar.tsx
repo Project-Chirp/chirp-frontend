@@ -1,11 +1,24 @@
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { InputAdornment, Stack, TextField } from "@mui/material";
+import { Box, InputAdornment, TextField } from "@mui/material";
+
+const styles = {
+  box: {
+    margin: "auto",
+    padding: 1,
+  },
+  searchField: {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "50px",
+    },
+  },
+};
 
 const SearchBar = () => {
   return (
-    //Using a Stack to vary the width of the page
-    <Stack sx={{ margin: "auto", padding: 1 }}>
+    <Box sx={styles.box}>
       <TextField
+        fullWidth
+        hiddenLabel
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -13,16 +26,11 @@ const SearchBar = () => {
             </InputAdornment>
           ),
         }}
-        hiddenLabel
-        placeholder="Search Direct Message"
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            borderRadius: "50px",
-          },
-        }}
+        placeholder="Search Messages"
         size="small"
+        sx={styles.searchField}
       />
-    </Stack>
+    </Box>
   );
 };
 
