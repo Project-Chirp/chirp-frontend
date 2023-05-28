@@ -16,8 +16,8 @@ const PostList = ({ replies }: PostListProps) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      switch (replies) {
-        case true:
+      try {
+        if (replies) {
           const resultReplies = await axios.get(
             "http://localhost:3001/api/posts/fetchReplies",
             {
@@ -28,9 +28,7 @@ const PostList = ({ replies }: PostListProps) => {
             }
           );
           dispatch(setPosts(resultReplies.data as Post[]));
-
-          break;
-        case false:
+        } else {
           const resultPosts = await axios.get(
             "http://localhost:3001/api/posts",
             {
@@ -40,10 +38,9 @@ const PostList = ({ replies }: PostListProps) => {
             }
           );
           dispatch(setPosts(resultPosts.data as Post[]));
-          break;
-        default:
-          console.log("PostList could not be rendered.");
-          break;
+        }
+      } catch (e) {
+        console.log(e.message);
       }
     };
     fetchPosts();
