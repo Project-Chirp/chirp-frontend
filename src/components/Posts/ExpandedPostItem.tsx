@@ -49,7 +49,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     "&:hover": {
-      backgroundColor: "#FFFFFF",
+      backgroundColor: "white",
     },
   },
   actionData: {
@@ -96,7 +96,6 @@ const ExpandedPostItem = () => {
   const post = useAppSelector((state) => state.post);
   const urlParams = useParams();
 
-  // TODO: fetch post data when a user may redirect directly to this link
   useEffect(() => {
     const updatedExpandedPost = async () => {
       const backupFetch = await axios.get(
@@ -207,7 +206,7 @@ const ExpandedPostItem = () => {
           justifyContent="space-between"
           sx={styles.cardActions}
         >
-          <Button
+          <IconButton
             onClick={() => {
               post.isLikedByCurrentUser
                 ? unlikePost(post.postId, user.userId)
@@ -219,16 +218,16 @@ const ExpandedPostItem = () => {
             ) : (
               <FavoriteBorderOutlinedIcon />
             )}
-          </Button>
-          <Button>
+          </IconButton>
+          <IconButton>
             <AddCommentOutlinedIcon />
-          </Button>
-          <Button>
+          </IconButton>
+          <IconButton>
             <RepeatOutlinedIcon />
-          </Button>
-          <Button>
+          </IconButton>
+          <IconButton>
             <ShareOutlinedIcon />
-          </Button>
+          </IconButton>
         </Stack>
       </CardActions>
       <Divider variant="middle" />

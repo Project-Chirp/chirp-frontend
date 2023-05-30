@@ -33,12 +33,9 @@ const theme = createTheme({
         disableTouchRipple: true,
       },
     },
-    MuiAvatar: {
-      defaultProps: {},
-    },
     MuiIconButton: {
       defaultProps: {
-        disableRipple: true,
+        color: "primary",
       },
     },
   },
