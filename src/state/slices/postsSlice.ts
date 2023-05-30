@@ -30,7 +30,7 @@ export const postsSlice = createSlice({
       return newPosts;
     },
     appendPost: (state, action: PayloadAction<Post>) => {
-      state.push(action.payload);
+      state.unshift(action.payload);
       return state;
     },
   },
