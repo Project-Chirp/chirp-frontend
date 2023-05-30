@@ -3,6 +3,7 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  Divider,
   Stack,
   Typography,
 } from "@mui/material";
@@ -25,7 +26,7 @@ import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 
 const styles = {
   card: {
-    marginBottom: 2,
+    boxShadow: "none",
   },
   cardActions: {
     width: "100%",
@@ -130,6 +131,7 @@ const PostItem = ({ post }: PostProps) => {
           <Button startIcon={<ShareOutlinedIcon />} />
         </Stack>
       </CardActions>
+      <Divider light />
     </Card>
   );
 };

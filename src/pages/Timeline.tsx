@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import ComposePost from "../components/Posts/ComposePost";
 import { Stack } from "@mui/system";
 import PostList from "../components/Posts/PostList";
@@ -7,7 +7,7 @@ const styles = {
   root: {
     width: "100%",
   },
-  postListContainer: { padding: 2, width: "50%" },
+  postListContainer: { width: "50%" },
 };
 
 const Timeline = () => {
@@ -17,6 +17,7 @@ const Timeline = () => {
         <ComposePost placeholder="What's happening?" />
         <PostList />
       </Box>
+      <Divider orientation="vertical" />
     </Stack>
   );
 };

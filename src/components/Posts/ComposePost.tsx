@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   IconButton,
   Stack,
   TextField,
@@ -96,6 +97,7 @@ const ComposePost = ({ placeholder }: ComposePostProps) => {
           </Box>
         </Box>
       </Box>
+      <Divider light />
     </form>
   );
 };
