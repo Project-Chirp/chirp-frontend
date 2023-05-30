@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Card,
-  CardActionArea,
   CardContent,
   Stack,
   Typography,
@@ -145,10 +144,6 @@ const ExpandedPostItem = () => {
   };
 
   const navigate = useNavigate();
-  const routeChange = () => {
-    const path = `/post/${post.postId}`;
-    navigate(path, { state: post.postId });
-  };
 
   return (
     <Card sx={styles.card}>
@@ -168,19 +163,16 @@ const ExpandedPostItem = () => {
         title={`${post.displayName} `}
         subheader={`@${post.username}`}
       />
-      <CardActionArea onClick={() => routeChange()}>
-        <CardContent sx={{ width: 400 }}>
-          <Typography>{post.textContent}</Typography>
-        </CardContent>
-        {post.imagePath && (
-          <CardMedia
-            sx={{ maxWidth: 200, margin: "auto" }}
-            component="img"
-            image={post.imagePath}
-          />
-        )}
-      </CardActionArea>
-
+      <CardContent sx={{ width: 400 }}>
+        <Typography>{post.textContent}</Typography>
+      </CardContent>
+      {post.imagePath && (
+        <CardMedia
+          sx={{ maxWidth: 200, margin: "auto" }}
+          component="img"
+          image={post.imagePath}
+        />
+      )}
       <Box sx={styles.timestampBox}>
         <Typography component={"span"} sx={styles.timestamp}>
           {post.timestamp}
