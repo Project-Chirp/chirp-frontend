@@ -24,7 +24,7 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  setPost,
+  setExpandedPost,
   updateExpandedPost,
 } from "../../state/slices/expandedPostSlice";
 import { useEffect } from "react";
@@ -107,7 +107,7 @@ const ExpandedPostItem = () => {
           },
         }
       );
-      dispatch(setPost(backupFetch.data));
+      dispatch(setExpandedPost(backupFetch.data));
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);

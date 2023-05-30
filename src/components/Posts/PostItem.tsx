@@ -21,7 +21,7 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
-import { setPost } from "../../state/slices/expandedPostSlice";
+import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 
 const styles = {
   card: {
@@ -76,7 +76,7 @@ const PostItem = ({ post }: PostProps) => {
   const routeChange = () => {
     const path = `/post/${post.postId}`;
     navigate(path);
-    dispatch(setPost(post));
+    dispatch(setExpandedPost(post));
   };
 
   return (

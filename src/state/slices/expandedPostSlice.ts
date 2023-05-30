@@ -15,7 +15,7 @@ export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    setPost: (_, action: PayloadAction<Post>) => {
+    setExpandedPost: (_, action: PayloadAction<Post>) => {
       return action.payload;
     },
     updateExpandedPost: (_, action: PayloadAction<Post>) => {
@@ -24,6 +24,6 @@ export const postSlice = createSlice({
   },
 });
 
-export const { setPost, updateExpandedPost } = postSlice.actions;
+export const { setExpandedPost, updateExpandedPost } = postSlice.actions;
 
 export default postSlice.reducer;
