@@ -82,7 +82,7 @@ const styles = {
   },
   backButton: {
     backgroundColor: "transparent",
-    paddingRight: 20,
+    paddingRight: 10,
   },
   headerTitle: {
     fontWeight: "bold",
