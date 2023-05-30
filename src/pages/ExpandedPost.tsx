@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import { Stack } from "@mui/system";
 import ExpandedPostItem from "../components/Posts/ExpandedPostItem";
 import ComposeReply from "../components/Posts/ComposeReply";
@@ -19,6 +19,7 @@ const ExpandedPost = () => {
         <ComposeReply placeholder="Post your reply" />
         <ExpandedPostList />
       </Box>
+      <Divider orientation="vertical" />
     </Stack>
   );
 };

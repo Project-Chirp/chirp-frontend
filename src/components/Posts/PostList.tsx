@@ -7,7 +7,6 @@ import { Post, setPosts } from "../../state/slices/postsSlice";
 const PostList = () => {
   const posts = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.post);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const PostList = () => {
       }
     };
     fetchPosts();
-  }, [dispatch, user, post]);
+  }, [dispatch, user]);
 
   return (
     <>

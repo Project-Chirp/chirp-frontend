@@ -96,6 +96,7 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
               value={postTextContent}
               variant="standard"
               onFocus={() => setFocusReply(true)}
+              onBlur={() => setFocusReply(false)}
               InputProps={{ disableUnderline: true }}
             />
             <Button
@@ -121,7 +122,7 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
             </Stack>
           </Box>
         )}
-        <Divider variant="middle" />
+        <Divider />
       </Box>
     </form>
   );
