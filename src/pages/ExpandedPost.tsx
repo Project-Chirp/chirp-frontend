@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { Stack } from "@mui/system";
 import ExpandedPostItem from "../components/Posts/ExpandedPostItem";
 import ComposeReply from "../components/Posts/ComposeReply";
-import PostList from "../components/Posts/PostList";
+import ExpandedPostList from "../components/Posts/ExpandedPostList";
 
 const styles = {
   root: {
@@ -17,7 +17,7 @@ const ExpandedPost = () => {
       <Box sx={styles.postListContainer}>
         <ExpandedPostItem />
         <ComposeReply placeholder="Post your reply" />
-        <PostList replies={true} />
+        <ExpandedPostList />
       </Box>
     </Stack>
   );
