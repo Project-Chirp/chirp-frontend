@@ -142,7 +142,7 @@ const ExpandedPostItem = () => {
         <IconButton style={styles.backButton} onClick={() => navigate(-1)}>
           <KeyboardBackspaceIcon color="secondary" />
         </IconButton>
-        <Typography style={styles.headerTitle}>Tweet</Typography>
+        <Typography style={styles.headerTitle}>Post</Typography>
       </Box>
       <CardHeader
         avatar={<Avatar>CK</Avatar>}
