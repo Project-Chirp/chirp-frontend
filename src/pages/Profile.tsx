@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Button, Typography, Tabs, Tab, Avatar, Box } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ProfileTweets from "../components/Posts/ProfileTweets";
@@ -9,26 +9,24 @@ import { useAppSelector } from "../state/hooks";
 import ProfileReplies from "../components/Posts/ProfileReplies";
 import ProfileLikes from "../components/Posts/ProfileLikes";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { useNavigate } from "react-router-dom";
+import IconButton from "@mui/material/IconButton/IconButton";
 
 const styles = {
-  userProfileArrow: {},
-  rightBound: {},
   arrowBtn: {
     border: "none",
     backgroundColor: "white",
-    position: "absolute" as "absolute",
   },
   arrowText: {
-    paddingLeft: 5,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
   },
   avatar: {
-    width: 125,
-    height: 125,
-    position: "absolute",
-    left: 20,
-    top: 135,
+    width: 140,
+    height: 140,
+    left: 25,
+    zIndex: 2,
+    top: -80,
   },
   editBtn: {
     backgroundColor: "black",
@@ -38,7 +36,7 @@ const styles = {
     marginTop: 2,
   },
   displayName: {
-    fontSize: 30,
+    fontSize: 25,
     marginTop: 10,
     marginBottom: 5,
     fontWeight: "bold",
@@ -53,8 +51,13 @@ const styles = {
   tabSelection: {
     marginLeft: 85,
   },
-  header: { height: "60px", paddingTop: 10 },
-  tweetCountStyle: { fontWeight: "normal", paddingLeft: 5, fontSize: 18 },
+  header: {
+    height: "60px",
+    paddingTop: 10,
+    display: "flex",
+    alignItems: "center",
+  },
+  tweetCountStyle: { fontWeight: "normal", fontSize: 15 },
   followercountbtn: {
     border: "none",
     fontSize: 15,
@@ -77,87 +80,76 @@ const styles = {
   bioDisplay: {
     marginBottom: 20,
   },
+  parentBox: {
+    width: 650,
+  },
+  avatarBannerBox: {
+    height: 200,
+  },
+  profileInfoBox: {
+    paddingLeft: 15,
+    paddingTop: 20,
+  },
+  calendarBox: {
+    alignItems: "center",
+    display: "flex",
+  },
 };
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [value, setValue] = React.useState("one");
-  const [tweetCount, setTweetCount] = React.useState();
-  const [bio, setBio] = React.useState();
-  const [joinDate, setJoinDate] = React.useState("YYYY-MM-DD");
+  const [profileContents, setProfileContents] = React.useState({
+    tweetcount: "",
+    bio: "",
+    joindate: "",
+  });
   const user = useAppSelector((state) => state.user);
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-    console.log(value);
-  };
 
   useEffect(() => {
-    const fetchTweetCount = async () => {
+    const fetchProfileContents = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getTweetCount",
+        "http://localhost:3001/api/profile/getProfileContents",
         {
           params: {
             userId: user.userId,
           },
         }
       );
-      setTweetCount(result.data);
+      setProfileContents(result.data);
     };
 
-    const fetchBio = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getBio",
-        {
-          params: {
-            userId: user.userId,
-          },
-        }
-      );
-      setBio(result.data);
-    };
-
-    const fetchJoinDate = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getJoinDate",
-        {
-          params: {
-            userId: user.userId,
-          },
-        }
-      );
-      setJoinDate(result.data);
-    };
-    fetchBio();
-    fetchTweetCount();
-    fetchJoinDate();
+    fetchProfileContents();
   }, [value, user]);
   return (
     <>
-      <Box width={650}>
-        <div style={styles.rightBound}>
+      <Box style={styles.parentBox}>
+        <Box>
           {/**Not sure about this */}
-          <div style={styles.header}>
-            {" "}
-            <Typography sx={styles.arrowText}>{user.username}</Typography>
-            <button style={styles.arrowBtn}>
-              <ArrowBackIcon></ArrowBackIcon>
-            </button>
-            <Typography sx={styles.tweetCountStyle}>
-              {tweetCount} Tweets
-            </Typography>
-          </div>
-          <div style={{ position: "relative" }}>
-            <img
+          <Box style={styles.header}>
+            <IconButton style={styles.arrowBtn} onClick={() => navigate(-1)}>
+              <KeyboardBackspaceIcon color="secondary" />
+            </IconButton>
+            <Box>
+              <Typography sx={styles.arrowText}>{user.username}</Typography>
+              <Typography sx={styles.tweetCountStyle}>
+                {profileContents.tweetcount} Tweets
+              </Typography>
+            </Box>
+          </Box>
+          <Box sx={styles.avatarBannerBox}>
+            <Box
+              component="img"
+              sx={{ position: "relative", width: "650px", height: "200px" }}
               src={process.env.PUBLIC_URL + "/blue.jpg"}
               alt="temp"
-              width="650px"
-              height="200px"
-            ></img>
+            />
             <Avatar
               alt="profile picture"
               src={process.env.PUBLIC_URL + "/rock.jpg"}
               sx={styles.avatar}
             />
-          </div>
+          </Box>
           <Button
             variant="contained"
             startIcon={<EditIcon />}
@@ -165,55 +157,60 @@ const Profile = () => {
           >
             Edit Profile
           </Button>
-          <div style={{ paddingLeft: 15, overflowWrap: "break-word" }}>
-            <Typography variant={"h1"} style={styles.displayName}>
+
+          <Box style={styles.profileInfoBox}>
+            <Typography variant={"h2"} style={styles.displayName}>
               {user.displayName}
             </Typography>
-            <Typography variant={"h2"} style={styles.usernameDisplay}>
+            <Typography variant={"h3"} style={styles.usernameDisplay}>
               @{user.username}
             </Typography>
-            <Typography style={styles.bioDisplay}>{bio}</Typography>
-            <div style={{ alignItems: "center", display: "flex" }}>
+            <Typography style={styles.bioDisplay}>
+              {profileContents.bio}
+            </Typography>
+            <Box style={styles.calendarBox}>
               <CalendarMonthIcon></CalendarMonthIcon>
-              <Typography>Joined {joinDate}</Typography>
-            </div>
+              <Typography>Joined {profileContents.joindate}</Typography>
+            </Box>
             <Button sx={styles.followercountbtn}>
-              <div>
+              <Box>
                 <b>500M</b> Followers
-              </div>
+              </Box>
             </Button>
             <Button sx={styles.followingcountbtn}>
-              <div>
+              <Box>
                 <b>0</b> Following
-              </div>
+              </Box>
             </Button>
-          </div>
-          <Tabs value={value} onChange={handleChange}>
+          </Box>
+          <Tabs
+            value={value}
+            onChange={(_: React.SyntheticEvent, newValue: string) =>
+              setValue(newValue)
+            }
+          >
             <Tab value="one" style={styles.tabSelection} label="Tweets" />
             <Tab value="two" style={styles.tabSelection} label="Replies" />
             <Tab value="three" style={styles.tabSelection} label="Likes" />
           </Tabs>
 
           {value === "one" && (
-            <div>
-              {" "}
+            <Box>
               <ProfileTweets />
-            </div>
+            </Box>
           )}
           {value === "two" && (
-            <div>
-              {" "}
+            <Box>
               <ProfileReplies />
-            </div>
+            </Box>
           )}
 
           {value === "three" && (
-            <div>
-              {" "}
+            <Box>
               <ProfileLikes />
-            </div>
+            </Box>
           )}
-        </div>
+        </Box>
       </Box>
     </>
   );
