@@ -13,7 +13,11 @@ const styles = {
   },
 };
 
-const SearchBar = () => {
+type SearchBarProps = {
+  placeholder: string;
+};
+
+const SearchBar = ({ placeholder }: SearchBarProps) => {
   return (
     <Box sx={styles.box}>
       <TextField
@@ -26,7 +30,7 @@ const SearchBar = () => {
             </InputAdornment>
           ),
         }}
-        placeholder="Search Messages"
+        placeholder={placeholder}
         size="small"
         sx={styles.searchField}
       />

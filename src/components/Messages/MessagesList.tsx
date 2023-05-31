@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import MessagesListItem, { LatestMessageDetails } from "./MessagesListItem";
 import { useAppSelector } from "../../state/hooks";
+import { List } from "@mui/material";
 
 const MessagesList = () => {
   const user = useAppSelector((state) => state.user);
@@ -22,11 +23,11 @@ const MessagesList = () => {
   }, [user]);
 
   return (
-    <>
+    <List component="div">
       {latestMessageDetails.map((o, index) => (
         <MessagesListItem latestMessageDetails={o} key={index} />
       ))}
-    </>
+    </List>
   );
 };
 

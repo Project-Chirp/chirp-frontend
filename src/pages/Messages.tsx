@@ -1,4 +1,4 @@
-import { Box, Button, Divider, List, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
 import SearchBar from "../components/Messages/SearchBar";
@@ -46,11 +46,9 @@ const Messages = () => {
             <ChatIcon />
           </IconButton>
         </Box>
-        <SearchBar />
-        <List component="div">
-          <Divider />
-          <MessagesList />
-        </List>
+        <SearchBar placeholder="Search Messages" />
+        <Divider />
+        <MessagesList />
       </Box>
       <Box sx={styles.selectMessageContainer}>
         <Typography variant="h6">Select a Message</Typography>
