@@ -100,9 +100,9 @@ const Profile = () => {
   const navigate = useNavigate();
   const [value, setValue] = React.useState("one");
   const [profileContents, setProfileContents] = React.useState({
-    tweetcount: "",
+    postCount: "",
     bio: "",
-    joindate: "",
+    joinedDate: "",
   });
   const user = useAppSelector((state) => state.user);
 
@@ -116,7 +116,15 @@ const Profile = () => {
           },
         }
       );
-      setProfileContents(result.data);
+      const date = new Date(result.data.joinedDate);
+      const month = date.toLocaleString("default", { month: "long" });
+      const year = date.getFullYear();
+      const formattedDate = `${month} ${year}`;
+      setProfileContents({
+        postCount: result.data.postCount,
+        bio: result.data.bio,
+        joinedDate: formattedDate,
+      });
     };
 
     fetchProfileContents();
@@ -125,7 +133,6 @@ const Profile = () => {
     <>
       <Box style={styles.parentBox}>
         <Box>
-          {/**Not sure about this */}
           <Box style={styles.header}>
             <IconButton style={styles.arrowBtn} onClick={() => navigate(-1)}>
               <KeyboardBackspaceIcon color="secondary" />
@@ -133,7 +140,7 @@ const Profile = () => {
             <Box>
               <Typography sx={styles.arrowText}>{user.username}</Typography>
               <Typography sx={styles.tweetCountStyle}>
-                {profileContents.tweetcount} Tweets
+                {profileContents.postCount} Tweets
               </Typography>
             </Box>
           </Box>
@@ -169,8 +176,8 @@ const Profile = () => {
               {profileContents.bio}
             </Typography>
             <Box style={styles.calendarBox}>
-              <CalendarMonthIcon></CalendarMonthIcon>
-              <Typography>Joined {profileContents.joindate}</Typography>
+              <CalendarMonthIcon />
+              <Typography>Joined {profileContents.joinedDate}</Typography>
             </Box>
             <Button sx={styles.followercountbtn}>
               <Box>
