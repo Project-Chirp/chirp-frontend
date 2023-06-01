@@ -36,10 +36,9 @@ const styles = {
   cardActions: {
     width: "100%",
   },
-  actionNumbers: {
+  actionButton: {
     border: "none",
     fontSize: 14.5,
-    padding: 0,
     backgroundColor: "white",
     color: "black",
     textTransform: "none",
@@ -47,6 +46,7 @@ const styles = {
     marginRight: 2,
     display: "flex",
     alignItems: "center",
+    justifyContent: "space-between",
     "&:hover": {
       backgroundColor: "white",
     },
@@ -56,6 +56,8 @@ const styles = {
     paddingTop: 1,
     paddingBottom: 1,
     paddingLeft: 1,
+    justifyContent: "space-between",
+    marginRight: "30%",
   },
   timestampBox: {
     display: "flex",
@@ -63,8 +65,13 @@ const styles = {
     paddingBottom: 1,
   },
   actionTitles: {
-    paddingLeft: 0.5,
+    marginRight: 0,
     fontSize: 14.5,
+  },
+  actionNumbers: {
+    fontWeight: "bold",
+    fontSize: 14.5,
+    marginLeft: "auto",
   },
   timestamp: {
     paddingLeft: 2,
@@ -180,14 +187,16 @@ const ExpandedPostItem = () => {
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionData}>
-        <Button component={"span"} sx={styles.actionNumbers}>
-          {post.numberOfLikes}
-          <Typography sx={styles.actionTitles}>Likes</Typography>
+        <Button sx={styles.actionButton}>
+          <Typography sx={styles.actionNumbers}>
+            <b>{post.numberOfLikes}</b>
+          </Typography>
+          <Typography sx={styles.actionTitles}>{` Likes`}</Typography>
         </Button>
-        <Button component={"span"} sx={styles.actionNumbers}>
+        <Button sx={styles.actionButton}>
           1<Typography sx={styles.actionTitles}>Comments</Typography>
         </Button>
-        <Button component={"span"} sx={styles.actionNumbers}>
+        <Button sx={styles.actionButton}>
           1<Typography sx={styles.actionTitles}>Retweets</Typography>
         </Button>
       </Box>
