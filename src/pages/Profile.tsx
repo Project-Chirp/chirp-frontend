@@ -96,11 +96,17 @@ const styles = {
   },
 };
 
+type ProfileContent = {
+  postCount: number;
+  bio: string;
+  joinedDate: string;
+};
+
 const Profile = () => {
   const navigate = useNavigate();
   const [value, setValue] = React.useState("one");
-  const [profileContents, setProfileContents] = React.useState({
-    postCount: "",
+  const [profileContents, setProfileContents] = React.useState<ProfileContent>({
+    postCount: 0,
     bio: "",
     joinedDate: "",
   });
@@ -121,8 +127,7 @@ const Profile = () => {
       const year = date.getFullYear();
       const formattedDate = `${month} ${year}`;
       setProfileContents({
-        postCount: result.data.postCount,
-        bio: result.data.bio,
+        ...result.data,
         joinedDate: formattedDate,
       });
     };
