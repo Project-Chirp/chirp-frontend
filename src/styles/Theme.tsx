@@ -30,11 +30,12 @@ const theme = createTheme({
     MuiButtonBase: {
       defaultProps: {
         disableRipple: true,
+        disableTouchRipple: true,
       },
     },
-    MuiCardActionArea: {
+    MuiIconButton: {
       defaultProps: {
-        disableRipple: true,
+        color: "primary",
       },
     },
   },

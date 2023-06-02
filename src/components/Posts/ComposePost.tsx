@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   IconButton,
   Stack,
   TextField,
@@ -10,7 +11,13 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { useState } from "react";
 import axios from "axios";
-import { useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { appendPost } from "../../state/slices/postsSlice";
+
+type ComposePostProps = {
+  placeholder: string;
+};
+
 const styles = {
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: { display: "flex", padding: 3 },
@@ -24,21 +31,27 @@ const styles = {
   postButton: { borderRadius: 5 },
 };
 
-const ComposePost = () => {
+const ComposePost = ({ placeholder }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      await axios.post("http://localhost:3001/api/posts", {
+      const newPost = await axios.post("http://localhost:3001/api/posts", {
         userId: user.userId,
         textContent,
       });
       setPostTextContent("");
-      // TODO: Update posts in postContext so that the page rerenders rather than refreshing
-      window.location.reload();
+      dispatch(
+        appendPost({
+          ...newPost.data,
+          username: user.username,
+          displayName: user.displayName,
+        })
+      );
     } catch (err) {
       console.log(err);
     }
@@ -57,7 +70,7 @@ const ComposePost = () => {
             id="standard-multiline-static"
             multiline
             onChange={(e) => setPostTextContent(e.target.value)}
-            placeholder="What's happening?"
+            placeholder={placeholder}
             sx={styles.textField}
             value={postTextContent}
             variant="standard"
@@ -83,6 +96,7 @@ const ComposePost = () => {
           </Box>
         </Box>
       </Box>
+      <Divider light />
     </form>
   );
 };
