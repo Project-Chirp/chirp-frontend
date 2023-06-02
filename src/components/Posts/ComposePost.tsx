@@ -50,7 +50,6 @@ const ComposePost = ({ placeholder }: ComposePostProps) => {
           ...newPost.data,
           username: user.username,
           displayName: user.displayName,
-          numberOfLikes: 0,
         })
       );
     } catch (err) {

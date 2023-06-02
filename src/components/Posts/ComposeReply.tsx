@@ -70,7 +70,6 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
           ...reply.data,
           username: user.username,
           displayName: user.displayName,
-          numberOfLikes: 0,
         })
       );
     } catch (err) {
