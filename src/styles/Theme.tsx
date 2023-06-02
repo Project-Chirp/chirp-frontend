@@ -32,9 +32,6 @@ const theme = createTheme({
         disableRipple: true,
       },
     },
-    MuiAvatar: {
-      defaultProps: {},
-    },
     MuiCardActionArea: {
       defaultProps: {
         disableRipple: true,
