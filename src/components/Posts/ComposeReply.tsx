@@ -97,7 +97,6 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
               value={postTextContent}
               variant="standard"
               onFocus={() => setFocusReply(true)}
-              onBlur={() => setFocusReply(false)}
               InputProps={{ disableUnderline: true }}
             />
             <Button
