@@ -193,7 +193,7 @@ const ExpandedPostItem = () => {
           1<Typography sx={styles.actionTitles}>Comments</Typography>
         </Button>
         <Button component={"span"} sx={styles.actionButton}>
-          1<Typography sx={styles.actionTitles}>Retweets</Typography>
+          1<Typography sx={styles.actionTitles}>Reposts</Typography>
         </Button>
       </Box>
       <Divider variant="middle" />
