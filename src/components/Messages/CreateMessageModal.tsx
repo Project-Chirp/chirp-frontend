@@ -8,9 +8,7 @@ import {
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchBarMessages from "./SearchBarMessages";
-import { useAppSelector } from "../../state/hooks";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import MessagesModalList from "./MessagesModalList";
 
 const styles = {
   dialog: {
@@ -38,34 +36,10 @@ type CreateMessageModalProps = {
   openModal: boolean;
 };
 
-type DMList = {
-  displayName: string;
-  username: string;
-};
-
 export default function CreateMessageModal({
   onClose,
   openModal,
 }: CreateMessageModalProps) {
-  const user = useAppSelector((state) => state.user);
-  const [dmList, setDMList] = useState<DMList[]>([]);
-
-  useEffect(() => {
-    const fetchDMList = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/messages/dmList",
-        {
-          params: {
-            userId: user.userId,
-          },
-        }
-      );
-      setDMList(result.data as DMList[]);
-    };
-    fetchDMList();
-  }, [user]);
-
-  console.log(dmList);
   return (
     <Dialog
       fullWidth
@@ -84,6 +58,8 @@ export default function CreateMessageModal({
       </DialogTitle>
       <DialogContent sx={styles.dialogContent}>
         <SearchBarMessages placeholder="Start a conversation" />
+
+        <MessagesModalList />
       </DialogContent>
     </Dialog>
   );
