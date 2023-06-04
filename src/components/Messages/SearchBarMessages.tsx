@@ -9,6 +9,9 @@ import {
 } from "@mui/material";
 import MessagesModalListItem from "./MessagesModalListItem";
 import { DMList } from "./MessagesModalList";
+import { useAppSelector } from "../../state/hooks";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const styles = {
   box: {
@@ -30,19 +33,24 @@ const handleSearch = () => {
   console.log("handleSearch");
 };
 
-const dmList: DMList[] = [
-  {
-    displayName: "Michael Stewart",
-    username: "MStew",
-  },
-  {
-    displayName: "Benjamin Davidson",
-    username: "BenDavid123",
-  },
-];
-
 const SearchBarMessages = ({ placeholder }: SearchBarProps) => {
-  console.log(dmList);
+  const user = useAppSelector((state) => state.user);
+  const [followedList, setFollowedList] = useState<DMList[]>([]);
+
+  useEffect(() => {
+    const fetchDMList = async () => {
+      const result = await axios.get(
+        "http://localhost:3001/api/messages/followedList",
+        {
+          params: {
+            userId: user.userId,
+          },
+        }
+      );
+      setFollowedList(result.data as DMList[]);
+    };
+    fetchDMList();
+  }, [user]);
   return (
     <Box sx={styles.box}>
       <Autocomplete
@@ -75,7 +83,7 @@ const SearchBarMessages = ({ placeholder }: SearchBarProps) => {
             </List>
           );
         }}
-        options={dmList}
+        options={followedList}
         getOptionLabel={(option) => option.username}
         id="messages-search"
       />

@@ -24,7 +24,6 @@ const MessagesList = () => {
         }
       );
       setDMList(result.data as DMList[]);
-      console.log(result.data);
     };
     fetchDMList();
   }, [user]);
