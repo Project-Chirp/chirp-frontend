@@ -3,6 +3,8 @@ import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
 import SearchBar from "../components/Messages/SearchBar";
 import MessagesList from "../components/Messages/MessagesList";
+import { useState } from "react";
+import CreateMessageModal from "../components/Misc/CreateMessageModal";
 
 const styles = {
   button: {
@@ -33,6 +35,8 @@ const styles = {
 };
 
 const Messages = () => {
+  const [messageModal, setMessageModal] = useState(false);
+
   return (
     <Stack
       direction="row"
@@ -42,7 +46,7 @@ const Messages = () => {
       <Box sx={styles.messageListContainer}>
         <Box sx={styles.messagesHeader}>
           <Typography variant="h6">Messages</Typography>
-          <IconButton>
+          <IconButton onClick={() => setMessageModal(true)}>
             <ChatIcon />
           </IconButton>
         </Box>
@@ -59,6 +63,12 @@ const Messages = () => {
           New Message
         </Button>
       </Box>
+      <CreateMessageModal
+        onClose={() => setMessageModal(false)}
+        openModal={messageModal}
+      >
+        <Typography>Test</Typography>
+      </CreateMessageModal>
     </Stack>
   );
 };
