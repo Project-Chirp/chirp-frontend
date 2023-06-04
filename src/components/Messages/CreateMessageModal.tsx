@@ -21,7 +21,7 @@ const styles = {
     paddingBottom: 0,
     paddingLeft: 0.5,
     paddingRight: 0.5,
-    paddingTop: 0,
+    paddingTop: 1,
     display: "flex",
     alignItems: "center",
   },
