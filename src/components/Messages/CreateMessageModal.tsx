@@ -12,7 +12,8 @@ import MessagesModalList from "./MessagesModalList";
 
 const styles = {
   dialog: {
-    maxHeight: "90%",
+    height: "60%",
+    borderRadius: 4,
   },
   dialogContent: {
     padding: 0,
@@ -25,7 +26,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
   },
-  modalHeader: { paddingLeft: 5, width: "100%" },
+  modalHeader: { paddingLeft: 3, width: "100%" },
   headerTitle: {
     fontWeight: "bold",
   },
@@ -46,7 +47,7 @@ export default function CreateMessageModal({
       onClose={onClose}
       open={openModal}
       scroll="paper"
-      sx={styles.dialog}
+      PaperProps={{ sx: styles.dialog }}
     >
       <DialogTitle sx={styles.dialogTitle}>
         <IconButton disableRipple onClick={onClose}>
