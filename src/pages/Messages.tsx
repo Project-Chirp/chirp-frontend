@@ -18,7 +18,7 @@ const styles = {
     paddingBottom: 0,
   },
   messageListContainer: {
-    width: "30%",
+    maxWidth: "30%",
   },
   root: {
     width: "100%",
