@@ -1,11 +1,18 @@
-import { Button, Card, CardContent, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  Divider,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Avatar from "@mui/material/Avatar/Avatar";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton/IconButton";
 import CardMedia from "@mui/material/CardMedia/CardMedia";
 import CardActions from "@mui/material/CardActions/CardActions";
-import CardActionArea from "@mui/material/CardActionArea/CardActionArea";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
@@ -13,11 +20,13 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, updatePost } from "../../state/slices/postSlice";
+import { Post, updatePost } from "../../state/slices/postsSlice";
+import { useNavigate } from "react-router-dom";
+import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 
 const styles = {
   card: {
-    marginBottom: 2,
+    boxShadow: "none",
   },
   cardActions: {
     width: "100%",
@@ -64,6 +73,13 @@ const PostItem = ({ post }: PostProps) => {
     dispatch(updatePost(updatedPost));
   };
 
+  const navigate = useNavigate();
+  const routeChange = () => {
+    const path = `/post/${post.postId}`;
+    navigate(path);
+    dispatch(setExpandedPost(post));
+  };
+
   return (
     <Card sx={styles.card}>
       <CardHeader
@@ -76,7 +92,7 @@ const PostItem = ({ post }: PostProps) => {
         title={`${post.displayName} @${post.username}`}
         subheader={post.timestamp}
       />
-      <CardActionArea>
+      <CardActionArea onClick={() => routeChange()}>
         <CardContent sx={{ width: 400 }}>
           <Typography>{post.textContent}</Typography>
         </CardContent>
@@ -115,6 +131,7 @@ const PostItem = ({ post }: PostProps) => {
           <Button startIcon={<ShareOutlinedIcon />} />
         </Stack>
       </CardActions>
+      <Divider light />
     </Card>
   );
 };

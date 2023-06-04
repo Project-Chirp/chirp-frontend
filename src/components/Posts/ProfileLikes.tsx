@@ -4,23 +4,22 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 
-const PostList = () => {
+const ProfileLikes = () => {
   const posts = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const resultPosts = await axios.get("http://localhost:3001/api/posts", {
+      const result = await axios.get(
+        "http://localhost:3001/api/profile/getOwnLikes",
+        {
           params: {
             userId: user.userId,
           },
-        });
-        dispatch(setPosts(resultPosts.data as Post[]));
-      } catch (e) {
-        console.log(e.message);
-      }
+        }
+      );
+      dispatch(setPosts(result.data as Post[]));
     };
     fetchPosts();
   }, [dispatch, user]);
@@ -34,4 +33,4 @@ const PostList = () => {
   );
 };
 
-export default PostList;
+export default ProfileLikes;

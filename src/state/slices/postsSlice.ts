@@ -13,7 +13,7 @@ export type Post = {
 
 const initialState: Post[] = [];
 
-export const postSlice = createSlice({
+export const postsSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
@@ -29,9 +29,13 @@ export const postSlice = createSlice({
       });
       return newPosts;
     },
+    appendPost: (state, action: PayloadAction<Post>) => {
+      state.unshift({ ...action.payload, numberOfLikes: 0 });
+      return state;
+    },
   },
 });
 
-export const { setPosts, updatePost } = postSlice.actions;
+export const { setPosts, updatePost, appendPost } = postsSlice.actions;
 
-export default postSlice.reducer;
+export default postsSlice.reducer;
