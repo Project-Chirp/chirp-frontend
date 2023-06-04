@@ -16,17 +16,17 @@ const styles = {
   },
 };
 
-type PostButtonModalProps = {
+type ModalProps = {
   children: JSX.Element;
   onClose: () => void;
   openModal: boolean;
 };
 
-export default function PostButtonModal({
+export default function ModalTemplate({
   children,
   onClose,
   openModal,
-}: PostButtonModalProps) {
+}: ModalProps) {
   return (
     <Dialog
       fullWidth

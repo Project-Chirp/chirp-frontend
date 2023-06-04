@@ -5,7 +5,7 @@ import { Avatar, Button, List, Stack, Toolbar } from "@mui/material";
 import { Drawer } from "@mui/material";
 import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
-import PostButtonModal from "../Misc/PostButtonModal";
+import ModalTemplate from "../Misc/ModalTemplate";
 import { useState } from "react";
 import ComposePost from "../Posts/ComposePost";
 
@@ -87,12 +87,9 @@ const NavBar = () => {
           </Stack>
         </Toolbar>
       </Drawer>
-      <PostButtonModal
-        onClose={() => setOpenModal(false)}
-        openModal={openModal}
-      >
+      <ModalTemplate onClose={() => setOpenModal(false)} openModal={openModal}>
         <ComposePost placeholder="What's happening?" />
-      </PostButtonModal>
+      </ModalTemplate>
     </>
   );
 };
