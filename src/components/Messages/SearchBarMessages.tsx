@@ -84,7 +84,9 @@ const SearchBarMessages = ({ placeholder }: SearchBarProps) => {
           );
         }}
         options={followedList}
-        getOptionLabel={(option) => option.username}
+        getOptionLabel={(option) =>
+          `${option.username}  @${option.displayName}`
+        }
         id="messages-search"
       />
     </Box>
