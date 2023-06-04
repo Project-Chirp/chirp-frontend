@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchBar from "../components/Messages/SearchBar";
 import MessagesList from "../components/Messages/MessagesList";
 import { useState } from "react";
-import ModalTemplate from "../components/Misc/ModalTemplate";
+import CreateMessageModal from "../components/Messages/CreateMessageModal";
 
 const styles = {
   button: {
@@ -63,12 +63,12 @@ const Messages = () => {
           New Message
         </Button>
       </Box>
-      <ModalTemplate
-        onClose={() => setMessageModal(false)}
-        openModal={messageModal}
-      >
-        <Typography>Test</Typography>
-      </ModalTemplate>
+      {messageModal && (
+        <CreateMessageModal
+          onClose={() => setMessageModal(false)}
+          openModal={messageModal}
+        />
+      )}
     </Stack>
   );
 };
