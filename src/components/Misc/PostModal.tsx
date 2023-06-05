@@ -6,7 +6,10 @@ const styles = {
     maxHeight: "90%",
   },
   dialogContent: {
-    padding: 0,
+    padding: 1,
+    paddingBottom: 2,
+    alignItems: "center",
+    justifyContent: "center",
   },
   dialogTitle: {
     paddingBottom: 0,
@@ -16,17 +19,17 @@ const styles = {
   },
 };
 
-type PostButtonModalProps = {
-  children: JSX.Element;
+type PostModalProps = {
+  children?: React.ReactNode;
   onClose: () => void;
   openModal: boolean;
 };
 
-export default function PostButtonModal({
+export default function PostModal({
   children,
   onClose,
   openModal,
-}: PostButtonModalProps) {
+}: PostModalProps) {
   return (
     <Dialog
       fullWidth

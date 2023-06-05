@@ -17,6 +17,7 @@ const ExpandedPost = () => {
       <Box sx={styles.postListContainer}>
         <ExpandedPostItem />
         <ComposeReply placeholder="Post your reply" />
+        <Divider />
         <ExpandedPostList />
       </Box>
       <Divider orientation="vertical" />

@@ -121,7 +121,6 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
             </Stack>
           </Box>
         )}
-        <Divider />
       </Box>
     </form>
   );
