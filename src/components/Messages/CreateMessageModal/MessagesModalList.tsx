@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { List } from "@mui/material";
-import { useAppSelector } from "../../state/hooks";
+import { useAppSelector } from "../../../state/hooks";
 import MessagesModalListItem from "./MessagesModalListItem";
 
 export type DMList = {

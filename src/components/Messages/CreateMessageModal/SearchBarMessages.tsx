@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DMList } from "./MessagesModalList";
-import { useAppSelector } from "../../state/hooks";
+import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
 

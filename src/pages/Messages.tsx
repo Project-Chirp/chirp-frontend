@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchBar from "../components/Messages/SearchBar";
 import MessagesList from "../components/Messages/MessagesList";
 import { useState } from "react";
-import CreateMessageModal from "../components/Messages/CreateMessageModal";
+import CreateMessageModal from "../components/Messages/CreateMessageModal/CreateMessageModal";
 
 const styles = {
   button: {
