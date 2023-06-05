@@ -57,9 +57,8 @@ export default function CreateMessageModal({
           <Typography sx={styles.headerTitle}>New Message</Typography>
         </Box>
       </DialogTitle>
+      <SearchBarMessages placeholder="Start a conversation" />
       <DialogContent sx={styles.dialogContent}>
-        <SearchBarMessages placeholder="Start a conversation" />
-
         <MessagesModalList />
       </DialogContent>
     </Dialog>
