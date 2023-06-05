@@ -50,7 +50,7 @@ export default function CreateMessageModal({
       PaperProps={{ sx: styles.dialog }}
     >
       <DialogTitle sx={styles.dialogTitle}>
-        <IconButton disableRipple onClick={onClose}>
+        <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
         <Box sx={styles.modalHeader}>
