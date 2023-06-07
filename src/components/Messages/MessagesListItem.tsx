@@ -34,11 +34,17 @@ export type LatestMessageDetails = {
 
 type MessageListItemProps = {
   latestMessageDetails: LatestMessageDetails;
+  onClick: () => void;
+  selected: boolean;
 };
 
-const MessagesListItem = ({ latestMessageDetails }: MessageListItemProps) => {
+const MessagesListItem = ({
+  latestMessageDetails,
+  onClick,
+  selected,
+}: MessageListItemProps) => {
   return (
-    <ListItemButton>
+    <ListItemButton onClick={onClick} selected={selected}>
       <Stack direction="row" sx={styles.stack}>
         <ListItemAvatar sx={styles.avatar}>
           <Avatar />

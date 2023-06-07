@@ -5,6 +5,7 @@ import { useAppSelector } from "../../state/hooks";
 import { List } from "@mui/material";
 
 const MessagesList = () => {
+  const [selected, setSelected] = useState(0);
   const user = useAppSelector((state) => state.user);
   const [latestMessageDetails, setlatestMessageDetails] = useState<
     LatestMessageDetails[]
@@ -25,7 +26,12 @@ const MessagesList = () => {
   return (
     <List component="div">
       {latestMessageDetails.map((o, index) => (
-        <MessagesListItem latestMessageDetails={o} key={index} />
+        <MessagesListItem
+          key={index}
+          latestMessageDetails={o}
+          onClick={() => setSelected(index)}
+          selected={selected === index}
+        />
       ))}
     </List>
   );
