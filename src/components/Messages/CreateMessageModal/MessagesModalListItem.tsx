@@ -7,7 +7,9 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { DMList } from "./MessagesModalList";
+import { OtherUser } from "./MessagesModalList";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../state/hooks";
 
 const styles = {
   avatar: { margin: "auto" },
@@ -25,12 +27,20 @@ const styles = {
 };
 
 type MessageModalListItemProps = {
-  dmList: DMList;
+  otherUser: OtherUser;
 };
 
-const MessageModalListItem = ({ dmList }: MessageModalListItemProps) => {
+const MessageModalListItem = ({ otherUser }: MessageModalListItemProps) => {
+  const user = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+  const routeChange = () => {
+    console.log("route");
+    const path = `/messages/${user.userId}/${otherUser.otherUserId}`;
+    navigate(path);
+  };
+
   return (
-    <ListItemButton>
+    <ListItemButton onClick={() => routeChange()}>
       <Stack direction="row" sx={styles.stack}>
         <ListItemAvatar sx={styles.avatar}>
           <Avatar />
@@ -40,9 +50,9 @@ const MessageModalListItem = ({ dmList }: MessageModalListItemProps) => {
           primary={
             <Box sx={styles.primaryTextContainer}>
               <Typography sx={styles.displayName} variant="body2">
-                {dmList.displayName}
+                {otherUser.displayName}
               </Typography>
-              <Typography variant="body2">{`@${dmList.username}`}</Typography>
+              <Typography variant="body2">{`@${otherUser.username}`}</Typography>
             </Box>
           }
         />

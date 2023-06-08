@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { DMList } from "./MessagesModalList";
+import { OtherUser } from "./MessagesModalList";
 import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -46,12 +46,22 @@ const styles = {
 
 type SearchBarProps = {
   placeholder: string;
+  selectedUser: OtherUser;
+  setSelectedUser: (state: OtherUser) => void;
 };
 
-const SearchBarMessages = ({ placeholder }: SearchBarProps) => {
+const SearchBarMessages = ({
+  placeholder,
+  selectedUser,
+  setSelectedUser,
+}: SearchBarProps) => {
   const user = useAppSelector((state) => state.user);
-  const [followedList, setFollowedList] = useState<DMList[]>([]);
-  const [selectedUser, setSelectedUser] = useState("");
+  const [followedList, setFollowedList] = useState<OtherUser[]>([]);
+
+  useEffect(() => {
+    console.log("TEST");
+    console.log(selectedUser);
+  }, [selectedUser]);
 
   const handleSearch = () => {
     console.log(selectedUser);
@@ -66,16 +76,23 @@ const SearchBarMessages = ({ placeholder }: SearchBarProps) => {
           },
         }
       );
-      setFollowedList(result.data as DMList[]);
+      setFollowedList(result.data as OtherUser[]);
     };
     fetchDMList();
   }, [user]);
+
   return (
     <Box sx={styles.box}>
       <Autocomplete
         id="messages-search"
         onChange={(event, value) =>
-          value ? setSelectedUser(value.username) : setSelectedUser("")
+          value
+            ? setSelectedUser(value)
+            : setSelectedUser({
+                displayName: "",
+                otherUserId: -1,
+                username: "",
+              })
         }
         options={followedList}
         getOptionLabel={(option) =>
@@ -91,7 +108,10 @@ const SearchBarMessages = ({ placeholder }: SearchBarProps) => {
                 ...params.InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <IconButton onClick={handleSearch}>
+                    <IconButton
+                      onClick={handleSearch}
+                      disabled={!selectedUser.username.trim()}
+                    >
                       <SearchRoundedIcon />
                     </IconButton>
                   </InputAdornment>

@@ -4,14 +4,15 @@ import { List } from "@mui/material";
 import { useAppSelector } from "../../../state/hooks";
 import MessagesModalListItem from "./MessagesModalListItem";
 
-export type DMList = {
+export type OtherUser = {
+  otherUserId: number;
   displayName: string;
   username: string;
 };
 
 const MessagesList = () => {
   const user = useAppSelector((state) => state.user);
-  const [dmList, setDMList] = useState<DMList[]>([]);
+  const [dmList, setDMList] = useState<OtherUser[]>([]);
 
   useEffect(() => {
     const fetchDMList = async () => {
@@ -23,7 +24,7 @@ const MessagesList = () => {
           },
         }
       );
-      setDMList(result.data as DMList[]);
+      setDMList(result.data as OtherUser[]);
     };
     fetchDMList();
   }, [user]);
@@ -31,7 +32,7 @@ const MessagesList = () => {
   return (
     <List component="div">
       {dmList.map((o, index) => (
-        <MessagesModalListItem dmList={o} key={index} />
+        <MessagesModalListItem otherUser={o} key={index} />
       ))}
     </List>
   );
