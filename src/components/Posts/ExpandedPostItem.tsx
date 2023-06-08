@@ -27,8 +27,7 @@ import {
   updateExpandedPost,
 } from "../../state/slices/expandedPostSlice";
 import { useEffect, useState } from "react";
-import ComposeReply from "./ComposeReply";
-import PostModal from "../Misc/PostModal";
+import RepliesModal from "../Misc/RepliesModal";
 
 const styles = {
   card: {
@@ -236,46 +235,10 @@ const ExpandedPostItem = () => {
       </CardActions>
       <Divider variant="middle" />
       {openModal && (
-        <PostModal onClose={() => setOpenModal(false)} openModal={openModal}>
-          <Card sx={styles.card}>
-            <CardHeader
-              avatar={<Avatar>CK</Avatar>}
-              action={
-                <IconButton>
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              titleTypographyProps={{ fontWeight: "bold" }}
-              sx={{ paddingBottom: 0 }}
-              title={`${post.displayName} `}
-              subheader={`@${post.username}`}
-            />
-            <CardContent
-              sx={{
-                width: 400,
-                paddingLeft: 9,
-                "&:last-child": { paddingBottom: 0 },
-              }}
-            >
-              <Typography>{post.textContent}</Typography>
-              <Box display={"flex"} sx={{ paddingTop: 2 }}>
-                <Typography sx={{ fontSize: 13 }}>Replying to </Typography>
-                <Typography
-                  color={"primary"}
-                  sx={{ paddingLeft: 0.5, fontSize: 13 }}
-                >{`@${post.username}`}</Typography>
-              </Box>
-            </CardContent>
-            {post.imagePath && (
-              <CardMedia
-                sx={{ maxWidth: 200, margin: "auto" }}
-                component="img"
-                image={post.imagePath}
-              />
-            )}
-          </Card>
-          <ComposeReply placeholder="Post your reply!" />
-        </PostModal>
+        <RepliesModal
+          onClose={() => setOpenModal(false)}
+          openModal={openModal}
+        />
       )}
     </Card>
   );
