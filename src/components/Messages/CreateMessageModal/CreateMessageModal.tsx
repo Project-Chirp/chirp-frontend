@@ -61,7 +61,6 @@ export default function CreateMessageModal({
 
   const navigate = useNavigate();
   const routeChange = () => {
-    console.log("route");
     const path = `/messages/${user.userId}/${selectedUser.otherUserId}`;
     navigate(path);
   };

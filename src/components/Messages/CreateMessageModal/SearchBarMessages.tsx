@@ -16,6 +16,7 @@ import { OtherUser } from "./MessagesModalList";
 import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   box: {
@@ -58,14 +59,12 @@ const SearchBarMessages = ({
   const user = useAppSelector((state) => state.user);
   const [followedList, setFollowedList] = useState<OtherUser[]>([]);
 
-  useEffect(() => {
-    console.log("TEST");
-    console.log(selectedUser);
-  }, [selectedUser]);
-
-  const handleSearch = () => {
-    console.log(selectedUser);
+  const navigate = useNavigate();
+  const routeChange = () => {
+    const path = `/messages/${user.userId}/${selectedUser.otherUserId}`;
+    navigate(path);
   };
+
   useEffect(() => {
     const fetchDMList = async () => {
       const result = await axios.get(
@@ -109,7 +108,7 @@ const SearchBarMessages = ({
                 startAdornment: (
                   <InputAdornment position="start">
                     <IconButton
-                      onClick={handleSearch}
+                      onClick={() => routeChange()}
                       disabled={!selectedUser.username.trim()}
                     >
                       <SearchRoundedIcon />

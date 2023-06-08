@@ -34,7 +34,6 @@ const MessageModalListItem = ({ otherUser }: MessageModalListItemProps) => {
   const user = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const routeChange = () => {
-    console.log("route");
     const path = `/messages/${user.userId}/${otherUser.otherUserId}`;
     navigate(path);
   };
