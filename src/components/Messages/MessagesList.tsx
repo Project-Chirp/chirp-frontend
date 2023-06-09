@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import MessagesListItem, { LatestMessageDetails } from "./MessagesListItem";
 import { useAppSelector } from "../../state/hooks";
 import { List } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const MessagesList = () => {
   const [selected, setSelected] = useState(0);
@@ -10,6 +11,7 @@ const MessagesList = () => {
   const [latestMessageDetails, setlatestMessageDetails] = useState<
     LatestMessageDetails[]
   >([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -29,7 +31,10 @@ const MessagesList = () => {
         <MessagesListItem
           key={index}
           latestMessageDetails={o}
-          onClick={() => setSelected(index)}
+          onClick={() => {
+            setSelected(index);
+            navigate(`/messages/${user.userId}/${o.otherUserId}`);
+          }}
           selected={selected === index}
         />
       ))}

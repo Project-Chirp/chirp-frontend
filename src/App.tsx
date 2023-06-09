@@ -32,6 +32,7 @@ function App() {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log("APP USEEFFECT");
         dispatch(setUser(response.data));
       } catch (error) {
         console.log(error);
@@ -39,6 +40,8 @@ function App() {
     };
     getUser();
   }, [getAccessTokenSilently, dispatch]);
+
+  console.log("APP");
 
   if (isLoading || (isAuthenticated && user.isLoading)) {
     return (
@@ -66,7 +69,7 @@ function App() {
           element={<ProtectedRoute component={Messages} />}
         />
         <Route
-          path="/messages/:user1/:user2"
+          path="/messages/:userId1/:userId2"
           element={<ProtectedRoute component={DirectMessage} />}
         />
         <Route

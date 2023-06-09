@@ -1,8 +1,20 @@
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+  Typography,
+} from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
 import SearchBar from "../components/Messages/SearchBar";
 import MessagesList from "../components/Messages/MessagesList";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { useAppSelector } from "../state/hooks";
 
 const styles = {
   button: {
@@ -32,7 +44,30 @@ const styles = {
   },
 };
 
+export type Message = {
+  messageId: number;
+  timestamp: string;
+  textContent: string;
+  sentUserId: number;
+  receivedUserId: number;
+};
+
 const DirectMessage = () => {
+  const { userId1, userId2 } = useParams();
+  const [messages, setMessages] = useState<Message[]>([]);
+  const user = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    const fetchDirectMessage = async () => {
+      const result = await axios.get(
+        `http://localhost:3001/api/messages/${userId1}/${userId2}`
+      );
+      console.log("HEY", result.data);
+      setMessages(result.data as Message[]);
+    };
+    fetchDirectMessage();
+  }, [userId1, userId2]);
+
   return (
     <Stack
       direction="row"
@@ -51,7 +86,25 @@ const DirectMessage = () => {
         <MessagesList />
       </Box>
       <Box sx={styles.selectMessageContainer}>
-        <Typography>TEST</Typography>
+        <List component="div" sx={{ width: "100%" }}>
+          {messages.map((o) => (
+            <ListItem component="div">
+              <ListItemText
+                sx={
+                  o.sentUserId === user.userId
+                    ? {
+                        display: "flex",
+                        justifyContent: "flex-end",
+                      }
+                    : undefined
+                }
+              >
+                <Typography variant="body2">{o.textContent}</Typography>
+                <Typography variant="caption">{o.timestamp}</Typography>
+              </ListItemText>
+            </ListItem>
+          ))}
+        </List>
       </Box>
     </Stack>
   );

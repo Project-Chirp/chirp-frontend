@@ -27,9 +27,10 @@ const styles = {
 
 export type LatestMessageDetails = {
   displayName: string;
-  username: string;
+  otherUserId: number;
   textContent: string;
   timestamp: string;
+  username: string;
 };
 
 type MessageListItemProps = {
