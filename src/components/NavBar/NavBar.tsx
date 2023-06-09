@@ -7,7 +7,7 @@ import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
 import { useState } from "react";
 import ComposePost from "../Posts/ComposePost";
-import PostModal from "../Misc/PostModal";
+import PostButtonModal from "../Misc/PostButtonModal";
 
 const drawerWidth = "30%";
 const styles = {
@@ -87,9 +87,12 @@ const NavBar = () => {
           </Stack>
         </Toolbar>
       </Drawer>
-      <PostModal onClose={() => setOpenModal(false)} openModal={openModal}>
+      <PostButtonModal
+        onClose={() => setOpenModal(false)}
+        openModal={openModal}
+      >
         <ComposePost placeholder="What's happening?" />
-      </PostModal>
+      </PostButtonModal>
     </>
   );
 };
