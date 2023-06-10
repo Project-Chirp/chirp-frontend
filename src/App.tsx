@@ -31,7 +31,6 @@ function App() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("APP USEEFFECT");
         dispatch(setUser(response.data));
       } catch (error) {
         console.log(error);
@@ -39,8 +38,6 @@ function App() {
     };
     getUser();
   }, [getAccessTokenSilently, dispatch]);
-
-  console.log("APP");
 
   if (isLoading || (isAuthenticated && user.isLoading)) {
     return (

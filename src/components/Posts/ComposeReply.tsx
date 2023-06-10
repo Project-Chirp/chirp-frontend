@@ -49,7 +49,7 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const [focusReply, setFocusReply] = useState(false);
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.post);
+  const post = useAppSelector((state) => state.expandedPost);
   const dispatch = useAppDispatch();
 
   const onSubmit = async (e: React.SyntheticEvent) => {

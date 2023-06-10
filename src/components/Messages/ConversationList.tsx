@@ -1,16 +1,19 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import MessagesListItem, { LatestMessageDetails } from "./ConversationListItem";
-import { useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { List } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { setSelectedConversation } from "../../state/slices/messagesSlice";
 
 const ConversationList = () => {
-  const [selected, setSelected] = useState(0);
-  const user = useAppSelector((state) => state.user);
+  const selectedConversation = useAppSelector((state) => state.messages);
   const [latestMessageDetails, setlatestMessageDetails] = useState<
     LatestMessageDetails[]
   >([]);
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,15 +30,21 @@ const ConversationList = () => {
 
   return (
     <List component="div">
-      {latestMessageDetails.map((o, index) => (
+      {latestMessageDetails.map((o) => (
         <MessagesListItem
-          key={index}
+          key={o.otherUserId}
           latestMessageDetails={o}
           onClick={() => {
-            setSelected(index);
+            dispatch(
+              setSelectedConversation({
+                displayName: o.displayName,
+                username: o.username,
+                userId: o.otherUserId,
+              })
+            );
             navigate(`/messages/${user.userId}/${o.otherUserId}`);
           }}
-          selected={selected === index}
+          selected={selectedConversation.userId === o.otherUserId}
         />
       ))}
     </List>

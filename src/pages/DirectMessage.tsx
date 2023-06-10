@@ -62,7 +62,6 @@ const DirectMessage = () => {
       const result = await axios.get(
         `http://localhost:3001/api/messages/${userId1}/${userId2}`
       );
-      console.log("HEY", result.data);
       setMessages(result.data as Message[]);
     };
     fetchDirectMessage();
