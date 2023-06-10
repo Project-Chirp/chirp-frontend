@@ -40,7 +40,7 @@ const AccountMenu = () => {
         <Avatar />
         <Stack sx={styles.nameContainer}>
           <Typography>{user.displayName}</Typography>
-          <Typography>{user.username}</Typography>
+          <Typography>{`@${user.username}`}</Typography>
         </Stack>
       </Button>
       <Popover

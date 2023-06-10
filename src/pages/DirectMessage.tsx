@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Divider,
   List,
@@ -15,12 +16,9 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
 import SearchBar from "../components/Common/SearchBar";
+import InfoIcon from "@mui/icons-material/Info";
 
 const styles = {
-  button: {
-    borderRadius: 10,
-    marginTop: 1,
-  },
   messagesHeader: {
     display: "flex",
     justifyContent: "space-between",
@@ -35,12 +33,20 @@ const styles = {
   root: {
     width: "100%",
   },
-  selectMessageContainer: {
+  directMessageActivityContainer: {
     alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
-    margin: "auto",
     width: "50%",
+  },
+  directMessageActivityHeader: {
+    display: "flex",
+    flexBasis: "auto",
+    width: "100%",
+    justifyContent: "space-between",
+    paddingRight: 2,
+    paddingLeft: 2,
+    boxSizing: "border-box",
   },
 };
 
@@ -56,6 +62,7 @@ const DirectMessage = () => {
   const { userId1, userId2 } = useParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const user = useAppSelector((state) => state.user);
+  const selectedConversation = useAppSelector((state) => state.messages);
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
@@ -84,7 +91,24 @@ const DirectMessage = () => {
         <Divider />
         <ConversationList />
       </Box>
-      <Box sx={styles.selectMessageContainer}>
+      <Box sx={styles.directMessageActivityContainer}>
+        <Box sx={styles.directMessageActivityHeader}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ padding: 1 }}>
+              <Avatar />
+            </Box>
+            <Box sx={{ padding: 1 }}>
+              <Typography variant="subtitle1">
+                {selectedConversation.displayName}
+              </Typography>
+              <Typography variant="subtitle2">{`@${selectedConversation.username}`}</Typography>
+            </Box>
+          </Box>
+          <IconButton>
+            <InfoIcon />
+          </IconButton>
+        </Box>
+        <Divider orientation="horizontal" flexItem />
         <List component="div" sx={{ width: "100%" }}>
           {messages.map((o) => (
             <ListItem component="div">
