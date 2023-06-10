@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import PostItem from "./PostItem";
+import PostItem from "../Posts/PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 
-const ProfileTweets = () => {
+const ProfileReplies = () => {
   const posts = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -12,7 +12,7 @@ const ProfileTweets = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getOwnTweets",
+        "http://localhost:3001/api/profile/getOwnReplies",
         {
           params: {
             userId: user.userId,
@@ -33,4 +33,4 @@ const ProfileTweets = () => {
   );
 };
 
-export default ProfileTweets;
+export default ProfileReplies;
