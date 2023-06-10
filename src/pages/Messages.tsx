@@ -2,7 +2,7 @@ import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
 import SearchBar from "../components/Common/SearchBar";
-import MessagesList from "../components/Messages/ConversationList";
+import ConversationList from "../components/Messages/ConversationList";
 
 const styles = {
   button: {
@@ -27,6 +27,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
     width: "50%",
   },
 };
@@ -43,11 +44,11 @@ const Messages = () => {
         </Box>
         <SearchBar placeholder="Search Messages" />
         <Divider />
-        <MessagesList />
+        <ConversationList />
       </Box>
       <Divider flexItem orientation="vertical" />
       <Box sx={styles.selectMessageContainer}>
-        <Box sx={{ marginLeft: "auto", marginRight: "auto" }}>
+        <Box>
           <Typography variant="h6">Select a Message</Typography>
           <Typography>
             Choose one of your existing conversations or start a new one!

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import MessagesListItem, { LatestMessageDetails } from "./ConversationListItem";
+import ConversationListItem, {
+  LatestMessageDetails,
+} from "./ConversationListItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { List } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +33,7 @@ const ConversationList = () => {
   return (
     <List component="div">
       {latestMessageDetails.map((o) => (
-        <MessagesListItem
+        <ConversationListItem
           key={o.otherUserId}
           latestMessageDetails={o}
           onClick={() => {

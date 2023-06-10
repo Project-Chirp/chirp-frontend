@@ -2,10 +2,12 @@ import {
   Avatar,
   Box,
   Divider,
+  InputAdornment,
   List,
   ListItem,
   ListItemText,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
@@ -17,6 +19,10 @@ import { useParams } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
 import SearchBar from "../components/Common/SearchBar";
 import InfoIcon from "@mui/icons-material/Info";
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
+import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
+import SendIcon from "@mui/icons-material/Send";
 
 const styles = {
   messagesHeader: {
@@ -34,19 +40,19 @@ const styles = {
     width: "100%",
   },
   directMessageActivityContainer: {
-    alignItems: "flex-start",
-    display: "flex",
-    flexDirection: "column",
     width: "50%",
   },
   directMessageActivityHeader: {
     display: "flex",
-    flexBasis: "auto",
-    width: "100%",
     justifyContent: "space-between",
-    paddingRight: 2,
     paddingLeft: 2,
-    boxSizing: "border-box",
+    paddingRight: 2,
+  },
+  message: { display: "flex", flexDirection: "column" },
+  sentMessage: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
   },
 };
 
@@ -106,25 +112,79 @@ const DirectMessage = () => {
           </IconButton>
         </Box>
         <Divider flexItem />
-        <List component="div" sx={{ width: "100%" }}>
-          {messages.map((o) => (
-            <ListItem component="div">
-              <ListItemText
-                sx={
-                  o.sentUserId === user.userId
-                    ? {
-                        display: "flex",
-                        justifyContent: "flex-end",
-                      }
-                    : undefined
-                }
-              >
-                <Typography variant="body2">{o.textContent}</Typography>
-                <Typography variant="caption">{o.timestamp}</Typography>
-              </ListItemText>
-            </ListItem>
-          ))}
-        </List>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <List component="div" sx={{ flexGrow: 1 }}>
+            {messages.map((o, index) => (
+              <ListItem component="div" key={index}>
+                <ListItemText
+                  sx={
+                    o.sentUserId === user.userId
+                      ? styles.sentMessage
+                      : styles.message
+                  }
+                  disableTypography
+                  primary={
+                    <Typography variant="body2">{o.textContent}</Typography>
+                  }
+                  secondary={
+                    <Typography variant="caption">{o.timestamp}</Typography>
+                  }
+                />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <Box
+            sx={{
+              padding: 1,
+              alignSelf: "flex-end",
+              width: "100%",
+              boxSizing: "border-box",
+            }}
+          >
+            <TextField
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton>
+                      <AddPhotoAlternateOutlinedIcon />
+                    </IconButton>
+
+                    <IconButton>
+                      <EmojiEmotionsOutlinedIcon />
+                    </IconButton>
+
+                    <IconButton>
+                      <GifBoxOutlinedIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton>
+                      <SendIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              fullWidth
+              multiline
+              hiddenLabel
+              placeholder="Send a message"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "50px",
+                },
+              }}
+              size="small"
+            />
+          </Box>
+        </Box>
       </Box>
       <Divider flexItem orientation="vertical" />
     </Stack>
