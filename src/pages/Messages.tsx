@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
-import SearchBar from "../components/Messages/SearchBar";
+import SearchBar from "../components/Common/SearchBar";
 import MessagesList from "../components/Messages/MessagesList";
 
 const styles = {
