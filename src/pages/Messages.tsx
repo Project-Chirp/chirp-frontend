@@ -2,7 +2,7 @@ import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
 import SearchBar from "../components/Common/SearchBar";
-import MessagesList from "../components/Messages/MessagesList";
+import MessagesList from "../components/Messages/ConversationList";
 
 const styles = {
   button: {
@@ -17,7 +17,7 @@ const styles = {
     paddingLeft: 2,
     paddingBottom: 0,
   },
-  messageListContainer: {
+  conversationListContainer: {
     maxWidth: "30%",
   },
   root: {
@@ -39,7 +39,7 @@ const Messages = () => {
       sx={styles.root}
       divider={<Divider orientation="vertical" />}
     >
-      <Box sx={styles.messageListContainer}>
+      <Box sx={styles.conversationListContainer}>
         <Box sx={styles.messagesHeader}>
           <Typography variant="h6">Messages</Typography>
           <IconButton>

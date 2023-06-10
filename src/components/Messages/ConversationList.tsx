@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import MessagesListItem, { LatestMessageDetails } from "./MessagesListItem";
+import MessagesListItem, { LatestMessageDetails } from "./ConversationListItem";
 import { useAppSelector } from "../../state/hooks";
 import { List } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const MessagesList = () => {
+const ConversationList = () => {
   const [selected, setSelected] = useState(0);
   const user = useAppSelector((state) => state.user);
   const [latestMessageDetails, setlatestMessageDetails] = useState<
@@ -42,4 +42,4 @@ const MessagesList = () => {
   );
 };
 
-export default MessagesList;
+export default ConversationList;

@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
-import SearchBar from "../components/Messages/SearchBar";
-import MessagesList from "../components/Messages/MessagesList";
+import ConversationList from "../components/Messages/ConversationList";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
+import SearchBar from "../components/Common/SearchBar";
 
 const styles = {
   button: {
@@ -29,7 +29,7 @@ const styles = {
     paddingLeft: 2,
     paddingBottom: 0,
   },
-  messageListContainer: {
+  conversationListContainer: {
     maxWidth: "30%",
   },
   root: {
@@ -74,7 +74,7 @@ const DirectMessage = () => {
       sx={styles.root}
       divider={<Divider orientation="vertical" />}
     >
-      <Box sx={styles.messageListContainer}>
+      <Box sx={styles.conversationListContainer}>
         <Box sx={styles.messagesHeader}>
           <Typography variant="h6">Messages</Typography>
           <IconButton>
@@ -83,7 +83,7 @@ const DirectMessage = () => {
         </Box>
         <SearchBar placeholder="Search Messages" />
         <Divider />
-        <MessagesList />
+        <ConversationList />
       </Box>
       <Box sx={styles.selectMessageContainer}>
         <List component="div" sx={{ width: "100%" }}>

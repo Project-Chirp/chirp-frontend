@@ -33,17 +33,17 @@ export type LatestMessageDetails = {
   username: string;
 };
 
-type MessageListItemProps = {
+type ConversationListItemProps = {
   latestMessageDetails: LatestMessageDetails;
   onClick: () => void;
   selected: boolean;
 };
 
-const MessagesListItem = ({
+const ConversationListItem = ({
   latestMessageDetails,
   onClick,
   selected,
-}: MessageListItemProps) => {
+}: ConversationListItemProps) => {
   return (
     <ListItemButton onClick={onClick} selected={selected}>
       <Stack direction="row" sx={styles.stack}>
@@ -76,4 +76,4 @@ const MessagesListItem = ({
   );
 };
 
-export default MessagesListItem;
+export default ConversationListItem;
