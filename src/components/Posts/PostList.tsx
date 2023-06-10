@@ -9,6 +9,21 @@ const PostList = () => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
+  const formatTimestamp = (entry: any) => {
+    const date = new Date(entry.timestamp);
+    const currentDate = new Date();
+    if (currentDate.toDateString() !== date.toDateString()) {
+      const modifiedDateString = date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+      return modifiedDateString;
+    } else {
+      return "test";
+    }
+  };
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -17,7 +32,12 @@ const PostList = () => {
             userId: user.userId,
           },
         });
-        dispatch(setPosts(resultPosts.data as Post[]));
+        const modified = resultPosts.data.map((entry: any) => ({
+          ...entry,
+          timestamp: formatTimestamp(entry),
+        }));
+        console.log(modified);
+        dispatch(setPosts(modified as Post[]));
       } catch (e) {
         console.log(e.message);
       }
