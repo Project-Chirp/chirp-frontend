@@ -24,21 +24,16 @@ const styles = {
     width: "100%",
   },
   selectMessageContainer: {
-    alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
-    margin: "auto",
+    justifyContent: "center",
     width: "50%",
   },
 };
 
 const Messages = () => {
   return (
-    <Stack
-      direction="row"
-      sx={styles.root}
-      divider={<Divider orientation="vertical" />}
-    >
+    <Stack direction="row" sx={styles.root}>
       <Box sx={styles.conversationListContainer}>
         <Box sx={styles.messagesHeader}>
           <Typography variant="h6">Messages</Typography>
@@ -50,15 +45,19 @@ const Messages = () => {
         <Divider />
         <MessagesList />
       </Box>
+      <Divider flexItem orientation="vertical" />
       <Box sx={styles.selectMessageContainer}>
-        <Typography variant="h6">Select a Message</Typography>
-        <Typography>
-          Choose one of your existing conversations or start a new one!
-        </Typography>
-        <Button variant="contained" sx={styles.button}>
-          New Message
-        </Button>
+        <Box sx={{ marginLeft: "auto", marginRight: "auto" }}>
+          <Typography variant="h6">Select a Message</Typography>
+          <Typography>
+            Choose one of your existing conversations or start a new one!
+          </Typography>
+          <Button variant="contained" sx={styles.button}>
+            New Message
+          </Button>
+        </Box>
       </Box>
+      <Divider orientation="vertical" flexItem />
     </Stack>
   );
 };

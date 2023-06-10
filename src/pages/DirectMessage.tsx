@@ -75,11 +75,7 @@ const DirectMessage = () => {
   }, [userId1, userId2]);
 
   return (
-    <Stack
-      direction="row"
-      sx={styles.root}
-      divider={<Divider orientation="vertical" />}
-    >
+    <Stack direction="row" sx={styles.root}>
       <Box sx={styles.conversationListContainer}>
         <Box sx={styles.messagesHeader}>
           <Typography variant="h6">Messages</Typography>
@@ -91,6 +87,7 @@ const DirectMessage = () => {
         <Divider />
         <ConversationList />
       </Box>
+      <Divider flexItem orientation="vertical" />
       <Box sx={styles.directMessageActivityContainer}>
         <Box sx={styles.directMessageActivityHeader}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -108,7 +105,7 @@ const DirectMessage = () => {
             <InfoIcon />
           </IconButton>
         </Box>
-        <Divider orientation="horizontal" flexItem />
+        <Divider flexItem />
         <List component="div" sx={{ width: "100%" }}>
           {messages.map((o) => (
             <ListItem component="div">
@@ -129,6 +126,7 @@ const DirectMessage = () => {
           ))}
         </List>
       </Box>
+      <Divider flexItem orientation="vertical" />
     </Stack>
   );
 };
