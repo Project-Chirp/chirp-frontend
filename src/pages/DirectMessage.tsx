@@ -83,6 +83,7 @@ export type Message = {
 
 const DirectMessage = () => {
   const { userId1, userId2 } = useParams();
+  const [textContent, setTextContent] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const user = useAppSelector((state) => state.user);
   const selectedConversation = useAppSelector((state) => state.messages);
@@ -96,6 +97,24 @@ const DirectMessage = () => {
     };
     fetchDirectMessage();
   }, [userId1, userId2]);
+
+  const onSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      const newMessage = (
+        await axios.post("http://localhost:3001/api/messages", {
+          sentUserId: user.userId,
+          receivedUserId: selectedConversation.userId,
+          textContent,
+        })
+      ).data as Message;
+      setTextContent("");
+      console.log(textContent);
+      setMessages([...messages, newMessage]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Stack direction="row" sx={styles.root}>
@@ -138,8 +157,8 @@ const DirectMessage = () => {
           }}
         >
           <List component="div" sx={{ flex: 1, overflowY: "scroll" }}>
-            {messages.map((o, index) => (
-              <ListItem component="div" key={index}>
+            {messages.map((o) => (
+              <ListItem component="div" key={o.messageId}>
                 <ListItemText
                   sx={
                     o.sentUserId === user.userId
@@ -176,42 +195,46 @@ const DirectMessage = () => {
               boxSizing: "border-box",
             }}
           >
-            <TextField
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IconButton>
-                      <AddPhotoAlternateOutlinedIcon />
-                    </IconButton>
+            <form onSubmit={onSubmit}>
+              <TextField
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton>
+                        <AddPhotoAlternateOutlinedIcon />
+                      </IconButton>
 
-                    <IconButton>
-                      <EmojiEmotionsOutlinedIcon />
-                    </IconButton>
+                      <IconButton>
+                        <EmojiEmotionsOutlinedIcon />
+                      </IconButton>
 
-                    <IconButton>
-                      <GifBoxOutlinedIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton>
-                      <SendIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              fullWidth
-              multiline
-              hiddenLabel
-              placeholder="Send a message"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "50px",
-                },
-              }}
-              size="small"
-            />
+                      <IconButton>
+                        <GifBoxOutlinedIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton type="submit" disabled={!textContent.trim()}>
+                        <SendIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                fullWidth
+                hiddenLabel
+                multiline
+                onChange={(e) => setTextContent(e.target.value)}
+                placeholder="Send a message"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "50px",
+                  },
+                }}
+                size="small"
+                value={textContent}
+              />
+            </form>
           </Box>
         </Box>
       </Box>
