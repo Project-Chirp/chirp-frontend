@@ -41,6 +41,9 @@ const styles = {
   },
   directMessageActivityContainer: {
     width: "50%",
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
   },
   directMessageActivityHeader: {
     display: "flex",
@@ -48,11 +51,25 @@ const styles = {
     paddingLeft: 2,
     paddingRight: 2,
   },
-  message: { display: "flex", flexDirection: "column" },
+  message: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
   sentMessage: {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
+  },
+  messageText: {
+    padding: 1,
+    borderRadius: 10,
+    backgroundColor: "#cce3d9",
+  },
+  sentMessageText: {
+    padding: 1,
+    borderRadius: 10,
+    backgroundColor: "#22AA6F",
   },
 };
 
@@ -115,10 +132,12 @@ const DirectMessage = () => {
         <Box
           sx={{
             display: "flex",
+            flex: 1,
             flexDirection: "column",
+            overflowY: "scroll",
           }}
         >
-          <List component="div" sx={{ flexGrow: 1 }}>
+          <List component="div" sx={{ flex: 1, overflowY: "scroll" }}>
             {messages.map((o, index) => (
               <ListItem component="div" key={index}>
                 <ListItemText
@@ -129,10 +148,20 @@ const DirectMessage = () => {
                   }
                   disableTypography
                   primary={
-                    <Typography variant="body2">{o.textContent}</Typography>
+                    <Box
+                      sx={
+                        o.sentUserId === user.userId
+                          ? styles.sentMessageText
+                          : styles.messageText
+                      }
+                    >
+                      <Typography variant="body2">{o.textContent}</Typography>
+                    </Box>
                   }
                   secondary={
-                    <Typography variant="caption">{o.timestamp}</Typography>
+                    <Typography sx={{ marginTop: 0.5 }} variant="caption">
+                      {o.timestamp}
+                    </Typography>
                   }
                 />
               </ListItem>
