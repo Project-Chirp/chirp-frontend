@@ -49,12 +49,14 @@ type SearchBarProps = {
   placeholder: string;
   selectedUser: OtherUser;
   setSelectedUser: (state: OtherUser) => void;
+  setFocusSearchBar: (state: boolean) => void;
 };
 
 const SearchBarMessages = ({
   placeholder,
   selectedUser,
   setSelectedUser,
+  setFocusSearchBar,
 }: SearchBarProps) => {
   const user = useAppSelector((state) => state.user);
   const [followedList, setFollowedList] = useState<OtherUser[]>([]);
@@ -83,6 +85,8 @@ const SearchBarMessages = ({
   return (
     <Box sx={styles.box}>
       <Autocomplete
+        onOpen={() => setFocusSearchBar(true)}
+        onClose={() => setFocusSearchBar(false)}
         id="messages-search"
         onChange={(event, value) =>
           value
@@ -122,7 +126,7 @@ const SearchBarMessages = ({
             />
           );
         }}
-        renderOption={(props, option) => {
+        renderOption={(props, option, state) => {
           return (
             <List component="li" {...props}>
               <Stack direction="row" sx={styles.stack}>

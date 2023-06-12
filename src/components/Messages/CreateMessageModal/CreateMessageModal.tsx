@@ -59,6 +59,7 @@ export default function CreateMessageModal({
     otherUserId: -1,
     username: "",
   });
+  const [focusSearchBar, setFocusSearchBar] = useState(false);
 
   const navigate = useNavigate();
   const routeChange = () => {
@@ -107,9 +108,12 @@ export default function CreateMessageModal({
                 username: "",
               })
         }
+        setFocusSearchBar={(state) =>
+          state ? setFocusSearchBar(state) : setFocusSearchBar(false)
+        }
       />
       <DialogContent sx={styles.dialogContent}>
-        <MessagesModalList />
+        {!focusSearchBar && <MessagesModalList />}
       </DialogContent>
     </Dialog>
   );
