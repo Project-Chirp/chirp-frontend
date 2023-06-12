@@ -34,7 +34,8 @@ const styles = {
   headerTitle: {
     fontWeight: "bold",
   },
-  modalButton: { paddingRight: 2, borderRadius: 5 },
+  modalButtonBox: { paddingRight: 2 },
+  modalButton: { borderRadius: 10 },
   modalHeader: {
     display: "flex",
     width: "100%",
@@ -81,12 +82,13 @@ export default function CreateMessageModal({
           <Box sx={styles.titleBox}>
             <Typography sx={styles.headerTitle}>New Message</Typography>
           </Box>
-          <Box sx={styles.modalButton}>
+          <Box sx={styles.modalButtonBox}>
             <Button
               variant="contained"
               size="small"
               disabled={!selectedUser.username.trim()}
               onClick={() => routeChange()}
+              sx={styles.modalButton}
             >
               Message
             </Button>
