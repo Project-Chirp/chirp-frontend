@@ -59,7 +59,11 @@ const Messages = () => {
         <Typography>
           Choose one of your existing conversations or start a new one!
         </Typography>
-        <Button variant="contained" sx={styles.button}>
+        <Button
+          variant="contained"
+          sx={styles.button}
+          onClick={() => setMessageModal(true)}
+        >
           New Message
         </Button>
       </Box>
