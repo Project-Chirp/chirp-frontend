@@ -67,6 +67,13 @@ const styles = {
     paddingRight: 0.5,
     paddingTop: 0,
   },
+  dialogPaper: {
+    borderRadius: 5,
+  },
+  replyingTo: {
+    fontSize: 13,
+    color: "gray",
+  },
 };
 
 type PostModalProps = {
@@ -113,6 +120,7 @@ export const RepliesModal = ({ onClose, openModal }: PostModalProps) => {
       open={openModal}
       scroll="paper"
       sx={styles.dialog}
+      PaperProps={{ sx: styles.dialogPaper }}
     >
       <DialogTitle sx={styles.dialogTitle}>
         <IconButton disableRipple onClick={onClose}>
@@ -142,7 +150,7 @@ export const RepliesModal = ({ onClose, openModal }: PostModalProps) => {
           >
             <Typography>{post.textContent}</Typography>
             <Box display={"flex"} sx={{ paddingTop: 2 }}>
-              <Typography sx={{ fontSize: 13 }}>Replying to </Typography>
+              <Typography sx={styles.replyingTo}>Replying to </Typography>
               <Typography
                 color={"primary"}
                 sx={{ paddingLeft: 0.5, fontSize: 13 }}
