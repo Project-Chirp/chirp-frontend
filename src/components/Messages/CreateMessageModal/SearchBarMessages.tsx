@@ -88,7 +88,7 @@ const SearchBarMessages = ({
         onOpen={() => setFocusSearchBar(true)}
         onClose={() => setFocusSearchBar(false)}
         id="messages-search"
-        onChange={(event, value) =>
+        onChange={(_, value) =>
           value
             ? setSelectedUser(value)
             : setSelectedUser({
