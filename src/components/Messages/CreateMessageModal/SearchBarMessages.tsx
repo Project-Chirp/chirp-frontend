@@ -126,7 +126,7 @@ const SearchBarMessages = ({
             />
           );
         }}
-        renderOption={(props, option, state) => {
+        renderOption={(props, option) => {
           return (
             <List component="li" {...props}>
               <Stack direction="row" sx={styles.stack}>
