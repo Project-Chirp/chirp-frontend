@@ -31,6 +31,7 @@ const styles = {
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: {
     justifyContent: "space-between",
+    paddingTop: 0,
   },
   textFieldContainer: {
     width: "100%",
@@ -50,6 +51,7 @@ const styles = {
     display: "flex",
     padding: 2,
     paddingBottom: 0,
+    paddingTop: 0,
     justifyContent: "space-between",
   },
   dialog: {
@@ -57,7 +59,6 @@ const styles = {
   },
   dialogContent: {
     padding: 1,
-    paddingBottom: 2,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -73,6 +74,46 @@ const styles = {
   replyingTo: {
     fontSize: 13,
     color: "gray",
+  },
+  names: { display: "flex" },
+  displayName: { paddingRight: 1, fontSize: 14, fontWeight: "bold" },
+  username: { fontSize: 14, color: "gray" },
+  cardHeader: {
+    display: "flex",
+    paddingBottom: 0,
+    paddingTop: 0,
+    ".MuiCardHeader-title": {
+      paddingBottom: 2.5,
+    },
+  },
+  cardContent: {
+    width: 400,
+    paddingLeft: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    display: "flex",
+    alignItems: "center",
+  },
+  grayRectangle: {
+    width: "1px",
+    height: 100,
+    backgroundColor: "gray",
+    zIndex: 2,
+    position: "relative",
+    marginLeft: 5,
+  },
+  textContent: {
+    paddingLeft: 3,
+    paddingBottom: 5,
+  },
+  author: { paddingLeft: 0.5, fontSize: 13 },
+  replyInfo: { paddingTop: 2 },
+  replyLine: {
+    backgroundColor: "gray",
+    width: "2px",
+    margin: 1,
+    height: "10vh",
+    marginLeft: "35px",
   },
 };
 
@@ -137,24 +178,29 @@ export const RepliesModal = ({ onClose, openModal }: PostModalProps) => {
               </IconButton>
             }
             titleTypographyProps={{ fontWeight: "bold" }}
-            sx={{ paddingBottom: 0 }}
-            title={`${post.displayName} `}
-            subheader={`@${post.username}`}
+            sx={styles.cardHeader}
+            title={
+              <Box sx={styles.names}>
+                <Typography
+                  sx={styles.displayName}
+                >{`${post.displayName}`}</Typography>
+                <Typography
+                  sx={styles.username}
+                >{`@${post.username}`}</Typography>
+              </Box>
+            }
           />
-          <CardContent
-            sx={{
-              width: 400,
-              paddingLeft: 9,
-              "&:last-child": { paddingBottom: 0 },
-            }}
-          >
-            <Typography>{post.textContent}</Typography>
-            <Box display={"flex"} sx={{ paddingTop: 2 }}>
-              <Typography sx={styles.replyingTo}>Replying to </Typography>
-              <Typography
-                color={"primary"}
-                sx={{ paddingLeft: 0.5, fontSize: 13 }}
-              >{`@${post.username}`}</Typography>
+          <CardContent sx={styles.cardContent}>
+            <Box sx={styles.replyLine}></Box>
+            <Box sx={styles.textContent}>
+              <Typography>{post.textContent}</Typography>
+              <Box display={"flex"} sx={styles.replyInfo}>
+                <Typography sx={styles.replyingTo}>Replying to </Typography>
+                <Typography
+                  color={"primary"}
+                  sx={styles.author}
+                >{`@${post.username}`}</Typography>
+              </Box>
             </Box>
           </CardContent>
           {post.imagePath && (
@@ -165,7 +211,7 @@ export const RepliesModal = ({ onClose, openModal }: PostModalProps) => {
             />
           )}
           <form onSubmit={onSubmit}>
-            <Box sx={styles.compostPostContainer}>
+            <Box className={"composePost"} sx={styles.compostPostContainer}>
               <Box sx={styles.topContainer}>
                 <Box sx={styles.avatarIcon}>
                   <Avatar />
