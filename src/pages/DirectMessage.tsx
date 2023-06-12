@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
@@ -41,10 +41,9 @@ const styles = {
     alignItems: "flex-start",
   },
   messageText: {
-    color: "#FFFFFF",
     padding: 1,
     borderRadius: 10,
-    backgroundColor: "#686968",
+    backgroundColor: "#cce3d9",
   },
   root: {
     width: "100%",
@@ -55,7 +54,6 @@ const styles = {
     alignItems: "flex-end",
   },
   sentMessageText: {
-    color: "#FFFFFF",
     padding: 1,
     borderRadius: 10,
     backgroundColor: "#22AA6F",
@@ -76,6 +74,7 @@ const DirectMessage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const user = useAppSelector((state) => state.user);
   const selectedConversation = useAppSelector((state) => state.messages);
+  const messageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
@@ -86,6 +85,13 @@ const DirectMessage = () => {
     };
     fetchDirectMessage();
   }, [userId1, userId2]);
+
+  useEffect(() => {
+    // TODO: See if this is the best way to scroll to the bottom, and check edge cases
+    if (messageRef.current) {
+      messageRef.current.scrollTo(0, messageRef.current.scrollHeight);
+    }
+  }, [messages]);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -134,7 +140,11 @@ const DirectMessage = () => {
             overflowY: "hidden",
           }}
         >
-          <List component="div" sx={{ flex: 1, overflowY: "scroll" }}>
+          <List
+            component="div"
+            ref={messageRef}
+            sx={{ flex: 1, overflowY: "scroll" }}
+          >
             {messages.map((o) => (
               <ListItem component="div" key={o.messageId}>
                 <ListItemText
