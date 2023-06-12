@@ -10,35 +10,19 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import ChatIcon from "@mui/icons-material/Chat";
 import IconButton from "@mui/material/IconButton";
-import ConversationList from "../components/Messages/ConversationList";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
-import SearchBar from "../components/Common/SearchBar";
-import InfoIcon from "@mui/icons-material/Info";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
+import ConversationList from "../components/Messages/ConversationList";
 
 const styles = {
-  messagesHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    paddingTop: 2,
-    paddingRight: 2,
-    paddingLeft: 2,
-    paddingBottom: 0,
-  },
-  conversationListContainer: {
-    maxWidth: "30%",
-  },
-  root: {
-    width: "100%",
-  },
   directMessageActivityContainer: {
     width: "50%",
     display: "flex",
@@ -56,17 +40,22 @@ const styles = {
     flexDirection: "column",
     alignItems: "flex-start",
   },
+  messageText: {
+    color: "#FFFFFF",
+    padding: 1,
+    borderRadius: 10,
+    backgroundColor: "#686968",
+  },
+  root: {
+    width: "100%",
+  },
   sentMessage: {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
   },
-  messageText: {
-    padding: 1,
-    borderRadius: 10,
-    backgroundColor: "#cce3d9",
-  },
   sentMessageText: {
+    color: "#FFFFFF",
     padding: 1,
     borderRadius: 10,
     backgroundColor: "#22AA6F",
@@ -109,7 +98,6 @@ const DirectMessage = () => {
         })
       ).data as Message;
       setTextContent("");
-      console.log(textContent);
       setMessages([...messages, newMessage]);
     } catch (err) {
       console.log(err);
@@ -118,21 +106,11 @@ const DirectMessage = () => {
 
   return (
     <Stack direction="row" sx={styles.root}>
-      <Box sx={styles.conversationListContainer}>
-        <Box sx={styles.messagesHeader}>
-          <Typography variant="h6">Messages</Typography>
-          <IconButton>
-            <ChatIcon />
-          </IconButton>
-        </Box>
-        <SearchBar placeholder="Search Messages" />
-        <Divider />
-        <ConversationList />
-      </Box>
+      <ConversationList />
       <Divider flexItem orientation="vertical" />
       <Box sx={styles.directMessageActivityContainer}>
         <Box sx={styles.directMessageActivityHeader}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ alignItems: "center", display: "flex" }}>
             <Box sx={{ padding: 1 }}>
               <Avatar />
             </Box>
@@ -144,7 +122,7 @@ const DirectMessage = () => {
             </Box>
           </Box>
           <IconButton>
-            <InfoIcon />
+            <InfoOutlinedIcon />
           </IconButton>
         </Box>
         <Divider flexItem />
@@ -153,7 +131,7 @@ const DirectMessage = () => {
             display: "flex",
             flex: 1,
             flexDirection: "column",
-            overflowY: "scroll",
+            overflowY: "hidden",
           }}
         >
           <List component="div" sx={{ flex: 1, overflowY: "scroll" }}>
@@ -189,25 +167,26 @@ const DirectMessage = () => {
           <Divider />
           <Box
             sx={{
-              padding: 1,
               alignSelf: "flex-end",
-              width: "100%",
               boxSizing: "border-box",
+              padding: 1,
+              width: "100%",
             }}
           >
             <form onSubmit={onSubmit}>
               <TextField
+                autoComplete="off"
+                fullWidth
+                hiddenLabel
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
                       <IconButton>
                         <AddPhotoAlternateOutlinedIcon />
                       </IconButton>
-
                       <IconButton>
                         <EmojiEmotionsOutlinedIcon />
                       </IconButton>
-
                       <IconButton>
                         <GifBoxOutlinedIcon />
                       </IconButton>
@@ -221,17 +200,14 @@ const DirectMessage = () => {
                     </InputAdornment>
                   ),
                 }}
-                fullWidth
-                hiddenLabel
-                multiline
                 onChange={(e) => setTextContent(e.target.value)}
                 placeholder="Send a message"
+                size="small"
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "50px",
                   },
                 }}
-                size="small"
                 value={textContent}
               />
             </form>

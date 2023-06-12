@@ -89,14 +89,14 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
               fullWidth
               hiddenLabel
               id="standard-multiline-static"
+              InputProps={{ disableUnderline: true }}
               multiline
               onChange={(e) => setPostTextContent(e.target.value)}
+              onFocus={() => setFocusReply(true)}
               placeholder={placeholder}
               sx={styles.textField}
               value={postTextContent}
               variant="standard"
-              onFocus={() => setFocusReply(true)}
-              InputProps={{ disableUnderline: true }}
             />
             <Button
               disabled={!postTextContent.trim()}
