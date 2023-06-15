@@ -1,12 +1,13 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
-import ConversationListItem, {
-  LatestMessageDetails,
-} from "./ConversationListItem";
+import { useEffect } from "react";
+import ConversationListItem from "./ConversationListItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Box, Divider, IconButton, List, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { setSelectedConversation } from "../../state/slices/messagesSlice";
+import {
+  setConversations,
+  setSelectedConversation,
+} from "../../state/slices/messagesSlice";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SearchBar from "../Common/SearchBar";
 
@@ -25,10 +26,9 @@ const styles = {
 };
 
 const ConversationList = () => {
-  const selectedConversation = useAppSelector((state) => state.messages);
-  const [latestMessageDetails, setlatestMessageDetails] = useState<
-    LatestMessageDetails[]
-  >([]);
+  const { conversations, selectedConversation } = useAppSelector(
+    (state) => state.messages
+  );
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
@@ -41,10 +41,10 @@ const ConversationList = () => {
           userId: user.userId,
         },
       });
-      setlatestMessageDetails(result.data as LatestMessageDetails[]);
+      dispatch(setConversations(result.data));
     };
     fetchMessages();
-  }, [user]);
+  }, [dispatch, user]);
 
   return (
     <Box sx={styles.container}>
@@ -57,10 +57,10 @@ const ConversationList = () => {
       <SearchBar placeholder="Search Messages" />
       <Divider />
       <List component="div">
-        {latestMessageDetails.map((o) => (
+        {conversations.map((o) => (
           <ConversationListItem
             key={o.otherUserId}
-            latestMessageDetails={o}
+            conversation={o}
             onClick={() => {
               dispatch(
                 setSelectedConversation({

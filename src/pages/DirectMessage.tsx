@@ -14,13 +14,14 @@ import IconButton from "@mui/material/IconButton";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useAppSelector } from "../state/hooks";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ConversationList from "../components/Messages/ConversationList";
+import { updateConversation } from "../state/slices/messagesSlice";
 
 const styles = {
   directMessageActivityContainer: {
@@ -73,8 +74,9 @@ const DirectMessage = () => {
   const [textContent, setTextContent] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const user = useAppSelector((state) => state.user);
-  const selectedConversation = useAppSelector((state) => state.messages);
+  const { selectedConversation } = useAppSelector((state) => state.messages);
   const messageRef = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
@@ -105,6 +107,15 @@ const DirectMessage = () => {
       ).data as Message;
       setTextContent("");
       setMessages([...messages, newMessage]);
+      dispatch(
+        updateConversation({
+          displayName: selectedConversation.displayName,
+          otherUserId: selectedConversation.userId,
+          textContent: newMessage.textContent,
+          timestamp: newMessage.timestamp,
+          username: selectedConversation.username,
+        })
+      );
     } catch (err) {
       console.log(err);
     }

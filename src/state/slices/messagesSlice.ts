@@ -1,30 +1,55 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type selectedConversation = {
+export type Conversation = {
+  displayName: string;
+  otherUserId: number;
+  textContent: string;
+  timestamp: string;
+  username: string;
+};
+
+type SelectedConversation = {
   displayName: string;
   userId: number;
   username: string;
 };
 
-const initialState: selectedConversation = {
-  displayName: "",
-  username: "",
-  userId: 0,
+type ConversationDetails = {
+  selectedConversation: SelectedConversation;
+  conversations: Conversation[];
+};
+
+const initialState: ConversationDetails = {
+  selectedConversation: { displayName: "", username: "", userId: 0 },
+  conversations: [],
 };
 
 export const messagesSlice = createSlice({
   name: "messages",
   initialState,
   reducers: {
+    setConversations: (state, action: PayloadAction<Conversation[]>) => {
+      state.conversations = action.payload;
+    },
     setSelectedConversation: (
-      _,
-      action: PayloadAction<selectedConversation>
+      state,
+      action: PayloadAction<SelectedConversation>
     ) => {
-      return action.payload;
+      state.selectedConversation = action.payload;
+    },
+    updateConversation: (state, action: PayloadAction<Conversation>) => {
+      const newConversations = state.conversations.map((o) => {
+        if (o.otherUserId === action.payload.otherUserId) {
+          return action.payload;
+        }
+        return o;
+      });
+      state.conversations = newConversations;
     },
   },
 });
 
-export const { setSelectedConversation } = messagesSlice.actions;
+export const { setConversations, setSelectedConversation, updateConversation } =
+  messagesSlice.actions;
 
 export default messagesSlice.reducer;

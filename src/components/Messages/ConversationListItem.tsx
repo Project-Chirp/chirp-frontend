@@ -7,6 +7,7 @@ import {
   Typography,
   Box,
 } from "@mui/material";
+import { Conversation } from "../../state/slices/messagesSlice";
 
 const styles = {
   avatar: { margin: "auto" },
@@ -25,22 +26,14 @@ const styles = {
   username: { flex: 1, minWidth: 0 },
 };
 
-export type LatestMessageDetails = {
-  displayName: string;
-  otherUserId: number;
-  textContent: string;
-  timestamp: string;
-  username: string;
-};
-
 type ConversationListItemProps = {
-  latestMessageDetails: LatestMessageDetails;
+  conversation: Conversation;
   onClick: () => void;
   selected: boolean;
 };
 
 const ConversationListItem = ({
-  latestMessageDetails,
+  conversation,
   onClick,
   selected,
 }: ConversationListItemProps) => {
@@ -55,19 +48,19 @@ const ConversationListItem = ({
           primary={
             <Box sx={styles.primaryTextContainer}>
               <Typography noWrap sx={styles.displayName} variant="body2">
-                {latestMessageDetails.displayName}
+                {conversation.displayName}
               </Typography>
               <Typography noWrap sx={styles.username} variant="body2">
-                {`@${latestMessageDetails.username}`}
+                {`@${conversation.username}`}
               </Typography>
               <Typography noWrap variant="body2">
-                {`- ${latestMessageDetails.timestamp}`}
+                {`- ${conversation.timestamp}`}
               </Typography>
             </Box>
           }
           secondary={
             <Typography noWrap variant="body2">
-              {latestMessageDetails.textContent}
+              {conversation.textContent}
             </Typography>
           }
         />

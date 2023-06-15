@@ -36,7 +36,7 @@ const styles = {
 
 const NavBar = () => {
   const [openModal, setOpenModal] = useState(false);
-  const selectedConversation = useAppSelector((state) => state.messages);
+  const { selectedConversation } = useAppSelector((state) => state.messages);
   const user = useAppSelector((state) => state.user);
 
   const navItems = [
