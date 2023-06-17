@@ -13,6 +13,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
+import formatTimestamp from "../Misc/formatTimestamp";
 
 type ComposePostProps = {
   placeholder: string;
@@ -45,9 +46,13 @@ const ComposePost = ({ placeholder }: ComposePostProps) => {
         textContent,
       });
       setPostTextContent("");
+      const modified = {
+        ...newPost.data,
+        timestamp: formatTimestamp(newPost.data),
+      };
       dispatch(
         appendPost({
-          ...newPost.data,
+          ...modified,
           username: user.username,
           displayName: user.displayName,
         })
