@@ -69,13 +69,13 @@ const styles = {
     paddingTop: 0,
   },
   dialogPaper: {
-    borderRadius: 5,
+    borderRadius: 3,
   },
   replyingTo: {
     fontSize: 13,
     color: "gray",
   },
-  names: { display: "flex" },
+  names: { display: "flex", marginLeft: 0 },
   displayName: { paddingRight: 1, fontSize: 14, fontWeight: "bold" },
   username: { fontSize: 14, color: "gray" },
   cardHeader: {
@@ -85,14 +85,9 @@ const styles = {
     ".MuiCardHeader-title": {
       paddingBottom: 2.5,
     },
-  },
-  cardContent: {
-    width: 400,
-    paddingLeft: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    display: "flex",
-    alignItems: "center",
+    ".MuiCardHeader-avatar": {
+      marginRight: 1.5,
+    },
   },
   grayRectangle: {
     width: "1px",
@@ -102,18 +97,37 @@ const styles = {
     position: "relative",
     marginLeft: 5,
   },
-  textContent: {
-    paddingLeft: 3,
-    paddingBottom: 5,
-  },
   author: { paddingLeft: 0.5, fontSize: 13 },
-  replyInfo: { paddingTop: 2 },
+  replyInfo: { display: "flex", paddingTop: 1, paddingBottom: 1 },
+  cardContent: {
+    padding: 0,
+    position: "relative",
+    backgroundColor: "lightgray",
+    display: "flex",
+    height: "300px",
+  },
+  textContent: {
+    position: "relative",
+    height: "100%",
+    width: "95%",
+    paddingLeft: 8.5,
+  },
+  replyLineBox: {
+    width: "20%",
+    height: "100%",
+    display: "flex",
+    backgroundColor: "lightgray",
+  },
   replyLine: {
-    backgroundColor: "gray",
-    width: "2px",
-    margin: 1,
-    height: "10vh",
-    marginLeft: "35px",
+    backgroundColor: "red",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    width: "50%",
+  },
+  postContent: {
+    overflowWrap: "anywhere",
   },
 };
 
@@ -191,10 +205,14 @@ export const RepliesModal = ({ onClose, openModal }: PostModalProps) => {
             }
           />
           <CardContent sx={styles.cardContent}>
-            <Box sx={styles.replyLine}></Box>
+            <Box sx={styles.replyLineBox}>
+              <Box sx={styles.replyLine}></Box>
+            </Box>
             <Box sx={styles.textContent}>
-              <Typography>{post.textContent}</Typography>
-              <Box display={"flex"} sx={styles.replyInfo}>
+              <Typography sx={styles.postContent}>
+                {post.textContent}
+              </Typography>
+              <Box sx={styles.replyInfo}>
                 <Typography sx={styles.replyingTo}>Replying to </Typography>
                 <Typography
                   color={"primary"}
