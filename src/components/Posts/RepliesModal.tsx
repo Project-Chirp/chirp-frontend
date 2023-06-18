@@ -76,18 +76,6 @@ const styles = {
   },
   displayName: { paddingRight: 1, fontSize: 14, fontWeight: "bold" },
   username: { fontSize: 14, color: "gray" },
-  cardHeader: {
-    display: "flex",
-    paddingBottom: 0,
-    paddingTop: 0,
-    ".MuiCardHeader-title": {
-      paddingBottom: 2.5,
-    },
-    ".MuiCardHeader-avatar": {
-      marginRight: 1.5,
-    },
-  },
-
   author: { paddingLeft: 0.5, fontSize: 13 },
   replyInfo: { display: "flex", paddingTop: 1, paddingBottom: 1 },
   cardContent: {
@@ -253,37 +241,6 @@ export const RepliesModal = ({ onClose, openModal, post }: PostModalProps) => {
                 </Box>
               </Box>
             </Box>
-            {/* <Box
-              sx={styles.secondaryContainer}
-              className="secondaryContainer"
-            ></Box> */}
-            {/* <Avatar>CK</Avatar>
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-            <Box sx={styles.names}>
-              <Typography
-                sx={styles.displayName}
-              >{`${post.displayName}`}</Typography>
-              <Typography
-                sx={styles.username}
-              >{`@${post.username}`}</Typography>
-            </Box>
-            <Box sx={styles.replyLineBox}>
-              <Box sx={styles.replyLine}></Box>
-            </Box>
-            <Box sx={styles.textContent}>
-              <Typography sx={styles.postContent}>
-                {post.textContent}
-              </Typography>
-              <Box sx={styles.replyInfo}>
-                <Typography sx={styles.replyingTo}>Replying to </Typography>
-                <Typography
-                  color={"primary"}
-                  sx={styles.author}
-                >{`@${post.username}`}</Typography>
-              </Box>
-            </Box> */}
           </CardContent>
           {post.imagePath && (
             <CardMedia
