@@ -24,7 +24,7 @@ import { Post, updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 import { useState } from "react";
-import RepliesModal from "../Misc/RepliesModal";
+import RepliesModal from "./RepliesModal";
 
 const styles = {
   card: {

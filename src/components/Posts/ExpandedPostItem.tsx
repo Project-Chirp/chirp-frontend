@@ -27,7 +27,7 @@ import {
   updateExpandedPost,
 } from "../../state/slices/expandedPostSlice";
 import { useEffect, useState } from "react";
-import RepliesModal from "../Misc/RepliesModal";
+import RepliesModal from "./RepliesModal";
 
 const styles = {
   card: {

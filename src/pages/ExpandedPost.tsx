@@ -2,7 +2,7 @@ import { Box, Divider } from "@mui/material";
 import { Stack } from "@mui/system";
 import ExpandedPostItem from "../components/Posts/ExpandedPostItem";
 import ComposeReply from "../components/Posts/ComposeReply";
-import ExpandedPostList from "../components/Posts/ExpandedPostList";
+import ExpandedPostList from "../components/Posts/ExpandedPostReplies";
 
 const styles = {
   root: {

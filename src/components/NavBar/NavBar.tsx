@@ -5,9 +5,9 @@ import { Avatar, Button, List, Stack, Toolbar } from "@mui/material";
 import { Drawer } from "@mui/material";
 import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
+import PostButtonModal from "./PostButtonModal";
 import { useState } from "react";
 import ComposePost from "../Posts/ComposePost";
-import PostButtonModal from "../Misc/PostButtonModal";
 
 const drawerWidth = "30%";
 const styles = {
