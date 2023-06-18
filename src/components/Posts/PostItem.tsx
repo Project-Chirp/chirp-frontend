@@ -23,6 +23,8 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/expandedPostSlice";
+import { useState } from "react";
+import RepliesModal from "../Misc/RepliesModal";
 
 const styles = {
   card: {
@@ -40,6 +42,7 @@ type PostProps = {
 const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+  const [openModal, setOpenModal] = useState(false);
 
   const likePost = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
@@ -78,6 +81,10 @@ const PostItem = ({ post }: PostProps) => {
     const path = `/post/${post.postId}`;
     navigate(path);
     dispatch(setExpandedPost(post));
+  };
+
+  const replyModalPopup = () => {
+    setOpenModal(true);
   };
 
   return (
@@ -126,12 +133,26 @@ const PostItem = ({ post }: PostProps) => {
           >
             {post.numberOfLikes}
           </Button>
-          <Button startIcon={<AddCommentOutlinedIcon />}>1</Button>
+          <Button
+            startIcon={<AddCommentOutlinedIcon />}
+            onClick={() => {
+              replyModalPopup();
+            }}
+          >
+            1
+          </Button>
           <Button startIcon={<RepeatOutlinedIcon />}>1</Button>
           <Button startIcon={<ShareOutlinedIcon />} />
         </Stack>
       </CardActions>
       <Divider light />
+      {openModal && (
+        <RepliesModal
+          onClose={() => setOpenModal(false)}
+          openModal={openModal}
+          post={post}
+        />
+      )}
     </Card>
   );
 };

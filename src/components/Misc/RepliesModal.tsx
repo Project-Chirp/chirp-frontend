@@ -20,7 +20,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useState } from "react";
 import axios from "axios";
-import { appendPost } from "../../state/slices/postsSlice";
+import { Post, appendPost } from "../../state/slices/postsSlice";
 
 const styles = {
   card: {
@@ -105,6 +105,7 @@ const styles = {
     width: "12%",
     display: "flex",
     flexDirection: "column",
+    gap: 0.25,
     right: 2,
   },
   secondaryContainer: {
@@ -120,7 +121,6 @@ const styles = {
   replyingText: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
     height: "100%",
   },
   avatarBox: {
@@ -129,29 +129,16 @@ const styles = {
     padding: 1,
   },
   lineBox: {
-    paddingTop: 1,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     flexGrow: 1,
+    paddingBottom: 1,
   },
   line: {
     height: "100%",
     width: "5%",
     backgroundColor: "lightgray",
-  },
-  bottomLine: {
-    height: "100%",
-    width: "5%",
-    marginBottom: 4,
-    backgroundColor: "lightgray",
-  },
-  addLineBox: {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
   },
   namesAndOption: {
     height: "2rem",
@@ -175,16 +162,15 @@ const styles = {
     display: "flex",
     flexDirection: "column",
   },
-  postContent: {},
 };
 
 type PostModalProps = {
   onClose: () => void;
   openModal: boolean;
+  post: Post;
 };
 
-export const RepliesModal = ({ onClose, openModal }: PostModalProps) => {
-  const post = useAppSelector((state) => state.post);
+export const RepliesModal = ({ onClose, openModal, post }: PostModalProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -256,26 +242,21 @@ export const RepliesModal = ({ onClose, openModal }: PostModalProps) => {
                   </IconButton>
                 </Box>
                 <Box sx={styles.postContentContainer}>
-                  <Typography sx={styles.postContent}>
-                    {post.textContent}
-                  </Typography>
+                  <Typography>{post.textContent}</Typography>
+                </Box>
+                <Box sx={styles.replyingText} className="lime">
+                  <Typography sx={styles.replyingTo}>Replying to </Typography>
+                  <Typography
+                    color={"primary"}
+                    sx={styles.author}
+                  >{`@${post.username}`}</Typography>
                 </Box>
               </Box>
             </Box>
-            <Box sx={styles.secondaryContainer} className="secondaryContainer">
-              <Box sx={styles.addLineContainer}>
-                <Box sx={styles.addLineBox}>
-                  <Box sx={styles.bottomLine}></Box>
-                </Box>
-              </Box>
-              <Box sx={styles.replyingText} className="lime">
-                <Typography sx={styles.replyingTo}>Replying to </Typography>
-                <Typography
-                  color={"primary"}
-                  sx={styles.author}
-                >{`@${post.username}`}</Typography>
-              </Box>
-            </Box>
+            {/* <Box
+              sx={styles.secondaryContainer}
+              className="secondaryContainer"
+            ></Box> */}
             {/* <Avatar>CK</Avatar>
             <IconButton>
               <MoreVertIcon />

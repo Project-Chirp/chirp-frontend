@@ -238,6 +238,7 @@ const ExpandedPostItem = () => {
         <RepliesModal
           onClose={() => setOpenModal(false)}
           openModal={openModal}
+          post={post}
         />
       )}
     </Card>
