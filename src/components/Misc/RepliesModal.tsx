@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
   CardMedia,
   Dialog,
   DialogContent,
@@ -75,7 +74,6 @@ const styles = {
     fontSize: 13,
     color: "gray",
   },
-  names: { display: "flex", marginLeft: 0 },
   displayName: { paddingRight: 1, fontSize: 14, fontWeight: "bold" },
   username: { fontSize: 14, color: "gray" },
   cardHeader: {
@@ -89,46 +87,95 @@ const styles = {
       marginRight: 1.5,
     },
   },
-  grayRectangle: {
-    width: "1px",
-    height: 100,
-    backgroundColor: "gray",
-    zIndex: 2,
-    position: "relative",
-    marginLeft: 5,
-  },
+
   author: { paddingLeft: 0.5, fontSize: 13 },
   replyInfo: { display: "flex", paddingTop: 1, paddingBottom: 1 },
   cardContent: {
     padding: 0,
-    position: "relative",
-    backgroundColor: "lightgray",
     display: "flex",
-    height: "300px",
+    flexDirection: "column",
   },
-  textContent: {
-    position: "relative",
-    height: "100%",
-    width: "95%",
-    paddingLeft: 8.5,
-  },
-  replyLineBox: {
-    width: "20%",
-    height: "100%",
+  mainContainer: {
+    width: "100%",
+    height: "80%",
     display: "flex",
-    backgroundColor: "lightgray",
+    margin: 0,
   },
-  replyLine: {
-    backgroundColor: "red",
+  avatarLineContainer: {
+    width: "12%",
+    display: "flex",
+    flexDirection: "column",
+    right: 2,
+  },
+  secondaryContainer: {
+    width: "100%",
+    height: "1.5rem",
+    display: "flex",
+    margin: 0,
+  },
+  addLineContainer: {
+    width: "12%",
+    display: "flex",
+  },
+  replyingText: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     height: "100%",
-    width: "50%",
   },
-  postContent: {
-    overflowWrap: "anywhere",
+  avatarBox: {
+    display: "flex",
+    justifyContent: "center",
+    padding: 1,
   },
+  lineBox: {
+    paddingTop: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexGrow: 1,
+  },
+  line: {
+    height: "100%",
+    width: "5%",
+    backgroundColor: "lightgray",
+  },
+  bottomLine: {
+    height: "100%",
+    width: "5%",
+    marginBottom: 4,
+    backgroundColor: "lightgray",
+  },
+  addLineBox: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  namesAndOption: {
+    height: "2rem",
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  names: {
+    display: "flex",
+    marginTop: 1,
+  },
+  postContentContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginBottom: 1,
+    marginRight: 3,
+  },
+  textContent: {
+    width: "88%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  postContent: {},
 };
 
 type PostModalProps = {
@@ -184,27 +231,63 @@ export const RepliesModal = ({ onClose, openModal }: PostModalProps) => {
       </DialogTitle>
       <DialogContent sx={styles.dialogContent}>
         <Card sx={styles.card}>
-          <CardHeader
-            avatar={<Avatar>CK</Avatar>}
-            action={
-              <IconButton>
-                <MoreVertIcon />
-              </IconButton>
-            }
-            titleTypographyProps={{ fontWeight: "bold" }}
-            sx={styles.cardHeader}
-            title={
-              <Box sx={styles.names}>
+          <CardContent sx={styles.cardContent} className="cardContent">
+            <Box sx={styles.mainContainer} className="mainContainer">
+              <Box sx={styles.avatarLineContainer}>
+                <Box sx={styles.avatarBox}>
+                  <Avatar>CK</Avatar>
+                </Box>
+                <Box sx={styles.lineBox}>
+                  <Box sx={styles.line}></Box>
+                </Box>
+              </Box>
+              <Box sx={styles.textContent}>
+                <Box sx={styles.namesAndOption} className="namesAndOption">
+                  <Box sx={styles.names}>
+                    <Typography
+                      sx={styles.displayName}
+                    >{`${post.displayName}`}</Typography>
+                    <Typography
+                      sx={styles.username}
+                    >{`@${post.username}`}</Typography>
+                  </Box>
+                  <IconButton>
+                    <MoreVertIcon />
+                  </IconButton>
+                </Box>
+                <Box sx={styles.postContentContainer}>
+                  <Typography sx={styles.postContent}>
+                    {post.textContent}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+            <Box sx={styles.secondaryContainer} className="secondaryContainer">
+              <Box sx={styles.addLineContainer}>
+                <Box sx={styles.addLineBox}>
+                  <Box sx={styles.bottomLine}></Box>
+                </Box>
+              </Box>
+              <Box sx={styles.replyingText} className="lime">
+                <Typography sx={styles.replyingTo}>Replying to </Typography>
                 <Typography
-                  sx={styles.displayName}
-                >{`${post.displayName}`}</Typography>
-                <Typography
-                  sx={styles.username}
+                  color={"primary"}
+                  sx={styles.author}
                 >{`@${post.username}`}</Typography>
               </Box>
-            }
-          />
-          <CardContent sx={styles.cardContent}>
+            </Box>
+            {/* <Avatar>CK</Avatar>
+            <IconButton>
+              <MoreVertIcon />
+            </IconButton>
+            <Box sx={styles.names}>
+              <Typography
+                sx={styles.displayName}
+              >{`${post.displayName}`}</Typography>
+              <Typography
+                sx={styles.username}
+              >{`@${post.username}`}</Typography>
+            </Box>
             <Box sx={styles.replyLineBox}>
               <Box sx={styles.replyLine}></Box>
             </Box>
@@ -219,7 +302,7 @@ export const RepliesModal = ({ onClose, openModal }: PostModalProps) => {
                   sx={styles.author}
                 >{`@${post.username}`}</Typography>
               </Box>
-            </Box>
+            </Box> */}
           </CardContent>
           {post.imagePath && (
             <CardMedia
