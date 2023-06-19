@@ -44,6 +44,12 @@ const PostItem = ({ post }: PostProps) => {
         color: "primary.main",
       },
     },
+    tempIcon: {
+      color: "gray.main",
+      "&:hover": {
+        color: "primary.main",
+      },
+    },
   };
 
   const likePost = async (postId: number, userId?: number) => {
@@ -132,9 +138,13 @@ const PostItem = ({ post }: PostProps) => {
           >
             {post.numberOfLikes}
           </Button>
-          <Button startIcon={<AddCommentOutlinedIcon />}>1</Button>
-          <Button startIcon={<RepeatOutlinedIcon />}>1</Button>
-          <Button startIcon={<ShareOutlinedIcon />} />
+          <Button startIcon={<AddCommentOutlinedIcon />} sx={styles.tempIcon}>
+            1
+          </Button>
+          <Button startIcon={<RepeatOutlinedIcon />} sx={styles.tempIcon}>
+            1
+          </Button>
+          <Button startIcon={<ShareOutlinedIcon />} sx={styles.tempIcon} />
         </Stack>
       </CardActions>
       <Divider light />
