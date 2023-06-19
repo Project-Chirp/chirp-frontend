@@ -123,10 +123,10 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
         {focusReply && (
           <Box sx={styles.postActions}>
             <Stack direction="row">
-              <IconButton size="small">
+              <IconButton size="small" color="primary">
                 <AddPhotoAlternateOutlinedIcon />
               </IconButton>
-              <IconButton size="small">
+              <IconButton size="small" color="primary">
                 <EmojiEmotionsOutlinedIcon />
               </IconButton>
             </Stack>
