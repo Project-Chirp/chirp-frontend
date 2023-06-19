@@ -24,15 +24,6 @@ import { Post, updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 
-const styles = {
-  card: {
-    boxShadow: "none",
-  },
-  cardActions: {
-    width: "100%",
-  },
-};
-
 type PostProps = {
   post: Post;
 };
@@ -40,6 +31,20 @@ type PostProps = {
 const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+  const styles = {
+    card: {
+      boxShadow: "none",
+    },
+    cardActions: {
+      width: "100%",
+    },
+    likeIcon: {
+      color: post.isLikedByCurrentUser ? "primary.main" : "gray.main",
+      "&:hover": {
+        color: "primary.main",
+      },
+    },
+  };
 
   const likePost = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
@@ -123,6 +128,7 @@ const PostItem = ({ post }: PostProps) => {
                 <FavoriteBorderOutlinedIcon />
               )
             }
+            sx={styles.likeIcon}
           >
             {post.numberOfLikes}
           </Button>

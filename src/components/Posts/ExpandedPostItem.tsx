@@ -99,6 +99,20 @@ const ExpandedPostItem = () => {
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
   const urlParams = useParams();
+  const iconStyles = {
+    likeIcon: {
+      color: post.isLikedByCurrentUser ? "primary.main" : "gray.main",
+      "&:hover": {
+        color: "primary.main",
+      },
+    },
+    tempIcon: {
+      color: "gray.main",
+      "&:hover": {
+        color: "primary.main",
+      },
+    },
+  };
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
@@ -209,6 +223,7 @@ const ExpandedPostItem = () => {
                 ? unlikePost(post.postId, user.userId)
                 : likePost(post.postId, user.userId);
             }}
+            sx={iconStyles.likeIcon}
           >
             {post.isLikedByCurrentUser ? (
               <FavoriteOutlinedIcon />
@@ -216,13 +231,13 @@ const ExpandedPostItem = () => {
               <FavoriteBorderOutlinedIcon />
             )}
           </IconButton>
-          <IconButton>
+          <IconButton sx={iconStyles.tempIcon}>
             <AddCommentOutlinedIcon />
           </IconButton>
-          <IconButton>
+          <IconButton sx={iconStyles.tempIcon}>
             <RepeatOutlinedIcon />
           </IconButton>
-          <IconButton>
+          <IconButton sx={iconStyles.tempIcon}>
             <ShareOutlinedIcon />
           </IconButton>
         </Stack>

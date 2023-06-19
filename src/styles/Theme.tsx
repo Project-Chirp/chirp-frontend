@@ -1,10 +1,17 @@
 import { createTheme } from "@mui/material/styles";
 
+declare module "@mui/material/styles" {
+  interface PaletteOptions {
+    gray: PaletteOptions["primary"];
+  }
+}
+
 const theme = createTheme({
   palette: {
     primary: {
       main: "#22AA6F",
       contrastText: "#FFFFFF",
+      light: "#c6ebd4",
     },
     secondary: {
       main: "#212529",
@@ -17,6 +24,9 @@ const theme = createTheme({
     },
     success: {
       main: "#22AA6F",
+    },
+    gray: {
+      main: "#adb5bd",
     },
   },
 
@@ -31,11 +41,6 @@ const theme = createTheme({
       defaultProps: {
         disableRipple: true,
         disableTouchRipple: true,
-      },
-    },
-    MuiIconButton: {
-      defaultProps: {
-        color: "primary",
       },
     },
   },
