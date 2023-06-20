@@ -21,7 +21,10 @@ import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ConversationList from "../components/Messages/ConversationList";
-import { updateConversation } from "../state/slices/messagesSlice";
+import {
+  setSelectedConversation,
+  updateConversation,
+} from "../state/slices/messagesSlice";
 
 const styles = {
   directMessageActivityContainer: {
@@ -83,10 +86,16 @@ const DirectMessage = () => {
       const result = await axios.get(
         `http://localhost:3001/api/messages/${userId1}/${userId2}`
       );
-      setMessages(result.data as Message[]);
+      setMessages(result.data.messages as Message[]);
+      dispatch(
+        setSelectedConversation({
+          ...result.data.otherUser,
+          userId: Number(userId2),
+        })
+      );
     };
     fetchDirectMessage();
-  }, [userId1, userId2]);
+  }, [dispatch, userId1, userId2]);
 
   useEffect(() => {
     // TODO: See if this is the best way to scroll to the bottom, and check edge cases
