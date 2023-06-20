@@ -27,30 +27,31 @@ import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 type PostProps = {
   post: Post;
 };
+const styles = (post: Post) => ({
+  card: {
+    boxShadow: "none",
+  },
+  cardActions: {
+    width: "100%",
+  },
+  likeIcon: {
+    color: post.isLikedByCurrentUser ? "primary.main" : "gray.main",
+    "&:hover": {
+      color: "primary.main",
+    },
+  },
+  tempIcon: {
+    color: "gray.main",
+    "&:hover": {
+      color: "primary.main",
+    },
+  },
+});
 
 const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const styles = {
-    card: {
-      boxShadow: "none",
-    },
-    cardActions: {
-      width: "100%",
-    },
-    likeIcon: {
-      color: post.isLikedByCurrentUser ? "primary.main" : "gray.main",
-      "&:hover": {
-        color: "primary.main",
-      },
-    },
-    tempIcon: {
-      color: "gray.main",
-      "&:hover": {
-        color: "primary.main",
-      },
-    },
-  };
+  const postStyles = styles(post);
 
   const likePost = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
@@ -92,7 +93,7 @@ const PostItem = ({ post }: PostProps) => {
   };
 
   return (
-    <Card sx={styles.card}>
+    <Card sx={postStyles.card}>
       <CardHeader
         avatar={<Avatar>CK</Avatar>}
         action={
@@ -119,7 +120,7 @@ const PostItem = ({ post }: PostProps) => {
         <Stack
           direction="row"
           justifyContent="space-between"
-          sx={styles.cardActions}
+          sx={postStyles.cardActions}
         >
           <Button
             onClick={() => {
@@ -134,17 +135,20 @@ const PostItem = ({ post }: PostProps) => {
                 <FavoriteBorderOutlinedIcon />
               )
             }
-            sx={styles.likeIcon}
+            sx={postStyles.likeIcon}
           >
             {post.numberOfLikes}
           </Button>
-          <Button startIcon={<AddCommentOutlinedIcon />} sx={styles.tempIcon}>
+          <Button
+            startIcon={<AddCommentOutlinedIcon />}
+            sx={postStyles.tempIcon}
+          >
             1
           </Button>
-          <Button startIcon={<RepeatOutlinedIcon />} sx={styles.tempIcon}>
+          <Button startIcon={<RepeatOutlinedIcon />} sx={postStyles.tempIcon}>
             1
           </Button>
-          <Button startIcon={<ShareOutlinedIcon />} sx={styles.tempIcon} />
+          <Button startIcon={<ShareOutlinedIcon />} sx={postStyles.tempIcon} />
         </Stack>
       </CardActions>
       <Divider light />
