@@ -99,9 +99,7 @@ const SearchBarMessages = ({
               })
         }
         options={followedList}
-        getOptionLabel={(option) =>
-          `${option.username}  @${option.displayName}`
-        }
+        getOptionLabel={(option) => `${option.displayName} @${option.username}`}
         sx={styles.autocomplete}
         renderInput={(params) => {
           return (
