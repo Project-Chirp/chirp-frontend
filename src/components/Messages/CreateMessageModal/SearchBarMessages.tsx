@@ -43,6 +43,7 @@ const styles = {
   stack: {
     width: "100%",
   },
+  autocomplete: { "	.MuiAutocomplete-input": { paddingLeft: 0 } },
 };
 
 type SearchBarProps = {
@@ -101,6 +102,7 @@ const SearchBarMessages = ({
         getOptionLabel={(option) =>
           `${option.username}  @${option.displayName}`
         }
+        sx={styles.autocomplete}
         renderInput={(params) => {
           return (
             <TextField
@@ -114,6 +116,7 @@ const SearchBarMessages = ({
                     <IconButton
                       onClick={() => routeChange()}
                       disabled={!selectedUser.username.trim()}
+                      sx={{ paddingRight: 0 }}
                     >
                       <SearchRoundedIcon />
                     </IconButton>
