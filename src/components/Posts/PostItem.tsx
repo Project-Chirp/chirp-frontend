@@ -20,7 +20,7 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, updatePost } from "../../state/slices/postsSlice";
+import postsSlice, { Post, updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 
@@ -45,6 +45,9 @@ const styles = (post: Post) => ({
     "&:hover": {
       color: "primary.main",
     },
+  },
+  vertIcon: {
+    color: "primary.main",
   },
 });
 
@@ -97,7 +100,7 @@ const PostItem = ({ post }: PostProps) => {
       <CardHeader
         avatar={<Avatar>CK</Avatar>}
         action={
-          <IconButton>
+          <IconButton sx={postStyles.vertIcon}>
             <MoreVertIcon />
           </IconButton>
         }

@@ -105,6 +105,9 @@ const styles = (post: Post) => ({
       color: "primary.main",
     },
   },
+  vertIcon: {
+    color: "primary.main",
+  },
 });
 
 const ExpandedPostItem = () => {
@@ -112,7 +115,7 @@ const ExpandedPostItem = () => {
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
   const urlParams = useParams();
-  const ePostStyles = styles(post);
+  const expandedPostStyles = styles(post);
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
@@ -165,17 +168,20 @@ const ExpandedPostItem = () => {
   const navigate = useNavigate();
 
   return (
-    <Card sx={ePostStyles.card}>
-      <Box style={ePostStyles.topHeader}>
-        <IconButton style={ePostStyles.backButton} onClick={() => navigate(-1)}>
+    <Card sx={expandedPostStyles.card}>
+      <Box style={expandedPostStyles.topHeader}>
+        <IconButton
+          style={expandedPostStyles.backButton}
+          onClick={() => navigate(-1)}
+        >
           <KeyboardBackspaceIcon color="secondary" />
         </IconButton>
-        <Typography style={ePostStyles.headerTitle}>Post</Typography>
+        <Typography style={expandedPostStyles.headerTitle}>Post</Typography>
       </Box>
       <CardHeader
         avatar={<Avatar>CK</Avatar>}
         action={
-          <IconButton>
+          <IconButton sx={expandedPostStyles.vertIcon}>
             <MoreVertIcon />
           </IconButton>
         }
@@ -192,22 +198,23 @@ const ExpandedPostItem = () => {
           image={post.imagePath}
         />
       )}
-      <Box sx={ePostStyles.timestampBox}>
-        <Typography component={"span"} sx={ePostStyles.timestamp}>
+      <Box sx={expandedPostStyles.timestampBox}>
+        <Typography component={"span"} sx={expandedPostStyles.timestamp}>
           {post.timestamp}
         </Typography>
       </Box>
       <Divider variant="middle" />
-      <Box sx={ePostStyles.actionData}>
-        <Button sx={ePostStyles.actionButton}>
+      <Box sx={expandedPostStyles.actionData}>
+        <Button sx={expandedPostStyles.actionButton}>
           {post.numberOfLikes}
-          <Typography sx={ePostStyles.actionTitles}>Likes</Typography>
+          <Typography sx={expandedPostStyles.actionTitles}>Likes</Typography>
         </Button>
-        <Button component={"span"} sx={ePostStyles.actionButton}>
-          1<Typography sx={ePostStyles.actionTitles}>Comments</Typography>
+        <Button component={"span"} sx={expandedPostStyles.actionButton}>
+          1
+          <Typography sx={expandedPostStyles.actionTitles}>Comments</Typography>
         </Button>
-        <Button component={"span"} sx={ePostStyles.actionButton}>
-          1<Typography sx={ePostStyles.actionTitles}>Reposts</Typography>
+        <Button component={"span"} sx={expandedPostStyles.actionButton}>
+          1<Typography sx={expandedPostStyles.actionTitles}>Reposts</Typography>
         </Button>
       </Box>
       <Divider variant="middle" />
@@ -215,7 +222,7 @@ const ExpandedPostItem = () => {
         <Stack
           direction="row"
           justifyContent="space-between"
-          sx={ePostStyles.cardActions}
+          sx={expandedPostStyles.cardActions}
         >
           <IconButton
             onClick={() => {
@@ -223,7 +230,7 @@ const ExpandedPostItem = () => {
                 ? unlikePost(post.postId, user.userId)
                 : likePost(post.postId, user.userId);
             }}
-            sx={ePostStyles.likeIcon}
+            sx={expandedPostStyles.likeIcon}
           >
             {post.isLikedByCurrentUser ? (
               <FavoriteOutlinedIcon />
@@ -231,13 +238,13 @@ const ExpandedPostItem = () => {
               <FavoriteBorderOutlinedIcon />
             )}
           </IconButton>
-          <IconButton sx={ePostStyles.tempIcon}>
+          <IconButton sx={expandedPostStyles.tempIcon}>
             <AddCommentOutlinedIcon />
           </IconButton>
-          <IconButton sx={ePostStyles.tempIcon}>
+          <IconButton sx={expandedPostStyles.tempIcon}>
             <RepeatOutlinedIcon />
           </IconButton>
-          <IconButton sx={ePostStyles.tempIcon}>
+          <IconButton sx={expandedPostStyles.tempIcon}>
             <ShareOutlinedIcon />
           </IconButton>
         </Stack>

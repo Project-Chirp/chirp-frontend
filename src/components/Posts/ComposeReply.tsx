@@ -33,6 +33,10 @@ const styles = {
     paddingBottom: 2,
   },
   postButton: {
+    "&.Mui-disabled": {
+      backgroundColor: "primary.light",
+      color: "white",
+    },
     borderRadius: 5,
     height: 35,
     weight: 35,
@@ -51,17 +55,6 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
   const dispatch = useAppDispatch();
-  const buttonStyle = {
-    postButton: {
-      "&.Mui-disabled": {
-        backgroundColor: "primary.light",
-        color: "white",
-      },
-      borderRadius: 5,
-      height: 35,
-      weight: 35,
-    },
-  };
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -112,7 +105,7 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
             <Button
               disabled={!postTextContent.trim()}
               size="small"
-              sx={buttonStyle.postButton}
+              sx={styles.postButton}
               type="submit"
               variant="contained"
             >
