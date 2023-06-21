@@ -105,9 +105,6 @@ const styles = (post: Post) => ({
       color: "primary.main",
     },
   },
-  vertIcon: {
-    color: "primary.main",
-  },
 });
 
 const ExpandedPostItem = () => {
@@ -181,7 +178,7 @@ const ExpandedPostItem = () => {
       <CardHeader
         avatar={<Avatar>CK</Avatar>}
         action={
-          <IconButton sx={expandedPostStyles.vertIcon}>
+          <IconButton sx={expandedPostStyles.tempIcon}>
             <MoreVertIcon />
           </IconButton>
         }

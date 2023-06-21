@@ -46,9 +46,6 @@ const styles = (post: Post) => ({
       color: "primary.main",
     },
   },
-  vertIcon: {
-    color: "primary.main",
-  },
 });
 
 const PostItem = ({ post }: PostProps) => {
@@ -100,7 +97,7 @@ const PostItem = ({ post }: PostProps) => {
       <CardHeader
         avatar={<Avatar>CK</Avatar>}
         action={
-          <IconButton sx={postStyles.vertIcon}>
+          <IconButton sx={postStyles.tempIcon}>
             <MoreVertIcon />
           </IconButton>
         }
