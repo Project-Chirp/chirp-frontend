@@ -31,6 +31,7 @@ const styles = {
   cardActions: {
     width: "100%",
   },
+  textContent: { whiteSpace: "pre-wrap" },
 };
 
 type PostProps = {
@@ -94,7 +95,7 @@ const PostItem = ({ post }: PostProps) => {
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent sx={{ width: 400 }}>
-          <Typography>{post.textContent}</Typography>
+          <Typography sx={styles.textContent}>{post.textContent}</Typography>
         </CardContent>
         {post.imagePath && (
           <CardMedia
