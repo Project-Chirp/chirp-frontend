@@ -92,6 +92,7 @@ const styles = {
   headerTitle: {
     fontWeight: "bold",
   },
+  textContent: { whiteSpace: "pre-wrap" },
 };
 
 const ExpandedPostItem = () => {
@@ -169,7 +170,7 @@ const ExpandedPostItem = () => {
         subheader={`@${post.username}`}
       />
       <CardContent sx={{ width: 400 }}>
-        <Typography>{post.textContent}</Typography>
+        <Typography sx={styles.textContent}>{post.textContent}</Typography>
       </CardContent>
       {post.imagePath && (
         <CardMedia
