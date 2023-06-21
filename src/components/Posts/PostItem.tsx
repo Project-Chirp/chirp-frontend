@@ -20,7 +20,7 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import postsSlice, { Post, updatePost } from "../../state/slices/postsSlice";
+import { Post, updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 
