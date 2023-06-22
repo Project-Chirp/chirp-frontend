@@ -38,6 +38,11 @@ const theme = createTheme({
         color: "primary",
       },
     },
+    MuiDialog: {
+      defaultProps: {
+        PaperProps: { sx: { borderRadius: 5 } },
+      },
+    },
   },
 });
 
