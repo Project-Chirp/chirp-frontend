@@ -35,15 +35,6 @@ const styles = {
     justifyContent: "space-between",
     marginTop: 1,
   },
-  postButton: {
-    "&.Mui-disabled": {
-      backgroundColor: "primary.light",
-      color: "white",
-    },
-    borderRadius: 5,
-    height: 35,
-    weight: 35,
-  },
 };
 
 const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
@@ -90,21 +81,19 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
             sx={styles.textField}
             value={postTextContent}
             variant="standard"
-            InputProps={{ disableUnderline: true }}
           />
           <Box sx={styles.postActions}>
             <Stack direction="row">
-              <IconButton size="small" color="primary">
+              <IconButton size="small">
                 <AddPhotoAlternateOutlinedIcon />
               </IconButton>
-              <IconButton size="small" color="primary">
+              <IconButton size="small">
                 <EmojiEmotionsOutlinedIcon />
               </IconButton>
             </Stack>
             <Button
               disabled={!postTextContent.trim()}
               size="small"
-              sx={styles.postButton}
               type="submit"
               variant="contained"
             >

@@ -1,35 +1,40 @@
 import { createTheme } from "@mui/material/styles";
+import createPalette from "@mui/material/styles/createPalette";
 
-declare module "@mui/material/styles" {
+declare module "@mui/material/styles/createPalette" {
   interface PaletteOptions {
     gray: PaletteOptions["primary"];
   }
+  interface Palette {
+    gray: Palette["primary"];
+  }
 }
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#22AA6F",
-      contrastText: "#FFFFFF",
-      light: "#c6ebd4",
-    },
-    secondary: {
-      main: "#212529",
-    },
-    error: {
-      main: "#f44336",
-    },
-    warning: {
-      main: "#ffa726",
-    },
-    success: {
-      main: "#22AA6F",
-    },
-    gray: {
-      main: "#adb5bd",
-    },
+const palette = createPalette({
+  primary: {
+    main: "#22AA6F",
+    contrastText: "#FFFFFF",
+    light: "#c6ebd4",
   },
+  secondary: {
+    main: "#212529",
+  },
+  error: {
+    main: "#f44336",
+  },
+  warning: {
+    main: "#ffa726",
+  },
+  success: {
+    main: "#22AA6F",
+  },
+  gray: {
+    main: "#adb5bd",
+  },
+});
 
+const theme = createTheme({
+  palette: palette,
   typography: {
     fontFamily: ["Inter"].join(","), // If we want to add more fonts, we can append to the array.
     button: {
@@ -37,6 +42,17 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "40px",
+          "&.Mui-disabled": {
+            backgroundColor: palette.primary.light,
+            color: palette.primary.contrastText,
+          },
+        },
+      },
+    },
     MuiButtonBase: {
       defaultProps: {
         disableRipple: true,
@@ -56,8 +72,25 @@ const theme = createTheme({
       },
     },
     MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: palette.gray.main,
+          "&:hover": {
+            color: palette.primary.main,
+          },
+        },
+      },
+    },
+    MuiTextField: {
       defaultProps: {
-        color: "primary",
+        InputProps: { disableUnderline: true },
+      },
+      styleOverrides: {
+        root: {
+          "&.MuiFormControl-root": {
+            padding: 0,
+          },
+        },
       },
     },
   },
