@@ -43,6 +43,23 @@ const theme = createTheme({
         disableTouchRipple: true,
       },
     },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          whiteSpace: "pre-wrap",
+        },
+      },
+    },
+    MuiDialog: {
+      defaultProps: {
+        PaperProps: { sx: { borderRadius: 5 } },
+      },
+    },
+    MuiIconButton: {
+      defaultProps: {
+        color: "primary",
+      },
+    },
   },
 });
 

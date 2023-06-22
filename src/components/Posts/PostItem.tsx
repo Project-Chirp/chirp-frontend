@@ -34,6 +34,7 @@ const styles = (post: Post) => ({
   cardActions: {
     width: "100%",
   },
+  cardContent: { width: 400 },
   likeIcon: {
     color: post.isLikedByCurrentUser ? "primary.main" : "gray.main",
     "&:hover": {
@@ -105,7 +106,7 @@ const PostItem = ({ post }: PostProps) => {
         subheader={post.timestamp}
       />
       <CardActionArea onClick={() => routeChange()}>
-        <CardContent sx={{ width: 400 }}>
+        <CardContent sx={styles.cardContent}>
           <Typography>{post.textContent}</Typography>
         </CardContent>
         {post.imagePath && (

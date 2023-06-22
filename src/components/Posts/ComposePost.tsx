@@ -16,11 +16,18 @@ import { appendPost } from "../../state/slices/postsSlice";
 
 type ComposePostProps = {
   placeholder: string;
+  minRows?: number;
 };
 
 const styles = {
   avatarIcon: { paddingRight: 1.5 },
-  compostPostContainer: { display: "flex", padding: 3 },
+  compostPostContainer: {
+    display: "flex",
+    paddingBottom: 2,
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 1,
+  },
   textFieldContainer: { width: "100%" },
   textField: { paddingBottom: 2 },
   postActions: {
@@ -39,7 +46,7 @@ const styles = {
   },
 };
 
-const ComposePost = ({ placeholder }: ComposePostProps) => {
+const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -77,11 +84,13 @@ const ComposePost = ({ placeholder }: ComposePostProps) => {
             hiddenLabel
             id="standard-multiline-static"
             multiline
+            minRows={minRows}
             onChange={(e) => setPostTextContent(e.target.value)}
             placeholder={placeholder}
             sx={styles.textField}
             value={postTextContent}
             variant="standard"
+            InputProps={{ disableUnderline: true }}
           />
           <Box sx={styles.postActions}>
             <Stack direction="row">
