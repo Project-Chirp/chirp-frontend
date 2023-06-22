@@ -22,6 +22,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Post } from "../../state/slices/postsSlice";
 import { appendPost } from "../../state/slices/postsSlice";
+import ComposeReply from "./ComposeReply";
 
 const styles = {
   card: {
@@ -251,49 +252,7 @@ export const RepliesModal = ({ onClose, openModal, post }: PostModalProps) => {
               image={post.imagePath}
             />
           )}
-          <form onSubmit={onSubmit}>
-            <Box className={"composePost"} sx={styles.compostPostContainer}>
-              <Box sx={styles.topContainer}>
-                <Box sx={styles.avatarIcon}>
-                  <Avatar />
-                </Box>
-                <Box sx={styles.textFieldContainer}>
-                  <TextField
-                    fullWidth
-                    hiddenLabel
-                    id="standard-multiline-static"
-                    multiline
-                    onChange={(e) => setPostTextContent(e.target.value)}
-                    placeholder={"Post your reply!"}
-                    sx={styles.textField}
-                    value={postTextContent}
-                    variant="standard"
-                    InputProps={{ disableUnderline: true }}
-                  />
-                  <Button
-                    disabled={!postTextContent.trim()}
-                    size="small"
-                    sx={styles.postButton}
-                    type="submit"
-                    variant="contained"
-                  >
-                    Post
-                  </Button>
-                </Box>
-              </Box>
-
-              <Box sx={styles.postActions}>
-                <Stack direction="row">
-                  <IconButton size="small">
-                    <AddPhotoAlternateOutlinedIcon />
-                  </IconButton>
-                  <IconButton size="small">
-                    <EmojiEmotionsOutlinedIcon />
-                  </IconButton>
-                </Stack>
-              </Box>
-            </Box>
-          </form>
+          <ComposeReply placeholder={"Post your reply"} />
         </Card>
       </DialogContent>
     </Dialog>
