@@ -24,6 +24,10 @@ import { Post, updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 
+type PostProps = {
+  post: Post;
+};
+
 const styles = {
   card: {
     boxShadow: "none",
@@ -32,16 +36,20 @@ const styles = {
     width: "100%",
   },
   cardContent: { width: 400 },
-};
-
-type PostProps = {
-  post: Post;
+  coloredButton: {
+    color: "primary.main",
+  },
+  defaultButton: {
+    color: "gray.main",
+    "&:hover": {
+      color: "primary.main",
+    },
+  },
 };
 
 const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-
   const likePost = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
       postId,
@@ -124,12 +132,24 @@ const PostItem = ({ post }: PostProps) => {
                 <FavoriteBorderOutlinedIcon />
               )
             }
+            sx={
+              post.isLikedByCurrentUser
+                ? styles.coloredButton
+                : styles.defaultButton
+            }
           >
             {post.numberOfLikes}
           </Button>
-          <Button startIcon={<AddCommentOutlinedIcon />}>1</Button>
-          <Button startIcon={<RepeatOutlinedIcon />}>1</Button>
-          <Button startIcon={<ShareOutlinedIcon />} />
+          <Button
+            startIcon={<AddCommentOutlinedIcon />}
+            sx={styles.defaultButton}
+          >
+            1
+          </Button>
+          <Button startIcon={<RepeatOutlinedIcon />} sx={styles.defaultButton}>
+            1
+          </Button>
+          <Button startIcon={<ShareOutlinedIcon />} sx={styles.defaultButton} />
         </Stack>
       </CardActions>
       <Divider light />

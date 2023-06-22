@@ -35,7 +35,6 @@ const styles = {
     justifyContent: "space-between",
     marginTop: 1,
   },
-  postButton: { borderRadius: 5 },
 };
 
 const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
@@ -82,7 +81,6 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
             sx={styles.textField}
             value={postTextContent}
             variant="standard"
-            InputProps={{ disableUnderline: true }}
           />
           <Box sx={styles.postActions}>
             <Stack direction="row">
@@ -96,7 +94,6 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
             <Button
               disabled={!postTextContent.trim()}
               size="small"
-              sx={styles.postButton}
               type="submit"
               variant="contained"
             >
