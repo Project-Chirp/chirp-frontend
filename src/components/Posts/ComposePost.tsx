@@ -23,7 +23,9 @@ const styles = {
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: {
     display: "flex",
-    padding: 2,
+    paddingBottom: 2,
+    paddingLeft: 2,
+    paddingRight: 2,
     paddingTop: 1,
   },
   textFieldContainer: { width: "100%" },

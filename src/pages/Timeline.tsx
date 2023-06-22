@@ -10,12 +10,12 @@ const styles = {
   postListContainer: { width: "50%" },
   timelineHeader: {},
   headerTitle: {
-    display: "flex",
     alignItems: "center",
+    display: "flex",
     fontWeight: "bold",
+    paddingBottom: 1,
     paddingLeft: 2,
     paddingTop: 1,
-    paddingBottom: 1,
   },
 };
 
