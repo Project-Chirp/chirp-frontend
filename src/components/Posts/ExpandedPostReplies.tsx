@@ -4,10 +4,13 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 
-const ExpandedPostReplies = () => {
+type ExpandedPostRepliesProps = {
+  post: Post;
+};
+
+const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
   const posts = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.post);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

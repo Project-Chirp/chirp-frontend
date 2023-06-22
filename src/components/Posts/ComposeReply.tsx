@@ -15,6 +15,8 @@ import { appendPost } from "../../state/slices/postsSlice";
 
 type ComposeReplyProps = {
   placeholder: string;
+  parentPostId: number;
+  onClose?: () => void;
 };
 
 const styles = {
@@ -44,11 +46,14 @@ const styles = {
   },
 };
 
-const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
+const ComposeReply = ({
+  placeholder,
+  parentPostId,
+  onClose,
+}: ComposeReplyProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.post);
   const dispatch = useAppDispatch();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
@@ -59,7 +64,7 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
         "http://localhost:3001/api/posts/postReply",
         {
           userId: user.userId,
-          parentPostId: post.postId,
+          parentPostId: parentPostId,
           textContent,
         }
       );
@@ -71,6 +76,9 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
           displayName: user.displayName,
         })
       );
+      if (onClose) {
+        onClose();
+      }
     } catch (err) {
       console.log(err);
     }

@@ -28,6 +28,7 @@ import {
 } from "../../state/slices/expandedPostSlice";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
+import { Post } from "../../state/slices/postsSlice";
 
 const styles = {
   card: {
@@ -95,10 +96,13 @@ const styles = {
   },
 };
 
-const ExpandedPostItem = () => {
+type ExpandedPostItemProps = {
+  post: Post;
+};
+
+const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.post);
   const urlParams = useParams();
   const [openModal, setOpenModal] = useState(false);
 

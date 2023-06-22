@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   CardMedia,
@@ -9,19 +8,11 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import CloseIcon from "@mui/icons-material/Close";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { useState } from "react";
-import axios from "axios";
 import { Post } from "../../state/slices/postsSlice";
-import { appendPost } from "../../state/slices/postsSlice";
 import ComposeReply from "./ComposeReply";
 
 const styles = {
@@ -162,36 +153,6 @@ type PostModalProps = {
 };
 
 export const RepliesModal = ({ onClose, openModal, post }: PostModalProps) => {
-  const [postTextContent, setPostTextContent] = useState("");
-  const user = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
-  const onSubmit = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    try {
-      const textContent = postTextContent;
-      const reply = await axios.post(
-        "http://localhost:3001/api/posts/postReply",
-        {
-          userId: user.userId,
-          parentPostId: post.postId,
-          textContent,
-        }
-      );
-      setPostTextContent("");
-      onClose();
-      dispatch(
-        appendPost({
-          ...reply.data,
-          username: user.username,
-          displayName: user.displayName,
-        })
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <Dialog
       fullWidth
@@ -252,7 +213,11 @@ export const RepliesModal = ({ onClose, openModal, post }: PostModalProps) => {
               image={post.imagePath}
             />
           )}
-          <ComposeReply placeholder={"Post your reply"} />
+          <ComposeReply
+            placeholder={"Post your reply"}
+            parentPostId={post.postId}
+            onClose={onClose}
+          />
         </Card>
       </DialogContent>
     </Dialog>
