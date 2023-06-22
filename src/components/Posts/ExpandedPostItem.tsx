@@ -36,6 +36,7 @@ const styles = {
   cardActions: {
     width: "100%",
   },
+  cardContent: { width: 400 },
   actionButton: {
     border: "none",
     fontSize: 14.5,
@@ -92,7 +93,6 @@ const styles = {
   headerTitle: {
     fontWeight: "bold",
   },
-  textContent: { whiteSpace: "pre-wrap" },
 };
 
 const ExpandedPostItem = () => {
@@ -169,8 +169,8 @@ const ExpandedPostItem = () => {
         title={`${post.displayName} `}
         subheader={`@${post.username}`}
       />
-      <CardContent sx={{ width: 400 }}>
-        <Typography sx={styles.textContent}>{post.textContent}</Typography>
+      <CardContent sx={styles.cardContent}>
+        <Typography>{post.textContent}</Typography>
       </CardContent>
       {post.imagePath && (
         <CardMedia

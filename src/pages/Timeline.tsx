@@ -15,7 +15,7 @@ const styles = {
     fontWeight: "bold",
     paddingLeft: 2,
     paddingTop: 1,
-    paddingBottom: 2,
+    paddingBottom: 1,
   },
 };
 

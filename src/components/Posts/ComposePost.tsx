@@ -23,15 +23,11 @@ const styles = {
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: {
     display: "flex",
-    paddingLeft: 3,
-    paddingRight: 3,
-    paddingBottom: 3,
-    paddingTop: 0,
+    padding: 2,
+    paddingTop: 1,
   },
   textFieldContainer: { width: "100%" },
-  textField: {
-    paddingBottom: 2,
-  },
+  textField: { paddingBottom: 2 },
   postActions: {
     display: "flex",
     justifyContent: "space-between",

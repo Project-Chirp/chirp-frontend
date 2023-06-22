@@ -43,6 +43,13 @@ const theme = createTheme({
         PaperProps: { sx: { borderRadius: 5 } },
       },
     },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          whiteSpace: "pre-wrap",
+        },
+      },
+    },
   },
 });
 
