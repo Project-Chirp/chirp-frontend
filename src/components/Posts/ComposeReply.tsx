@@ -46,7 +46,7 @@ const styles = {
 
 const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
   const [postTextContent, setPostTextContent] = useState("");
-  const [focusReply, setFocusReply] = useState(false);
+  const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
   const dispatch = useAppDispatch();

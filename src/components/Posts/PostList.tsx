@@ -27,9 +27,11 @@ const PostList = () => {
 
   return (
     <>
-      {posts.map((o, index) => (
-        <PostItem key={index} post={o} />
-      ))}
+      {posts
+        .filter((o) => !o.isReply)
+        .map((o, index) => (
+          <PostItem key={index} post={o} />
+        ))}
     </>
   );
 };

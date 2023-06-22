@@ -20,7 +20,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useState } from "react";
 import axios from "axios";
-import { Post, appendPost } from "../../state/slices/postsSlice";
+import { Post } from "../../state/slices/postsSlice";
+import { appendPost } from "../../state/slices/postsSlice";
 
 const styles = {
   card: {
@@ -78,6 +79,7 @@ const styles = {
   username: { fontSize: 14, color: "gray" },
   author: { paddingLeft: 0.5, fontSize: 13 },
   replyInfo: { display: "flex", paddingTop: 1, paddingBottom: 1 },
+  cardMedia: { maxWidth: 200, margin: "auto" },
   cardContent: {
     padding: 0,
     display: "flex",
@@ -176,6 +178,7 @@ export const RepliesModal = ({ onClose, openModal, post }: PostModalProps) => {
         }
       );
       setPostTextContent("");
+      onClose();
       dispatch(
         appendPost({
           ...reply.data,
@@ -183,7 +186,6 @@ export const RepliesModal = ({ onClose, openModal, post }: PostModalProps) => {
           displayName: user.displayName,
         })
       );
-      onClose();
     } catch (err) {
       console.log(err);
     }
@@ -244,7 +246,7 @@ export const RepliesModal = ({ onClose, openModal, post }: PostModalProps) => {
           </CardContent>
           {post.imagePath && (
             <CardMedia
-              sx={{ maxWidth: 200, margin: "auto" }}
+              sx={styles.cardMedia}
               component="img"
               image={post.imagePath}
             />

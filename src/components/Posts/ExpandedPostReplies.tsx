@@ -32,9 +32,11 @@ const ExpandedPostReplies = () => {
 
   return (
     <>
-      {posts.map((o, index) => (
-        <PostItem key={index} post={o} />
-      ))}
+      {posts
+        .filter((o) => o.parentPostId === post.postId)
+        .map((o, index) => (
+          <PostItem key={index} post={o} />
+        ))}
     </>
   );
 };

@@ -9,9 +9,12 @@ const initialState: Post = {
   textContent: "",
   timestamp: "",
   username: "",
+  isRepost: false,
+  isQuotePost: false,
+  isReply: false,
 };
 
-export const postSlice = createSlice({
+export const expandedPostSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
@@ -24,6 +27,7 @@ export const postSlice = createSlice({
   },
 });
 
-export const { setExpandedPost, updateExpandedPost } = postSlice.actions;
+export const { setExpandedPost, updateExpandedPost } =
+  expandedPostSlice.actions;
 
-export default postSlice.reducer;
+export default expandedPostSlice.reducer;

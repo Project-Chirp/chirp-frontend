@@ -2,13 +2,14 @@ import { Box, Divider } from "@mui/material";
 import { Stack } from "@mui/system";
 import ExpandedPostItem from "../components/Posts/ExpandedPostItem";
 import ComposeReply from "../components/Posts/ComposeReply";
-import ExpandedPostList from "../components/Posts/ExpandedPostReplies";
+import ExpandedPostReplies from "../components/Posts/ExpandedPostReplies";
 
 const styles = {
   root: {
     width: "100%",
   },
   postListContainer: { padding: 0, width: "50%" },
+  divider: { paddingBottom: 3 },
 };
 
 const ExpandedPost = () => {
@@ -18,7 +19,7 @@ const ExpandedPost = () => {
         <ExpandedPostItem />
         <ComposeReply placeholder="Post your reply" />
         <Divider />
-        <ExpandedPostList />
+        <ExpandedPostReplies />
       </Box>
       <Divider orientation="vertical" />
     </Stack>
