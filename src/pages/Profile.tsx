@@ -30,7 +30,6 @@ const styles = {
   },
   editBtn: {
     backgroundColor: "black",
-    borderRadius: 20,
     textTransform: "none",
     marginLeft: 62,
     marginTop: 2,

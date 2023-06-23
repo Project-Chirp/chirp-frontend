@@ -8,7 +8,6 @@ import CreateMessageModal from "../components/Messages/CreateMessageModal/Create
 
 const styles = {
   button: {
-    borderRadius: 10,
     marginTop: 1,
   },
   messagesHeader: {

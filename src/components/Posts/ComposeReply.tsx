@@ -26,6 +26,7 @@ const styles = {
   textFieldContainer: {
     width: "100%",
     display: "flex",
+    alignItems: "center",
   },
   textField: { paddingBottom: 2, paddingRight: 1 },
   postActions: {
@@ -33,9 +34,7 @@ const styles = {
     paddingBottom: 2,
   },
   postButton: {
-    borderRadius: 5,
-    height: 35,
-    weight: 35,
+    minHeight: "34px",
   },
   topContainer: {
     display: "flex",
@@ -47,7 +46,7 @@ const styles = {
 
 const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
   const [postTextContent, setPostTextContent] = useState("");
-  const [focusReply, setFocusReply] = useState(false);
+  const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
   const dispatch = useAppDispatch();
@@ -96,7 +95,6 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
               value={postTextContent}
               variant="standard"
               onFocus={() => setFocusReply(true)}
-              InputProps={{ disableUnderline: true }}
             />
             <Button
               disabled={!postTextContent.trim()}

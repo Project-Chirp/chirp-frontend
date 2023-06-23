@@ -29,27 +29,14 @@ import {
 import { useEffect } from "react";
 
 const styles = {
-  card: {
-    padding: 0,
-    boxShadow: "none",
-  },
-  cardActions: {
-    width: "100%",
-  },
   actionButton: {
-    border: "none",
     fontSize: 14.5,
     padding: 0,
-    backgroundColor: "white",
     color: "black",
     textTransform: "none",
     fontWeight: "bold",
     marginRight: 2,
     display: "flex",
-    alignItems: "center",
-    "&:hover": {
-      backgroundColor: "white",
-    },
   },
   actionData: {
     display: "flex",
@@ -57,40 +44,41 @@ const styles = {
     paddingBottom: 1,
     paddingLeft: 1,
   },
-  timestampBox: {
-    display: "flex",
-    paddingTop: 1,
-    paddingBottom: 1,
-  },
   actionTitles: {
     paddingLeft: 0.5,
     fontSize: 14.5,
   },
-  actionNumbers: {
+  backButton: {
+    backgroundColor: "transparent",
+    paddingRight: 10,
+  },
+  card: {
+    padding: 0,
+    boxShadow: "none",
+  },
+  cardActions: {
+    width: "100%",
+  },
+  cardContent: { width: 400 },
+  headerTitle: {
     fontWeight: "bold",
-    fontSize: 14.5,
-    marginLeft: "auto",
+  },
+  likedIcon: {
+    color: "primary.main",
   },
   timestamp: {
     paddingLeft: 2,
     fontSize: 14.5,
     color: "#a4a8ab",
   },
-  actionArea: {
-    "&:hover $focusHighlight": {
-      opacity: 0,
-    },
+  timestampBox: {
+    display: "flex",
+    paddingTop: 1,
+    paddingBottom: 1,
   },
   topHeader: {
     display: "flex",
     alignItems: "center",
-  },
-  backButton: {
-    backgroundColor: "transparent",
-    paddingRight: 10,
-  },
-  headerTitle: {
-    fontWeight: "bold",
   },
 };
 
@@ -168,7 +156,7 @@ const ExpandedPostItem = () => {
         title={`${post.displayName} `}
         subheader={`@${post.username}`}
       />
-      <CardContent sx={{ width: 400 }}>
+      <CardContent sx={styles.cardContent}>
         <Typography>{post.textContent}</Typography>
       </CardContent>
       {post.imagePath && (
@@ -209,6 +197,7 @@ const ExpandedPostItem = () => {
                 ? unlikePost(post.postId, user.userId)
                 : likePost(post.postId, user.userId);
             }}
+            sx={post.isLikedByCurrentUser ? styles.likedIcon : undefined}
           >
             {post.isLikedByCurrentUser ? (
               <FavoriteOutlinedIcon />
