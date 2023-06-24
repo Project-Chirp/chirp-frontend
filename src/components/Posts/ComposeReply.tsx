@@ -27,6 +27,7 @@ const styles = {
   textFieldContainer: {
     width: "100%",
     display: "flex",
+    alignItems: "center",
   },
   textField: { paddingBottom: 2, paddingRight: 1 },
   postActions: {
@@ -34,9 +35,7 @@ const styles = {
     paddingBottom: 2,
   },
   postButton: {
-    borderRadius: 5,
-    height: 35,
-    weight: 35,
+    minHeight: "34px",
   },
   topContainer: {
     display: "flex",
@@ -103,7 +102,6 @@ const ComposeReply = ({
               value={postTextContent}
               variant="standard"
               onFocus={() => setFocusReply(true)}
-              InputProps={{ disableUnderline: true }}
             />
             <Button
               disabled={!postTextContent.trim()}

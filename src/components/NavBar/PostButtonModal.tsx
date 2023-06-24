@@ -4,6 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const styles = {
   dialog: {
     maxHeight: "90%",
+    ".MuiDialog-scrollPaper": { alignItems: "flex-start" },
   },
   dialogContent: {
     padding: 1,

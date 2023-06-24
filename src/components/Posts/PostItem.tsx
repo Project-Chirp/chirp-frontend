@@ -26,6 +26,10 @@ import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
 
+type PostProps = {
+  post: Post;
+};
+
 const styles = {
   card: {
     boxShadow: "none",
@@ -33,10 +37,16 @@ const styles = {
   cardActions: {
     width: "100%",
   },
-};
-
-type PostProps = {
-  post: Post;
+  cardContent: { width: 400 },
+  coloredButton: {
+    color: "primary.main",
+  },
+  defaultButton: {
+    color: "gray.main",
+    "&:hover": {
+      color: "primary.main",
+    },
+  },
 };
 
 const PostItem = ({ post }: PostProps) => {
@@ -100,7 +110,7 @@ const PostItem = ({ post }: PostProps) => {
         subheader={post.timestamp}
       />
       <CardActionArea onClick={() => routeChange()}>
-        <CardContent sx={{ width: 400 }}>
+        <CardContent sx={styles.cardContent}>
           <Typography>{post.textContent}</Typography>
         </CardContent>
         {post.imagePath && (
@@ -130,19 +140,27 @@ const PostItem = ({ post }: PostProps) => {
                 <FavoriteBorderOutlinedIcon />
               )
             }
+            sx={
+              post.isLikedByCurrentUser
+                ? styles.coloredButton
+                : styles.defaultButton
+            }
           >
             {post.numberOfLikes}
           </Button>
           <Button
-            startIcon={<AddCommentOutlinedIcon />}
             onClick={() => {
               replyModalPopup();
             }}
+            startIcon={<AddCommentOutlinedIcon />}
+            sx={styles.defaultButton}
           >
             1
           </Button>
-          <Button startIcon={<RepeatOutlinedIcon />}>1</Button>
-          <Button startIcon={<ShareOutlinedIcon />} />
+          <Button startIcon={<RepeatOutlinedIcon />} sx={styles.defaultButton}>
+            1
+          </Button>
+          <Button startIcon={<ShareOutlinedIcon />} sx={styles.defaultButton} />
         </Stack>
       </CardActions>
       <Divider light />

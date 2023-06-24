@@ -25,7 +25,6 @@ const styles = {
     fontSize: 32,
   },
   submitButton: {
-    borderRadius: 5,
     width: 253.4,
   },
 };

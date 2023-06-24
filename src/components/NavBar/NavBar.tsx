@@ -20,7 +20,7 @@ const styles = {
       width: drawerWidth,
     },
   },
-  postButton: { borderRadius: 10, margin: 2 },
+  postButton: { margin: 2 },
   stack: {
     marginBottom: "auto",
     width: "100%",
@@ -90,7 +90,7 @@ const NavBar = () => {
         onClose={() => setOpenModal(false)}
         openModal={openModal}
       >
-        <ComposePost placeholder="What's happening?" />
+        <ComposePost placeholder="What's happening?" minRows={3} />
       </PostButtonModal>
     </>
   );

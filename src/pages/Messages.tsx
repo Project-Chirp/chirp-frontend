@@ -6,7 +6,6 @@ import MessagesList from "../components/Messages/MessagesList";
 
 const styles = {
   button: {
-    borderRadius: 10,
     marginTop: 1,
   },
   messagesHeader: {
