@@ -144,9 +144,12 @@ const DirectMessage = () => {
   };
 
   return (
-    <Stack direction="row" sx={styles.root}>
+    <Stack
+      direction="row"
+      sx={styles.root}
+      divider={<Divider flexItem orientation="vertical" />}
+    >
       <ConversationList />
-      <Divider flexItem orientation="vertical" />
       <Box sx={styles.directMessageActivityContainer}>
         <Box sx={styles.directMessageActivityHeader}>
           <Box sx={styles.headerText}>
@@ -234,7 +237,6 @@ const DirectMessage = () => {
           </form>
         </Box>
       </Box>
-      <Divider flexItem orientation="vertical" />
     </Stack>
   );
 };
