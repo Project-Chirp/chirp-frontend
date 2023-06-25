@@ -25,6 +25,7 @@ import {
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
+import theme from "../styles/Theme";
 
 const styles = {
   chatContainer: {
@@ -73,7 +74,7 @@ const styles = {
   sentMessageText: {
     padding: 1,
     borderRadius: 10,
-    backgroundColor: "#22AA6F",
+    backgroundColor: theme.palette.primary.main,
   },
   timestamp: { marginTop: 0.5 },
 };
