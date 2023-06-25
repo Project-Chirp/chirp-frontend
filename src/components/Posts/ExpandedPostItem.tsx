@@ -27,6 +27,8 @@ import {
   updateExpandedPost,
 } from "../../state/slices/expandedPostSlice";
 import { useEffect } from "react";
+import formatTimestamp from "../Misc/formatTimestamp";
+import { Post } from "../../state/slices/postsSlice";
 
 const styles = {
   card: {
@@ -98,6 +100,7 @@ const ExpandedPostItem = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const post = useAppSelector((state) => state.post);
+
   const urlParams = useParams();
 
   useEffect(() => {
@@ -111,7 +114,11 @@ const ExpandedPostItem = () => {
           },
         }
       );
-      dispatch(setExpandedPost(backupFetch.data));
+      const fetchWithModifiedTimestamp = {
+        ...backupFetch.data,
+        timestamp: formatTimestamp(backupFetch.data),
+      };
+      dispatch(setExpandedPost(fetchWithModifiedTimestamp as Post));
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);

@@ -3,6 +3,7 @@ import PostItem from "./PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
+import formatTimestamp from "../Misc/formatTimestamp";
 
 const ExpandedPostList = () => {
   const posts = useAppSelector((state) => state.posts);
@@ -22,13 +23,17 @@ const ExpandedPostList = () => {
             },
           }
         );
-        dispatch(setPosts(resultReplies.data as Post[]));
+        const modified = resultReplies.data.map((entry: any) => ({
+          ...entry,
+          timestamp: formatTimestamp(entry),
+        }));
+        dispatch(setPosts(modified as Post[]));
       } catch (e) {
         console.log(e.message);
       }
     };
     fetchPosts();
-  }, [dispatch, user, post]);
+  }, [dispatch, user, post, posts]);
 
   return (
     <>

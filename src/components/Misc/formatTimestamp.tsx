@@ -25,8 +25,4 @@ const formatTimestamp = (entry: any) => {
   }
 };
 
-//enums
-//when clicking post, fix timestamp
-//fix spacing of post (might modify card padding)
-
 export default formatTimestamp;

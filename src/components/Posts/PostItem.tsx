@@ -93,7 +93,9 @@ const PostItem = ({ post }: PostProps) => {
         subheader={post.timestamp}
       />
       <CardActionArea onClick={() => routeChange()}>
-        <CardContent sx={{ width: 400 }}>
+        <CardContent
+          sx={{ width: 400, paddingLeft: 2, paddingTop: 0, paddingBottom: 1 }}
+        >
           <Typography>{post.textContent}</Typography>
         </CardContent>
         {post.imagePath && (
