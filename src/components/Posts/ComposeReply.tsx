@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Divider,
   IconButton,
   Stack,
   TextField,
@@ -91,7 +90,6 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
               InputProps={{ disableUnderline: true }}
               multiline
               onChange={(e) => setPostTextContent(e.target.value)}
-              onFocus={() => setFocusReply(true)}
               placeholder={placeholder}
               sx={styles.textField}
               value={postTextContent}
@@ -120,7 +118,6 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
             </Stack>
           </Box>
         )}
-        <Divider />
       </Box>
     </form>
   );
