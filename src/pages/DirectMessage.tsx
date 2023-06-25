@@ -27,7 +27,7 @@ import {
 } from "../state/slices/messagesSlice";
 
 const styles = {
-  chatAreaContainer: {
+  chatContainer: {
     display: "flex",
     flex: 1,
     flexDirection: "column",
@@ -38,30 +38,30 @@ const styles = {
     padding: 1,
     width: "100%",
   },
-  directMessageActivityContainer: {
+  directMessageContainer: {
     width: "50%",
     display: "flex",
     flexDirection: "column",
     height: "100%",
   },
-  directMessageActivityHeader: {
+  headerContainer: {
     display: "flex",
     justifyContent: "space-between",
     paddingLeft: 2,
     paddingRight: 2,
   },
-  headerText: { alignItems: "center", display: "flex", gap: 2, padding: 1 },
+  headerContent: { alignItems: "center", display: "flex", gap: 2, padding: 1 },
   message: {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
   },
+  messageList: { flex: 1, overflowY: "scroll" },
   messageText: {
     padding: 1,
     borderRadius: 10,
     backgroundColor: "#cce3d9",
   },
-  messagesList: { flex: 1, overflowY: "scroll" },
   root: {
     width: "100%",
   },
@@ -75,6 +75,7 @@ const styles = {
     borderRadius: 10,
     backgroundColor: "#22AA6F",
   },
+  timestamp: { marginTop: 0.5 },
 };
 
 export type Message = {
@@ -150,9 +151,9 @@ const DirectMessage = () => {
       divider={<Divider flexItem orientation="vertical" />}
     >
       <ConversationList />
-      <Box sx={styles.directMessageActivityContainer}>
-        <Box sx={styles.directMessageActivityHeader}>
-          <Box sx={styles.headerText}>
+      <Box sx={styles.directMessageContainer}>
+        <Box sx={styles.headerContainer}>
+          <Box sx={styles.headerContent}>
             <Box>
               <Avatar />
             </Box>
@@ -168,8 +169,8 @@ const DirectMessage = () => {
           </IconButton>
         </Box>
         <Divider flexItem />
-        <Box sx={styles.chatAreaContainer}>
-          <List component="div" ref={messageRef} sx={styles.messagesList}>
+        <Box sx={styles.chatContainer}>
+          <List component="div" ref={messageRef} sx={styles.messageList}>
             {messages.map((o) => (
               <ListItem component="div" key={o.messageId}>
                 <ListItemText
@@ -191,7 +192,7 @@ const DirectMessage = () => {
                     </Box>
                   }
                   secondary={
-                    <Typography sx={{ marginTop: 0.5 }} variant="caption">
+                    <Typography sx={styles.timestamp} variant="caption">
                       {o.timestamp}
                     </Typography>
                   }
