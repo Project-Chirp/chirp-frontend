@@ -72,8 +72,8 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
           <TextField
             fullWidth
             hiddenLabel
-            multiline
             minRows={minRows}
+            multiline
             onChange={(e) => setPostTextContent(e.target.value)}
             placeholder={placeholder}
             sx={styles.textField}

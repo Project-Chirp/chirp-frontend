@@ -27,6 +27,17 @@ import {
 } from "../state/slices/messagesSlice";
 
 const styles = {
+  chatAreaContainer: {
+    display: "flex",
+    flex: 1,
+    flexDirection: "column",
+    overflowY: "hidden",
+  },
+  chatInputContainer: {
+    boxSizing: "border-box",
+    padding: 1,
+    width: "100%",
+  },
   directMessageActivityContainer: {
     width: "50%",
     display: "flex",
@@ -39,6 +50,7 @@ const styles = {
     paddingLeft: 2,
     paddingRight: 2,
   },
+  headerText: { alignItems: "center", display: "flex", gap: 2, padding: 1 },
   message: {
     display: "flex",
     flexDirection: "column",
@@ -49,6 +61,7 @@ const styles = {
     borderRadius: 10,
     backgroundColor: "#cce3d9",
   },
+  messagesList: { flex: 1, overflowY: "scroll" },
   root: {
     width: "100%",
   },
@@ -136,11 +149,11 @@ const DirectMessage = () => {
       <Divider flexItem orientation="vertical" />
       <Box sx={styles.directMessageActivityContainer}>
         <Box sx={styles.directMessageActivityHeader}>
-          <Box sx={{ alignItems: "center", display: "flex" }}>
-            <Box sx={{ padding: 1 }}>
+          <Box sx={styles.headerText}>
+            <Box>
               <Avatar />
             </Box>
-            <Box sx={{ padding: 1 }}>
+            <Box>
               <Typography variant="subtitle1">
                 {selectedConversation.displayName}
               </Typography>
@@ -152,19 +165,8 @@ const DirectMessage = () => {
           </IconButton>
         </Box>
         <Divider flexItem />
-        <Box
-          sx={{
-            display: "flex",
-            flex: 1,
-            flexDirection: "column",
-            overflowY: "hidden",
-          }}
-        >
-          <List
-            component="div"
-            ref={messageRef}
-            sx={{ flex: 1, overflowY: "scroll" }}
-          >
+        <Box sx={styles.chatAreaContainer}>
+          <List component="div" ref={messageRef} sx={styles.messagesList}>
             {messages.map((o) => (
               <ListItem component="div" key={o.messageId}>
                 <ListItemText
@@ -195,15 +197,8 @@ const DirectMessage = () => {
             ))}
           </List>
           <Divider />
-          <Box
-            sx={{
-              alignSelf: "flex-end",
-              boxSizing: "border-box",
-              padding: 1,
-              width: "100%",
-            }}
-          >
-            <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit}>
+            <Box sx={styles.chatInputContainer}>
               <TextField
                 autoComplete="off"
                 fullWidth
@@ -233,15 +228,10 @@ const DirectMessage = () => {
                 onChange={(e) => setTextContent(e.target.value)}
                 placeholder="Send a message"
                 size="small"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "50px",
-                  },
-                }}
                 value={textContent}
               />
-            </form>
-          </Box>
+            </Box>
+          </form>
         </Box>
       </Box>
       <Divider flexItem orientation="vertical" />
