@@ -3,7 +3,6 @@ import ConversationList from "../components/Messages/ConversationList";
 
 const styles = {
   button: {
-    borderRadius: 10,
     marginTop: 1,
   },
   root: {
