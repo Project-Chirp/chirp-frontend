@@ -7,7 +7,7 @@ const styles = {
     ".MuiDialog-scrollPaper": { alignItems: "flex-start" },
   },
   dialogContent: {
-    padding: 1,
+    padding: 0,
     paddingBottom: 2,
     alignItems: "center",
     justifyContent: "center",

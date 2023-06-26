@@ -39,8 +39,8 @@ const styles = {
   },
   topContainer: {
     display: "flex",
-    padding: 2,
-    paddingBottom: 0,
+    paddingX: 2,
+    padddingY: 0,
     justifyContent: "space-between",
   },
 };
@@ -63,7 +63,7 @@ const ComposeReply = ({
         "http://localhost:3001/api/posts/postReply",
         {
           userId: user.userId,
-          parentPostId: parentPostId,
+          parentPostId,
           textContent,
         }
       );
@@ -75,9 +75,7 @@ const ComposeReply = ({
           displayName: user.displayName,
         })
       );
-      if (onClose) {
-        onClose();
-      }
+      onClose?.();
     } catch (err) {
       console.log(err);
     }

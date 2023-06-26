@@ -10,7 +10,7 @@ const styles = {
     width: "100%",
   },
   postListContainer: { padding: 0, width: "50%" },
-  divider: { paddingBottom: 3 },
+  divider: { marginBottom: 3 },
 };
 
 const ExpandedPost = () => {
@@ -20,6 +20,7 @@ const ExpandedPost = () => {
     <Stack direction="row" sx={styles.root}>
       <Box sx={styles.postListContainer}>
         <ExpandedPostItem post={post} />
+        <Divider sx={styles.divider} variant="middle" />
         <ComposeReply
           placeholder="Post your reply"
           parentPostId={post.postId}

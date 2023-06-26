@@ -93,10 +93,6 @@ const PostItem = ({ post }: PostProps) => {
     dispatch(setExpandedPost(post));
   };
 
-  const replyModalPopup = () => {
-    setOpenModal(true);
-  };
-
   return (
     <Card sx={styles.card}>
       <CardHeader
@@ -150,7 +146,7 @@ const PostItem = ({ post }: PostProps) => {
           </Button>
           <Button
             onClick={() => {
-              replyModalPopup();
+              setOpenModal(true);
             }}
             startIcon={<AddCommentOutlinedIcon />}
             sx={styles.defaultButton}
@@ -164,13 +160,12 @@ const PostItem = ({ post }: PostProps) => {
         </Stack>
       </CardActions>
       <Divider light />
-      {openModal && (
-        <RepliesModal
-          onClose={() => setOpenModal(false)}
-          openModal={openModal}
-          post={post}
-        />
-      )}
+
+      <RepliesModal
+        onClose={() => setOpenModal(false)}
+        openModal={openModal}
+        post={post}
+      />
     </Card>
   );
 };

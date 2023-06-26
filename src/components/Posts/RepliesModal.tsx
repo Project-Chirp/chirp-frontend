@@ -20,32 +20,6 @@ const styles = {
     padding: 0,
     boxShadow: "none",
   },
-  avatarIcon: { paddingRight: 1.5 },
-  compostPostContainer: {
-    justifyContent: "space-between",
-    paddingTop: 0,
-  },
-  textFieldContainer: {
-    width: "100%",
-    display: "flex",
-  },
-  textField: { paddingBottom: 2, paddingRight: 1 },
-  postActions: {
-    paddingLeft: 7.5,
-    paddingBottom: 2,
-  },
-  postButton: {
-    borderRadius: 5,
-    height: 35,
-    weight: 35,
-  },
-  topContainer: {
-    display: "flex",
-    padding: 2,
-    paddingBottom: 0,
-    paddingTop: 0,
-    justifyContent: "space-between",
-  },
   dialog: {
     maxHeight: "90%",
   },
@@ -70,7 +44,6 @@ const styles = {
   displayName: { paddingRight: 1, fontSize: 14, fontWeight: "bold" },
   username: { fontSize: 14, color: "gray" },
   author: { paddingLeft: 0.5, fontSize: 13 },
-  replyInfo: { display: "flex", paddingTop: 1, paddingBottom: 1 },
   cardMedia: { maxWidth: 200, margin: "auto" },
   cardContent: {
     padding: 0,
@@ -89,16 +62,6 @@ const styles = {
     flexDirection: "column",
     gap: 0.25,
     right: 2,
-  },
-  secondaryContainer: {
-    width: "100%",
-    height: "1.5rem",
-    display: "flex",
-    margin: 0,
-  },
-  addLineContainer: {
-    width: "12%",
-    display: "flex",
   },
   replyingText: {
     display: "flex",

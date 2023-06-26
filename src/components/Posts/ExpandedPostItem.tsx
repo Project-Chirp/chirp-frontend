@@ -226,14 +226,12 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           </IconButton>
         </Stack>
       </CardActions>
-      <Divider variant="middle" />
-      {openModal && (
-        <RepliesModal
-          onClose={() => setOpenModal(false)}
-          openModal={openModal}
-          post={post}
-        />
-      )}
+
+      <RepliesModal
+        onClose={() => setOpenModal(false)}
+        openModal={openModal}
+        post={post}
+      />
     </Card>
   );
 };
