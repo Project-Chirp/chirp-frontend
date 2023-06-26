@@ -92,7 +92,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const urlParams = useParams();
-  const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
@@ -213,7 +213,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           </IconButton>
           <IconButton
             onClick={() => {
-              setOpenModal(true);
+              setOpen(true);
             }}
           >
             <AddCommentOutlinedIcon />
@@ -227,11 +227,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         </Stack>
       </CardActions>
 
-      <RepliesModal
-        onClose={() => setOpenModal(false)}
-        openModal={openModal}
-        post={post}
-      />
+      <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
     </Card>
   );
 };

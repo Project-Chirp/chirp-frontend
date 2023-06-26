@@ -111,16 +111,16 @@ const styles = {
 
 type PostModalProps = {
   onClose: () => void;
-  openModal: boolean;
+  open: boolean;
   post: Post;
 };
 
-export const RepliesModal = ({ onClose, openModal, post }: PostModalProps) => {
+export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
   return (
     <Dialog
       fullWidth
       onClose={onClose}
-      open={openModal}
+      open={open}
       scroll="paper"
       sx={styles.dialog}
       PaperProps={{ sx: styles.dialogPaper }}

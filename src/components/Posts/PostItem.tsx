@@ -52,7 +52,7 @@ const styles = {
 const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const likePost = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
@@ -146,7 +146,7 @@ const PostItem = ({ post }: PostProps) => {
           </Button>
           <Button
             onClick={() => {
-              setOpenModal(true);
+              setOpen(true);
             }}
             startIcon={<AddCommentOutlinedIcon />}
             sx={styles.defaultButton}
@@ -161,11 +161,7 @@ const PostItem = ({ post }: PostProps) => {
       </CardActions>
       <Divider light />
 
-      <RepliesModal
-        onClose={() => setOpenModal(false)}
-        openModal={openModal}
-        post={post}
-      />
+      <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
     </Card>
   );
 };
