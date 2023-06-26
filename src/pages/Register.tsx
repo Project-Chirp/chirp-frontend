@@ -8,24 +8,19 @@ import { useAppDispatch, useAppSelector } from "./../state/hooks";
 import { setUser } from "../state/slices/userSlice";
 
 const styles = {
-  container: {
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "column",
-    gap: 2,
-    height: "100%",
-    paddingTop: 5,
-  },
-  datePicker: {
-    width: 253.4,
-  },
+  container: { height: "100%" },
   title: {
-    textAlign: "center",
     fontWeight: 700,
     fontSize: 32,
+    padding: 3,
+    textAlign: "center",
   },
-  submitButton: {
-    width: 253.4,
+  inputs: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 3,
+    margin: "auto",
+    width: "15%",
   },
 };
 
@@ -63,60 +58,53 @@ const Register = () => {
   };
 
   return (
-    <form onSubmit={submitUserInfo}>
-      <Box sx={styles.container}>
-        <Typography variant="h1" sx={styles.title}>
-          Let's get to know a little more about you
-        </Typography>
+    <form onSubmit={submitUserInfo} style={styles.container}>
+      <Typography variant="h1" sx={styles.title}>
+        Let's get to know a little more about you
+      </Typography>
+      <Box sx={styles.inputs}>
         <TextField
+          id="displayname"
           label="Username"
-          required
-          value={username}
           onChange={(e) => {
             setUsername(e.target.value);
           }}
-          type="text"
-          variant="outlined"
           placeholder="Username"
-          id="displayname"
+          required
+          type="text"
+          value={username}
+          variant="outlined"
         />
         <TextField
+          id="displayname"
           label="Display Name"
-          value={displayName}
           onChange={(e) => {
             setDisplayName(e.target.value);
           }}
-          type="text"
-          variant="outlined"
           placeholder="Display Name"
-          id="displayname"
+          type="text"
+          value={displayName}
+          variant="outlined"
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             renderInput={(props) => (
               <TextField
-                sx={styles.datePicker}
-                variant="outlined"
                 id="date"
                 placeholder="Date of Birth"
+                variant="outlined"
                 {...props}
               />
             )}
             label="Date of Birth"
-            value={birthDate}
+            maxDate={new Date()}
             onChange={(e) => {
               e && setBirthDate(e);
             }}
-            maxDate={new Date()}
+            value={birthDate}
           />
         </LocalizationProvider>
-        <Button
-          size="large"
-          sx={styles.submitButton}
-          color="primary"
-          variant="contained"
-          type="submit"
-        >
+        <Button size="large" type="submit" variant="contained">
           Submit
         </Button>
       </Box>

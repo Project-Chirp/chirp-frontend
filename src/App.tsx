@@ -40,11 +40,7 @@ function App() {
   }, [getAccessTokenSilently, dispatch]);
 
   if (isLoading || (isAuthenticated && user.isLoading)) {
-    return (
-      <div className="App" style={{ display: "flex" }}>
-        <PageLoader />
-      </div>
-    );
+    return <PageLoader />;
   }
 
   if (!isAuthenticated) {
@@ -56,7 +52,7 @@ function App() {
   }
 
   return (
-    <div className="App" style={{ display: "flex" }}>
+    <div className="App">
       <NavBar />
       <Routes>
         <Route path="/" element={<ProtectedRoute component={Timeline} />} />

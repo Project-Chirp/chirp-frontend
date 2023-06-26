@@ -1,10 +1,12 @@
-.App,
-#root {
+.App {
+  display: flex;
   height: 100%;
 }
 
 html,
-body {
-  margin: 0;
+body,
+#root {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
