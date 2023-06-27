@@ -11,7 +11,6 @@ export type Post = {
   username: string;
   isRepost: boolean;
   isQuotePost: boolean;
-  isReply: boolean;
   parentPostId?: number;
 };
 

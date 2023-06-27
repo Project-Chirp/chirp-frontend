@@ -38,7 +38,7 @@ const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
       {posts
         .filter((o) => o.parentPostId === post.postId)
         .map((o) => (
-          <PostItem key={post.postId} post={o} />
+          <PostItem key={o.postId} post={o} />
         ))}
     </>
   );

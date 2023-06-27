@@ -11,7 +11,6 @@ const initialState: Post = {
   username: "",
   isRepost: false,
   isQuotePost: false,
-  isReply: false,
 };
 
 export const expandedPostSlice = createSlice({

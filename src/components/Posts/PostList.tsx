@@ -28,9 +28,9 @@ const PostList = () => {
   return (
     <>
       {posts
-        .filter((o) => !o.isReply)
-        .map((o, index) => (
-          <PostItem key={index} post={o} />
+        .filter((o) => o.parentPostId == null)
+        .map((o) => (
+          <PostItem key={o.postId} post={o} />
         ))}
     </>
   );
