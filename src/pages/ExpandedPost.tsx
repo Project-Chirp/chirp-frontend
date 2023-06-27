@@ -14,19 +14,19 @@ const styles = {
 };
 
 const ExpandedPost = () => {
-  const post = useAppSelector((state) => state.post);
+  const expandedPost = useAppSelector((state) => state.expandedPost);
 
   return (
     <Stack direction="row" sx={styles.root}>
       <Box sx={styles.postListContainer}>
-        <ExpandedPostItem post={post} />
+        <ExpandedPostItem post={expandedPost} />
         <Divider sx={styles.divider} variant="middle" />
         <ComposeReply
           placeholder="Post your reply"
-          parentPostId={post.postId}
+          parentPostId={expandedPost.postId}
         />
         <Divider />
-        <ExpandedPostReplies post={post} />
+        <ExpandedPostReplies post={expandedPost} />
       </Box>
       <Divider orientation="vertical" />
     </Stack>

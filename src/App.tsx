@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { setUser } from "./state/slices/userSlice";
 import ExpandedPost from "./pages/ExpandedPost";
 import Messages from "./pages/Messages";
+import DirectMessage from "./pages/DirectMessage";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -62,6 +63,10 @@ function App() {
         <Route
           path="/messages"
           element={<ProtectedRoute component={Messages} />}
+        />
+        <Route
+          path="/messages/:userId1/:userId2"
+          element={<ProtectedRoute component={DirectMessage} />}
         />
         <Route
           path="/profile"

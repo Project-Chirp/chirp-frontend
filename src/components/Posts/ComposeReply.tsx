@@ -95,11 +95,11 @@ const ComposeReply = ({
               id="standard-multiline-static"
               multiline
               onChange={(e) => setPostTextContent(e.target.value)}
+              onFocus={() => setFocusReply(true)}
               placeholder={placeholder}
               sx={styles.textField}
               value={postTextContent}
               variant="standard"
-              onFocus={() => setFocusReply(true)}
             />
             <Button
               disabled={!postTextContent.trim()}
