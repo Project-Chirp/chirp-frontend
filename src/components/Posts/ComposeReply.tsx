@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Divider,
   IconButton,
   Stack,
   TextField,
@@ -48,7 +47,7 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.post);
+  const post = useAppSelector((state) => state.expandedPost);
   const dispatch = useAppDispatch();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
@@ -90,11 +89,11 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
               id="standard-multiline-static"
               multiline
               onChange={(e) => setPostTextContent(e.target.value)}
+              onFocus={() => setFocusReply(true)}
               placeholder={placeholder}
               sx={styles.textField}
               value={postTextContent}
               variant="standard"
-              onFocus={() => setFocusReply(true)}
             />
             <Button
               disabled={!postTextContent.trim()}
@@ -119,7 +118,6 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
             </Stack>
           </Box>
         )}
-        <Divider />
       </Box>
     </form>
   );

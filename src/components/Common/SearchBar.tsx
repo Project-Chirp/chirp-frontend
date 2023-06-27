@@ -6,11 +6,6 @@ const styles = {
     margin: "auto",
     padding: 1,
   },
-  searchField: {
-    "& .MuiOutlinedInput-root": {
-      borderRadius: "50px",
-    },
-  },
 };
 
 type SearchBarProps = {
@@ -32,7 +27,6 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
         }}
         placeholder={placeholder}
         size="small"
-        sx={styles.searchField}
       />
     </Box>
   );

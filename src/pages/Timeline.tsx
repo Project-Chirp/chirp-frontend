@@ -25,6 +25,7 @@ const Timeline = () => {
       <Box sx={styles.postListContainer}>
         <Typography sx={styles.headerTitle}>Timeline</Typography>
         <ComposePost placeholder="What's happening?" />
+        <Divider />
         <PostList />
       </Box>
       <Divider orientation="vertical" />

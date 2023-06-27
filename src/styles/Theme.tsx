@@ -81,6 +81,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: "50px",
+        },
+      },
+    },
     MuiTextField: {
       defaultProps: {
         InputProps: { disableUnderline: true },

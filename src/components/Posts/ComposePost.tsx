@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Divider,
   IconButton,
   Stack,
   TextField,
@@ -73,9 +72,8 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
           <TextField
             fullWidth
             hiddenLabel
-            id="standard-multiline-static"
-            multiline
             minRows={minRows}
+            multiline
             onChange={(e) => setPostTextContent(e.target.value)}
             placeholder={placeholder}
             sx={styles.textField}
@@ -102,7 +100,6 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
           </Box>
         </Box>
       </Box>
-      <Divider light />
     </form>
   );
 };

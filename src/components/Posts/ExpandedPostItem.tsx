@@ -85,7 +85,7 @@ const styles = {
 const ExpandedPostItem = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.post);
+  const post = useAppSelector((state) => state.expandedPost);
   const urlParams = useParams();
 
   useEffect(() => {
