@@ -7,6 +7,7 @@ import {
   InputAdornment,
   List,
   ListItemAvatar,
+  ListItemButton,
   ListItemText,
   Stack,
   TextField,
@@ -43,7 +44,13 @@ const styles = {
   stack: {
     width: "100%",
   },
-  autocomplete: { "	.MuiAutocomplete-input": { paddingLeft: 0 } },
+  autocomplete: { ".MuiAutocomplete-input": { paddingLeft: 0 } },
+  listItemButton: {
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
+  searchIcon: { paddingRight: 0 },
 };
 
 type SearchBarProps = {
@@ -89,14 +96,13 @@ const SearchBarMessages = ({
         onOpen={() => setFocusSearchBar(true)}
         onClose={() => setFocusSearchBar(false)}
         id="messages-search"
-        onChange={(_, value) =>
-          value
-            ? setSelectedUser(value)
-            : setSelectedUser({
-                displayName: "",
-                otherUserId: -1,
-                username: "",
-              })
+        onChange={
+          (_, value) => (value ? setSelectedUser(value) : console.log(value))
+          // : setSelectedUser({
+          //     displayName: "",
+          //     otherUserId: -1,
+          //     username: "",
+          //   })
         }
         options={followedList}
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
@@ -111,11 +117,7 @@ const SearchBarMessages = ({
                 ...params.InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <IconButton
-                      onClick={() => routeChange()}
-                      disabled={!selectedUser.username.trim()}
-                      sx={{ paddingRight: 0 }}
-                    >
+                    <IconButton disabled sx={styles.searchIcon}>
                       <SearchRoundedIcon />
                     </IconButton>
                   </InputAdornment>
@@ -131,20 +133,25 @@ const SearchBarMessages = ({
           return (
             <List component="li" {...props}>
               <Stack direction="row" sx={styles.stack}>
-                <ListItemAvatar sx={styles.avatar}>
-                  <Avatar />
-                </ListItemAvatar>
-                <ListItemText
-                  disableTypography
-                  primary={
-                    <Box sx={styles.primaryTextContainer}>
-                      <Typography sx={styles.displayName} variant="body2">
-                        {option.displayName}
-                      </Typography>
-                      <Typography variant="body2">{`@${option.username}`}</Typography>
-                    </Box>
-                  }
-                />
+                <ListItemButton
+                  sx={styles.listItemButton}
+                  // onClick={() => console.log(selectedUser)}
+                >
+                  <ListItemAvatar sx={styles.avatar}>
+                    <Avatar />
+                  </ListItemAvatar>
+                  <ListItemText
+                    disableTypography
+                    primary={
+                      <Box sx={styles.primaryTextContainer}>
+                        <Typography sx={styles.displayName} variant="body2">
+                          {option.displayName}
+                        </Typography>
+                        <Typography variant="body2">{`@${option.username}`}</Typography>
+                      </Box>
+                    }
+                  />
+                </ListItemButton>
               </Stack>
             </List>
           );

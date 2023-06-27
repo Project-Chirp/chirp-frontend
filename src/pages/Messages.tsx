@@ -67,12 +67,11 @@ const Messages = () => {
           New Message
         </Button>
       </Box>
-      {messageModal && (
-        <CreateMessageModal
-          onClose={() => setMessageModal(false)}
-          openModal={messageModal}
-        />
-      )}
+
+      <CreateMessageModal
+        onClose={() => setMessageModal(false)}
+        open={messageModal}
+      />
     </Stack>
   );
 };

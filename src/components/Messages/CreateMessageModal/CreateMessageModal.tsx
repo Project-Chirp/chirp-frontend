@@ -46,20 +46,20 @@ const styles = {
 
 type CreateMessageModalProps = {
   onClose: () => void;
-  openModal: boolean;
+  open: boolean;
 };
 
 export default function CreateMessageModal({
   onClose,
-  openModal,
+  open,
 }: CreateMessageModalProps) {
   const user = useAppSelector((state) => state.user);
+  const [focusSearchBar, setFocusSearchBar] = useState(false);
   const [selectedUser, setSelectedUser] = useState<OtherUser>({
     displayName: "",
     otherUserId: -1,
     username: "",
   });
-  const [focusSearchBar, setFocusSearchBar] = useState(false);
 
   const navigate = useNavigate();
   const routeChange = () => {
@@ -71,7 +71,7 @@ export default function CreateMessageModal({
     <Dialog
       fullWidth
       onClose={onClose}
-      open={openModal}
+      open={open}
       scroll="paper"
       PaperProps={{ sx: styles.dialog }}
     >
@@ -83,31 +83,12 @@ export default function CreateMessageModal({
           <Box sx={styles.titleBox}>
             <Typography sx={styles.headerTitle}>New Message</Typography>
           </Box>
-          <Box sx={styles.modalButtonBox}>
-            <Button
-              variant="contained"
-              size="small"
-              disabled={!selectedUser.username.trim()}
-              onClick={() => routeChange()}
-              sx={styles.modalButton}
-            >
-              Message
-            </Button>
-          </Box>
         </Box>
       </DialogTitle>
       <SearchBarMessages
-        placeholder="Start a conversation"
+        placeholder="Search following"
         selectedUser={selectedUser}
-        setSelectedUser={(state) =>
-          state
-            ? setSelectedUser(state)
-            : setSelectedUser({
-                displayName: "",
-                otherUserId: -1,
-                username: "",
-              })
-        }
+        setSelectedUser={(state) => setSelectedUser(state)}
         setFocusSearchBar={(state) =>
           state ? setFocusSearchBar(state) : setFocusSearchBar(false)
         }
