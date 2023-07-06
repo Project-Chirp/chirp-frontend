@@ -11,8 +11,8 @@ const initialState: Post = {
   username: "",
 };
 
-export const postSlice = createSlice({
-  name: "post",
+export const expandedPostSlice = createSlice({
+  name: "expandedPost",
   initialState,
   reducers: {
     setExpandedPost: (_, action: PayloadAction<Post>) => {
@@ -24,6 +24,7 @@ export const postSlice = createSlice({
   },
 });
 
-export const { setExpandedPost, updateExpandedPost } = postSlice.actions;
+export const { setExpandedPost, updateExpandedPost } =
+  expandedPostSlice.actions;
 
-export default postSlice.reducer;
+export default expandedPostSlice.reducer;

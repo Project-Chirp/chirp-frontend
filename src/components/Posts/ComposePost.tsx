@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Divider,
   IconButton,
   Stack,
   TextField,
@@ -16,11 +15,18 @@ import { appendPost } from "../../state/slices/postsSlice";
 
 type ComposePostProps = {
   placeholder: string;
+  minRows?: number;
 };
 
 const styles = {
   avatarIcon: { paddingRight: 1.5 },
-  compostPostContainer: { display: "flex", padding: 3 },
+  compostPostContainer: {
+    display: "flex",
+    paddingBottom: 2,
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 1,
+  },
   textFieldContainer: { width: "100%" },
   textField: { paddingBottom: 2 },
   postActions: {
@@ -28,10 +34,9 @@ const styles = {
     justifyContent: "space-between",
     marginTop: 1,
   },
-  postButton: { borderRadius: 5 },
 };
 
-const ComposePost = ({ placeholder }: ComposePostProps) => {
+const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -67,7 +72,7 @@ const ComposePost = ({ placeholder }: ComposePostProps) => {
           <TextField
             fullWidth
             hiddenLabel
-            id="standard-multiline-static"
+            minRows={minRows}
             multiline
             onChange={(e) => setPostTextContent(e.target.value)}
             placeholder={placeholder}
@@ -87,7 +92,6 @@ const ComposePost = ({ placeholder }: ComposePostProps) => {
             <Button
               disabled={!postTextContent.trim()}
               size="small"
-              sx={styles.postButton}
               type="submit"
               variant="contained"
             >
@@ -96,7 +100,6 @@ const ComposePost = ({ placeholder }: ComposePostProps) => {
           </Box>
         </Box>
       </Box>
-      <Divider light />
     </form>
   );
 };

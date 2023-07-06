@@ -10,9 +10,10 @@ const styles = {
   postListContainer: { width: "50%" },
   timelineHeader: {},
   headerTitle: {
-    display: "flex",
     alignItems: "center",
+    display: "flex",
     fontWeight: "bold",
+    paddingBottom: 1,
     paddingLeft: 2,
     paddingTop: 1,
   },
@@ -24,6 +25,7 @@ const Timeline = () => {
       <Box sx={styles.postListContainer}>
         <Typography sx={styles.headerTitle}>Timeline</Typography>
         <ComposePost placeholder="What's happening?" />
+        <Divider />
         <PostList />
       </Box>
       <Divider orientation="vertical" />

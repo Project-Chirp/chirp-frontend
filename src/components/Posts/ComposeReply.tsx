@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Divider,
   IconButton,
   Stack,
   TextField,
@@ -26,6 +25,7 @@ const styles = {
   textFieldContainer: {
     width: "100%",
     display: "flex",
+    alignItems: "center",
   },
   textField: { paddingBottom: 2, paddingRight: 1 },
   postActions: {
@@ -33,9 +33,7 @@ const styles = {
     paddingBottom: 2,
   },
   postButton: {
-    borderRadius: 5,
-    height: 35,
-    weight: 35,
+    minHeight: "34px",
   },
   topContainer: {
     display: "flex",
@@ -47,9 +45,9 @@ const styles = {
 
 const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
   const [postTextContent, setPostTextContent] = useState("");
-  const [focusReply, setFocusReply] = useState(false);
+  const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.post);
+  const post = useAppSelector((state) => state.expandedPost);
   const dispatch = useAppDispatch();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
@@ -91,12 +89,11 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
               id="standard-multiline-static"
               multiline
               onChange={(e) => setPostTextContent(e.target.value)}
+              onFocus={() => setFocusReply(true)}
               placeholder={placeholder}
               sx={styles.textField}
               value={postTextContent}
               variant="standard"
-              onFocus={() => setFocusReply(true)}
-              InputProps={{ disableUnderline: true }}
             />
             <Button
               disabled={!postTextContent.trim()}
@@ -121,7 +118,6 @@ const ComposeReply = ({ placeholder }: ComposeReplyProps) => {
             </Stack>
           </Box>
         )}
-        <Divider />
       </Box>
     </form>
   );

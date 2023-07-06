@@ -8,6 +8,7 @@ import NavItem from "./NavItem";
 import PostButtonModal from "./PostButtonModal";
 import { useState } from "react";
 import ComposePost from "../Posts/ComposePost";
+import { useAppSelector } from "../../state/hooks";
 
 const drawerWidth = "30%";
 const styles = {
@@ -20,7 +21,7 @@ const styles = {
       width: drawerWidth,
     },
   },
-  postButton: { borderRadius: 10, margin: 2 },
+  postButton: { margin: 2 },
   stack: {
     marginBottom: "auto",
     width: "100%",
@@ -33,27 +34,30 @@ const styles = {
   },
 };
 
-const navItems = [
-  {
-    icon: <HomeIcon />,
-    label: "Home",
-    route: "/",
-  },
-  {
-    icon: <MailIcon />,
-    label: "Messages",
-    route: "/messages",
-  },
-  {
-    icon: <AccountCircleIcon />,
-    label: "Profile",
-    route: "/profile",
-  },
-];
-
-// To declare a variable in JS, we use const or let. Variables declared with const can't be redefined but let can.
 const NavBar = () => {
   const [openModal, setOpenModal] = useState(false);
+  const { selectedConversation } = useAppSelector((state) => state.messages);
+  const user = useAppSelector((state) => state.user);
+
+  const navItems = [
+    {
+      icon: <HomeIcon />,
+      label: "Home",
+      route: "/",
+    },
+    {
+      icon: <MailIcon />,
+      label: "Messages",
+      route: selectedConversation.userId
+        ? `/messages/${user.userId}/${selectedConversation.userId}`
+        : "/messages",
+    },
+    {
+      icon: <AccountCircleIcon />,
+      label: "Profile",
+      route: "/profile",
+    },
+  ];
 
   return (
     <>
@@ -91,7 +95,7 @@ const NavBar = () => {
         onClose={() => setOpenModal(false)}
         openModal={openModal}
       >
-        <ComposePost placeholder="What's happening?" />
+        <ComposePost placeholder="What's happening?" minRows={3} />
       </PostButtonModal>
     </>
   );

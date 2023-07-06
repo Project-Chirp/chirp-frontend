@@ -7,7 +7,7 @@ import { Post, setPosts } from "../../state/slices/postsSlice";
 const ExpandedPostReplies = () => {
   const posts = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.post);
+  const post = useAppSelector((state) => state.expandedPost);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
