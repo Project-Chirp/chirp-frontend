@@ -9,6 +9,8 @@ const initialState: Post = {
   textContent: "",
   timestamp: "",
   username: "",
+  isRepost: false,
+  isQuotePost: false,
 };
 
 export const expandedPostSlice = createSlice({
