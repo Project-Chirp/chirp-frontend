@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ConversationListItem from "./ConversationListItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Box, Divider, IconButton, List, Typography } from "@mui/material";
@@ -10,6 +10,7 @@ import {
 } from "../../state/slices/messagesSlice";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SearchBar from "../Common/SearchBar";
+import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
 
 const styles = {
   container: {
@@ -29,6 +30,8 @@ const ConversationList = () => {
   const { conversations, selectedConversation } = useAppSelector(
     (state) => state.messages
   );
+  const [messageModal, showMessageModal] = useState(false);
+
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
@@ -50,7 +53,7 @@ const ConversationList = () => {
     <Box sx={styles.container}>
       <Box sx={styles.header}>
         <Typography variant="h6">Messages</Typography>
-        <IconButton>
+        <IconButton onClick={() => showMessageModal(true)}>
           <ChatOutlinedIcon />
         </IconButton>
       </Box>
@@ -75,6 +78,11 @@ const ConversationList = () => {
           />
         ))}
       </List>
+
+      <CreateMessageModal
+        onClose={() => showMessageModal(false)}
+        open={messageModal}
+      />
     </Box>
   );
 };

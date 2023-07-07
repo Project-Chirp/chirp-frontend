@@ -9,7 +9,6 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -42,9 +41,11 @@ const styles = {
     height: "100%",
   },
   stack: {
+    display: "flex",
+    flexDirection: "row",
     width: "100%",
   },
-  autocomplete: { ".MuiAutocomplete-input": { paddingLeft: 0 } },
+  autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
   listItemButton: {
     "&:hover": {
       backgroundColor: "transparent",
@@ -58,6 +59,7 @@ type SearchBarProps = {
   selectedUser: OtherUser;
   setSelectedUser: (state: OtherUser) => void;
   setFocusSearchBar: (state: boolean) => void;
+  onClose: () => void;
 };
 
 const SearchBarMessages = ({
@@ -65,6 +67,7 @@ const SearchBarMessages = ({
   selectedUser,
   setSelectedUser,
   setFocusSearchBar,
+  onClose,
 }: SearchBarProps) => {
   const user = useAppSelector((state) => state.user);
   const [followedList, setFollowedList] = useState<OtherUser[]>([]);
@@ -73,6 +76,10 @@ const SearchBarMessages = ({
   const routeChange = () => {
     const path = `/messages/${user.userId}/${selectedUser.otherUserId}`;
     navigate(path);
+  };
+  const handleSearch = () => {
+    routeChange();
+    onClose();
   };
 
   useEffect(() => {
@@ -96,13 +103,8 @@ const SearchBarMessages = ({
         onOpen={() => setFocusSearchBar(true)}
         onClose={() => setFocusSearchBar(false)}
         id="messages-search"
-        onChange={
-          (_, value) => (value ? setSelectedUser(value) : console.log(value))
-          // : setSelectedUser({
-          //     displayName: "",
-          //     otherUserId: -1,
-          //     username: "",
-          //   })
+        onChange={(_, value) =>
+          value ? setSelectedUser(value) : console.log(value)
         }
         options={followedList}
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
@@ -132,10 +134,10 @@ const SearchBarMessages = ({
         renderOption={(props, option) => {
           return (
             <List component="li" {...props}>
-              <Stack direction="row" sx={styles.stack}>
+              <Box sx={styles.stack}>
                 <ListItemButton
                   sx={styles.listItemButton}
-                  // onClick={() => console.log(selectedUser)}
+                  onClick={() => handleSearch()}
                 >
                   <ListItemAvatar sx={styles.avatar}>
                     <Avatar />
@@ -152,7 +154,7 @@ const SearchBarMessages = ({
                     }
                   />
                 </ListItemButton>
-              </Stack>
+              </Box>
             </List>
           );
         }}

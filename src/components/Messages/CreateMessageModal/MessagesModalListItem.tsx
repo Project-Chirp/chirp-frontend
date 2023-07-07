@@ -3,7 +3,6 @@ import {
   ListItemAvatar,
   Avatar,
   ListItemText,
-  Stack,
   Typography,
   Box,
 } from "@mui/material";
@@ -22,6 +21,8 @@ const styles = {
     height: "100%",
   },
   stack: {
+    display: "flex",
+    flexDirection: "row",
     width: "100%",
   },
 };
@@ -40,7 +41,7 @@ const MessageModalListItem = ({ otherUser }: MessageModalListItemProps) => {
 
   return (
     <ListItemButton onClick={() => routeChange()}>
-      <Stack direction="row" sx={styles.stack}>
+      <Box sx={styles.stack}>
         <ListItemAvatar sx={styles.avatar}>
           <Avatar />
         </ListItemAvatar>
@@ -55,7 +56,7 @@ const MessageModalListItem = ({ otherUser }: MessageModalListItemProps) => {
             </Box>
           }
         />
-      </Stack>
+      </Box>
     </ListItemButton>
   );
 };

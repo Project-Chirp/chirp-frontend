@@ -1,10 +1,7 @@
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
-import ChatIcon from "@mui/icons-material/Chat";
-import IconButton from "@mui/material/IconButton";
-import SearchBar from "../components/Common/SearchBar";
 import { useState } from "react";
-import CreateMessageModal from "../components/Messages/CreateMessageModal/CreateMessageModal";
 import ConversationList from "../components/Messages/ConversationList";
+import CreateMessageModal from "../components/Messages/CreateMessageModal/CreateMessageModal";
 
 const styles = {
   button: {
@@ -17,30 +14,47 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
+    margin: "auto",
     width: "50%",
+  },
+  messagesHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    paddingX: 2,
+    paddingTop: 2,
+    paddingBottom: 0,
+  },
+  messageListContainer: {
+    maxWidth: "30%",
   },
 };
 
 const Messages = () => {
-  const [messageModal, setMessageModal] = useState(false);
+  const [messageModal, showMessageModal] = useState(false);
 
   return (
     <Stack direction="row" sx={styles.root}>
       <ConversationList />
       <Divider flexItem orientation="vertical" />
+
       <Box sx={styles.selectMessageContainer}>
-        <Box>
-          <Typography variant="h6">Select a Message</Typography>
-          <Typography>
-            Choose one of your existing conversations or start a new one!
-          </Typography>
-          <Button variant="contained" sx={styles.button}>
-            New Message
-          </Button>
-        </Box>
+        <Typography variant="h6">Select a Message</Typography>
+        <Typography>
+          Choose one of your existing conversations or start a new one!
+        </Typography>
+        <Button
+          variant="contained"
+          sx={styles.button}
+          onClick={() => showMessageModal(true)}
+        >
+          New Message
+        </Button>
       </Box>
-      <Divider orientation="vertical" flexItem />
+      <CreateMessageModal
+        onClose={() => showMessageModal(false)}
+        open={messageModal}
+      />
     </Stack>
   );
 };
