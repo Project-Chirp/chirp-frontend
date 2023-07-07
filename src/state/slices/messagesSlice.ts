@@ -46,10 +46,17 @@ export const messagesSlice = createSlice({
       });
       state.conversations = newConversations;
     },
+    appendConversation: (state, action: PayloadAction<Conversation>) => {
+      state.conversations.unshift({ ...action.payload });
+    },
   },
 });
 
-export const { setConversations, setSelectedConversation, updateConversation } =
-  messagesSlice.actions;
+export const {
+  setConversations,
+  setSelectedConversation,
+  updateConversation,
+  appendConversation,
+} = messagesSlice.actions;
 
 export default messagesSlice.reducer;

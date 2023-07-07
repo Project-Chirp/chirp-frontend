@@ -8,7 +8,7 @@ import {
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchBarMessages from "./SearchBarMessages";
-import MessagesModalList, { OtherUser } from "./MessagesModalList";
+import MessagesModalList from "./MessagesModalList";
 import { useState } from "react";
 
 const styles = {
@@ -51,11 +51,6 @@ export default function CreateMessageModal({
   open,
 }: CreateMessageModalProps) {
   const [focusSearchBar, setFocusSearchBar] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<OtherUser>({
-    displayName: "",
-    otherUserId: -1,
-    username: "",
-  });
 
   return (
     <Dialog
@@ -77,8 +72,6 @@ export default function CreateMessageModal({
       </DialogTitle>
       <SearchBarMessages
         placeholder="Search following"
-        selectedUser={selectedUser}
-        setSelectedUser={(state) => setSelectedUser(state)}
         setFocusSearchBar={(state) =>
           state ? setFocusSearchBar(state) : setFocusSearchBar(false)
         }

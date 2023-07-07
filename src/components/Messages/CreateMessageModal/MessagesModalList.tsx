@@ -12,26 +12,26 @@ export type OtherUser = {
 
 const MessagesList = () => {
   const user = useAppSelector((state) => state.user);
-  const [dmList, setDMList] = useState<OtherUser[]>([]);
+  const [conversationList, setConversationList] = useState<OtherUser[]>([]);
 
   useEffect(() => {
-    const fetchDMList = async () => {
+    const fetchConversationList = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/messages/dmList",
+        "http://localhost:3001/api/messages/getModalConversations",
         {
           params: {
             userId: user.userId,
           },
         }
       );
-      setDMList(result.data as OtherUser[]);
+      setConversationList(result.data as OtherUser[]);
     };
-    fetchDMList();
+    fetchConversationList();
   }, [user]);
 
   return (
     <List component="div">
-      {dmList.map((o, index) => (
+      {conversationList.map((o, index) => (
         <MessagesModalListItem otherUser={o} key={index} />
       ))}
     </List>

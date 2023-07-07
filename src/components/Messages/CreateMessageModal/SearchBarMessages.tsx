@@ -13,11 +13,14 @@ import {
   Typography,
 } from "@mui/material";
 import { OtherUser } from "./MessagesModalList";
-import { useAppSelector } from "../../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import {
+  setSelectedConversation,
+  appendConversation,
+} from "../../../state/slices/messagesSlice";
 const styles = {
   box: {
     margin: "auto",
@@ -56,30 +59,57 @@ const styles = {
 
 type SearchBarProps = {
   placeholder: string;
-  selectedUser: OtherUser;
-  setSelectedUser: (state: OtherUser) => void;
   setFocusSearchBar: (state: boolean) => void;
   onClose: () => void;
 };
 
 const SearchBarMessages = ({
   placeholder,
-  selectedUser,
-  setSelectedUser,
   setFocusSearchBar,
   onClose,
 }: SearchBarProps) => {
   const user = useAppSelector((state) => state.user);
+  const messages = useAppSelector((state) => state.messages);
+  const dispatch = useAppDispatch();
   const [followedList, setFollowedList] = useState<OtherUser[]>([]);
 
   const navigate = useNavigate();
-  const routeChange = () => {
-    const path = `/messages/${user.userId}/${selectedUser.otherUserId}`;
-    navigate(path);
-  };
-  const handleSearch = () => {
-    routeChange();
+  const routeChange = (otherUser: OtherUser) => {
     onClose();
+    const path = `/messages/${user.userId}/${otherUser.otherUserId}`;
+    navigate(path);
+    if (
+      messages.conversations.find(
+        (conversation) => conversation.otherUserId === otherUser.otherUserId
+      )
+    ) {
+      dispatch(
+        setSelectedConversation({
+          displayName: otherUser.displayName,
+          userId: otherUser.otherUserId,
+          username: otherUser.username,
+        })
+      );
+    } else {
+      dispatch(
+        appendConversation({
+          ...otherUser,
+          textContent: "",
+          timestamp: new Date().toString(),
+        })
+      );
+      dispatch(
+        setSelectedConversation({
+          displayName: otherUser.displayName,
+          userId: otherUser.otherUserId,
+          username: otherUser.username,
+        })
+      );
+    }
+    // if otherUserId exists in conversation[]
+    //     dispatch(setSelectedConversation)
+    // else
+    //     dispatch(appendConversation)
   };
 
   useEffect(() => {
@@ -103,9 +133,6 @@ const SearchBarMessages = ({
         onOpen={() => setFocusSearchBar(true)}
         onClose={() => setFocusSearchBar(false)}
         id="messages-search"
-        onChange={(_, value) =>
-          value ? setSelectedUser(value) : console.log(value)
-        }
         options={followedList}
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
         sx={styles.autocomplete}
@@ -137,7 +164,7 @@ const SearchBarMessages = ({
               <Box sx={styles.stack}>
                 <ListItemButton
                   sx={styles.listItemButton}
-                  onClick={() => handleSearch()}
+                  onClick={() => routeChange(option)}
                 >
                   <ListItemAvatar sx={styles.avatar}>
                     <Avatar />

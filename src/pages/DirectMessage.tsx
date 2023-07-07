@@ -110,6 +110,7 @@ const DirectMessage = () => {
       );
     };
     fetchDirectMessage();
+    console.log("im refetching");
   }, [dispatch, userId1, userId2]);
 
   useEffect(() => {
