@@ -110,14 +110,10 @@ const DirectMessage = () => {
       );
     };
     fetchDirectMessage();
-    console.log("im refetching");
   }, [dispatch, userId1, userId2]);
 
   useEffect(() => {
-    // TODO: See if this is the best way to scroll to the bottom, and check edge cases
-    if (messageRef.current) {
-      messageRef.current.scrollTo(0, messageRef.current.scrollHeight);
-    }
+    messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
   }, [messages]);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
