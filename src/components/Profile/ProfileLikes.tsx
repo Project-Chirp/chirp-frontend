@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import PostItem from "./PostItem";
+import PostItem from "../Posts/PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import formatTimestamp from "../Misc/formatTimestamp";
 
-const ProfileReplies = () => {
+const ProfileLikes = () => {
   const posts = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -13,7 +13,7 @@ const ProfileReplies = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getOwnReplies",
+        "http://localhost:3001/api/profile/getOwnLikes",
         {
           params: {
             userId: user.userId,
@@ -38,4 +38,4 @@ const ProfileReplies = () => {
   );
 };
 
-export default ProfileReplies;
+export default ProfileLikes;

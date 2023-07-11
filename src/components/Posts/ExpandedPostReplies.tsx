@@ -3,12 +3,15 @@ import PostItem from "./PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import formatTimestamp from "../NavBar/formatTimestamp";
+import formatTimestamp from "../Misc/formatTimestamp";
 
-const ExpandedPostList = () => {
+type ExpandedPostRepliesProps = {
+  post: Post;
+};
+
+const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
   const posts = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
-  const expandedPost = useAppSelector((state) => state.expandedPost);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -19,7 +22,7 @@ const ExpandedPostList = () => {
           {
             params: {
               userId: user.userId,
-              postId: expandedPost.postId,
+              postId: post.postId,
             },
           }
         );
@@ -33,15 +36,17 @@ const ExpandedPostList = () => {
       }
     };
     fetchPosts();
-  }, [dispatch, user, expandedPost, posts]);
+  }, [dispatch, user, post, posts]);
 
   return (
     <>
-      {posts.map((o, index) => (
-        <PostItem key={index} post={o} />
-      ))}
+      {posts
+        .filter((o) => o.parentPostId === post.postId)
+        .map((o) => (
+          <PostItem key={o.postId} post={o} />
+        ))}
     </>
   );
 };
 
-export default ExpandedPostList;
+export default ExpandedPostReplies;

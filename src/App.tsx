@@ -1,6 +1,5 @@
 import Welcome from "./pages/Welcome";
 import Timeline from "./pages/Timeline";
-import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -10,11 +9,12 @@ import Register from "./pages/Register";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
 import Profile from "./pages/Profile";
-import "./App.css";
+import "./styles/App.css";
 import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { setUser } from "./state/slices/userSlice";
 import ExpandedPost from "./pages/ExpandedPost";
 import Messages from "./pages/Messages";
+import DirectMessage from "./pages/DirectMessage";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -63,6 +63,10 @@ function App() {
         <Route
           path="/messages"
           element={<ProtectedRoute component={Messages} />}
+        />
+        <Route
+          path="/messages/:userId1/:userId2"
+          element={<ProtectedRoute component={DirectMessage} />}
         />
         <Route
           path="/profile"

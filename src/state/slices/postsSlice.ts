@@ -9,6 +9,9 @@ export type Post = {
   textContent: string;
   timestamp: string;
   username: string;
+  isRepost: boolean;
+  isQuotePost: boolean;
+  parentPostId?: number;
 };
 
 const initialState: Post[] = [];
