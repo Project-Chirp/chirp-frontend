@@ -12,7 +12,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
-import formatTimestamp from "../Misc/formatTimestamp";
+import formatTimestamp from "../NavBar/formatTimestamp";
 
 type ComposePostProps = {
   placeholder: string;
