@@ -1,35 +1,33 @@
 import { Box, Divider, Typography } from "@mui/material";
 import ComposePost from "../components/Posts/ComposePost";
-import { Stack } from "@mui/system";
 import PostList from "../components/Posts/PostList";
+import Layout from "./Layout";
 
 const styles = {
   root: {
+    display: "flex",
+    flexDirection: "column",
     width: "100%",
   },
-  postListContainer: { width: "50%" },
-  timelineHeader: {},
   headerTitle: {
-    alignItems: "center",
-    display: "flex",
     fontWeight: "bold",
-    paddingBottom: 1,
-    paddingLeft: 2,
-    paddingTop: 1,
+    paddingX: 2,
+    paddingY: 1,
   },
 };
 
 const Timeline = () => {
   return (
-    <Stack direction="row" sx={styles.root}>
-      <Box sx={styles.postListContainer}>
-        <Typography sx={styles.headerTitle}>Timeline</Typography>
-        <ComposePost placeholder="What's happening?" />
-        <Divider />
-        <PostList />
-      </Box>
-      <Divider orientation="vertical" />
-    </Stack>
+    <Layout
+      mainContent={
+        <Box sx={styles.root}>
+          <Typography sx={styles.headerTitle}>Timeline</Typography>
+          <ComposePost placeholder="What's happening?" />
+          <Divider />
+          <PostList />
+        </Box>
+      }
+    />
   );
 };
 
