@@ -60,9 +60,9 @@ const ConversationList = () => {
       <SearchBar placeholder="Search Messages" />
       <Divider />
       <List component="div">
-        {conversations.map((o) => (
+        {conversations.map((o, index) => (
           <ConversationListItem
-            key={o.otherUserId}
+            key={`${o.otherUserId}-${index}`}
             conversation={o}
             onClick={() => {
               dispatch(

@@ -29,12 +29,17 @@ const styles = {
 
 type MessageModalListItemProps = {
   otherUser: OtherUser;
+  onClose: () => void;
 };
 
-const MessageModalListItem = ({ otherUser }: MessageModalListItemProps) => {
+const MessageModalListItem = ({
+  otherUser,
+  onClose,
+}: MessageModalListItemProps) => {
   const user = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const routeChange = () => {
+    onClose();
     const path = `/messages/${user.userId}/${otherUser.otherUserId}`;
     navigate(path);
   };

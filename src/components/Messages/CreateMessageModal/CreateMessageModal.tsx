@@ -78,7 +78,7 @@ export default function CreateMessageModal({
         onClose={onClose}
       />
       <DialogContent sx={styles.dialogContent}>
-        {!focusSearchBar && <MessagesModalList />}
+        {!focusSearchBar && <MessagesModalList onClose={onClose} />}
       </DialogContent>
     </Dialog>
   );

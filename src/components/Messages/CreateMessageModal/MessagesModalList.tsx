@@ -10,7 +10,11 @@ export type OtherUser = {
   username: string;
 };
 
-const MessagesList = () => {
+type MessagesListProps = {
+  onClose: () => void;
+};
+
+const MessagesList = ({ onClose }: MessagesListProps) => {
   const user = useAppSelector((state) => state.user);
   const [conversationList, setConversationList] = useState<OtherUser[]>([]);
 
@@ -32,7 +36,7 @@ const MessagesList = () => {
   return (
     <List component="div">
       {conversationList.map((o, index) => (
-        <MessagesModalListItem otherUser={o} key={index} />
+        <MessagesModalListItem otherUser={o} key={index} onClose={onClose} />
       ))}
     </List>
   );

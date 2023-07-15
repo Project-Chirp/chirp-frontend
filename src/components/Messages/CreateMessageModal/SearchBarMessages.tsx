@@ -13,14 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 import { OtherUser } from "./MessagesModalList";
-import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {
-  setSelectedConversation,
-  appendConversation,
-} from "../../../state/slices/messagesSlice";
 const styles = {
   box: {
     margin: "auto",
@@ -69,8 +65,6 @@ const SearchBarMessages = ({
   onClose,
 }: SearchBarProps) => {
   const user = useAppSelector((state) => state.user);
-  const messages = useAppSelector((state) => state.messages);
-  const dispatch = useAppDispatch();
   const [followedList, setFollowedList] = useState<OtherUser[]>([]);
 
   const navigate = useNavigate();
@@ -78,38 +72,6 @@ const SearchBarMessages = ({
     onClose();
     const path = `/messages/${user.userId}/${otherUser.otherUserId}`;
     navigate(path);
-    if (
-      messages.conversations.find(
-        (conversation) => conversation.otherUserId === otherUser.otherUserId
-      )
-    ) {
-      dispatch(
-        setSelectedConversation({
-          displayName: otherUser.displayName,
-          userId: otherUser.otherUserId,
-          username: otherUser.username,
-        })
-      );
-    } else {
-      dispatch(
-        appendConversation({
-          ...otherUser,
-          textContent: "",
-          timestamp: new Date().toString(),
-        })
-      );
-      dispatch(
-        setSelectedConversation({
-          displayName: otherUser.displayName,
-          userId: otherUser.otherUserId,
-          username: otherUser.username,
-        })
-      );
-    }
-    // if otherUserId exists in conversation[]
-    //     dispatch(setSelectedConversation)
-    // else
-    //     dispatch(appendConversation)
   };
 
   useEffect(() => {
