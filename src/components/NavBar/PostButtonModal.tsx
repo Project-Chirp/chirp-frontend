@@ -8,6 +8,9 @@ const styles = {
   },
   dialogContent: {
     padding: 0,
+    paddingBottom: 2,
+    alignItems: "center",
+    justifyContent: "center",
   },
   dialogTitle: {
     paddingBottom: 0,
@@ -18,7 +21,7 @@ const styles = {
 };
 
 type PostButtonModalProps = {
-  children: JSX.Element;
+  children?: React.ReactNode;
   onClose: () => void;
   openModal: boolean;
 };

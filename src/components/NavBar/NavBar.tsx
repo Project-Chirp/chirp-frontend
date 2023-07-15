@@ -79,7 +79,6 @@ const NavBar = () => {
                 />
               ))}
             </List>
-            {/*/ Update the button to post action*/}
             <Button
               sx={styles.postButton}
               variant="contained"
