@@ -14,85 +14,46 @@ import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
 
 const styles = {
-  arrowBtn: {
-    border: "none",
-    backgroundColor: "white",
-  },
-  arrowText: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
   avatar: {
-    width: 140,
     height: 140,
-    left: 25,
-    zIndex: 2,
-    top: -80,
+    marginTop: "-15%",
+    width: 140,
   },
-  editBtn: {
-    backgroundColor: "black",
-    textTransform: "none",
-    marginLeft: 62,
-    marginTop: 2,
+  avatarContainer: {
+    alignItems: "flex-start",
+    display: "flex",
+    justifyContent: "space-between",
   },
+  banner: { width: "100%", height: "200px" },
+  bio: { paddingTop: 1 },
   displayName: {
-    fontSize: 25,
-    marginTop: 10,
-    marginBottom: 5,
+    fontSize: 20,
     fontWeight: "bold",
   },
-  usernameDisplay: {
-    fontWeight: "normal",
-    fontSize: 20,
-    color: "#71797E",
-    marginBottom: 15,
+  editProfileButton: {
+    backgroundColor: "black",
   },
-  menu: { marginTop: 60, marginRight: 83 },
-  tabSelection: {
-    marginLeft: 85,
+  followerButtons: {
+    color: "black",
+    padding: 0,
+    textTransform: "none",
   },
+  followerContainer: { paddingTop: 1, display: "flex", gap: 3 },
   header: {
-    height: "60px",
-    paddingTop: 10,
-    display: "flex",
-    alignItems: "center",
-  },
-  tweetCountStyle: { fontWeight: "normal", fontSize: 15 },
-  followercountbtn: {
-    border: "none",
-    fontSize: 15,
-    padding: 0,
-    backgroundColor: "white",
-    color: "black",
-    textTransform: "none",
-    marginTop: 2,
-  },
-  followingcountbtn: {
-    border: "none",
-    fontSize: 15,
-    padding: 0,
-    marginLeft: 5,
-    color: "black",
-    backgroundColor: "white",
-    textTransform: "none",
-    marginTop: 2,
-  },
-  bioDisplay: {
-    marginBottom: 20,
-  },
-  parentBox: {
-    width: "100%",
-  },
-  avatarBannerBox: {
-    height: 200,
-  },
-  profileInfoBox: {
-    paddingLeft: 15,
-    paddingTop: 20,
-  },
-  calendarBox: {
     alignItems: "center",
     display: "flex",
+  },
+  joinedDate: {
+    display: "flex",
+    gap: 0.5,
+    paddingTop: 1,
+  },
+  nameContainer: { paddingTop: 1 },
+  profileContent: { padding: 2 },
+  tweetCount: { fontSize: 13 },
+  username: {
+    color: "#71797E",
+    fontSize: 16,
   },
 };
 
@@ -131,81 +92,90 @@ const Profile = () => {
         joinedDate: formattedDate,
       });
     };
-
     fetchProfileContents();
   }, [value, user]);
+
   return (
     <Layout
       mainContent={
         <Box>
           <Box style={styles.header}>
-            <IconButton style={styles.arrowBtn} onClick={() => navigate(-1)}>
+            <IconButton onClick={() => navigate(-1)}>
               <KeyboardBackspaceIcon color="secondary" />
             </IconButton>
             <Box>
-              <Typography sx={styles.arrowText}>{user.username}</Typography>
-              <Typography sx={styles.tweetCountStyle}>
+              <Typography sx={styles.displayName}>
+                {user.displayName}
+              </Typography>
+              <Typography sx={styles.tweetCount}>
                 {profileContents.postCount} Tweets
               </Typography>
             </Box>
           </Box>
-          <Box sx={styles.avatarBannerBox}>
+          <Box>
             <Box
               component="img"
-              sx={{ position: "relative", width: "100%", height: "200px" }}
+              sx={styles.banner}
               src={process.env.PUBLIC_URL + "/blue.jpg"}
-              alt="temp"
+              alt="Temp"
             />
-            <Avatar
-              alt="profile picture"
-              src={process.env.PUBLIC_URL + "/rock.jpg"}
-              sx={styles.avatar}
-            />
-          </Box>
-          <Button
-            variant="contained"
-            startIcon={<EditIcon />}
-            sx={styles.editBtn}
-          >
-            Edit Profile
-          </Button>
-
-          <Box style={styles.profileInfoBox}>
-            <Typography variant={"h2"} style={styles.displayName}>
-              {user.displayName}
-            </Typography>
-            <Typography variant={"h3"} style={styles.usernameDisplay}>
-              @{user.username}
-            </Typography>
-            <Typography style={styles.bioDisplay}>
-              {profileContents.bio}
-            </Typography>
-            <Box style={styles.calendarBox}>
-              <CalendarMonthIcon />
-              <Typography>Joined {profileContents.joinedDate}</Typography>
+            <Box sx={styles.profileContent}>
+              <Box sx={styles.avatarContainer}>
+                <Avatar
+                  alt="Profile Picture"
+                  src={process.env.PUBLIC_URL + "/rock.jpg"}
+                  sx={styles.avatar}
+                />
+                <Button
+                  variant="contained"
+                  startIcon={<EditIcon />}
+                  sx={styles.editProfileButton}
+                >
+                  Edit Profile
+                </Button>
+              </Box>
+              <Box sx={styles.nameContainer}>
+                <Typography variant="h2" sx={styles.displayName}>
+                  {user.displayName}
+                </Typography>
+                <Typography variant="h3" sx={styles.username}>
+                  @{user.username}
+                </Typography>
+              </Box>
+              <Typography sx={styles.bio}>{profileContents.bio}</Typography>
+              <Box sx={styles.joinedDate}>
+                <CalendarMonthIcon />
+                <Typography>Joined {profileContents.joinedDate}</Typography>
+              </Box>
+              <Box sx={styles.followerContainer}>
+                <Button sx={styles.followerButtons}>
+                  <Typography component="span" sx={{ fontWeight: "bold" }}>
+                    500M
+                  </Typography>
+                  <Typography component="span">Followers</Typography>
+                </Button>
+                <Button sx={styles.followerButtons}>
+                  <Typography component="span" sx={{ fontWeight: "bold" }}>
+                    0
+                  </Typography>
+                  <Typography component="span">Following</Typography>
+                </Button>
+              </Box>
             </Box>
-            <Button sx={styles.followercountbtn}>
-              <Box>
-                <b>500M</b> Followers
-              </Box>
-            </Button>
-            <Button sx={styles.followingcountbtn}>
-              <Box>
-                <b>0</b> Following
-              </Box>
-            </Button>
           </Box>
           <Tabs
-            value={value}
+            centered
+            component="nav"
             onChange={(_: React.SyntheticEvent, newValue: string) =>
               setValue(newValue)
             }
+            value={value}
+            variant="fullWidth"
           >
-            <Tab value="one" style={styles.tabSelection} label="Tweets" />
-            <Tab value="two" style={styles.tabSelection} label="Replies" />
-            <Tab value="three" style={styles.tabSelection} label="Likes" />
+            <Tab value="one" label="Tweets" />
+            <Tab value="two" label="Replies" />
+            <Tab value="three" label="Likes" />
           </Tabs>
-
           {value === "one" && (
             <Box>
               <ProfileTweets />
@@ -216,7 +186,6 @@ const Profile = () => {
               <ProfileReplies />
             </Box>
           )}
-
           {value === "three" && (
             <Box>
               <ProfileLikes />

@@ -48,10 +48,6 @@ const styles = {
     paddingLeft: 0.5,
     fontSize: 14.5,
   },
-  backButton: {
-    backgroundColor: "transparent",
-    paddingRight: 10,
-  },
   card: {
     padding: 0,
     boxShadow: "none",
@@ -141,7 +137,7 @@ const ExpandedPostItem = () => {
   return (
     <Card sx={styles.card}>
       <Box style={styles.topHeader}>
-        <IconButton style={styles.backButton} onClick={() => navigate(-1)}>
+        <IconButton onClick={() => navigate(-1)}>
           <KeyboardBackspaceIcon color="secondary" />
         </IconButton>
         <Typography style={styles.headerTitle}>Post</Typography>
