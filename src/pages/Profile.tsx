@@ -11,6 +11,7 @@ import ProfileLikes from "../components/Profile/ProfileLikes";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
+import Layout from "./Layout";
 
 const styles = {
   arrowBtn: {
@@ -80,7 +81,7 @@ const styles = {
     marginBottom: 20,
   },
   parentBox: {
-    width: 650,
+    width: "100%",
   },
   avatarBannerBox: {
     height: 200,
@@ -134,8 +135,8 @@ const Profile = () => {
     fetchProfileContents();
   }, [value, user]);
   return (
-    <>
-      <Box style={styles.parentBox}>
+    <Layout
+      mainContent={
         <Box>
           <Box style={styles.header}>
             <IconButton style={styles.arrowBtn} onClick={() => navigate(-1)}>
@@ -151,7 +152,7 @@ const Profile = () => {
           <Box sx={styles.avatarBannerBox}>
             <Box
               component="img"
-              sx={{ position: "relative", width: "650px", height: "200px" }}
+              sx={{ position: "relative", width: "100%", height: "200px" }}
               src={process.env.PUBLIC_URL + "/blue.jpg"}
               alt="temp"
             />
@@ -222,8 +223,8 @@ const Profile = () => {
             </Box>
           )}
         </Box>
-      </Box>
-    </>
+      }
+    />
   );
 };
 
