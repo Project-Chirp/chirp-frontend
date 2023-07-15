@@ -23,6 +23,8 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/expandedPostSlice";
+import { useState } from "react";
+import RepliesModal from "./RepliesModal";
 
 type PostProps = {
   post: Post;
@@ -50,6 +52,8 @@ const styles = {
 const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+  const [open, setOpen] = useState(false);
+
   const likePost = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
       postId,
@@ -141,6 +145,9 @@ const PostItem = ({ post }: PostProps) => {
             {post.numberOfLikes}
           </Button>
           <Button
+            onClick={() => {
+              setOpen(true);
+            }}
             startIcon={<AddCommentOutlinedIcon />}
             sx={styles.defaultButton}
           >
@@ -153,6 +160,8 @@ const PostItem = ({ post }: PostProps) => {
         </Stack>
       </CardActions>
       <Divider light />
+
+      <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
     </Card>
   );
 };

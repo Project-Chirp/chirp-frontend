@@ -4,10 +4,13 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 
-const ExpandedPostReplies = () => {
+type ExpandedPostRepliesProps = {
+  post: Post;
+};
+
+const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
   const posts = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.expandedPost);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -32,9 +35,11 @@ const ExpandedPostReplies = () => {
 
   return (
     <>
-      {posts.map((o, index) => (
-        <PostItem key={index} post={o} />
-      ))}
+      {posts
+        .filter((o) => o.parentPostId === post.postId)
+        .map((o) => (
+          <PostItem key={o.postId} post={o} />
+        ))}
     </>
   );
 };

@@ -26,7 +26,9 @@ import {
   setExpandedPost,
   updateExpandedPost,
 } from "../../state/slices/expandedPostSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import RepliesModal from "./RepliesModal";
+import { Post } from "../../state/slices/postsSlice";
 
 const styles = {
   actionButton: {
@@ -78,11 +80,15 @@ const styles = {
   },
 };
 
-const ExpandedPostItem = () => {
+type ExpandedPostItemProps = {
+  post: Post;
+};
+
+const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const post = useAppSelector((state) => state.expandedPost);
   const urlParams = useParams();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
@@ -201,7 +207,11 @@ const ExpandedPostItem = () => {
               <FavoriteBorderOutlinedIcon />
             )}
           </IconButton>
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
             <AddCommentOutlinedIcon />
           </IconButton>
           <IconButton>
@@ -212,7 +222,8 @@ const ExpandedPostItem = () => {
           </IconButton>
         </Stack>
       </CardActions>
-      <Divider variant="middle" />
+
+      <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
     </Card>
   );
 };
