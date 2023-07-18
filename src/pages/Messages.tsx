@@ -48,7 +48,6 @@ const Messages = () => {
           </Box>
         </Box>
       </Box>
-      <Divider orientation="vertical" />
     </Stack>
   );
 };

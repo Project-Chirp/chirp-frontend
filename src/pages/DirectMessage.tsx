@@ -251,7 +251,6 @@ const DirectMessage = () => {
           </Box>
         </Box>
       </Box>
-      <Divider orientation="vertical" />
     </Stack>
   );
 };
