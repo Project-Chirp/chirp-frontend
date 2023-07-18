@@ -4,11 +4,6 @@ import PostList from "../components/Posts/PostList";
 import Layout from "./Layout";
 
 const styles = {
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
-  },
   headerTitle: {
     fontWeight: "bold",
     paddingX: 2,
@@ -19,8 +14,8 @@ const styles = {
 const Timeline = () => {
   return (
     <Layout
-      mainContent={
-        <Box sx={styles.root}>
+      middleContent={
+        <Box>
           <Typography sx={styles.headerTitle}>Timeline</Typography>
           <ComposePost placeholder="What's happening?" />
           <Divider />

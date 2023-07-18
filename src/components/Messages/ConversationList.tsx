@@ -12,16 +12,11 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SearchBar from "../Common/SearchBar";
 
 const styles = {
-  container: {
-    maxWidth: "30%",
-  },
   header: {
     display: "flex",
     justifyContent: "space-between",
     paddingTop: 2,
-    paddingRight: 2,
-    paddingLeft: 2,
-    paddingBottom: 0,
+    paddingX: 2,
   },
 };
 
@@ -47,7 +42,7 @@ const ConversationList = () => {
   }, [dispatch, user]);
 
   return (
-    <Box sx={styles.container}>
+    <Box>
       <Box sx={styles.header}>
         <Typography variant="h6">Messages</Typography>
         <IconButton>

@@ -97,7 +97,7 @@ const Profile = () => {
 
   return (
     <Layout
-      mainContent={
+      middleContent={
         <Box>
           <Box style={styles.header}>
             <IconButton onClick={() => navigate(-1)}>

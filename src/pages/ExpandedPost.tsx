@@ -6,9 +6,6 @@ import { useAppSelector } from "../state/hooks";
 import Layout from "./Layout";
 
 const styles = {
-  root: {
-    width: "100%",
-  },
   divider: { marginBottom: 3 },
 };
 
@@ -17,8 +14,20 @@ const ExpandedPost = () => {
 
   return (
     <Layout
-      mainContent={
-        <Box sx={styles.root}>
+      middleContent={
+        <Box>
+          <ExpandedPostItem post={expandedPost} />
+          <Divider sx={styles.divider} variant="middle" />
+          <ComposeReply
+            placeholder="Post your reply"
+            parentPostId={expandedPost.postId}
+          />
+          <Divider />
+          <ExpandedPostReplies post={expandedPost} />
+        </Box>
+      }
+      rightContent={
+        <Box>
           <ExpandedPostItem post={expandedPost} />
           <Divider sx={styles.divider} variant="middle" />
           <ComposeReply

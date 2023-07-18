@@ -5,31 +5,33 @@ import { Box, Divider, Stack } from "@mui/material";
 const styles = {
   container: { height: "auto", justifyContent: "center" },
   divider: { height: "auto" },
-  mainContent: { flex: "0 1 600px" },
+  middleContent: { flex: "0 1 600px", minWidth: 0 },
   nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
-  secondaryContent: {
+  rightContent: {
+    boxSizing: "border-box",
     flex: "0 0 350px",
+    minWidth: 0,
     paddingLeft: "40px",
   },
 };
 
 type LayoutProps = {
-  mainContent: ReactElement;
-  secondaryContent?: ReactElement;
+  middleContent: ReactElement;
+  rightContent?: ReactElement;
 };
 
-const Layout = ({ mainContent, secondaryContent }: LayoutProps) => {
+const Layout = ({ middleContent, rightContent }: LayoutProps) => {
   return (
     <Stack
       direction="row"
-      sx={styles.container}
       divider={<Divider orientation="vertical" sx={styles.divider} />}
+      sx={styles.container}
     >
       <Box component="header" sx={styles.nav}>
         <NavBar />
       </Box>
-      <Box sx={styles.mainContent}>{mainContent}</Box>
-      <Box sx={styles.secondaryContent}>{secondaryContent}</Box>
+      <Box sx={styles.middleContent}>{middleContent}</Box>
+      <Box sx={styles.rightContent}>{rightContent}</Box>
     </Stack>
   );
 };
