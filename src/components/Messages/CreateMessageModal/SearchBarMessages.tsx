@@ -5,7 +5,6 @@ import {
   Box,
   IconButton,
   InputAdornment,
-  List,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
@@ -17,38 +16,14 @@ import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 const styles = {
+  autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
   box: {
-    margin: "auto",
-    alignItems: "center",
-    justifyContent: "center",
     padding: 1,
-    width: "95%",
   },
-  searchField: {
-    "& .MuiOutlinedInput-root": {
-      borderRadius: "50px",
-    },
-  },
-  avatar: { margin: "auto" },
   displayName: {
     fontWeight: "bold",
-  },
-  primaryTextContainer: {
-    gap: 0.5,
-    width: "30%",
-    height: "100%",
-  },
-  stack: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-  },
-  autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
-  listItemButton: {
-    "&:hover": {
-      backgroundColor: "transparent",
-    },
   },
   searchIcon: { paddingRight: 0 },
 };
@@ -92,12 +67,12 @@ const SearchBarMessages = ({
   return (
     <Box sx={styles.box}>
       <Autocomplete
-        onOpen={() => setFocusSearchBar(true)}
-        onClose={() => setFocusSearchBar(false)}
-        id="messages-search"
-        options={followedList}
+        fullWidth
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
-        sx={styles.autocomplete}
+        id="messages-search"
+        onClose={() => setFocusSearchBar(false)}
+        onOpen={() => setFocusSearchBar(true)}
+        options={followedList}
         renderInput={(params) => {
           return (
             <TextField
@@ -116,37 +91,30 @@ const SearchBarMessages = ({
               }}
               placeholder={placeholder}
               size="small"
-              sx={styles.searchField}
             />
           );
         }}
-        renderOption={(props, option) => {
+        renderOption={(_, option) => {
           return (
-            <List component="li" {...props}>
-              <Box sx={styles.stack}>
-                <ListItemButton
-                  sx={styles.listItemButton}
-                  onClick={() => routeChange(option)}
-                >
-                  <ListItemAvatar sx={styles.avatar}>
-                    <Avatar />
-                  </ListItemAvatar>
-                  <ListItemText
-                    disableTypography
-                    primary={
-                      <Box sx={styles.primaryTextContainer}>
-                        <Typography sx={styles.displayName} variant="body2">
-                          {option.displayName}
-                        </Typography>
-                        <Typography variant="body2">{`@${option.username}`}</Typography>
-                      </Box>
-                    }
-                  />
-                </ListItemButton>
-              </Box>
-            </List>
+            <ListItemButton component="li" onClick={() => routeChange(option)}>
+              <ListItemAvatar>
+                <Avatar />
+              </ListItemAvatar>
+              <ListItemText
+                disableTypography
+                primary={
+                  <Box>
+                    <Typography sx={styles.displayName} variant="body2">
+                      {option.displayName}
+                    </Typography>
+                    <Typography variant="body2">{`@${option.username}`}</Typography>
+                  </Box>
+                }
+              />
+            </ListItemButton>
           );
         }}
+        sx={styles.autocomplete}
       />
     </Box>
   );
