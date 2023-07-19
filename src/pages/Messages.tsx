@@ -18,13 +18,6 @@ const styles = {
     margin: "auto",
     width: "50%",
   },
-  messagesHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    paddingX: 2,
-    paddingTop: 2,
-    paddingBottom: 0,
-  },
   messageListContainer: {
     maxWidth: "30%",
   },
@@ -32,6 +25,10 @@ const styles = {
 
 const Messages = () => {
   const [messageModal, showMessageModal] = useState(false);
+
+  const onClose = () => {
+    showMessageModal(false);
+  };
 
   return (
     <Stack direction="row" sx={styles.root}>
@@ -51,10 +48,7 @@ const Messages = () => {
           New Message
         </Button>
       </Box>
-      <CreateMessageModal
-        onClose={() => showMessageModal(false)}
-        open={messageModal}
-      />
+      <CreateMessageModal onClose={() => onClose()} open={messageModal} />
     </Stack>
   );
 };

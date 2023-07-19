@@ -7,22 +7,21 @@ import {
   Box,
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
-import SearchBarMessages from "./SearchBarMessages";
+import SearchBarMessages from "./MessagesSearchBar";
 import MessagesModalList from "./MessagesModalList";
 import { useState } from "react";
 
 const styles = {
   dialog: {
     height: "60%",
-    borderRadius: 4,
+    borderRadius: 5,
   },
   dialogContent: {
     padding: 0,
   },
   dialogTitle: {
     paddingBottom: 0,
-    paddingLeft: 0.5,
-    paddingRight: 0.5,
+    paddingX: 0.5,
     paddingTop: 1,
     display: "flex",
     alignItems: "center",
@@ -30,14 +29,6 @@ const styles = {
   titleBox: { paddingLeft: 3, width: "100%" },
   headerTitle: {
     fontWeight: "bold",
-  },
-  modalButtonBox: { paddingRight: 2 },
-  modalButton: { borderRadius: 10 },
-  modalHeader: {
-    display: "flex",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "space-between",
   },
 };
 
@@ -64,10 +55,8 @@ export default function CreateMessageModal({
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
-        <Box sx={styles.modalHeader}>
-          <Box sx={styles.titleBox}>
-            <Typography sx={styles.headerTitle}>New Message</Typography>
-          </Box>
+        <Box sx={styles.titleBox}>
+          <Typography sx={styles.headerTitle}>New Message</Typography>
         </Box>
       </DialogTitle>
       <SearchBarMessages

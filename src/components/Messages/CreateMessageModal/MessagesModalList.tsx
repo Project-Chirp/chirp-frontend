@@ -35,8 +35,12 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
 
   return (
     <List component="div">
-      {conversationList.map((o, index) => (
-        <MessagesModalListItem otherUser={o} key={index} onClose={onClose} />
+      {conversationList.map((o) => (
+        <MessagesModalListItem
+          otherUser={o}
+          key={o.otherUserId}
+          onClose={onClose}
+        />
       ))}
     </List>
   );

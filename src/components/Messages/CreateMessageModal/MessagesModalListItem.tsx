@@ -20,7 +20,7 @@ const styles = {
     width: "30%",
     height: "100%",
   },
-  stack: {
+  container: {
     display: "flex",
     flexDirection: "row",
     width: "100%",
@@ -46,14 +46,14 @@ const MessageModalListItem = ({
 
   return (
     <ListItemButton onClick={() => routeChange()}>
-      <Box sx={styles.stack}>
+      <Box sx={styles.container}>
         <ListItemAvatar sx={styles.avatar}>
           <Avatar />
         </ListItemAvatar>
         <ListItemText
           disableTypography
           primary={
-            <Box sx={styles.primaryTextContainer}>
+            <Box>
               <Typography sx={styles.displayName} variant="body2">
                 {otherUser.displayName}
               </Typography>
