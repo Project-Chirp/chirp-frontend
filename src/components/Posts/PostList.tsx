@@ -18,9 +18,9 @@ const PostList = () => {
             userId: user.userId,
           },
         });
-        const modified = resultPosts.data.map((entry: any) => ({
+        const modified = resultPosts.data.map((entry: Post) => ({
           ...entry,
-          timestamp: formatTimestamp(entry),
+          timestamp: formatTimestamp(entry.timestamp),
         }));
         dispatch(setPosts(modified as Post[]));
       } catch (e) {

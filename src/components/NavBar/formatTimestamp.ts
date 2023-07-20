@@ -1,5 +1,5 @@
-const formatTimestamp = (entry: any) => {
-  const date = new Date(entry.timestamp);
+const formatTimestamp = (entry: string) => {
+  const date = new Date(entry);
   const currentDate = new Date();
   const millisecondsInADay = 24 * 60 * 60 * 1000;
   const timeDifference = currentDate.getTime() - date.getTime();

@@ -20,9 +20,9 @@ const ProfileLikes = () => {
           },
         }
       );
-      const modified = result.data.map((entry: any) => ({
+      const modified = result.data.map((entry: Post) => ({
         ...entry,
-        timestamp: formatTimestamp(entry),
+        timestamp: formatTimestamp(entry.timestamp),
       }));
       dispatch(setPosts(modified as Post[]));
     };

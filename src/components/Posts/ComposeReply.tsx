@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { appendPost } from "../../state/slices/postsSlice";
+import formatTimestamp from "../NavBar/formatTimestamp";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -73,6 +74,7 @@ const ComposeReply = ({
           ...reply.data,
           username: user.username,
           displayName: user.displayName,
+          timestamp: formatTimestamp(reply.data.timestamp),
         })
       );
       onClose?.();

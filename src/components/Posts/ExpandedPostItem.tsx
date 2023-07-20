@@ -108,7 +108,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       );
       const fetchWithModifiedTimestamp = {
         ...backupFetch.data,
-        timestamp: formatTimestamp(backupFetch.data),
+        timestamp: formatTimestamp(backupFetch.data.timestamp),
       };
       dispatch(setExpandedPost(fetchWithModifiedTimestamp as Post));
     };

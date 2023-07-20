@@ -26,9 +26,9 @@ const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
             },
           }
         );
-        const modified = resultReplies.data.map((entry: any) => ({
+        const modified = resultReplies.data.map((entry: Post) => ({
           ...entry,
-          timestamp: formatTimestamp(entry),
+          timestamp: formatTimestamp(entry.timestamp),
         }));
         dispatch(setPosts(modified as Post[]));
       } catch (e) {
@@ -36,7 +36,7 @@ const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
       }
     };
     fetchPosts();
-  }, [dispatch, user, post, posts]);
+  }, [dispatch, user, post]);
 
   return (
     <>
