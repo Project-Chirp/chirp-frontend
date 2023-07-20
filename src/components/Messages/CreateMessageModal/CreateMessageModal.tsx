@@ -8,8 +8,10 @@ import {
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchBarMessages from "./MessagesSearchBar";
-import MessagesModalList from "./MessagesModalList";
+import MessagesModalList, { OtherUser } from "./MessagesModalList";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../state/hooks";
 
 const styles = {
   dialog: {
@@ -42,6 +44,14 @@ export default function CreateMessageModal({
   open,
 }: CreateMessageModalProps) {
   const [focusSearchBar, setFocusSearchBar] = useState(false);
+  const user = useAppSelector((state) => state.user);
+
+  const navigate = useNavigate();
+  const onSelect = (otherUser: OtherUser) => {
+    onClose();
+    const path = `/messages/${user.userId}/${otherUser.otherUserId}`;
+    navigate(path);
+  };
 
   return (
     <Dialog
@@ -61,10 +71,9 @@ export default function CreateMessageModal({
       </DialogTitle>
       <SearchBarMessages
         placeholder="Search following"
-        setFocusSearchBar={(state) =>
-          state ? setFocusSearchBar(state) : setFocusSearchBar(false)
-        }
-        onClose={onClose}
+        onSelect={onSelect}
+        onSearchBlur={() => setFocusSearchBar(false)}
+        onSearchFocus={() => setFocusSearchBar(true)}
       />
       <DialogContent sx={styles.dialogContent}>
         {!focusSearchBar && <MessagesModalList onClose={onClose} />}

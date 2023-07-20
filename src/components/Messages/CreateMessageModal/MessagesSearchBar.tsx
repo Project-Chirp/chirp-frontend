@@ -15,7 +15,7 @@ import { OtherUser } from "./MessagesModalList";
 import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const styles = {
   autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
@@ -30,24 +30,19 @@ const styles = {
 
 type SearchBarProps = {
   placeholder: string;
-  setFocusSearchBar: (state: boolean) => void;
-  onClose: () => void;
+  onSearchFocus: () => void;
+  onSearchBlur: () => void;
+  onSelect: (state: OtherUser) => void;
 };
 
 const SearchBarMessages = ({
   placeholder,
-  setFocusSearchBar,
-  onClose,
+  onSearchFocus,
+  onSearchBlur,
+  onSelect,
 }: SearchBarProps) => {
   const user = useAppSelector((state) => state.user);
   const [followedList, setFollowedList] = useState<OtherUser[]>([]);
-
-  const navigate = useNavigate();
-  const routeChange = (otherUser: OtherUser) => {
-    onClose();
-    const path = `/messages/${user.userId}/${otherUser.otherUserId}`;
-    navigate(path);
-  };
 
   useEffect(() => {
     const fetchDMList = async () => {
@@ -70,8 +65,8 @@ const SearchBarMessages = ({
         fullWidth
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
         id="messages-search"
-        onClose={() => setFocusSearchBar(false)}
-        onOpen={() => setFocusSearchBar(true)}
+        onFocus={onSearchFocus}
+        onBlur={onSearchBlur}
         options={followedList}
         renderInput={(params) => {
           return (
@@ -96,7 +91,7 @@ const SearchBarMessages = ({
         }}
         renderOption={(_, option) => {
           return (
-            <ListItemButton component="li" onClick={() => routeChange(option)}>
+            <ListItemButton component="li" onClick={() => onSelect(option)}>
               <ListItemAvatar>
                 <Avatar />
               </ListItemAvatar>
