@@ -8,14 +8,14 @@ export type Conversation = {
   username: string;
 };
 
-type SelectedConversation = {
+export type SelectedUser = {
   displayName: string;
   userId: number;
   username: string;
 };
 
 type ConversationDetails = {
-  selectedConversation: SelectedConversation;
+  selectedConversation: SelectedUser;
   conversations: Conversation[];
 };
 
@@ -31,10 +31,7 @@ export const messagesSlice = createSlice({
     setConversations: (state, action: PayloadAction<Conversation[]>) => {
       state.conversations = action.payload;
     },
-    setSelectedConversation: (
-      state,
-      action: PayloadAction<SelectedConversation>
-    ) => {
+    setSelectedConversation: (state, action: PayloadAction<SelectedUser>) => {
       state.selectedConversation = action.payload;
     },
     updateConversation: (state, action: PayloadAction<Conversation>) => {

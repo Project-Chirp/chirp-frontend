@@ -6,9 +6,9 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { OtherUser } from "./MessagesModalList";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
+import { SelectedUser } from "../../../state/slices/messagesSlice";
 
 const styles = {
   avatar: { margin: "auto" },
@@ -28,7 +28,7 @@ const styles = {
 };
 
 type MessageModalListItemProps = {
-  otherUser: OtherUser;
+  otherUser: SelectedUser;
   onClose: () => void;
 };
 
@@ -40,7 +40,7 @@ const MessageModalListItem = ({
   const navigate = useNavigate();
   const routeChange = () => {
     onClose();
-    const path = `/messages/${user.userId}/${otherUser.otherUserId}`;
+    const path = `/messages/${user.userId}/${otherUser.userId}`;
     navigate(path);
   };
 

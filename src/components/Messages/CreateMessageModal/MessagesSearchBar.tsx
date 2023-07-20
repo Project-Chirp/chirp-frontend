@@ -11,11 +11,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { OtherUser } from "./MessagesModalList";
 import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import { SelectedUser } from "../../../state/slices/messagesSlice";
 
 const styles = {
   autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
@@ -32,7 +31,7 @@ type SearchBarProps = {
   placeholder: string;
   onSearchFocus: () => void;
   onSearchBlur: () => void;
-  onSelect: (state: OtherUser) => void;
+  onSelect: (state: SelectedUser) => void;
 };
 
 const SearchBarMessages = ({
@@ -42,8 +41,7 @@ const SearchBarMessages = ({
   onSelect,
 }: SearchBarProps) => {
   const user = useAppSelector((state) => state.user);
-  const [followedList, setFollowedList] = useState<OtherUser[]>([]);
-
+  const [followedList, setFollowedList] = useState<SelectedUser[]>([]);
   useEffect(() => {
     const fetchDMList = async () => {
       const result = await axios.get(
@@ -54,7 +52,7 @@ const SearchBarMessages = ({
           },
         }
       );
-      setFollowedList(result.data as OtherUser[]);
+      setFollowedList(result.data as SelectedUser[]);
     };
     fetchDMList();
   }, [user]);
@@ -65,9 +63,11 @@ const SearchBarMessages = ({
         fullWidth
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
         id="messages-search"
-        onFocus={onSearchFocus}
-        onBlur={onSearchBlur}
+        popupIcon={false}
+        onOpen={onSearchFocus}
+        onClose={onSearchBlur}
         options={followedList}
+        openOnFocus
         renderInput={(params) => {
           return (
             <TextField
@@ -91,7 +91,11 @@ const SearchBarMessages = ({
         }}
         renderOption={(_, option) => {
           return (
-            <ListItemButton component="li" onClick={() => onSelect(option)}>
+            <ListItemButton
+              key={option.userId}
+              component="li"
+              onClick={() => onSelect(option)}
+            >
               <ListItemAvatar>
                 <Avatar />
               </ListItemAvatar>
