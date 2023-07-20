@@ -176,30 +176,30 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         <Box>
           <Button fullWidth sx={styles.actionButton}>
             <Typography component="span" sx={{ fontWeight: "bold" }}>
-              {post.numberOfLikes + 10}
-            </Typography>
-            <Typography component="span" sx={styles.actionTitles}>
-              Likes
-            </Typography>
-          </Button>
-        </Box>
-        <Box>
-          <Button fullWidth sx={styles.actionButton}>
-            <Typography component="span" sx={{ fontWeight: "bold" }}>
-              1
-            </Typography>
-            <Typography component="span" sx={styles.actionTitles}>
-              Comments
-            </Typography>
-          </Button>
-        </Box>
-        <Box>
-          <Button fullWidth sx={styles.actionButton}>
-            <Typography component="span" sx={{ fontWeight: "bold" }}>
               1
             </Typography>
             <Typography component="span" sx={styles.actionTitles}>
               Reposts
+            </Typography>
+          </Button>
+        </Box>
+        <Box>
+          <Button fullWidth sx={styles.actionButton}>
+            <Typography component="span" sx={{ fontWeight: "bold" }}>
+              1
+            </Typography>
+            <Typography component="span" sx={styles.actionTitles}>
+              Replies
+            </Typography>
+          </Button>
+        </Box>
+        <Box>
+          <Button fullWidth sx={styles.actionButton}>
+            <Typography component="span" sx={{ fontWeight: "bold" }}>
+              {post.numberOfLikes}
+            </Typography>
+            <Typography component="span" sx={styles.actionTitles}>
+              Likes
             </Typography>
           </Button>
         </Box>
