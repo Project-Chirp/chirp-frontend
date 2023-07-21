@@ -32,6 +32,7 @@ const styles = {
   container: { height: "auto", justifyContent: "center" },
   chatContainer: {
     display: "flex",
+    flex: 1,
     flexDirection: "column",
     overflowY: "hidden",
   },
@@ -58,7 +59,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "flex-start",
   },
-  messageList: { overflowY: "scroll" },
+  messageList: { flex: 1, overflowY: "scroll" },
   messageText: {
     padding: 1,
     borderRadius: 10,
