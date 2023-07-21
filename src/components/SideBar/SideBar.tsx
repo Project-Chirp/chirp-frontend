@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
-import SearchBar from "./SearchBar";
+import SearchBar from "../Common/SearchBar";
 
 const styles = {
   rightContent: {
@@ -22,6 +22,8 @@ const styles = {
     height: "45%",
     backgroundColor: "gray.light",
     borderRadius: 5,
+    display: "flex",
+    flexDirection: "column",
   },
   adSpaceContainer: {
     width: "100%",
@@ -35,6 +37,21 @@ const styles = {
     height: "5%",
     backgroundColor: "gray.light",
   },
+  mfHeader: {
+    width: "100%",
+  },
+  headerTitle: {
+    paddingX: 2,
+    paddingY: 1,
+    fontWeight: "bold",
+  },
+  mfList: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    margin: 1,
+  },
+  friendItem: {},
 };
 
 const SideBar = () => {
@@ -43,7 +60,16 @@ const SideBar = () => {
       <Box sx={styles.searchBarContainer}>
         <SearchBar placeholder="Search Chirp" />
       </Box>
-      <Box sx={styles.mutualFriendsContainer}></Box>
+      <Box sx={styles.mutualFriendsContainer}>
+        <Box sx={styles.mfHeader}>
+          <Typography variant="h6" sx={styles.headerTitle}>
+            Who to follow
+          </Typography>
+        </Box>
+        <Box sx={styles.mfList}>
+          <Box sx={styles.friendItem}></Box>
+        </Box>
+      </Box>
       <Box sx={styles.adSpaceContainer}></Box>
       <Box sx={styles.footerContainer}></Box>
     </Box>

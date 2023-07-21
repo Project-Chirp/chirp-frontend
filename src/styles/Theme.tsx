@@ -30,7 +30,7 @@ const palette = createPalette({
   },
   gray: {
     main: "#adb5bd",
-    light: "#DDE0E4",
+    light: "#F4F5F6",
   },
 });
 
