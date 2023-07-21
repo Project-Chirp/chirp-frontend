@@ -27,7 +27,7 @@ const styles = {
   searchIcon: { paddingRight: 0 },
 };
 
-type SearchBarProps = {
+type MessagesSearchBarProps = {
   placeholder: string;
   onSearchOpen: () => void;
   onSearchClose: () => void;
@@ -39,7 +39,7 @@ const MessagesSearchBar = ({
   onSearchOpen,
   onSearchClose,
   onSelect,
-}: SearchBarProps) => {
+}: MessagesSearchBarProps) => {
   const user = useAppSelector((state) => state.user);
   const [followedList, setFollowedList] = useState<SelectedUser[]>([]);
   useEffect(() => {
