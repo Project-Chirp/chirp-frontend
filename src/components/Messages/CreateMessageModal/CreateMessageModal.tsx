@@ -7,11 +7,11 @@ import {
   Box,
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
-import SearchBarMessages from "./MessagesSearchBar";
 import MessagesModalList from "./MessagesModalList";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
+import MessagesSearchBar from "./MessagesSearchBar";
 
 const styles = {
   dialog: {
@@ -68,7 +68,7 @@ export default function CreateMessageModal({
           <Typography sx={styles.headerTitle}>New Message</Typography>
         </Box>
       </DialogTitle>
-      <SearchBarMessages
+      <MessagesSearchBar
         placeholder="Search following"
         onSelect={onSelect}
         onSearchClose={() => setFocusSearchBar(false)}
