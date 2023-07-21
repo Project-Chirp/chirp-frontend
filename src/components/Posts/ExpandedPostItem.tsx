@@ -211,6 +211,16 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           justifyContent="space-between"
           sx={styles.cardActions}
         >
+          <IconButton>
+            <RepeatOutlinedIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            <AddCommentOutlinedIcon />
+          </IconButton>
           <IconButton
             onClick={() => {
               post.isLikedByCurrentUser
@@ -224,16 +234,6 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             ) : (
               <FavoriteBorderOutlinedIcon />
             )}
-          </IconButton>
-          <IconButton
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            <AddCommentOutlinedIcon />
-          </IconButton>
-          <IconButton>
-            <RepeatOutlinedIcon />
           </IconButton>
           <IconButton>
             <ShareOutlinedIcon />
