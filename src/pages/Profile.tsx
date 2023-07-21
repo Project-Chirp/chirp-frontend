@@ -12,6 +12,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
+import SideBar from "../components/SideBar/SideBar";
 
 const styles = {
   avatar: {
@@ -193,6 +194,7 @@ const Profile = () => {
           )}
         </Box>
       }
+      rightContent={<SideBar />}
     />
   );
 };
