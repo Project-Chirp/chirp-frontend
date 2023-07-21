@@ -22,6 +22,7 @@ import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ConversationList from "../components/Messages/ConversationList";
 import {
+  appendConversation,
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
@@ -92,9 +93,14 @@ const DirectMessage = () => {
   const [textContent, setTextContent] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const user = useAppSelector((state) => state.user);
-  const { selectedConversation } = useAppSelector((state) => state.messages);
+  const { selectedConversation, conversations } = useAppSelector(
+    (state) => state.messages
+  );
   const messageRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const userExists = conversations.find(
+    (o) => o.otherUserId === Number(userId2)
+  );
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
@@ -113,10 +119,7 @@ const DirectMessage = () => {
   }, [dispatch, userId1, userId2]);
 
   useEffect(() => {
-    // TODO: See if this is the best way to scroll to the bottom, and check edge cases
-    if (messageRef.current) {
-      messageRef.current.scrollTo(0, messageRef.current.scrollHeight);
-    }
+    messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
   }, [messages]);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
@@ -131,6 +134,23 @@ const DirectMessage = () => {
       ).data as Message;
       setTextContent("");
       setMessages([...messages, newMessage]);
+      if (userExists) {
+        dispatch(
+          setSelectedConversation({
+            ...selectedConversation,
+          })
+        );
+      } else {
+        dispatch(
+          appendConversation({
+            displayName: selectedConversation.displayName,
+            username: selectedConversation.username,
+            textContent: "",
+            timestamp: new Date().toString(),
+            otherUserId: Number(userId2),
+          })
+        );
+      }
       dispatch(
         updateConversation({
           displayName: selectedConversation.displayName,
