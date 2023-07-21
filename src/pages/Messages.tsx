@@ -1,5 +1,7 @@
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import { useState } from "react";
 import ConversationList from "../components/Messages/ConversationList";
+import CreateMessageModal from "../components/Messages/CreateMessageModal/CreateMessageModal";
 import NavBar from "../components/NavBar/NavBar";
 
 const styles = {
@@ -23,6 +25,8 @@ const styles = {
 };
 
 const Messages = () => {
+  const [messageModal, showMessageModal] = useState(false);
+
   return (
     <Stack
       direction="row"
@@ -42,12 +46,20 @@ const Messages = () => {
             <Typography>
               Choose one of your existing conversations or start a new one!
             </Typography>
-            <Button variant="contained" sx={styles.button}>
+            <Button
+              onClick={() => showMessageModal(true)}
+              sx={styles.button}
+              variant="contained"
+            >
               New Message
             </Button>
           </Box>
         </Box>
       </Box>
+      <CreateMessageModal
+        onClose={() => showMessageModal(false)}
+        open={messageModal}
+      />
     </Stack>
   );
 };
