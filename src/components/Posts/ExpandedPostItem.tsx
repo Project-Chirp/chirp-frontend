@@ -43,10 +43,7 @@ const styles = {
   actionTitles: {
     paddingLeft: 0.5,
   },
-  backButton: {
-    backgroundColor: "transparent",
-    paddingRight: 10,
-  },
+  backButton: { "&:hover": { backgroundColor: "transparent" } },
   card: {
     padding: 0,
     boxShadow: "none",
@@ -141,7 +138,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   return (
     <Card sx={styles.card}>
       <Box style={styles.topHeader}>
-        <IconButton style={styles.backButton} onClick={() => navigate(-1)}>
+        <IconButton onClick={() => navigate(-1)} sx={styles.backButton}>
           <KeyboardBackspaceIcon color="secondary" />
         </IconButton>
         <Typography style={styles.headerTitle}>Post</Typography>
