@@ -12,7 +12,6 @@ import MessagesModalList from "./MessagesModalList";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
-import { SelectedUser } from "../../../state/slices/messagesSlice";
 
 const styles = {
   dialog: {
@@ -47,9 +46,9 @@ export default function CreateMessageModal({
   const [focusSearchBar, setFocusSearchBar] = useState(false);
   const user = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-  const onSelect = (otherUser: SelectedUser) => {
+  const onSelect = (otherUserId: number) => {
     onClose();
-    const path = `/messages/${user.userId}/${otherUser.userId}`;
+    const path = `/messages/${user.userId}/${otherUserId}`;
     navigate(path);
   };
 
@@ -72,8 +71,8 @@ export default function CreateMessageModal({
       <SearchBarMessages
         placeholder="Search following"
         onSelect={onSelect}
-        onSearchBlur={() => setFocusSearchBar(false)}
-        onSearchFocus={() => setFocusSearchBar(true)}
+        onSearchClose={() => setFocusSearchBar(false)}
+        onSearchOpen={() => setFocusSearchBar(true)}
       />
       <DialogContent sx={styles.dialogContent}>
         {!focusSearchBar && <MessagesModalList onClose={onClose} />}

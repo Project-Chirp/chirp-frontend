@@ -29,15 +29,15 @@ const styles = {
 
 type SearchBarProps = {
   placeholder: string;
-  onSearchFocus: () => void;
-  onSearchBlur: () => void;
-  onSelect: (state: SelectedUser) => void;
+  onSearchOpen: () => void;
+  onSearchClose: () => void;
+  onSelect: (state: number) => void;
 };
 
-const SearchBarMessages = ({
+const MessagesSearchBar = ({
   placeholder,
-  onSearchFocus,
-  onSearchBlur,
+  onSearchOpen,
+  onSearchClose,
   onSelect,
 }: SearchBarProps) => {
   const user = useAppSelector((state) => state.user);
@@ -64,8 +64,8 @@ const SearchBarMessages = ({
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
         id="messages-search"
         popupIcon={false}
-        onOpen={onSearchFocus}
-        onClose={onSearchBlur}
+        onOpen={onSearchOpen}
+        onClose={onSearchClose}
         options={followedList}
         openOnFocus
         renderInput={(params) => {
@@ -94,7 +94,7 @@ const SearchBarMessages = ({
             <ListItemButton
               key={option.userId}
               component="li"
-              onClick={() => onSelect(option)}
+              onClick={() => onSelect(option.userId)}
             >
               <ListItemAvatar>
                 <Avatar />
@@ -119,4 +119,4 @@ const SearchBarMessages = ({
   );
 };
 
-export default SearchBarMessages;
+export default MessagesSearchBar;

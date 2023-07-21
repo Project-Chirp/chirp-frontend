@@ -20,8 +20,7 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     paddingTop: 2,
-    paddingRight: 2,
-    paddingLeft: 2,
+    paddingX: 2,
     paddingBottom: 0,
   },
 };
@@ -31,10 +30,8 @@ const ConversationList = () => {
     (state) => state.messages
   );
   const [messageModal, showMessageModal] = useState(false);
-
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,7 +59,7 @@ const ConversationList = () => {
       <List component="div">
         {conversations.map((o) => (
           <ConversationListItem
-            key={`${o.otherUserId}`}
+            key={o.otherUserId}
             conversation={o}
             onClick={() => {
               dispatch(
@@ -78,7 +75,6 @@ const ConversationList = () => {
           />
         ))}
       </List>
-
       <CreateMessageModal
         onClose={() => showMessageModal(false)}
         open={messageModal}

@@ -26,10 +26,6 @@ const styles = {
 const Messages = () => {
   const [messageModal, showMessageModal] = useState(false);
 
-  const onClose = () => {
-    showMessageModal(false);
-  };
-
   return (
     <Stack direction="row" sx={styles.root}>
       <ConversationList />
@@ -48,7 +44,10 @@ const Messages = () => {
           New Message
         </Button>
       </Box>
-      <CreateMessageModal onClose={() => onClose()} open={messageModal} />
+      <CreateMessageModal
+        onClose={() => showMessageModal(false)}
+        open={messageModal}
+      />
     </Stack>
   );
 };
