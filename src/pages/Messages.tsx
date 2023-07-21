@@ -28,39 +28,41 @@ const Messages = () => {
   const [messageModal, showMessageModal] = useState(false);
 
   return (
-    <Stack
-      direction="row"
-      divider={<Divider orientation="vertical" sx={styles.divider} />}
-      sx={styles.container}
-    >
-      <Box component="header" sx={styles.nav}>
-        <NavBar />
-      </Box>
-      <Box sx={styles.middleContent}>
-        <ConversationList />
-      </Box>
-      <Box sx={styles.rightContent}>
-        <Box sx={styles.selectMessageContainer}>
-          <Box>
-            <Typography variant="h6">Select a Message</Typography>
-            <Typography>
-              Choose one of your existing conversations or start a new one!
-            </Typography>
-            <Button
-              onClick={() => showMessageModal(true)}
-              sx={styles.button}
-              variant="contained"
-            >
-              New Message
-            </Button>
+    <>
+      <Stack
+        direction="row"
+        divider={<Divider orientation="vertical" sx={styles.divider} />}
+        sx={styles.container}
+      >
+        <Box component="header" sx={styles.nav}>
+          <NavBar />
+        </Box>
+        <Box sx={styles.middleContent}>
+          <ConversationList />
+        </Box>
+        <Box sx={styles.rightContent}>
+          <Box sx={styles.selectMessageContainer}>
+            <Box>
+              <Typography variant="h6">Select a Message</Typography>
+              <Typography>
+                Choose one of your existing conversations or start a new one!
+              </Typography>
+              <Button
+                onClick={() => showMessageModal(true)}
+                sx={styles.button}
+                variant="contained"
+              >
+                New Message
+              </Button>
+            </Box>
           </Box>
         </Box>
-      </Box>
+      </Stack>
       <CreateMessageModal
         onClose={() => showMessageModal(false)}
         open={messageModal}
       />
-    </Stack>
+    </>
   );
 };
 
