@@ -13,15 +13,11 @@ import SearchBar from "../Common/SearchBar";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
 
 const styles = {
-  container: {
-    maxWidth: "30%",
-  },
   header: {
     display: "flex",
     justifyContent: "space-between",
     paddingTop: 2,
     paddingX: 2,
-    paddingBottom: 0,
   },
 };
 
@@ -47,7 +43,7 @@ const ConversationList = () => {
   }, [dispatch, user]);
 
   return (
-    <Box sx={styles.container}>
+    <Box>
       <Box sx={styles.header}>
         <Typography variant="h6">Messages</Typography>
         <IconButton onClick={() => showMessageModal(true)}>
