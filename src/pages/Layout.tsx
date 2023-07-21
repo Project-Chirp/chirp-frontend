@@ -11,7 +11,6 @@ const styles = {
     boxSizing: "border-box",
     flex: "0 0 350px",
     minWidth: 0,
-    paddingLeft: "40px",
   },
 };
 
