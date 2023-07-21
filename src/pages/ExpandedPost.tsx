@@ -26,18 +26,6 @@ const ExpandedPost = () => {
           <ExpandedPostReplies post={expandedPost} />
         </Box>
       }
-      rightContent={
-        <Box>
-          <ExpandedPostItem post={expandedPost} />
-          <Divider sx={styles.divider} variant="middle" />
-          <ComposeReply
-            placeholder="Post your reply"
-            parentPostId={expandedPost.postId}
-          />
-          <Divider />
-          <ExpandedPostReplies post={expandedPost} />
-        </Box>
-      }
     />
   );
 };
