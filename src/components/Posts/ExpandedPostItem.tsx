@@ -34,12 +34,16 @@ const styles = {
   actionButton: {
     color: "black",
     textTransform: "none",
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
   },
-  actionData: {
+  actionsContainer: {
     display: "flex",
     paddingX: 1,
     paddingY: 1,
   },
+  actionCount: { fontWeight: "bold" },
   actionTitles: {
     paddingLeft: 0.5,
   },
@@ -65,9 +69,8 @@ const styles = {
   },
   timestampBox: {
     display: "flex",
-    paddingBottom: 1,
     paddingLeft: 2,
-    paddingTop: 1,
+    paddingY: 1,
   },
   topHeader: {
     display: "flex",
@@ -169,10 +172,10 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         </Typography>
       </Box>
       <Divider variant="middle" />
-      <Box sx={styles.actionData}>
+      <Box sx={styles.actionsContainer}>
         <Box>
           <Button fullWidth sx={styles.actionButton}>
-            <Typography component="span" sx={{ fontWeight: "bold" }}>
+            <Typography component="span" sx={styles.actionCount}>
               1
             </Typography>
             <Typography component="span" sx={styles.actionTitles}>
@@ -182,7 +185,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         </Box>
         <Box>
           <Button fullWidth sx={styles.actionButton}>
-            <Typography component="span" sx={{ fontWeight: "bold" }}>
+            <Typography component="span" sx={styles.actionCount}>
               1
             </Typography>
             <Typography component="span" sx={styles.actionTitles}>
@@ -192,7 +195,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         </Box>
         <Box>
           <Button fullWidth sx={styles.actionButton}>
-            <Typography component="span" sx={{ fontWeight: "bold" }}>
+            <Typography component="span" sx={styles.actionCount}>
               {post.numberOfLikes}
             </Typography>
             <Typography component="span" sx={styles.actionTitles}>
