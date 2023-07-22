@@ -12,7 +12,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
-import formatTimestamp from "../NavBar/formatTimestamp";
 
 type ComposePostProps = {
   placeholder: string;
@@ -51,13 +50,10 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
         textContent,
       });
       setPostTextContent("");
-      const modified = {
-        ...newPost.data,
-        timestamp: formatTimestamp(newPost.data),
-      };
+
       dispatch(
         appendPost({
-          ...modified,
+          ...newPost.data,
           username: user.username,
           displayName: user.displayName,
         })

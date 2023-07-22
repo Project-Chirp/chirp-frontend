@@ -3,7 +3,6 @@ import PostItem from "./PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import formatTimestamp from "../NavBar/formatTimestamp";
 
 type ExpandedPostRepliesProps = {
   post: Post;
@@ -26,11 +25,7 @@ const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
             },
           }
         );
-        const modified = resultReplies.data.map((entry: Post) => ({
-          ...entry,
-          timestamp: formatTimestamp(entry.timestamp),
-        }));
-        dispatch(setPosts(modified as Post[]));
+        dispatch(setPosts(resultReplies.data as Post[]));
       } catch (e) {
         console.log(e.message);
       }

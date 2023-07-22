@@ -3,7 +3,6 @@ import PostItem from "../Posts/PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import formatTimestamp from "../NavBar/formatTimestamp";
 
 const ProfileTweets = () => {
   const posts = useAppSelector((state) => state.posts);
@@ -20,11 +19,7 @@ const ProfileTweets = () => {
           },
         }
       );
-      const modified = result.data.map((entry: Post) => ({
-        ...entry,
-        timestamp: formatTimestamp(entry.timestamp),
-      }));
-      dispatch(setPosts(modified as Post[]));
+      dispatch(setPosts(result.data as Post[]));
     };
     fetchPosts();
   }, [dispatch, user]);

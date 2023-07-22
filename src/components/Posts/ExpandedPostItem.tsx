@@ -106,11 +106,8 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           },
         }
       );
-      const fetchWithModifiedTimestamp = {
-        ...backupFetch.data,
-        timestamp: formatTimestamp(backupFetch.data.timestamp),
-      };
-      dispatch(setExpandedPost(fetchWithModifiedTimestamp as Post));
+
+      dispatch(setExpandedPost(backupFetch.data as Post));
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
@@ -179,7 +176,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       )}
       <Box sx={styles.timestampBox}>
         <Typography component={"span"} sx={styles.timestamp}>
-          {post.timestamp}
+          {formatTimestamp(post.timestamp)}
         </Typography>
       </Box>
       <Divider variant="middle" />

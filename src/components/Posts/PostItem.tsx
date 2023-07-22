@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
+import formatTimestamp from "../NavBar/formatTimestamp";
 
 type PostProps = {
   post: Post;
@@ -103,7 +104,7 @@ const PostItem = ({ post }: PostProps) => {
           </IconButton>
         }
         title={`${post.displayName} @${post.username}`}
-        subheader={post.timestamp}
+        subheader={formatTimestamp(post.timestamp)}
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent sx={styles.cardContent}>

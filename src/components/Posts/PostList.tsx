@@ -3,7 +3,6 @@ import PostItem from "./PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import formatTimestamp from "../NavBar/formatTimestamp";
 
 const PostList = () => {
   const posts = useAppSelector((state) => state.posts);
@@ -18,11 +17,7 @@ const PostList = () => {
             userId: user.userId,
           },
         });
-        const modified = resultPosts.data.map((entry: Post) => ({
-          ...entry,
-          timestamp: formatTimestamp(entry.timestamp),
-        }));
-        dispatch(setPosts(modified as Post[]));
+        dispatch(setPosts(resultPosts.data as Post[]));
       } catch (e) {
         console.log(e.message);
       }
