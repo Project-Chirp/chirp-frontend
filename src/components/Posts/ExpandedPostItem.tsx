@@ -32,23 +32,20 @@ import { Post } from "../../state/slices/postsSlice";
 
 const styles = {
   actionButton: {
-    fontSize: 14.5,
-    padding: 0,
     color: "black",
     textTransform: "none",
-    fontWeight: "bold",
-    marginRight: 2,
-    display: "flex",
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
   },
-  actionData: {
+  actionsContainer: {
     display: "flex",
-    paddingTop: 1,
-    paddingBottom: 1,
-    paddingLeft: 1,
+    paddingX: 1,
+    paddingY: 1,
   },
+  actionCount: { fontWeight: "bold" },
   actionTitles: {
     paddingLeft: 0.5,
-    fontSize: 14.5,
   },
   backButton: { "&:hover": { backgroundColor: "transparent" } },
   card: {
@@ -59,6 +56,7 @@ const styles = {
     width: "100%",
   },
   cardContent: { width: 400 },
+  cardMedia: { maxWidth: 200, margin: "auto" },
   headerTitle: {
     fontWeight: "bold",
   },
@@ -66,14 +64,13 @@ const styles = {
     color: "primary.main",
   },
   timestamp: {
-    paddingLeft: 2,
     fontSize: 14.5,
     color: "#a4a8ab",
   },
   timestampBox: {
     display: "flex",
-    paddingTop: 1,
-    paddingBottom: 1,
+    paddingLeft: 2,
+    paddingY: 1,
   },
   topHeader: {
     display: "flex",
@@ -164,28 +161,48 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       </CardContent>
       {post.imagePath && (
         <CardMedia
-          sx={{ maxWidth: 200, margin: "auto" }}
+          sx={styles.cardMedia}
           component="img"
           image={post.imagePath}
         />
       )}
       <Box sx={styles.timestampBox}>
-        <Typography component={"span"} sx={styles.timestamp}>
+        <Typography component="span" sx={styles.timestamp}>
           {post.timestamp}
         </Typography>
       </Box>
       <Divider variant="middle" />
-      <Box sx={styles.actionData}>
-        <Button sx={styles.actionButton}>
-          {post.numberOfLikes}
-          <Typography sx={styles.actionTitles}>Likes</Typography>
-        </Button>
-        <Button component={"span"} sx={styles.actionButton}>
-          1<Typography sx={styles.actionTitles}>Comments</Typography>
-        </Button>
-        <Button component={"span"} sx={styles.actionButton}>
-          1<Typography sx={styles.actionTitles}>Reposts</Typography>
-        </Button>
+      <Box sx={styles.actionsContainer}>
+        <Box>
+          <Button fullWidth sx={styles.actionButton}>
+            <Typography component="span" sx={styles.actionCount}>
+              1
+            </Typography>
+            <Typography component="span" sx={styles.actionTitles}>
+              Reposts
+            </Typography>
+          </Button>
+        </Box>
+        <Box>
+          <Button fullWidth sx={styles.actionButton}>
+            <Typography component="span" sx={styles.actionCount}>
+              1
+            </Typography>
+            <Typography component="span" sx={styles.actionTitles}>
+              Replies
+            </Typography>
+          </Button>
+        </Box>
+        <Box>
+          <Button fullWidth sx={styles.actionButton}>
+            <Typography component="span" sx={styles.actionCount}>
+              {post.numberOfLikes}
+            </Typography>
+            <Typography component="span" sx={styles.actionTitles}>
+              Likes
+            </Typography>
+          </Button>
+        </Box>
       </Box>
       <Divider variant="middle" />
       <CardActions>
@@ -194,6 +211,16 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           justifyContent="space-between"
           sx={styles.cardActions}
         >
+          <IconButton>
+            <RepeatOutlinedIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            <AddCommentOutlinedIcon />
+          </IconButton>
           <IconButton
             onClick={() => {
               post.isLikedByCurrentUser
@@ -208,22 +235,11 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
               <FavoriteBorderOutlinedIcon />
             )}
           </IconButton>
-          <IconButton
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            <AddCommentOutlinedIcon />
-          </IconButton>
-          <IconButton>
-            <RepeatOutlinedIcon />
-          </IconButton>
           <IconButton>
             <ShareOutlinedIcon />
           </IconButton>
         </Stack>
       </CardActions>
-
       <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
     </Card>
   );
