@@ -1,6 +1,7 @@
 import { Box, Typography, Link } from "@mui/material";
 import React from "react";
 import SearchBar from "../Common/SearchBar";
+import SuggestedUserItem from "./SuggestedUsers";
 
 const styles = {
   ad: {
@@ -49,22 +50,22 @@ const styles = {
     paddingX: 2,
     paddingY: 1,
   },
-  mfHeader: {
+  suHeader: {
     width: "100%",
   },
-  mfList: {
+  suList: {
     display: "flex",
     flexDirection: "column",
     flex: 1,
-    margin: 1,
   },
-  mutualFriendsContainer: {
+  suggestedUserContainer: {
     backgroundColor: "gray.light",
     borderRadius: 5,
     display: "flex",
     flexDirection: "column",
     height: "45%",
     width: "100%",
+    overflow: "hidden",
   },
   rightContent: {
     alignItems: "center",
@@ -88,14 +89,14 @@ const SideBar = () => {
       <Box sx={styles.searchBarContainer}>
         <SearchBar placeholder="Search Chirp" />
       </Box>
-      <Box sx={styles.mutualFriendsContainer}>
-        <Box sx={styles.mfHeader}>
+      <Box sx={styles.suggestedUserContainer}>
+        <Box sx={styles.suHeader}>
           <Typography variant="h6" sx={styles.headerTitle}>
             Who to follow
           </Typography>
         </Box>
-        <Box sx={styles.mfList}>
-          <Box></Box>
+        <Box sx={styles.suList}>
+          <SuggestedUserItem />
         </Box>
       </Box>
       <Box sx={styles.adSpaceContainer}>
