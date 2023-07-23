@@ -26,6 +26,7 @@ import {
   updateConversation,
 } from "../state/slices/messagesSlice";
 import theme from "../styles/Theme";
+import formatTimestamp from "../components/NavBar/formatTimestamp";
 
 const styles = {
   chatContainer: {
@@ -194,7 +195,7 @@ const DirectMessage = () => {
                   }
                   secondary={
                     <Typography sx={styles.timestamp} variant="caption">
-                      {o.timestamp}
+                      {formatTimestamp(o.timestamp)}
                     </Typography>
                   }
                 />
