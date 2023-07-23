@@ -48,7 +48,7 @@ const styles = {
   headerTitle: {
     fontWeight: "bold",
     paddingX: 2,
-    paddingY: 1,
+    paddingTop: 1,
   },
   suHeader: {
     width: "100%",
