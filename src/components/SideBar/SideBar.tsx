@@ -150,7 +150,6 @@ const SideBar = ({ expandedPost }: SideBarProps) => {
       <Box sx={styles.searchBarContainer}>
         <SearchBar placeholder="Search Chirp" />
       </Box>
-
       {expandedPost && (
         <Box sx={styles.relevantUserContainer}>
           <Box sx={styles.ruHeader}>
@@ -189,7 +188,6 @@ const SideBar = ({ expandedPost }: SideBarProps) => {
           </Box>
         </Box>
       )}
-
       <Box sx={styles.suggestedUserContainer}>
         <Box sx={styles.suHeader}>
           <Typography variant="h6" sx={styles.headerTitle}>
@@ -232,7 +230,7 @@ const SideBar = ({ expandedPost }: SideBarProps) => {
           <Link
             underline="hover"
             target="_blank"
-            href="https://github.com/orgs/TweetClone/repositories"
+            href="https://github.com/orgs/Project-Chirp/repositories"
             rel="noreferrer"
             sx={styles.footerItem}
           >
