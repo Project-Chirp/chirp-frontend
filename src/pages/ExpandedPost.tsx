@@ -27,7 +27,7 @@ const ExpandedPost = () => {
           <ExpandedPostReplies post={expandedPost} />
         </Box>
       }
-      rightContent={<SideBar />}
+      rightContent={<SideBar expandedPost={true} />}
     />
   );
 };

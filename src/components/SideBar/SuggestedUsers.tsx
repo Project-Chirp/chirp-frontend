@@ -60,25 +60,16 @@ const usersData = [
     id: 2,
     displayName: "Jane Smith",
     username: "jane_smith",
-    avatarUrl: "https://example.com/avatar2.jpg",
   },
   {
     id: 3,
     displayName: "Chad Son",
     username: "chad_son",
-    avatarUrl: "https://example.com/avatar3.jpg",
   },
   {
     id: 4,
     displayName: "Michael Myers",
     username: "michael_myers",
-    avatarUrl: "https://example.com/avatar4.jpg",
-  },
-  {
-    id: 5,
-    displayName: "Gilly Hobbs",
-    username: "gilly_hobbs",
-    avatarUrl: "https://example.com/avatar5.jpg",
   },
 ];
 
@@ -91,7 +82,6 @@ const SuggestedUsers = () => {
             <Avatar
               component="button"
               alt={user.displayName}
-              src={user.avatarUrl}
               sx={styles.avatar}
             />
           </ListItemAvatar>
