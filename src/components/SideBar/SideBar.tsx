@@ -102,7 +102,7 @@ const SideBar = () => {
       <Box sx={styles.adSpaceContainer}>
         <img
           style={styles.ad}
-          src={process.env.PUBLIC_URL + "/Ad.gif"}
+          src={process.env.PUBLIC_URL + "/Ad Gray.gif"}
           alt="Logo"
         />
       </Box>

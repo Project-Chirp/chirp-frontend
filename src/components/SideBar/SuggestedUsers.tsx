@@ -33,10 +33,7 @@ const styles = {
     width: "100%",
     display: "flex",
     flexDirection: "row",
-    "&:hover": {
-      backgroundColor: "#E9EBED",
-    },
-    "&:hover > *": {
+    ":hover": {
       backgroundColor: "#E9EBED",
     },
   },
@@ -109,8 +106,10 @@ const SuggestedUsers = () => {
           />
           <ListItemSecondaryAction>
             <Button
+              className="followButton"
               variant="contained"
               color="primary"
+              size="small"
               sx={styles.followButton}
             >
               Follow
