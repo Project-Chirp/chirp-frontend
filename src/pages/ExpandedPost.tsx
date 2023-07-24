@@ -4,7 +4,7 @@ import ComposeReply from "../components/Posts/ComposeReply";
 import ExpandedPostReplies from "../components/Posts/ExpandedPostReplies";
 import { useAppSelector } from "../state/hooks";
 import Layout from "./Layout";
-import SideBar from "../components/SideBar/SideBar";
+import ExpandedPostSidebar from "../components/SideBar/ExpandedPostSidebar";
 
 const styles = {
   divider: { marginBottom: 3 },
@@ -27,7 +27,7 @@ const ExpandedPost = () => {
           <ExpandedPostReplies post={expandedPost} />
         </Box>
       }
-      rightContent={<SideBar expandedPost={true} />}
+      rightContent={<ExpandedPostSidebar />}
     />
   );
 };

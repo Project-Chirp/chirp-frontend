@@ -1,7 +1,7 @@
-import { Box, Typography, Link } from "@mui/material";
+import { Box, Typography, Link, Avatar, Button } from "@mui/material";
 import React from "react";
 import SearchBar from "../Common/SearchBar";
-import SuggestedUserItem from "./SuggestedUsers";
+import { useAppSelector } from "../../state/hooks";
 
 const styles = {
   ad: {
@@ -28,6 +28,13 @@ const styles = {
     fontWeight: "bold",
     textAlign: "center",
   },
+  followButton: {
+    boxShadow: "none",
+    "&:hover": {
+      boxShadow: "none",
+      backgroundColor: "primary.main",
+    },
+  },
   footerContainer: {
     height: "5%",
     width: "100%",
@@ -50,6 +57,16 @@ const styles = {
     paddingX: 2,
     paddingTop: 1,
   },
+  relevantUserContainer: {
+    border: "2px solid",
+    borderColor: "gray.light",
+    borderRadius: 5,
+    display: "flex",
+    flexDirection: "column",
+    height: "14%",
+    width: "100%",
+    overflow: "hidden",
+  },
   rightContent: {
     alignItems: "center",
     display: "flex",
@@ -60,44 +77,91 @@ const styles = {
     position: "fixed",
     width: "310px",
   },
+  ruContent: {
+    display: "flex",
+    flexDirection: "row",
+    paddingX: 2,
+    paddingY: 1,
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "transparent",
+    "&:hover": {
+      backgroundColor: "#E9EBED",
+    },
+    border: "none",
+    cursor: "pointer",
+  },
+  ruDisplayName: {
+    fontWeight: "bold",
+    fontSize: "1rem",
+  },
+  ruHeader: {
+    width: "100%",
+  },
+  ruNameLink: {
+    color: "black",
+  },
+  ruNames: { marginLeft: 2, textAlign: "left", marginY: "6px" },
+  ruTitle: {
+    fontWeight: "bold",
+    paddingX: 2,
+    paddingTop: 1,
+  },
+  ruUsername: {
+    color: "rgba(0, 0, 0, 0.6)",
+  },
   searchBarContainer: {
     height: "5%",
     width: "100%",
   },
-  suHeader: {
-    width: "100%",
-  },
-  suList: {
+  userInfo: {
     display: "flex",
-    flexDirection: "column",
-    flex: 1,
-  },
-  suggestedUserContainer: {
-    backgroundColor: "gray.light",
-    borderRadius: 5,
-    display: "flex",
-    flexDirection: "column",
-    height: "38%",
-    width: "100%",
-    overflow: "hidden",
+    alignItems: "center",
   },
 };
 
-const SideBar = () => {
+const ExpandedPostSidebar = () => {
+  const relevantUser = useAppSelector((state) => state.expandedPost);
   return (
     <Box sx={styles.rightContent}>
       <Box sx={styles.searchBarContainer}>
         <SearchBar placeholder="Search Chirp" />
       </Box>
 
-      <Box sx={styles.suggestedUserContainer}>
-        <Box sx={styles.suHeader}>
-          <Typography variant="h6" sx={styles.headerTitle}>
-            Who to follow
+      <Box sx={styles.relevantUserContainer}>
+        <Box sx={styles.ruHeader}>
+          <Typography variant="h6" sx={styles.ruTitle}>
+            Relevant People
           </Typography>
         </Box>
-        <Box sx={styles.suList}>
-          <SuggestedUserItem />
+        <Box sx={styles.ruContent} className="ruContent">
+          <Box sx={styles.userInfo}>
+            <Avatar />
+            <Box sx={styles.ruNames}>
+              <Link
+                underline="hover"
+                sx={styles.ruNameLink}
+                href={`//${window.location.hostname}:${window.location.port}/profile`}
+              >
+                <Typography sx={styles.ruDisplayName}>
+                  {relevantUser.displayName}
+                </Typography>
+              </Link>
+              <Typography
+                variant="subtitle2"
+                sx={styles.ruUsername}
+              >{`@${relevantUser.username}`}</Typography>
+            </Box>
+          </Box>
+          <Button
+            className="followButton"
+            variant="contained"
+            color="primary"
+            size="small"
+            sx={styles.followButton}
+          >
+            Follow
+          </Button>
         </Box>
       </Box>
 
@@ -176,4 +240,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default ExpandedPostSidebar;

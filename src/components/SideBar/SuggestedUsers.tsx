@@ -4,7 +4,6 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemSecondaryAction,
   ListItemText,
   Link,
 } from "@mui/material";
@@ -104,17 +103,15 @@ const SuggestedUsers = () => {
             secondary={`@${user.username}`}
             primaryTypographyProps={styles.displayName}
           />
-          <ListItemSecondaryAction>
-            <Button
-              className="followButton"
-              variant="contained"
-              color="primary"
-              size="small"
-              sx={styles.followButton}
-            >
-              Follow
-            </Button>
-          </ListItemSecondaryAction>
+          <Button
+            className="followButton"
+            variant="contained"
+            color="primary"
+            size="small"
+            sx={styles.followButton}
+          >
+            Follow
+          </Button>
         </ListItem>
       ))}
     </List>
