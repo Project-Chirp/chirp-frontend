@@ -88,7 +88,7 @@ const styles = {
     borderRadius: 5,
     display: "flex",
     flexDirection: "column",
-    height: "12%",
+    height: "14%",
     width: "100%",
     overflow: "hidden",
   },
@@ -150,7 +150,7 @@ const SideBar = ({ expandedPost }: SideBarProps) => {
       <Box sx={styles.searchBarContainer}>
         <SearchBar placeholder="Search Chirp" />
       </Box>
-      {expandedPost && (
+      {expandedPost ? (
         <Box sx={styles.relevantUserContainer}>
           <Box sx={styles.ruHeader}>
             <Typography variant="h6" sx={styles.ruTitle}>
@@ -187,17 +187,18 @@ const SideBar = ({ expandedPost }: SideBarProps) => {
             </Button>
           </Box>
         </Box>
+      ) : (
+        <Box sx={styles.suggestedUserContainer}>
+          <Box sx={styles.suHeader}>
+            <Typography variant="h6" sx={styles.headerTitle}>
+              Who to follow
+            </Typography>
+          </Box>
+          <Box sx={styles.suList}>
+            <SuggestedUserItem />
+          </Box>
+        </Box>
       )}
-      <Box sx={styles.suggestedUserContainer}>
-        <Box sx={styles.suHeader}>
-          <Typography variant="h6" sx={styles.headerTitle}>
-            Who to follow
-          </Typography>
-        </Box>
-        <Box sx={styles.suList}>
-          <SuggestedUserItem />
-        </Box>
-      </Box>
       <Box sx={styles.adSpaceContainer}>
         <img
           style={styles.ad}
@@ -207,7 +208,13 @@ const SideBar = ({ expandedPost }: SideBarProps) => {
       </Box>
       <Box sx={styles.footerContainer}>
         <Box sx={styles.footerNav}>
-          <Link underline="hover" sx={styles.footerItem}>
+          <Link
+            underline="hover"
+            target="_blank"
+            href="/coming-soon"
+            rel="noreferrer"
+            sx={styles.footerItem}
+          >
             <Typography variant="subtitle2" sx={styles.footerItemText}>
               Terms of Service
             </Typography>
@@ -217,12 +224,24 @@ const SideBar = ({ expandedPost }: SideBarProps) => {
               Privacy Policy
             </Typography>
           </Link>
-          <Link underline="hover" sx={styles.footerItem}>
+          <Link
+            underline="hover"
+            target="_blank"
+            href="/coming-soon"
+            rel="noreferrer"
+            sx={styles.footerItem}
+          >
             <Typography variant="subtitle2" sx={styles.footerItemText}>
               Contact Us
             </Typography>
           </Link>
-          <Link underline="hover" sx={styles.footerItem}>
+          <Link
+            underline="hover"
+            target="_blank"
+            href="/coming-soon"
+            rel="noreferrer"
+            sx={styles.footerItem}
+          >
             <Typography variant="subtitle2" sx={styles.footerItemText}>
               About The Team
             </Typography>
@@ -238,7 +257,13 @@ const SideBar = ({ expandedPost }: SideBarProps) => {
               GitHub Repo
             </Typography>
           </Link>
-          <Link underline="hover" sx={styles.footerItem}>
+          <Link
+            underline="hover"
+            target="_blank"
+            href="/coming-soon"
+            rel="noreferrer"
+            sx={styles.footerItem}
+          >
             <Typography variant="subtitle2" sx={styles.footerItemText}>
               Docs
             </Typography>

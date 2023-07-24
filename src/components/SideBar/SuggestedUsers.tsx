@@ -9,6 +9,7 @@ import {
   Link,
 } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   avatar: {
@@ -74,6 +75,8 @@ const usersData = [
 ];
 
 const SuggestedUsers = () => {
+  const navigate = useNavigate();
+
   return (
     <List sx={styles.list}>
       {usersData.map((user) => (
@@ -81,13 +84,20 @@ const SuggestedUsers = () => {
           <ListItemAvatar>
             <Avatar
               component="button"
+              onClick={() => navigate("/coming-soon")}
               alt={user.displayName}
               sx={styles.avatar}
             />
           </ListItemAvatar>
           <ListItemText
             primary={
-              <Link underline="hover" sx={styles.listText}>
+              <Link
+                underline="hover"
+                target="_blank"
+                href="/coming-soon"
+                rel="noreferrer"
+                sx={styles.listText}
+              >
                 {user.displayName}
               </Link>
             }
