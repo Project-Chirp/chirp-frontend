@@ -3,6 +3,7 @@ import PostItem from "../Posts/PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
+
 const ProfileReplies = () => {
   const posts = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);

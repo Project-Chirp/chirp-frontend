@@ -50,7 +50,6 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
         textContent,
       });
       setPostTextContent("");
-
       dispatch(
         appendPost({
           ...newPost.data,

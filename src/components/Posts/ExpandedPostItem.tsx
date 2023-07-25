@@ -100,7 +100,6 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           },
         }
       );
-
       dispatch(setExpandedPost(backupFetch.data as Post));
     };
     updatedExpandedPost();
