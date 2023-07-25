@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 
 const ProfileLikes = () => {
-  const posts = useAppSelector((state) => state.posts);
+  const { posts } = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 

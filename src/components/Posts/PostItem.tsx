@@ -19,9 +19,9 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, updatePost } from "../../state/slices/postsSlice";
+import { Post, likePost, unlikePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
-import { setExpandedPost } from "../../state/slices/expandedPostSlice";
+import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
 
@@ -55,36 +55,22 @@ const PostItem = ({ post }: PostProps) => {
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
 
-  const likePost = async (postId: number, userId?: number) => {
+  const likePost2 = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
       postId,
       userId,
     });
-    const updatedPost = {
-      ...post,
-      isLikedByCurrentUser: !post.isLikedByCurrentUser,
-      numberOfLikes: post.isLikedByCurrentUser
-        ? post.numberOfLikes - 1
-        : post.numberOfLikes + 1,
-    };
-    dispatch(updatePost(updatedPost));
+    dispatch(likePost(postId));
   };
 
-  const unlikePost = async (postId: number, userId?: number) => {
+  const unlikePost2 = async (postId: number, userId?: number) => {
     await axios.delete("http://localhost:3001/api/posts/unlikePost", {
       params: {
         postId,
         userId,
       },
     });
-    const updatedPost = {
-      ...post,
-      isLikedByCurrentUser: !post.isLikedByCurrentUser,
-      numberOfLikes: post.isLikedByCurrentUser
-        ? post.numberOfLikes - 1
-        : post.numberOfLikes + 1,
-    };
-    dispatch(updatePost(updatedPost));
+    dispatch(unlikePost(postId));
   };
 
   const navigate = useNavigate();
@@ -130,13 +116,13 @@ const PostItem = ({ post }: PostProps) => {
             startIcon={<AddCommentOutlinedIcon />}
             sx={styles.defaultButton}
           >
-            1
+            {post.numberOfReplies}
           </Button>
           <Button
             onClick={() => {
               post.isLikedByCurrentUser
-                ? unlikePost(post.postId, user.userId)
-                : likePost(post.postId, user.userId);
+                ? unlikePost2(post.postId, user.userId)
+                : likePost2(post.postId, user.userId);
             }}
             startIcon={
               post.isLikedByCurrentUser ? (

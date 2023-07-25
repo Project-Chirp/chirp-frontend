@@ -9,7 +9,7 @@ type ExpandedPostRepliesProps = {
 };
 
 const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
-  const posts = useAppSelector((state) => state.posts);
+  const { posts } = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 

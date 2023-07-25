@@ -22,10 +22,8 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  setExpandedPost,
-  updateExpandedPost,
-} from "../../state/slices/expandedPostSlice";
+import { likePost, unlikePost } from "../../state/slices/postsSlice";
+import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
@@ -43,10 +41,7 @@ const styles = {
     paddingX: 1,
     paddingY: 1,
   },
-  actionCount: { fontWeight: "bold" },
-  actionTitles: {
-    paddingLeft: 0.5,
-  },
+  actionCount: { fontWeight: "bold", paddingRight: 0.5 },
   backButton: { "&:hover": { backgroundColor: "transparent" } },
   card: {
     padding: 0,
@@ -104,36 +99,22 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
 
-  const likePost = async (postId: number, userId?: number) => {
+  const likePost2 = async (postId: number, userId?: number) => {
     await axios.post("http://localhost:3001/api/posts/likePost", {
       postId,
       userId,
     });
-    const updatedPost = {
-      ...post,
-      isLikedByCurrentUser: !post.isLikedByCurrentUser,
-      numberOfLikes: post.isLikedByCurrentUser
-        ? post.numberOfLikes - 1
-        : post.numberOfLikes + 1,
-    };
-    dispatch(updateExpandedPost(updatedPost));
+    dispatch(likePost(postId));
   };
 
-  const unlikePost = async (postId: number, userId?: number) => {
+  const unlikePost2 = async (postId: number, userId?: number) => {
     await axios.delete("http://localhost:3001/api/posts/unlikePost", {
       params: {
         postId,
         userId,
       },
     });
-    const updatedPost = {
-      ...post,
-      isLikedByCurrentUser: !post.isLikedByCurrentUser,
-      numberOfLikes: post.isLikedByCurrentUser
-        ? post.numberOfLikes - 1
-        : post.numberOfLikes + 1,
-    };
-    dispatch(updateExpandedPost(updatedPost));
+    dispatch(unlikePost(postId));
   };
 
   const navigate = useNavigate();
@@ -178,19 +159,15 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               1
             </Typography>
-            <Typography component="span" sx={styles.actionTitles}>
-              Reposts
-            </Typography>
+            <Typography component="span">Reposts</Typography>
           </Button>
         </Box>
         <Box>
           <Button fullWidth sx={styles.actionButton}>
             <Typography component="span" sx={styles.actionCount}>
-              1
+              {post.numberOfReplies}
             </Typography>
-            <Typography component="span" sx={styles.actionTitles}>
-              Replies
-            </Typography>
+            <Typography component="span">Replies</Typography>
           </Button>
         </Box>
         <Box>
@@ -198,9 +175,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfLikes}
             </Typography>
-            <Typography component="span" sx={styles.actionTitles}>
-              Likes
-            </Typography>
+            <Typography component="span">Likes</Typography>
           </Button>
         </Box>
       </Box>
@@ -224,8 +199,8 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           <IconButton
             onClick={() => {
               post.isLikedByCurrentUser
-                ? unlikePost(post.postId, user.userId)
-                : likePost(post.postId, user.userId);
+                ? unlikePost2(post.postId, user.userId)
+                : likePost2(post.postId, user.userId);
             }}
             sx={post.isLikedByCurrentUser ? styles.likedIcon : undefined}
           >

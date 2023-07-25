@@ -11,7 +11,7 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
-import { appendPost } from "../../state/slices/postsSlice";
+import { addReply } from "../../state/slices/postsSlice";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -69,7 +69,7 @@ const ComposeReply = ({
       );
       setPostTextContent("");
       dispatch(
-        appendPost({
+        addReply({
           ...reply.data,
           username: user.username,
           displayName: user.displayName,
