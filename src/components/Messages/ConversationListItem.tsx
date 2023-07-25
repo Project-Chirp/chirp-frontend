@@ -8,11 +8,12 @@ import {
   Box,
 } from "@mui/material";
 import { Conversation } from "../../state/slices/messagesSlice";
+import formatTimestamp from "../../utilities/formatTimestamp";
 
 const styles = {
   avatar: { margin: "auto" },
   displayName: {
-    flex: 1,
+    flex: "1, 1, auto",
     minWidth: 0,
     fontWeight: "bold",
   },
@@ -23,7 +24,8 @@ const styles = {
   stack: {
     width: "100%",
   },
-  username: { flex: 1, minWidth: 0 },
+  timestamp: { flex: "1, 0, auto", minWidth: "fit-content" },
+  username: { flex: "1, 1, auto", minWidth: 0 },
 };
 
 type ConversationListItemProps = {
@@ -53,8 +55,8 @@ const ConversationListItem = ({
               <Typography noWrap sx={styles.username} variant="body2">
                 {`@${conversation.username}`}
               </Typography>
-              <Typography noWrap variant="body2">
-                {`- ${conversation.timestamp}`}
+              <Typography noWrap sx={styles.timestamp} variant="body2">
+                {`- ${formatTimestamp(conversation.timestamp)}`}
               </Typography>
             </Box>
           }
