@@ -26,6 +26,7 @@ import {
   setExpandedPost,
   updateExpandedPost,
 } from "../../state/slices/expandedPostSlice";
+import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
@@ -99,7 +100,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           },
         }
       );
-      dispatch(setExpandedPost(backupFetch.data));
+      dispatch(setExpandedPost(backupFetch.data as Post));
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
@@ -168,7 +169,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       )}
       <Box sx={styles.timestampBox}>
         <Typography component="span" sx={styles.timestamp}>
-          {post.timestamp}
+          {formatTimestamp(post.timestamp)}
         </Typography>
       </Box>
       <Divider variant="middle" />
