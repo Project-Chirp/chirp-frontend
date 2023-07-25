@@ -1,10 +1,9 @@
 import {
+  Box,
   Button,
   Card,
   CardActionArea,
   CardContent,
-  Divider,
-  Stack,
   Typography,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar/Avatar";
@@ -25,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
+import formatTimestamp from "../../utilities/formatTimestamp";
 
 type PostProps = {
   post: Post;
@@ -35,6 +35,8 @@ const styles = {
     boxShadow: "none",
   },
   cardActions: {
+    display: "flex",
+    justifyContent: "space-between",
     width: "100%",
   },
   cardContent: { width: 400 },
@@ -103,7 +105,7 @@ const PostItem = ({ post }: PostProps) => {
           </IconButton>
         }
         title={`${post.displayName} @${post.username}`}
-        subheader={post.timestamp}
+        subheader={formatTimestamp(post.timestamp)}
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent sx={styles.cardContent}>
@@ -118,11 +120,19 @@ const PostItem = ({ post }: PostProps) => {
         )}
       </CardActionArea>
       <CardActions>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          sx={styles.cardActions}
-        >
+        <Box sx={styles.cardActions}>
+          <Button startIcon={<RepeatOutlinedIcon />} sx={styles.defaultButton}>
+            1
+          </Button>
+          <Button
+            onClick={() => {
+              setOpen(true);
+            }}
+            startIcon={<AddCommentOutlinedIcon />}
+            sx={styles.defaultButton}
+          >
+            1
+          </Button>
           <Button
             onClick={() => {
               post.isLikedByCurrentUser
@@ -144,23 +154,9 @@ const PostItem = ({ post }: PostProps) => {
           >
             {post.numberOfLikes}
           </Button>
-          <Button
-            onClick={() => {
-              setOpen(true);
-            }}
-            startIcon={<AddCommentOutlinedIcon />}
-            sx={styles.defaultButton}
-          >
-            1
-          </Button>
-          <Button startIcon={<RepeatOutlinedIcon />} sx={styles.defaultButton}>
-            1
-          </Button>
           <Button startIcon={<ShareOutlinedIcon />} sx={styles.defaultButton} />
-        </Stack>
+        </Box>
       </CardActions>
-      <Divider light />
-
       <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
     </Card>
   );
