@@ -8,7 +8,7 @@ import {
   Box,
 } from "@mui/material";
 import { Conversation } from "../../state/slices/messagesSlice";
-import formatTimestamp from "../NavBar/formatTimestamp";
+import formatTimestamp from "../../utilities/formatTimestamp";
 
 const styles = {
   avatar: { margin: "auto" },

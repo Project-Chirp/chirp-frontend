@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
-import formatTimestamp from "../NavBar/formatTimestamp";
+import formatTimestamp from "../../utilities/formatTimestamp";
 
 type PostProps = {
   post: Post;

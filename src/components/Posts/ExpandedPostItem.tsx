@@ -26,7 +26,7 @@ import {
   setExpandedPost,
   updateExpandedPost,
 } from "../../state/slices/expandedPostSlice";
-import formatTimestamp from "../NavBar/formatTimestamp";
+import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";

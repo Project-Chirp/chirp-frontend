@@ -28,7 +28,7 @@ import {
 } from "../state/slices/messagesSlice";
 import theme from "../styles/Theme";
 import NavBar from "../components/NavBar/NavBar";
-import formatTimestamp from "../components/NavBar/formatTimestamp";
+import formatTimestamp from "../utilities/formatTimestamp";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
