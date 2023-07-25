@@ -8,10 +8,6 @@ const styles = {
     flexDirection: "column",
     height: "100%",
     justifyContent: "center",
-    margin: "auto",
-  },
-  loginButton: {
-    borderRadius: 5,
   },
   logo: {
     width: 250,
@@ -38,8 +34,6 @@ const Welcome = () => {
       />
       <Button
         size="large"
-        sx={styles.loginButton}
-        color="primary"
         variant="contained"
         onClick={() => loginWithRedirect()}
       >

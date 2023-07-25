@@ -3,6 +3,7 @@ import PostItem from "./PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
+import { Divider, Stack } from "@mui/material";
 
 const PostList = () => {
   const posts = useAppSelector((state) => state.posts);
@@ -26,13 +27,13 @@ const PostList = () => {
   }, [dispatch, user]);
 
   return (
-    <>
+    <Stack divider={<Divider />}>
       {posts
         .filter((o) => o.parentPostId == null)
         .map((o) => (
           <PostItem key={o.postId} post={o} />
         ))}
-    </>
+    </Stack>
   );
 };
 

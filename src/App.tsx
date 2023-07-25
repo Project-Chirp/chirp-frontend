@@ -1,7 +1,6 @@
 import Welcome from "./pages/Welcome";
 import Timeline from "./pages/Timeline";
 import { Route, Routes } from "react-router-dom";
-import NavBar from "./components/NavBar/NavBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect } from "react";
@@ -40,11 +39,7 @@ function App() {
   }, [getAccessTokenSilently, dispatch]);
 
   if (isLoading || (isAuthenticated && user.isLoading)) {
-    return (
-      <div className="App" style={{ display: "flex" }}>
-        <PageLoader />
-      </div>
-    );
+    return <PageLoader />;
   }
 
   if (!isAuthenticated) {
@@ -56,28 +51,22 @@ function App() {
   }
 
   return (
-    <div className="App" style={{ display: "flex" }}>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<ProtectedRoute component={Timeline} />} />
-        <Route
-          path="/messages"
-          element={<ProtectedRoute component={Messages} />}
-        />
-        <Route
-          path="/messages/:userId1/:userId2"
-          element={<ProtectedRoute component={DirectMessage} />}
-        />
-        <Route
-          path="/profile"
-          element={<ProtectedRoute component={Profile} />}
-        />
-        <Route
-          path="/post/:postId"
-          element={<ProtectedRoute component={ExpandedPost} />}
-        />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<ProtectedRoute component={Timeline} />} />
+      <Route
+        path="/messages"
+        element={<ProtectedRoute component={Messages} />}
+      />
+      <Route
+        path="/messages/:userId1/:userId2"
+        element={<ProtectedRoute component={DirectMessage} />}
+      />
+      <Route path="/profile" element={<ProtectedRoute component={Profile} />} />
+      <Route
+        path="/post/:postId"
+        element={<ProtectedRoute component={ExpandedPost} />}
+      />
+    </Routes>
   );
 }
 

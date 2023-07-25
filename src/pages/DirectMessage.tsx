@@ -22,13 +22,16 @@ import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ConversationList from "../components/Messages/ConversationList";
 import {
+  appendConversation,
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
 import theme from "../styles/Theme";
+import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../components/NavBar/formatTimestamp";
 
 const styles = {
+  container: { height: "auto", justifyContent: "center" },
   chatContainer: {
     display: "flex",
     flex: 1,
@@ -41,11 +44,11 @@ const styles = {
     width: "100%",
   },
   directMessageContainer: {
-    width: "50%",
     display: "flex",
     flexDirection: "column",
     height: "100%",
   },
+  divider: { height: "auto" },
   headerContainer: {
     display: "flex",
     justifyContent: "space-between",
@@ -64,8 +67,11 @@ const styles = {
     borderRadius: 10,
     backgroundColor: "#cce3d9",
   },
-  root: {
-    width: "100%",
+  middleContent: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
+  nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
+  rightContent: {
+    height: "100vh",
+    flex: "0 0 600px",
   },
   sentMessage: {
     display: "flex",
@@ -93,9 +99,14 @@ const DirectMessage = () => {
   const [textContent, setTextContent] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const user = useAppSelector((state) => state.user);
-  const { selectedConversation } = useAppSelector((state) => state.messages);
+  const { selectedConversation, conversations } = useAppSelector(
+    (state) => state.messages
+  );
   const messageRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const userExists = conversations.find(
+    (o) => o.otherUserId === Number(userId2)
+  );
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
@@ -114,10 +125,7 @@ const DirectMessage = () => {
   }, [dispatch, userId1, userId2]);
 
   useEffect(() => {
-    // TODO: See if this is the best way to scroll to the bottom, and check edge cases
-    if (messageRef.current) {
-      messageRef.current.scrollTo(0, messageRef.current.scrollHeight);
-    }
+    messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
   }, [messages]);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
@@ -132,6 +140,23 @@ const DirectMessage = () => {
       ).data as Message;
       setTextContent("");
       setMessages([...messages, newMessage]);
+      if (userExists) {
+        dispatch(
+          setSelectedConversation({
+            ...selectedConversation,
+          })
+        );
+      } else {
+        dispatch(
+          appendConversation({
+            displayName: selectedConversation.displayName,
+            username: selectedConversation.username,
+            textContent: "",
+            timestamp: new Date().toString(),
+            otherUserId: Number(userId2),
+          })
+        );
+      }
       dispatch(
         updateConversation({
           displayName: selectedConversation.displayName,
@@ -149,95 +174,103 @@ const DirectMessage = () => {
   return (
     <Stack
       direction="row"
-      sx={styles.root}
-      divider={<Divider flexItem orientation="vertical" />}
+      divider={<Divider orientation="vertical" sx={styles.divider} />}
+      sx={styles.container}
     >
-      <ConversationList />
-      <Box sx={styles.directMessageContainer}>
-        <Box sx={styles.headerContainer}>
-          <Box sx={styles.headerContent}>
-            <Box>
+      <Box component="header" sx={styles.nav}>
+        <NavBar />
+      </Box>
+      <Box sx={styles.middleContent}>
+        <ConversationList />
+      </Box>
+      <Box sx={styles.rightContent}>
+        <Box sx={styles.directMessageContainer}>
+          <Box sx={styles.headerContainer}>
+            <Box sx={styles.headerContent}>
               <Avatar />
+              <Box>
+                <Typography variant="subtitle1">
+                  {selectedConversation.displayName}
+                </Typography>
+                <Typography variant="subtitle2">{`@${selectedConversation.username}`}</Typography>
+              </Box>
             </Box>
-            <Box>
-              <Typography variant="subtitle1">
-                {selectedConversation.displayName}
-              </Typography>
-              <Typography variant="subtitle2">{`@${selectedConversation.username}`}</Typography>
-            </Box>
+            <IconButton>
+              <InfoOutlinedIcon />
+            </IconButton>
           </Box>
-          <IconButton>
-            <InfoOutlinedIcon />
-          </IconButton>
-        </Box>
-        <Divider flexItem />
-        <Box sx={styles.chatContainer}>
-          <List component="div" ref={messageRef} sx={styles.messageList}>
-            {messages.map((o) => (
-              <ListItem component="div" key={o.messageId}>
-                <ListItemText
-                  sx={
-                    o.sentUserId === user.userId
-                      ? styles.sentMessage
-                      : styles.message
-                  }
-                  disableTypography
-                  primary={
-                    <Box
-                      sx={
-                        o.sentUserId === user.userId
-                          ? styles.sentMessageText
-                          : styles.messageText
-                      }
-                    >
-                      <Typography variant="body2">{o.textContent}</Typography>
-                    </Box>
-                  }
-                  secondary={
-                    <Typography sx={styles.timestamp} variant="caption">
-                      {formatTimestamp(o.timestamp)}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-            ))}
-          </List>
           <Divider />
-          <form onSubmit={onSubmit}>
-            <Box sx={styles.chatInputContainer}>
-              <TextField
-                autoComplete="off"
-                fullWidth
-                hiddenLabel
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton>
-                        <AddPhotoAlternateOutlinedIcon />
-                      </IconButton>
-                      <IconButton>
-                        <EmojiEmotionsOutlinedIcon />
-                      </IconButton>
-                      <IconButton>
-                        <GifBoxOutlinedIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton type="submit" disabled={!textContent.trim()}>
-                        <SendIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                onChange={(e) => setTextContent(e.target.value)}
-                placeholder="Send a message"
-                size="small"
-                value={textContent}
-              />
-            </Box>
-          </form>
+          <Box sx={styles.chatContainer}>
+            <List component="div" ref={messageRef} sx={styles.messageList}>
+              {messages.map((o) => (
+                <ListItem component="div" key={o.messageId}>
+                  <ListItemText
+                    sx={
+                      o.sentUserId === user.userId
+                        ? styles.sentMessage
+                        : styles.message
+                    }
+                    disableTypography
+                    primary={
+                      <Box
+                        sx={
+                          o.sentUserId === user.userId
+                            ? styles.sentMessageText
+                            : styles.messageText
+                        }
+                      >
+                        <Typography variant="body2">{o.textContent}</Typography>
+                      </Box>
+                    }
+                    secondary={
+                      <Typography sx={styles.timestamp} variant="caption">
+                        {formatTimestamp(o.timestamp)}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+            <Divider />
+            <form onSubmit={onSubmit}>
+              <Box sx={styles.chatInputContainer}>
+                <TextField
+                  autoComplete="off"
+                  fullWidth
+                  hiddenLabel
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <IconButton>
+                          <AddPhotoAlternateOutlinedIcon />
+                        </IconButton>
+                        <IconButton>
+                          <EmojiEmotionsOutlinedIcon />
+                        </IconButton>
+                        <IconButton>
+                          <GifBoxOutlinedIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          type="submit"
+                          disabled={!textContent.trim()}
+                        >
+                          <SendIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={(e) => setTextContent(e.target.value)}
+                  placeholder="Send a message"
+                  size="small"
+                  value={textContent}
+                />
+              </Box>
+            </form>
+          </Box>
         </Box>
       </Box>
     </Stack>
