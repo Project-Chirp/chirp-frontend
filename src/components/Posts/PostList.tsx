@@ -23,6 +23,8 @@ const PostList = () => {
         console.log(e.message);
       }
     };
+
+    console.log(typeof JSON.stringify({ accept: "*/*" }));
     fetchPosts();
   }, [dispatch, user]);
 
