@@ -61,24 +61,11 @@ export const postsSlice = createSlice({
       }
     },
     appendPost: (state, action: PayloadAction<Post>) => {
-      state.posts.unshift({ ...action.payload, numberOfLikes: 0 });
-    },
-    likePost: (state, action: PayloadAction<number>) => {
-      const newPosts = state.posts.map((o) => {
-        if (o.postId === action.payload) {
-          return {
-            ...o,
-            isLikedByCurrentUser: true,
-            numberOfLikes: o.numberOfLikes + 1,
-          };
-        }
-        return o;
+      state.posts.unshift({
+        ...action.payload,
+        numberOfLikes: 0,
+        numberOfReplies: 0,
       });
-      state.posts = newPosts;
-      if (action.payload === state.expandedPost.postId) {
-        state.expandedPost.isLikedByCurrentUser = true;
-        state.expandedPost.numberOfLikes++;
-      }
     },
     setPosts: (state, action: PayloadAction<Post[]>) => {
       state.posts = action.payload;
@@ -86,21 +73,28 @@ export const postsSlice = createSlice({
     setExpandedPost: (state, action: PayloadAction<Post>) => {
       state.expandedPost = action.payload;
     },
-    unlikePost: (state, action: PayloadAction<number>) => {
+    toggleLikePost: (state, action: PayloadAction<number>) => {
       const newPosts = state.posts.map((o) => {
         if (o.postId === action.payload) {
+          const isLikedByCurrentUser = !o.isLikedByCurrentUser;
           return {
             ...o,
-            isLikedByCurrentUser: false,
-            numberOfLikes: o.numberOfLikes - 1,
+            isLikedByCurrentUser,
+            numberOfLikes: isLikedByCurrentUser
+              ? o.numberOfLikes + 1
+              : o.numberOfLikes - 1,
           };
         }
         return o;
       });
       state.posts = newPosts;
+
       if (action.payload === state.expandedPost.postId) {
-        state.expandedPost.isLikedByCurrentUser = false;
-        state.expandedPost.numberOfLikes--;
+        const isLikedByCurrentUser = !state.expandedPost.isLikedByCurrentUser;
+        state.expandedPost.isLikedByCurrentUser = isLikedByCurrentUser;
+        isLikedByCurrentUser
+          ? state.expandedPost.numberOfLikes++
+          : state.expandedPost.numberOfLikes--;
       }
     },
   },
@@ -109,10 +103,9 @@ export const postsSlice = createSlice({
 export const {
   addReply,
   appendPost,
-  likePost,
   setPosts,
   setExpandedPost,
-  unlikePost,
+  toggleLikePost,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

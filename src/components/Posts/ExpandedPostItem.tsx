@@ -22,11 +22,12 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
-import { likePost, unlikePost } from "../../state/slices/postsSlice";
+import { toggleLikePost } from "../../state/slices/postsSlice";
 import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
+import { toggleLikePostRequest } from "../../utilities/postUtilities";
 
 const styles = {
   actionButton: {
@@ -98,24 +99,6 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
-
-  const likePost2 = async (postId: number, userId?: number) => {
-    await axios.post("http://localhost:3001/api/posts/likePost", {
-      postId,
-      userId,
-    });
-    dispatch(likePost(postId));
-  };
-
-  const unlikePost2 = async (postId: number, userId?: number) => {
-    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
-      params: {
-        postId,
-        userId,
-      },
-    });
-    dispatch(unlikePost(postId));
-  };
 
   const navigate = useNavigate();
 
@@ -198,9 +181,12 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           </IconButton>
           <IconButton
             onClick={() => {
-              post.isLikedByCurrentUser
-                ? unlikePost2(post.postId, user.userId)
-                : likePost2(post.postId, user.userId);
+              toggleLikePostRequest(
+                post.isLikedByCurrentUser,
+                post.postId,
+                user.userId
+              );
+              dispatch(toggleLikePost(post.postId));
             }}
             sx={post.isLikedByCurrentUser ? styles.likedIcon : undefined}
           >

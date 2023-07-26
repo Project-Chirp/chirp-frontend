@@ -17,13 +17,13 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, likePost, unlikePost } from "../../state/slices/postsSlice";
+import { Post, toggleLikePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
+import { toggleLikePostRequest } from "../../utilities/postUtilities";
 
 type PostProps = {
   post: Post;
@@ -54,24 +54,6 @@ const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
-
-  const likePost2 = async (postId: number, userId?: number) => {
-    await axios.post("http://localhost:3001/api/posts/likePost", {
-      postId,
-      userId,
-    });
-    dispatch(likePost(postId));
-  };
-
-  const unlikePost2 = async (postId: number, userId?: number) => {
-    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
-      params: {
-        postId,
-        userId,
-      },
-    });
-    dispatch(unlikePost(postId));
-  };
 
   const navigate = useNavigate();
   const routeChange = () => {
@@ -120,9 +102,12 @@ const PostItem = ({ post }: PostProps) => {
           </Button>
           <Button
             onClick={() => {
-              post.isLikedByCurrentUser
-                ? unlikePost2(post.postId, user.userId)
-                : likePost2(post.postId, user.userId);
+              toggleLikePostRequest(
+                post.isLikedByCurrentUser,
+                post.postId,
+                user.userId
+              );
+              dispatch(toggleLikePost(post.postId));
             }}
             startIcon={
               post.isLikedByCurrentUser ? (
