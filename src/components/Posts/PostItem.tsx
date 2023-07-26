@@ -90,7 +90,7 @@ const PostItem = ({ post }: PostProps) => {
       <CardActions>
         <Box sx={styles.cardActions}>
           <Button startIcon={<RepeatOutlinedIcon />} sx={styles.defaultButton}>
-            1
+            {post.numberOfReposts}
           </Button>
           <Button
             onClick={() => {

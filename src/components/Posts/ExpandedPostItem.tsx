@@ -141,7 +141,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         <Box>
           <Button fullWidth sx={styles.actionButton}>
             <Typography component="span" sx={styles.actionCount}>
-              1
+              {post.numberOfReposts}
             </Typography>
             <Typography component="span">Reposts</Typography>
           </Button>

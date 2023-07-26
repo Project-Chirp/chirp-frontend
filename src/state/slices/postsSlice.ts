@@ -6,6 +6,7 @@ export type Post = {
   isLikedByCurrentUser: boolean;
   numberOfLikes: number;
   numberOfReplies: number;
+  numberOfReposts: number;
   postId: number;
   textContent: string;
   timestamp: string;
@@ -27,6 +28,7 @@ const initialState: PostSliceType = {
     isLikedByCurrentUser: false,
     numberOfLikes: 0,
     numberOfReplies: 0,
+    numberOfReposts: 0,
     postId: 0,
     textContent: "",
     timestamp: "",
