@@ -24,6 +24,7 @@ import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
+import formatTimestamp from "../../utilities/formatTimestamp";
 
 type PostProps = {
   post: Post;
@@ -72,7 +73,7 @@ const PostItem = ({ post }: PostProps) => {
           </IconButton>
         }
         title={`${post.displayName} @${post.username}`}
-        subheader={post.timestamp}
+        subheader={formatTimestamp(post.timestamp)}
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent sx={styles.cardContent}>
