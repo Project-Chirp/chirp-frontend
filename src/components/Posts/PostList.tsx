@@ -24,7 +24,6 @@ const PostList = () => {
       }
     };
 
-    console.log(typeof JSON.stringify({ accept: "*/*" }));
     fetchPosts();
   }, [dispatch, user]);
 

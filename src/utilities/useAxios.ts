@@ -6,19 +6,15 @@ const useAxios = () => {
   const [error, setError] = useState<AxiosError>();
   const [loading, setLoading] = useState(true);
 
-  const fetchData = async (params: AxiosRequestConfig) => {
+  const sendRequest = async (axiosParams: AxiosRequestConfig) => {
     try {
-      const response = await axios.request(params);
+      const response = await axios.request(axiosParams);
       setResponse(response);
     } catch (err) {
       setError(err);
     } finally {
       setLoading(false);
     }
-  };
-
-  const sendRequest = (axiosParams: AxiosRequestConfig) => {
-    fetchData(axiosParams);
   };
 
   return { response, error, loading, sendRequest };

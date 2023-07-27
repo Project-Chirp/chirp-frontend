@@ -7,8 +7,10 @@ import theme from "./styles/Theme";
 import AuthProvider from "./components/Auth/AuthProvider";
 import { Provider } from "react-redux";
 import { store } from "./state/store";
+import axios from "axios";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 root.render(
   <React.StrictMode>
