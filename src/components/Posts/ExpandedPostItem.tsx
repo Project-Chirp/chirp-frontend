@@ -43,7 +43,8 @@ const styles = {
     paddingX: 1,
     paddingY: 1,
   },
-  actionCount: { fontWeight: "bold", paddingRight: 0.5 },
+  actionCount: { fontWeight: "bold", fontSize: 14.5, paddingRight: 0.5 },
+  actionText: { fontSize: 14.5 },
   backButton: { "&:hover": { backgroundColor: "transparent" } },
   card: {
     padding: 0,
@@ -143,7 +144,9 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfReposts}
             </Typography>
-            <Typography component="span">Reposts</Typography>
+            <Typography component="span" sx={styles.actionText}>
+              Reposts
+            </Typography>
           </Button>
         </Box>
         <Box>
@@ -151,7 +154,9 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfReplies}
             </Typography>
-            <Typography component="span">Replies</Typography>
+            <Typography component="span" sx={styles.actionText}>
+              Replies
+            </Typography>
           </Button>
         </Box>
         <Box>
@@ -159,7 +164,9 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfLikes}
             </Typography>
-            <Typography component="span">Likes</Typography>
+            <Typography component="span" sx={styles.actionText}>
+              Likes
+            </Typography>
           </Button>
         </Box>
       </Box>

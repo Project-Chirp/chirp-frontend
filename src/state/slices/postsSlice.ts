@@ -47,6 +47,7 @@ export const postsSlice = createSlice({
         ...action.payload,
         numberOfLikes: 0,
         numberOfReplies: 0,
+        numberOfReposts: 0,
       };
       const newPosts = state.posts.map((o) => {
         if (o.postId === action.payload.parentPostId) {
@@ -58,6 +59,7 @@ export const postsSlice = createSlice({
         return o;
       });
       state.posts = [newReply, ...newPosts];
+
       if (action.payload.parentPostId === state.expandedPost.postId) {
         state.expandedPost.numberOfReplies++;
       }
@@ -67,6 +69,7 @@ export const postsSlice = createSlice({
         ...action.payload,
         numberOfLikes: 0,
         numberOfReplies: 0,
+        numberOfReposts: 0,
       });
     },
     setPosts: (state, action: PayloadAction<Post[]>) => {
