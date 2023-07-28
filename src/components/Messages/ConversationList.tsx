@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import ConversationListItem from "./ConversationListItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
@@ -11,6 +10,7 @@ import {
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SearchBar from "../Common/SearchBar";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
+import useAxios from "../../utilities/useAxios";
 
 const styles = {
   header: {
@@ -29,17 +29,19 @@ const ConversationList = () => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const result = await axios.get("http://localhost:3001/api/messages", {
-        params: {
-          userId: user.userId,
-        },
+      const result = await sendRequest({
+        url: "/messages",
+        method: "get",
+        params: { userId: user.userId },
       });
-      dispatch(setConversations(result.data));
+      dispatch(setConversations(result));
     };
     fetchMessages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, user]);
 
   return (

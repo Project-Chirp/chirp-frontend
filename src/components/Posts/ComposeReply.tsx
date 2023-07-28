@@ -7,11 +7,11 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { appendPost } from "../../state/slices/postsSlice";
+import useAxios from "../../utilities/useAxios";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -54,23 +54,21 @@ const ComposeReply = ({
   const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      const reply = await axios.post(
-        "http://localhost:3001/api/posts/postReply",
-        {
-          userId: user.userId,
-          parentPostId,
-          textContent,
-        }
-      );
+      const reply = await sendRequest({
+        url: "/posts/postReply",
+        method: "post",
+        data: { userId: user.userId, parentPostId, textContent },
+      });
       setPostTextContent("");
       dispatch(
         appendPost({
-          ...reply.data,
+          ...reply,
           username: user.username,
           displayName: user.displayName,
         })

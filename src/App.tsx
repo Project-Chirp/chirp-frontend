@@ -2,7 +2,6 @@ import Welcome from "./pages/Welcome";
 import Timeline from "./pages/Timeline";
 import { Route, Routes } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
 import { useEffect } from "react";
 import Register from "./pages/Register";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
@@ -14,28 +13,25 @@ import { setUser } from "./state/slices/userSlice";
 import ExpandedPost from "./pages/ExpandedPost";
 import Messages from "./pages/Messages";
 import DirectMessage from "./pages/DirectMessage";
+import useAxios from "./utilities/useAxios";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-
+  const { sendRequest } = useAxios();
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3001/api/users/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        dispatch(setUser(response.data));
+        const response = await sendRequest({ url: "/users", method: "get" });
+        dispatch(setUser(response));
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getAccessTokenSilently, dispatch]);
 
   if (isLoading || (isAuthenticated && user.isLoading)) {

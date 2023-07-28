@@ -9,9 +9,9 @@ import {
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { useState } from "react";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
+import useAxios from "../../utilities/useAxios";
 
 type ComposePostProps = {
   placeholder: string;
@@ -40,19 +40,21 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      const newPost = await axios.post("http://localhost:3001/api/posts", {
-        userId: user.userId,
-        textContent,
+      const newPost = await sendRequest({
+        url: "/posts",
+        method: "post",
+        data: { userId: user.userId, textContent },
       });
       setPostTextContent("");
       dispatch(
         appendPost({
-          ...newPost.data,
+          ...newPost,
           username: user.username,
           displayName: user.displayName,
         })

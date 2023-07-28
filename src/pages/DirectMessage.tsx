@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -29,6 +28,7 @@ import {
 import theme from "../styles/Theme";
 import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
+import useAxios from "../utilities/useAxios";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -107,21 +107,24 @@ const DirectMessage = () => {
   const userExists = conversations.find(
     (o) => o.otherUserId === Number(userId2)
   );
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
-      const result = await axios.get(
-        `http://localhost:3001/api/messages/${userId1}/${userId2}`
-      );
-      setMessages(result.data.messages as Message[]);
+      const result = await sendRequest({
+        url: `/messages/${userId1}/${userId2}`,
+        method: "get",
+      });
+      setMessages(result.messages as Message[]);
       dispatch(
         setSelectedConversation({
-          ...result.data.otherUser,
+          ...result.otherUser,
           userId: Number(userId2),
         })
       );
     };
     fetchDirectMessage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, userId1, userId2]);
 
   useEffect(() => {
@@ -131,13 +134,15 @@ const DirectMessage = () => {
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const newMessage = (
-        await axios.post("http://localhost:3001/api/messages", {
+      const newMessage = (await sendRequest({
+        url: "/messages",
+        method: "post",
+        data: {
           sentUserId: user.userId,
           receivedUserId: selectedConversation.userId,
           textContent,
-        })
-      ).data as Message;
+        },
+      })) as Message;
       setTextContent("");
       setMessages([...messages, newMessage]);
       if (userExists) {

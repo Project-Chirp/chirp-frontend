@@ -2,10 +2,9 @@ import { useState } from "react";
 import { Box, Button, Typography, TextField } from "@mui/material/";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "./../state/hooks";
 import { setUser } from "../state/slices/userSlice";
+import useAxios from "../utilities/useAxios";
 
 const styles = {
   container: { height: "100%" },
@@ -25,33 +24,24 @@ const styles = {
 };
 
 const Register = () => {
-  const { getAccessTokenSilently } = useAuth0();
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [birthDate, setBirthDate] = useState<Date | undefined>();
 
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
 
   const submitUserInfo = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const token = await getAccessTokenSilently();
     try {
       dispatch(setUser({ ...user, isLoading: true }));
-      const newUserInfo = await axios.put(
-        `http://localhost:3001/api/users/${user.userId}`,
-        {
-          username,
-          displayName,
-          birthDate,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      dispatch(setUser(newUserInfo.data));
+      const newUserInfo = await sendRequest({
+        url: `/users/${user.userId}`,
+        method: "put",
+        data: { username, displayName, birthDate },
+      });
+      dispatch(setUser(newUserInfo));
     } catch (error) {
       console.log(error);
     }

@@ -13,8 +13,8 @@ import {
 } from "@mui/material";
 import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { SelectedUser } from "../../../state/slices/messagesSlice";
+import useAxios from "../../../utilities/useAxios";
 
 const styles = {
   autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
@@ -42,19 +42,18 @@ const MessagesSearchBar = ({
 }: MessagesSearchBarProps) => {
   const user = useAppSelector((state) => state.user);
   const [followedList, setFollowedList] = useState<SelectedUser[]>([]);
+  const { sendRequest } = useAxios();
   useEffect(() => {
     const fetchDMList = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/messages/followedList",
-        {
-          params: {
-            userId: user.userId,
-          },
-        }
-      );
-      setFollowedList(result.data as SelectedUser[]);
+      const result = await sendRequest({
+        url: "/messages/followedList",
+        method: "get",
+        params: { userId: user.userId },
+      });
+      setFollowedList(result as SelectedUser[]);
     };
     fetchDMList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (

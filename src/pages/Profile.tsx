@@ -4,7 +4,6 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Button, Typography, Tabs, Tab, Avatar, Box } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ProfileTweets from "../components/Profile/ProfileTweets";
-import axios from "axios";
 import { useAppSelector } from "../state/hooks";
 import ProfileReplies from "../components/Profile/ProfileReplies";
 import ProfileLikes from "../components/Profile/ProfileLikes";
@@ -12,6 +11,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
+import useAxios from "../utilities/useAxios";
 
 const styles = {
   avatar: {
@@ -72,27 +72,26 @@ const Profile = () => {
     joinedDate: "",
   });
   const user = useAppSelector((state) => state.user);
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchProfileContents = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getProfileContents",
-        {
-          params: {
-            userId: user.userId,
-          },
-        }
-      );
-      const date = new Date(result.data.joinedDate);
+      const result = await sendRequest({
+        url: "/profile/getProfileContents",
+        method: "get",
+        params: { userId: user.userId },
+      });
+      const date = new Date(result.joinedDate);
       const month = date.toLocaleString("default", { month: "long" });
       const year = date.getFullYear();
       const formattedDate = `${month} ${year}`;
       setProfileContents({
-        ...result.data,
+        ...result,
         joinedDate: formattedDate,
       });
     };
     fetchProfileContents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, user]);
 
   return (

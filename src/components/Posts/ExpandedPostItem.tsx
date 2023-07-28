@@ -19,7 +19,6 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -30,6 +29,7 @@ import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
+import useAxios from "../../utilities/useAxios";
 
 const styles = {
   actionButton: {
@@ -88,27 +88,29 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const user = useAppSelector((state) => state.user);
   const urlParams = useParams();
   const [open, setOpen] = useState(false);
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
-      const backupFetch = await axios.get(
-        "http://localhost:3001/api/posts/fetchPost",
-        {
-          params: {
-            userId: user.userId,
-            postId: urlParams.postId,
-          },
-        }
-      );
-      dispatch(setExpandedPost(backupFetch.data as Post));
+      const backupFetch = await sendRequest({
+        url: "/posts/fetchPost",
+        method: "get",
+        params: { userId: user.userId, postId: urlParams.postId },
+      });
+      dispatch(setExpandedPost(backupFetch as Post));
     };
     updatedExpandedPost();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, user.userId, urlParams.postId]);
 
   const likePost = async (postId: number, userId?: number) => {
-    await axios.post("http://localhost:3001/api/posts/likePost", {
-      postId,
-      userId,
+    await sendRequest({
+      url: "/posts/likePost",
+      method: "post",
+      data: {
+        userId,
+        postId,
+      },
     });
     const updatedPost = {
       ...post,
@@ -121,7 +123,9 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   };
 
   const unlikePost = async (postId: number, userId?: number) => {
-    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
+    await sendRequest({
+      url: "/posts/unlikePost",
+      method: "delete",
       params: {
         postId,
         userId,

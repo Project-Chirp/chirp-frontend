@@ -17,7 +17,6 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, updatePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +24,7 @@ import { setExpandedPost } from "../../state/slices/expandedPostSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
 import formatTimestamp from "../../utilities/formatTimestamp";
+import useAxios from "../../utilities/useAxios";
 
 type PostProps = {
   post: Post;
@@ -55,11 +55,16 @@ const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
+  const { sendRequest } = useAxios();
 
   const likePost = async (postId: number, userId?: number) => {
-    await axios.post("http://localhost:3001/api/posts/likePost", {
-      postId,
-      userId,
+    await sendRequest({
+      url: "/posts/likePost",
+      method: "post",
+      data: {
+        userId,
+        postId,
+      },
     });
     const updatedPost = {
       ...post,
@@ -72,10 +77,12 @@ const PostItem = ({ post }: PostProps) => {
   };
 
   const unlikePost = async (postId: number, userId?: number) => {
-    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
+    await sendRequest({
+      url: "/posts/unlikePost",
+      method: "delete",
       params: {
-        postId,
         userId,
+        postId,
       },
     });
     const updatedPost = {
