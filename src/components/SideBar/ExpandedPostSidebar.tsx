@@ -24,11 +24,6 @@ const styles = {
     overflow: "hidden",
     width: "100%",
   },
-  adTitle: {
-    color: "primary.main",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
   rightContent: {
     alignItems: "center",
     display: "flex",

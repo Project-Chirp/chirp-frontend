@@ -18,26 +18,8 @@ const styles = {
       opacity: 1,
     },
   },
-  list: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "gray.light",
-  },
-  listText: {
-    color: "black",
+  displayName: {
     fontWeight: "bold",
-    ":hover": {
-      textDecoration: "underline",
-    },
-  },
-  userContainer: {
-    height: "25%",
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    ":hover": {
-      backgroundColor: "#E9EBED",
-    },
   },
   followButton: {
     boxShadow: "none",
@@ -47,13 +29,22 @@ const styles = {
       backgroundColor: "primary.main",
     },
   },
-  displayName: {
-    fontWeight: "bold",
+  list: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "gray.light",
   },
   listContainer: {
     display: "flex",
     flexDirection: "column",
     flex: 1,
+  },
+  listText: {
+    color: "black",
+    fontWeight: "bold",
+    ":hover": {
+      textDecoration: "underline",
+    },
   },
   suggestedUserContainer: {
     backgroundColor: "gray.light",
@@ -64,9 +55,18 @@ const styles = {
     width: "100%",
     overflow: "hidden",
   },
-  suTitle: { fontWeight: "bold", paddingX: 2, paddingTop: 1 },
   suHeader: {
     width: "100%",
+  },
+  suTitle: { fontWeight: "bold", paddingX: 2, paddingTop: 1 },
+  userContainer: {
+    height: "25%",
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    ":hover": {
+      backgroundColor: "#E9EBED",
+    },
   },
 };
 
