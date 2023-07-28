@@ -22,14 +22,13 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  setExpandedPost,
-  updateExpandedPost,
-} from "../../state/slices/expandedPostSlice";
+import { toggleLikePost } from "../../state/slices/postsSlice";
+import { setExpandedPost } from "../../state/slices/postsSlice";
 import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
+import { toggleLikePostRequest } from "../../utilities/postUtilities";
 
 const styles = {
   actionButton: {
@@ -44,10 +43,8 @@ const styles = {
     paddingX: 1,
     paddingY: 1,
   },
-  actionCount: { fontWeight: "bold" },
-  actionTitles: {
-    paddingLeft: 0.5,
-  },
+  actionCount: { fontWeight: "bold", fontSize: 14.5, paddingRight: 0.5 },
+  actionText: { fontSize: 14.5 },
   backButton: { "&:hover": { backgroundColor: "transparent" } },
   card: {
     padding: 0,
@@ -105,38 +102,6 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
 
-  const likePost = async (postId: number, userId?: number) => {
-    await axios.post("http://localhost:3001/api/posts/likePost", {
-      postId,
-      userId,
-    });
-    const updatedPost = {
-      ...post,
-      isLikedByCurrentUser: !post.isLikedByCurrentUser,
-      numberOfLikes: post.isLikedByCurrentUser
-        ? post.numberOfLikes - 1
-        : post.numberOfLikes + 1,
-    };
-    dispatch(updateExpandedPost(updatedPost));
-  };
-
-  const unlikePost = async (postId: number, userId?: number) => {
-    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
-      params: {
-        postId,
-        userId,
-      },
-    });
-    const updatedPost = {
-      ...post,
-      isLikedByCurrentUser: !post.isLikedByCurrentUser,
-      numberOfLikes: post.isLikedByCurrentUser
-        ? post.numberOfLikes - 1
-        : post.numberOfLikes + 1,
-    };
-    dispatch(updateExpandedPost(updatedPost));
-  };
-
   const navigate = useNavigate();
 
   return (
@@ -177,9 +142,9 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         <Box>
           <Button fullWidth sx={styles.actionButton}>
             <Typography component="span" sx={styles.actionCount}>
-              1
+              {post.numberOfReposts}
             </Typography>
-            <Typography component="span" sx={styles.actionTitles}>
+            <Typography component="span" sx={styles.actionText}>
               Reposts
             </Typography>
           </Button>
@@ -187,9 +152,9 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         <Box>
           <Button fullWidth sx={styles.actionButton}>
             <Typography component="span" sx={styles.actionCount}>
-              1
+              {post.numberOfReplies}
             </Typography>
-            <Typography component="span" sx={styles.actionTitles}>
+            <Typography component="span" sx={styles.actionText}>
               Replies
             </Typography>
           </Button>
@@ -199,7 +164,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfLikes}
             </Typography>
-            <Typography component="span" sx={styles.actionTitles}>
+            <Typography component="span" sx={styles.actionText}>
               Likes
             </Typography>
           </Button>
@@ -224,9 +189,12 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           </IconButton>
           <IconButton
             onClick={() => {
-              post.isLikedByCurrentUser
-                ? unlikePost(post.postId, user.userId)
-                : likePost(post.postId, user.userId);
+              toggleLikePostRequest(
+                post.isLikedByCurrentUser,
+                post.postId,
+                user.userId
+              );
+              dispatch(toggleLikePost(post.postId));
             }}
             sx={post.isLikedByCurrentUser ? styles.likedIcon : undefined}
           >

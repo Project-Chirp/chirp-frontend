@@ -17,13 +17,13 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, updatePost } from "../../state/slices/postsSlice";
+import { Post, toggleLikePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
-import { setExpandedPost } from "../../state/slices/expandedPostSlice";
+import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
+import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import formatTimestamp from "../../utilities/formatTimestamp";
 
 type PostProps = {
@@ -55,38 +55,6 @@ const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
-
-  const likePost = async (postId: number, userId?: number) => {
-    await axios.post("http://localhost:3001/api/posts/likePost", {
-      postId,
-      userId,
-    });
-    const updatedPost = {
-      ...post,
-      isLikedByCurrentUser: !post.isLikedByCurrentUser,
-      numberOfLikes: post.isLikedByCurrentUser
-        ? post.numberOfLikes - 1
-        : post.numberOfLikes + 1,
-    };
-    dispatch(updatePost(updatedPost));
-  };
-
-  const unlikePost = async (postId: number, userId?: number) => {
-    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
-      params: {
-        postId,
-        userId,
-      },
-    });
-    const updatedPost = {
-      ...post,
-      isLikedByCurrentUser: !post.isLikedByCurrentUser,
-      numberOfLikes: post.isLikedByCurrentUser
-        ? post.numberOfLikes - 1
-        : post.numberOfLikes + 1,
-    };
-    dispatch(updatePost(updatedPost));
-  };
 
   const navigate = useNavigate();
   const routeChange = () => {
@@ -122,7 +90,7 @@ const PostItem = ({ post }: PostProps) => {
       <CardActions>
         <Box sx={styles.cardActions}>
           <Button startIcon={<RepeatOutlinedIcon />} sx={styles.defaultButton}>
-            1
+            {post.numberOfReposts}
           </Button>
           <Button
             onClick={() => {
@@ -131,13 +99,16 @@ const PostItem = ({ post }: PostProps) => {
             startIcon={<AddCommentOutlinedIcon />}
             sx={styles.defaultButton}
           >
-            1
+            {post.numberOfReplies}
           </Button>
           <Button
             onClick={() => {
-              post.isLikedByCurrentUser
-                ? unlikePost(post.postId, user.userId)
-                : likePost(post.postId, user.userId);
+              toggleLikePostRequest(
+                post.isLikedByCurrentUser,
+                post.postId,
+                user.userId
+              );
+              dispatch(toggleLikePost(post.postId));
             }}
             startIcon={
               post.isLikedByCurrentUser ? (

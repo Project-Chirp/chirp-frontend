@@ -10,7 +10,7 @@ const styles = {
 };
 
 const ExpandedPost = () => {
-  const expandedPost = useAppSelector((state) => state.expandedPost);
+  const { expandedPost } = useAppSelector((state) => state.posts);
 
   return (
     <Layout
