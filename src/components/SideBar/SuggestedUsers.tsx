@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Button,
   List,
   ListItemButton,
   ListItemAvatar,
@@ -11,6 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
+import FollowButton from "./FollowButton";
 
 const styles = {
   avatar: {
@@ -22,25 +22,16 @@ const styles = {
   displayName: {
     fontWeight: "bold",
   },
-  followButton: {
-    boxShadow: "none",
-    zIndex: 3,
-    "&:hover": {
-      boxShadow: "none",
-      backgroundColor: "primary.main",
-    },
-  },
   list: {
     width: "100%",
     height: "100%",
     backgroundColor: "gray.light",
   },
-  listItemText: {
-    marginY: 0.5,
-  },
+  listItemText: { marginY: 0.5 },
   suDisplayName: {
     color: "black",
     fontWeight: "bold",
+    fontSize: "0.875rem",
     ":hover": {
       textDecoration: "underline",
     },
@@ -62,12 +53,15 @@ const styles = {
     width: "100%",
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     ":hover": {
       backgroundColor: "#E9EBED",
     },
   },
   suUsername: {
     color: "rgba(0, 0, 0, 0.7)",
+    fontSize: "0.875rem",
   },
 };
 
@@ -97,10 +91,6 @@ const usersData = [
 const SuggestedUsers = () => {
   const navigate = useNavigate();
 
-  const handlePropagation = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
   return (
     <Box sx={styles.suggestedUserContainer}>
       <Typography variant="h6" sx={styles.suTitle}>
@@ -123,10 +113,13 @@ const SuggestedUsers = () => {
             </ListItemAvatar>
             <ListItemText
               primary={
-                <Link component={Routerlink} to={"/profile"} underline="hover">
-                  <Typography component={"span"} sx={styles.suDisplayName}>
-                    {user.displayName}
-                  </Typography>
+                <Link
+                  component={Routerlink}
+                  to={"/profile"}
+                  underline="hover"
+                  sx={styles.suDisplayName}
+                >
+                  {user.displayName}
                 </Link>
               }
               secondary={
@@ -137,15 +130,7 @@ const SuggestedUsers = () => {
               }
               sx={styles.listItemText}
             />
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              sx={styles.followButton}
-              onClick={handlePropagation}
-            >
-              Follow
-            </Button>
+            <FollowButton />
           </ListItemButton>
         ))}
       </List>

@@ -2,10 +2,6 @@ import { Box } from "@mui/material";
 import React from "react";
 
 const styles = {
-  ad: {
-    height: "100%",
-    width: "100%",
-  },
   adSpaceContainer: {
     alignItems: "center",
     backgroundColor: "gray.light",
@@ -25,11 +21,7 @@ const styles = {
 const Advertisement = () => {
   return (
     <Box sx={styles.adSpaceContainer}>
-      <img
-        style={styles.ad}
-        src={process.env.PUBLIC_URL + "/Ad Gray.gif"}
-        alt="Advertisement"
-      />
+      <img src={process.env.PUBLIC_URL + "/Ad Gray.gif"} alt="Advertisement" />
     </Box>
   );
 };

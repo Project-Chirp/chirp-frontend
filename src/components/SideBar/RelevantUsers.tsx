@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Link,
   ListItemAvatar,
   ListItemButton,
@@ -11,6 +10,7 @@ import {
 import React from "react";
 import { useAppSelector } from "../../state/hooks";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
+import FollowButton from "./FollowButton";
 
 const styles = {
   avatar: {
@@ -26,6 +26,7 @@ const styles = {
       backgroundColor: "primary.main",
     },
   },
+  listItemText: { marginY: 0.5 },
   relevantUserContainer: {
     boxSizing: "border-box",
     border: "2px solid",
@@ -53,6 +54,7 @@ const styles = {
   ruDisplayName: {
     fontWeight: "bold",
     color: "black",
+    fontSize: "0.875rem",
     textDecoration: "none",
     "&:hover": {
       textDecoration: "underline",
@@ -65,15 +67,13 @@ const styles = {
   },
   ruUsername: {
     color: "rgba(0, 0, 0, 0.6)",
+    fontSize: "0.875rem",
   },
 };
 
 const RelevantUsers = () => {
   const relevantUser = useAppSelector((state) => state.posts.expandedPost);
   const navigate = useNavigate();
-  const handleFollowButton = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
 
   return (
     <Box sx={styles.relevantUserContainer}>
@@ -106,16 +106,9 @@ const RelevantUsers = () => {
               sx={styles.ruUsername}
             >{`@${relevantUser.username}`}</Typography>
           }
+          sx={styles.listItemText}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          sx={styles.followButton}
-          onClick={handleFollowButton}
-        >
-          Follow
-        </Button>
+        <FollowButton />
       </ListItemButton>
     </Box>
   );
