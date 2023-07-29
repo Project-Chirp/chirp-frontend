@@ -1,11 +1,11 @@
 import HomeIcon from "@mui/icons-material/Home";
 import MailIcon from "@mui/icons-material/Mail";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Avatar, Box, Button, List, Toolbar } from "@mui/material";
+import { Avatar, Box, Button, List, Toolbar, Typography } from "@mui/material";
 import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
 import PostButtonModal from "./PostButtonModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ComposePost from "../Posts/ComposePost";
 import { useAppSelector } from "../../state/hooks";
 
@@ -23,32 +23,44 @@ const styles = {
     height: "100%",
     marginLeft: "auto",
   },
+  icon: {
+    width: "1.25em",
+    height: "1.25em",
+  },
+  text: {
+    fontSize: "1.1rem",
+  },
 };
 
 const NavBar = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [selectedPage, setSelectedPage] = useState(0);
   const { selectedConversation } = useAppSelector((state) => state.messages);
   const user = useAppSelector((state) => state.user);
 
   const navItems = [
     {
-      icon: <HomeIcon />,
-      label: "Home",
+      icon: <HomeIcon sx={styles.icon} />,
+      label: <Typography sx={styles.text}>Home</Typography>,
       route: "/",
     },
     {
-      icon: <MailIcon />,
-      label: "Messages",
+      icon: <MailIcon sx={styles.icon} />,
+      label: <Typography sx={styles.text}>Messages</Typography>,
       route: selectedConversation.userId
         ? `/messages/${user.userId}/${selectedConversation.userId}`
         : "/messages",
     },
     {
-      icon: <AccountCircleIcon />,
-      label: "Profile",
+      icon: <AccountCircleIcon sx={styles.icon} />,
+      label: <Typography sx={styles.text}>Profile</Typography>,
       route: "/profile",
     },
   ];
+
+  useEffect(() => {
+    console.log(selectedPage);
+  }, [selectedPage]);
 
   return (
     <>
@@ -56,16 +68,19 @@ const NavBar = () => {
         <Box sx={styles.navList}>
           <Avatar
             alt="logo"
-            src="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
+            src={process.env.PUBLIC_URL + "/chirp_logo.png"}
             sx={styles.logo}
           />
           <List component="nav">
             {navItems.map((navItem, index) => (
               <NavItem
                 key={index}
+                index={index}
                 icon={navItem.icon}
                 label={navItem.label}
                 route={navItem.route}
+                selectedPage={selectedPage}
+                setSelectedPage={() => setSelectedPage(index)}
               />
             ))}
           </List>
