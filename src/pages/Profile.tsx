@@ -38,7 +38,11 @@ const styles = {
     color: "black",
     padding: 0,
     textTransform: "none",
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
   },
+  followerCount: { fontWeight: "bold", paddingRight: 0.5 },
   followerContainer: { paddingTop: 1, display: "flex", gap: 3 },
   header: {
     alignItems: "center",
@@ -150,13 +154,13 @@ const Profile = () => {
               </Box>
               <Box sx={styles.followerContainer}>
                 <Button sx={styles.followerButtons}>
-                  <Typography component="span" sx={{ fontWeight: "bold" }}>
+                  <Typography component="span" sx={styles.followerCount}>
                     500M
                   </Typography>
                   <Typography component="span">Followers</Typography>
                 </Button>
                 <Button sx={styles.followerButtons}>
-                  <Typography component="span" sx={{ fontWeight: "bold" }}>
+                  <Typography component="span" sx={styles.followerCount}>
                     0
                   </Typography>
                   <Typography component="span">Following</Typography>
