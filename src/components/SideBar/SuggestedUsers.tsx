@@ -7,9 +7,10 @@ import {
   ListItemText,
   Box,
   Typography,
+  Link,
 } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as Routerlink } from "react-router-dom";
 
 const styles = {
   avatar: {
@@ -34,12 +35,10 @@ const styles = {
     height: "100%",
     backgroundColor: "gray.light",
   },
-  listContainer: {
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
+  listItemText: {
+    marginY: 0.5,
   },
-  listText: {
+  suDisplayName: {
     color: "black",
     fontWeight: "bold",
     ":hover": {
@@ -47,18 +46,17 @@ const styles = {
     },
   },
   suggestedUserContainer: {
+    boxSizing: "border-box",
+    border: "2px solid",
+    borderColor: "gray.light",
     backgroundColor: "gray.light",
     borderRadius: 5,
     display: "flex",
     flexDirection: "column",
-    height: "38%",
     width: "100%",
     overflow: "hidden",
   },
-  suHeader: {
-    width: "100%",
-  },
-  suTitle: { fontWeight: "bold", paddingX: 2, paddingTop: 1 },
+  suTitle: { fontWeight: "bold", paddingX: 2, paddingY: 1 },
   userContainer: {
     height: "25%",
     width: "100%",
@@ -67,6 +65,9 @@ const styles = {
     ":hover": {
       backgroundColor: "#E9EBED",
     },
+  },
+  suUsername: {
+    color: "rgba(0, 0, 0, 0.7)",
   },
 };
 
@@ -102,48 +103,52 @@ const SuggestedUsers = () => {
 
   return (
     <Box sx={styles.suggestedUserContainer}>
-      <Box sx={styles.suHeader}>
-        <Typography variant="h6" sx={styles.suTitle}>
-          Who to follow
-        </Typography>
-      </Box>
-      <Box sx={styles.listContainer}>
-        <List sx={styles.list}>
-          {usersData.map((user) => (
-            <ListItemButton
-              key={user.id}
-              sx={styles.userContainer}
-              onClick={() =>
-                navigate(
-                  `//${window.location.hostname}:${window.location.port}/profile`
-                )
-              }
-            >
-              <ListItemAvatar>
-                <Avatar alt={user.displayName} sx={styles.avatar} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Typography sx={styles.listText}>
+      <Typography variant="h6" sx={styles.suTitle}>
+        Who to follow
+      </Typography>
+      <List sx={styles.list}>
+        {usersData.map((user) => (
+          <ListItemButton
+            key={user.id}
+            sx={styles.userContainer}
+            onClick={() => navigate(`/profile`)}
+          >
+            <ListItemAvatar>
+              <Avatar
+                alt={user.displayName}
+                sx={styles.avatar}
+                component={Routerlink}
+                to={"/profile"}
+              />
+            </ListItemAvatar>
+            <ListItemText
+              primary={
+                <Link component={Routerlink} to={"/profile"} underline="hover">
+                  <Typography component={"span"} sx={styles.suDisplayName}>
                     {user.displayName}
                   </Typography>
-                }
-                secondary={`@${user.username}`}
-                primaryTypographyProps={styles.displayName}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                sx={styles.followButton}
-                onClick={handlePropagation}
-              >
-                Follow
-              </Button>
-            </ListItemButton>
-          ))}
-        </List>
-      </Box>
+                </Link>
+              }
+              secondary={
+                <Typography
+                  component={"span"}
+                  sx={styles.suUsername}
+                >{`@${user.username}`}</Typography>
+              }
+              sx={styles.listItemText}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              sx={styles.followButton}
+              onClick={handlePropagation}
+            >
+              Follow
+            </Button>
+          </ListItemButton>
+        ))}
+      </List>
     </Box>
   );
 };

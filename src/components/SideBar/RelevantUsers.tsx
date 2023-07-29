@@ -1,9 +1,24 @@
-import { Avatar, Box, Button, ListItemButton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Link,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { useAppSelector } from "../../state/hooks";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as Routerlink } from "react-router-dom";
 
 const styles = {
+  avatar: {
+    opacity: 0.75,
+    "&:hover": {
+      opacity: 1,
+    },
+  },
   followButton: {
     boxShadow: "none",
     "&:hover": {
@@ -12,12 +27,12 @@ const styles = {
     },
   },
   relevantUserContainer: {
+    boxSizing: "border-box",
     border: "2px solid",
     borderColor: "gray.light",
     borderRadius: 5,
     display: "flex",
     flexDirection: "column",
-    height: "12.5%",
     width: "100%",
     overflow: "hidden",
   },
@@ -43,26 +58,18 @@ const styles = {
       textDecoration: "underline",
     },
   },
-  ruHeader: {
-    width: "100%",
-  },
-  ruNames: { marginLeft: 2, textAlign: "left" },
   ruTitle: {
     fontWeight: "bold",
     paddingX: 2,
-    paddingTop: 1,
+    paddingY: 1,
   },
   ruUsername: {
     color: "rgba(0, 0, 0, 0.6)",
   },
-  userInfo: {
-    display: "flex",
-    alignItems: "center",
-  },
 };
 
 const RelevantUsers = () => {
-  const relevantUser = useAppSelector((state) => state.expandedPost);
+  const relevantUser = useAppSelector((state) => state.posts.expandedPost);
   const navigate = useNavigate();
   const handleFollowButton = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -70,30 +77,36 @@ const RelevantUsers = () => {
 
   return (
     <Box sx={styles.relevantUserContainer}>
-      <Box sx={styles.ruHeader}>
-        <Typography variant="h6" sx={styles.ruTitle}>
-          Relevant People
-        </Typography>
-      </Box>
+      <Typography variant="h6" sx={styles.ruTitle}>
+        Relevant People
+      </Typography>
       <ListItemButton
-        onClick={() =>
-          navigate(
-            `//${window.location.hostname}:${window.location.port}/profile`
-          )
-        }
+        onClick={() => navigate(`/profile`)}
         sx={styles.ruContent}
       >
-        <Box sx={styles.userInfo}>
-          <Avatar />
-          <Box sx={styles.ruNames}>
-            <Typography sx={styles.ruDisplayName}>
-              {relevantUser.displayName}
-            </Typography>
+        <ListItemAvatar>
+          <Avatar
+            alt={relevantUser.displayName}
+            sx={styles.avatar}
+            component={Routerlink}
+            to={"/profile"}
+          />
+        </ListItemAvatar>
+        <ListItemText
+          primary={
+            <Link component={Routerlink} to={"/profile"} underline="hover">
+              <Typography component={"span"} sx={styles.ruDisplayName}>
+                {relevantUser.displayName}
+              </Typography>
+            </Link>
+          }
+          secondary={
             <Typography
+              component={"span"}
               sx={styles.ruUsername}
             >{`@${relevantUser.username}`}</Typography>
-          </Box>
-        </Box>
+          }
+        />
         <Button
           variant="contained"
           color="primary"

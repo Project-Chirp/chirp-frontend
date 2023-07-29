@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const styles = {
   footerContainer: {
-    height: "5%",
     width: "100%",
   },
   footerItem: {
