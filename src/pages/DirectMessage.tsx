@@ -124,8 +124,7 @@ const DirectMessage = () => {
       );
     };
     fetchDirectMessage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, userId1, userId2]);
+  }, [dispatch, userId1, userId2, sendRequest]);
 
   useEffect(() => {
     messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);

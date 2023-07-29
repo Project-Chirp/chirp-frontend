@@ -53,8 +53,7 @@ const MessagesSearchBar = ({
       setFollowedList(result as SelectedUser[]);
     };
     fetchDMList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, sendRequest]);
 
   return (
     <Box sx={styles.box}>

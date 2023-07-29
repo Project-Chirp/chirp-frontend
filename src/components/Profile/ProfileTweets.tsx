@@ -20,8 +20,7 @@ const ProfileTweets = () => {
       dispatch(setPosts(result as Post[]));
     };
     fetchPosts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, user]);
+  }, [dispatch, user, sendRequest]);
 
   return (
     <>

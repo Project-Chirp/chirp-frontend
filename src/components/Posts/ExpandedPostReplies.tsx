@@ -28,8 +28,7 @@ const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
       }
     };
     fetchPosts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, user, post]);
+  }, [dispatch, user, post, sendRequest]);
 
   return (
     <>

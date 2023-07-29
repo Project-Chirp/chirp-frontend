@@ -24,8 +24,7 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
       setConversationList(result as SelectedUser[]);
     };
     fetchConversationList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, sendRequest]);
 
   return (
     <List component="div">

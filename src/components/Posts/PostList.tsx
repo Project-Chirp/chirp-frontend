@@ -26,8 +26,7 @@ const PostList = () => {
     };
 
     fetchPosts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, user.userId]);
+  }, [dispatch, user.userId, sendRequest]);
 
   return (
     <Stack divider={<Divider />}>

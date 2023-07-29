@@ -41,8 +41,7 @@ const ConversationList = () => {
       dispatch(setConversations(result));
     };
     fetchMessages();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, user]);
+  }, [dispatch, user, sendRequest]);
 
   return (
     <Box>

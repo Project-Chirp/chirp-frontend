@@ -16,7 +16,7 @@ import DirectMessage from "./pages/DirectMessage";
 import useAxios from "./utilities/useAxios";
 
 function App() {
-  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { isLoading, isAuthenticated } = useAuth0();
   const { sendRequest } = useAxios();
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -31,8 +31,7 @@ function App() {
       }
     };
     getUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getAccessTokenSilently, dispatch]);
+  }, [dispatch, sendRequest]);
 
   if (isLoading || (isAuthenticated && user.isLoading)) {
     return <PageLoader />;

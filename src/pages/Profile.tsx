@@ -91,8 +91,7 @@ const Profile = () => {
       });
     };
     fetchProfileContents();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, user]);
+  }, [value, user, sendRequest]);
 
   return (
     <Layout

@@ -100,8 +100,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       dispatch(setExpandedPost(backupFetch as Post));
     };
     updatedExpandedPost();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, user.userId, urlParams.postId]);
+  }, [dispatch, user.userId, urlParams.postId, sendRequest]);
 
   const likePost = async (postId: number, userId?: number) => {
     await sendRequest({
