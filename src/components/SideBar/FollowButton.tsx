@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import React from "react";
 
 const styles = {
   followButton: {
@@ -7,23 +6,27 @@ const styles = {
     backgroundColor: "primary.main",
     "&:hover": {
       boxShadow: "none",
-      backgroundColor: "#1E9964", // could be primary.dark
+      backgroundColor: "#1E9964", // Could be primary.dark
     },
   },
 };
 
-const FollowButton = () => {
-  const handleFollowButton = (e: React.MouseEvent) => {
+type FollowButtonProps = {
+  onClick?: () => void;
+};
+
+const FollowButton = ({ onClick }: FollowButtonProps) => {
+  const handleFollow = (e: React.MouseEvent) => {
     e.stopPropagation();
+    onClick?.();
   };
 
   return (
     <Button
-      variant="contained"
-      color="primary"
+      onClick={handleFollow}
       size="small"
       sx={styles.followButton}
-      onClick={handleFollowButton}
+      variant="contained"
     >
       Follow
     </Button>

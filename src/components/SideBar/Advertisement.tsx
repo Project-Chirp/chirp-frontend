@@ -1,27 +1,27 @@
 import { Box } from "@mui/material";
-import React from "react";
 
 const styles = {
-  adSpaceContainer: {
-    alignItems: "center",
+  ad: { height: "100%", width: "100%" },
+  container: {
     backgroundColor: "gray.light",
     border: "5px solid",
     borderColor: "primary.main",
     borderRadius: 5,
     boxSizing: "border-box",
     cursor: "pointer",
-    display: "flex",
-    justifyContent: "center",
-    marginTop: 0,
     overflow: "hidden",
-    width: "100%",
   },
 };
 
 const Advertisement = () => {
   return (
-    <Box sx={styles.adSpaceContainer}>
-      <img src={process.env.PUBLIC_URL + "/Ad Gray.gif"} alt="Advertisement" />
+    <Box sx={styles.container}>
+      <Box
+        alt="Advertisement"
+        component="img"
+        src={process.env.PUBLIC_URL + "/Ad Gray.gif"}
+        sx={styles.ad}
+      />
     </Box>
   );
 };
