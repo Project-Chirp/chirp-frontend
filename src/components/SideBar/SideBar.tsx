@@ -10,16 +10,18 @@ const styles = {
     flexDirection: "column",
     gap: 2,
     height: "100vh",
-    paddingTop: 1,
     position: "fixed",
     width: "310px",
   },
+  searchBarContainer: { paddingTop: 1 },
 };
 
 const SideBar = () => {
   return (
     <Box sx={styles.rightContent}>
-      <SearchBar placeholder="Search Chirp" />
+      <Box sx={styles.searchBarContainer}>
+        <SearchBar placeholder="Search Chirp" />
+      </Box>
       <SuggestedUserItem />
       <Advertisement />
       <SidebarFooter />

@@ -6,7 +6,7 @@ const styles = {
     backgroundColor: "primary.main",
     "&:hover": {
       boxShadow: "none",
-      backgroundColor: "#1E9964", // Could be primary.dark
+      backgroundColor: "primary.dark",
     },
   },
 };

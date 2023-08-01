@@ -10,7 +10,6 @@ const styles = {
   footerNav: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "center",
   },
 };
 
@@ -20,6 +19,7 @@ const SidebarFooter = () => {
       <Link
         component={Routerlink}
         sx={styles.footerText}
+        target="_blank"
         to="/coming-soon"
         underline="hover"
         variant="subtitle2"
@@ -29,6 +29,7 @@ const SidebarFooter = () => {
       <Link
         component={Routerlink}
         sx={styles.footerText}
+        target="_blank"
         to="/coming-soon"
         underline="hover"
         variant="subtitle2"
@@ -38,6 +39,7 @@ const SidebarFooter = () => {
       <Link
         component={Routerlink}
         sx={styles.footerText}
+        target="_blank"
         to="/coming-soon"
         underline="hover"
         variant="subtitle2"
@@ -47,6 +49,7 @@ const SidebarFooter = () => {
       <Link
         component={Routerlink}
         sx={styles.footerText}
+        target="_blank"
         to="/coming-soon"
         underline="hover"
         variant="subtitle2"
@@ -65,6 +68,7 @@ const SidebarFooter = () => {
       <Link
         component={Routerlink}
         sx={styles.footerText}
+        target="_blank"
         to="/coming-soon"
         underline="hover"
         variant="subtitle2"
