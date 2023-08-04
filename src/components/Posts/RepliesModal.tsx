@@ -118,8 +118,8 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
       </DialogTitle>
       <DialogContent sx={styles.dialogContent}>
         <Card sx={styles.card}>
-          <CardContent sx={styles.cardContent} className="cardContent">
-            <Box sx={styles.mainContainer} className="mainContainer">
+          <CardContent sx={styles.cardContent}>
+            <Box sx={styles.mainContainer}>
               <Box sx={styles.avatarLineContainer}>
                 <Box sx={styles.avatarBox}>
                   <Avatar>CK</Avatar>
@@ -129,7 +129,7 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
                 </Box>
               </Box>
               <Box sx={styles.textContent}>
-                <Box sx={styles.namesAndOption} className="namesAndOption">
+                <Box sx={styles.namesAndOption}>
                   <Box sx={styles.names}>
                     <Typography sx={styles.displayName}>
                       {`${post.displayName} `}

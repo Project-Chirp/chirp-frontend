@@ -19,6 +19,7 @@ const styles = {
     paddingTop: 2,
     paddingX: 2,
   },
+  searchBarContainer: { padding: 1 },
 };
 
 const ConversationList = () => {
@@ -50,7 +51,9 @@ const ConversationList = () => {
           <ChatOutlinedIcon />
         </IconButton>
       </Box>
-      <SearchBar placeholder="Search Messages" />
+      <Box sx={styles.searchBarContainer}>
+        <SearchBar placeholder="Search Messages" />
+      </Box>
       <Divider />
       <List component="div">
         {conversations.map((o) => (

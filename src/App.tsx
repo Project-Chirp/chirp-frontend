@@ -14,6 +14,7 @@ import { setUser } from "./state/slices/userSlice";
 import ExpandedPost from "./pages/ExpandedPost";
 import Messages from "./pages/Messages";
 import DirectMessage from "./pages/DirectMessage";
+import ComingSoon from "./pages/ComingSoon";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -65,6 +66,10 @@ function App() {
       <Route
         path="/post/:postId"
         element={<ProtectedRoute component={ExpandedPost} />}
+      />
+      <Route
+        path="/coming-soon"
+        element={<ProtectedRoute component={ComingSoon} />}
       />
     </Routes>
   );

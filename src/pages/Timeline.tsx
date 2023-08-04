@@ -2,6 +2,7 @@ import { Box, Divider, Typography } from "@mui/material";
 import ComposePost from "../components/Posts/ComposePost";
 import PostList from "../components/Posts/PostList";
 import Layout from "./Layout";
+import SideBar from "../components/SideBar/SideBar";
 
 const styles = {
   headerTitle: {
@@ -22,6 +23,7 @@ const Timeline = () => {
           <PostList />
         </Box>
       }
+      rightContent={<SideBar />}
     />
   );
 };
