@@ -8,7 +8,6 @@ import {
   Typography,
   Link,
 } from "@mui/material";
-import React from "react";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import FollowButton from "./FollowButton";
 
@@ -19,24 +18,7 @@ const styles = {
       opacity: 1,
     },
   },
-  displayName: {
-    fontWeight: "bold",
-  },
-  list: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "gray.light",
-  },
-  listItemText: { marginY: 0.5 },
-  suDisplayName: {
-    color: "black",
-    fontWeight: "bold",
-    fontSize: "0.875rem",
-    ":hover": {
-      textDecoration: "underline",
-    },
-  },
-  suggestedUserContainer: {
+  container: {
     boxSizing: "border-box",
     border: "2px solid",
     borderColor: "gray.light",
@@ -47,19 +29,14 @@ const styles = {
     width: "100%",
     overflow: "hidden",
   },
-  suTitle: { fontWeight: "bold", paddingX: 2, paddingY: 1 },
-  userContainer: {
-    height: "25%",
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    ":hover": {
-      backgroundColor: "#E9EBED",
-    },
+  displayName: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: "0.875rem",
   },
-  suUsername: {
+  listItemText: { marginY: 0.5 },
+  title: { fontWeight: "bold", paddingX: 2, paddingY: 1 },
+  username: {
     color: "rgba(0, 0, 0, 0.7)",
     fontSize: "0.875rem",
   },
@@ -92,40 +69,36 @@ const SuggestedUsers = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={styles.suggestedUserContainer}>
-      <Typography variant="h6" sx={styles.suTitle}>
-        Who to follow
+    <Box sx={styles.container}>
+      <Typography variant="h6" sx={styles.title}>
+        Who to Follow
       </Typography>
-      <List sx={styles.list}>
+      <List disablePadding>
         {usersData.map((user) => (
-          <ListItemButton
-            key={user.id}
-            sx={styles.userContainer}
-            onClick={() => navigate(`/profile`)}
-          >
+          <ListItemButton key={user.id} onClick={() => navigate(`/profile`)}>
             <ListItemAvatar>
               <Avatar
                 alt={user.displayName}
-                sx={styles.avatar}
                 component={Routerlink}
-                to={"/profile"}
+                sx={styles.avatar}
+                to="/profile"
               />
             </ListItemAvatar>
             <ListItemText
               primary={
                 <Link
                   component={Routerlink}
-                  to={"/profile"}
+                  to="/profile"
                   underline="hover"
-                  sx={styles.suDisplayName}
+                  sx={styles.displayName}
                 >
                   {user.displayName}
                 </Link>
               }
               secondary={
                 <Typography
-                  component={"span"}
-                  sx={styles.suUsername}
+                  component="span"
+                  sx={styles.username}
                 >{`@${user.username}`}</Typography>
               }
               sx={styles.listItemText}

@@ -1,88 +1,79 @@
-import { Box, Typography } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom";
+import { Box, Link } from "@mui/material";
+import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
-  footerItem: {
-    textDecoration: "none",
-    paddingRight: 10,
-  },
-  footerItemText: {
-    "&:hover": {
-      textDecoration: "underline",
-    },
+  footerText: {
     color: "gray.main",
     fontSize: 12,
+    paddingRight: 1.5,
   },
   footerNav: {
     display: "flex",
     flexWrap: "wrap",
-    paddingX: 2,
   },
 };
 
 const SidebarFooter = () => {
   return (
-    <Box component={"nav"} sx={styles.footerNav}>
+    <Box component="nav" sx={styles.footerNav}>
       <Link
+        component={Routerlink}
+        sx={styles.footerText}
         target="_blank"
         to="/coming-soon"
-        rel="noreferrer"
-        style={styles.footerItem}
+        underline="hover"
+        variant="subtitle2"
       >
-        <Typography variant="subtitle2" sx={styles.footerItemText}>
-          Terms of Service
-        </Typography>
+        Terms of Service
       </Link>
       <Link
+        component={Routerlink}
+        sx={styles.footerText}
         target="_blank"
         to="/coming-soon"
-        rel="noreferrer"
-        style={styles.footerItem}
+        underline="hover"
+        variant="subtitle2"
       >
-        <Typography variant="subtitle2" sx={styles.footerItemText}>
-          Privacy Policy
-        </Typography>
+        Privacy Policy
       </Link>
       <Link
+        component={Routerlink}
+        sx={styles.footerText}
         target="_blank"
         to="/coming-soon"
-        rel="noreferrer"
-        style={styles.footerItem}
+        underline="hover"
+        variant="subtitle2"
       >
-        <Typography variant="subtitle2" sx={styles.footerItemText}>
-          Contact Us
-        </Typography>
+        Contact Us
       </Link>
       <Link
+        component={Routerlink}
+        sx={styles.footerText}
         target="_blank"
         to="/coming-soon"
-        rel="noreferrer"
-        style={styles.footerItem}
+        underline="hover"
+        variant="subtitle2"
       >
-        <Typography variant="subtitle2" sx={styles.footerItemText}>
-          About The Team
-        </Typography>
+        About The Team
       </Link>
       <Link
+        href="https://github.com/Project-Chirp"
+        sx={styles.footerText}
         target="_blank"
-        to="https://github.com/orgs/Project-Chirp/repositories"
-        rel="noreferrer"
-        style={styles.footerItem}
+        underline="hover"
+        variant="subtitle2"
       >
-        <Typography variant="subtitle2" sx={styles.footerItemText}>
-          GitHub Repo
-        </Typography>
+        GitHub
       </Link>
       <Link
+        component={Routerlink}
+        sx={styles.footerText}
         target="_blank"
         to="/coming-soon"
-        rel="noreferrer"
-        style={styles.footerItem}
+        underline="hover"
+        variant="subtitle2"
       >
-        <Typography variant="subtitle2" sx={styles.footerItemText}>
-          Docs
-        </Typography>
+        Docs
       </Link>
     </Box>
   );
