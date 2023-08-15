@@ -14,11 +14,10 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import ProfileTweets from "../components/Profile/ProfileTweets";
 import axios from "axios";
-import { useAppSelector } from "../state/hooks";
 import ProfileReplies from "../components/Profile/ProfileReplies";
 import ProfileLikes from "../components/Profile/ProfileLikes";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
@@ -86,23 +85,25 @@ type ProfileContent = {
   postCount: number;
   bio: string;
   joinedDate: string;
-};
-
-type ProfileProps = {
-  userId: number;
-  username: string;
   displayName: string;
+  userId: number;
+  followerCount: number;
+  followingCount: number;
 };
 
-const Profile = ({ userId, username, displayName }: ProfileProps) => {
+const Profile = () => {
   const navigate = useNavigate();
+  const { username } = useParams();
   const [value, setValue] = React.useState("one");
   const [profileContents, setProfileContents] = React.useState<ProfileContent>({
     postCount: 0,
     bio: "",
     joinedDate: "",
+    displayName: "",
+    userId: 0,
+    followerCount: 0,
+    followingCount: 0,
   });
-  const user = useAppSelector((state) => state.user);
 
   useEffect(() => {
     const fetchProfileContents = async () => {
@@ -110,7 +111,7 @@ const Profile = ({ userId, username, displayName }: ProfileProps) => {
         "http://localhost:3001/api/profile/getProfileContents",
         {
           params: {
-            userId: user.userId,
+            username,
           },
         }
       );
@@ -124,7 +125,8 @@ const Profile = ({ userId, username, displayName }: ProfileProps) => {
       });
     };
     fetchProfileContents();
-  }, [value, user]);
+    window.scrollTo(0, 0);
+  }, [value, username]);
 
   return (
     <Layout
@@ -135,7 +137,9 @@ const Profile = ({ userId, username, displayName }: ProfileProps) => {
               <KeyboardBackspaceIcon color="secondary" />
             </IconButton>
             <Box>
-              <Typography sx={styles.headerName}>{user.displayName}</Typography>
+              <Typography sx={styles.headerName}>
+                {profileContents.displayName}
+              </Typography>
               <Typography sx={styles.tweetCount}>
                 {profileContents.postCount} Tweets
               </Typography>
@@ -156,10 +160,10 @@ const Profile = ({ userId, username, displayName }: ProfileProps) => {
               </Box>
               <Box sx={styles.nameContainer}>
                 <Typography variant="h2" sx={styles.displayName}>
-                  {user.displayName}
+                  {profileContents.displayName}
                 </Typography>
                 <Typography variant="h3" sx={styles.username}>
-                  @{user.username}
+                  @{username}
                 </Typography>
               </Box>
               <Typography sx={styles.bio}>{profileContents.bio}</Typography>
@@ -175,7 +179,7 @@ const Profile = ({ userId, username, displayName }: ProfileProps) => {
                   sx={styles.followerButtons}
                 >
                   <Typography component="span" sx={styles.followerCount}>
-                    500M
+                    {profileContents.followerCount}
                   </Typography>
                   <Typography component="span"> Followers</Typography>
                 </Link>
@@ -186,7 +190,7 @@ const Profile = ({ userId, username, displayName }: ProfileProps) => {
                   sx={styles.followerButtons}
                 >
                   <Typography component="span" sx={styles.followerCount}>
-                    0
+                    {profileContents.followingCount}
                   </Typography>
                   <Typography component="span"> Following</Typography>
                 </Link>

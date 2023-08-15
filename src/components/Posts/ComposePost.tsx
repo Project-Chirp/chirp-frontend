@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   IconButton,
+  Link,
   Stack,
   TextField,
 } from "@mui/material";
@@ -12,6 +13,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
+import { Link as Routerlink } from "react-router-dom";
 
 type ComposePostProps = {
   placeholder: string;
@@ -19,6 +21,12 @@ type ComposePostProps = {
 };
 
 const styles = {
+  avatar: {
+    opacity: 0.75,
+    "&:hover": {
+      opacity: 1,
+    },
+  },
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: {
     display: "flex",
@@ -66,7 +74,9 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
     <form onSubmit={onSubmit}>
       <Box sx={styles.compostPostContainer}>
         <Box sx={styles.avatarIcon}>
-          <Avatar />
+          <Link component={Routerlink} to={`/${user.username}`}>
+            <Avatar sx={styles.avatar} />
+          </Link>
         </Box>
         <Box sx={styles.textFieldContainer}>
           <TextField

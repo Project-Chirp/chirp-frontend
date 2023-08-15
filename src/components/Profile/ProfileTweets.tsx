@@ -4,10 +4,11 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import { Divider, Stack } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const ProfileTweets = () => {
+  const { username } = useParams();
   const { posts } = useAppSelector((state) => state.posts);
-  const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -16,14 +17,14 @@ const ProfileTweets = () => {
         "http://localhost:3001/api/profile/getOwnTweets",
         {
           params: {
-            userId: user.userId,
+            username,
           },
         }
       );
       dispatch(setPosts(result.data as Post[]));
     };
     fetchPosts();
-  }, [dispatch, user]);
+  }, [dispatch, username]);
 
   return (
     <Stack divider={<Divider />}>

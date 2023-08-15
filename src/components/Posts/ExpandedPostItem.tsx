@@ -33,6 +33,12 @@ import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
+  avatar: {
+    opacity: 0.75,
+    "&:hover": {
+      opacity: 1,
+    },
+  },
   actionButton: {
     color: "black",
     textTransform: "none",
@@ -125,7 +131,11 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         <Typography style={styles.headerTitle}>Post</Typography>
       </Box>
       <CardHeader
-        avatar={<Avatar>CK</Avatar>}
+        avatar={
+          <Link component={Routerlink} to={`/${post.username}`}>
+            <Avatar sx={styles.avatar} />
+          </Link>
+        }
         action={
           <IconButton>
             <MoreVertIcon />

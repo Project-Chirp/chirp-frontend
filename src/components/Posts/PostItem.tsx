@@ -33,6 +33,12 @@ type PostProps = {
 };
 
 const styles = {
+  avatar: {
+    opacity: 0.75,
+    "&:hover": {
+      opacity: 1,
+    },
+  },
   card: {
     boxShadow: "none",
   },
@@ -78,7 +84,11 @@ const PostItem = ({ post }: PostProps) => {
   return (
     <Card sx={styles.card}>
       <CardHeader
-        avatar={<Avatar>CK</Avatar>}
+        avatar={
+          <Link component={Routerlink} to={`/${post.username}`}>
+            <Avatar sx={styles.avatar} />
+          </Link>
+        }
         action={
           <IconButton>
             <MoreVertIcon />

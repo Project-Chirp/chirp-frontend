@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   IconButton,
+  Link,
   Stack,
   TextField,
 } from "@mui/material";
@@ -12,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { addReply } from "../../state/slices/postsSlice";
+import { Link as Routerlink } from "react-router-dom";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -20,6 +22,12 @@ type ComposeReplyProps = {
 };
 
 const styles = {
+  avatar: {
+    opacity: 0.75,
+    "&:hover": {
+      opacity: 1,
+    },
+  },
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: {
     justifyContent: "space-between",
@@ -86,7 +94,9 @@ const ComposeReply = ({
       <Box sx={styles.compostPostContainer}>
         <Box sx={styles.topContainer}>
           <Box sx={styles.avatarIcon}>
-            <Avatar />
+            <Link component={Routerlink} to={`/${user.username}`}>
+              <Avatar sx={styles.avatar} />
+            </Link>
           </Box>
           <Box sx={styles.textFieldContainer}>
             <TextField
