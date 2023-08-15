@@ -6,6 +6,7 @@ import {
   Stack,
   Typography,
   Divider,
+  Link,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar/Avatar";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
@@ -29,6 +30,7 @@ import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
+import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
   actionButton: {
@@ -73,6 +75,16 @@ const styles = {
   topHeader: {
     display: "flex",
     alignItems: "center",
+  },
+  displayName: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "black",
+    paddingRight: 0.5,
+  },
+  username: {
+    fontSize: "inherit",
+    color: "grey",
   },
 };
 
@@ -119,8 +131,26 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={`${post.displayName} `}
-        subheader={`@${post.username}`}
+        title={
+          <Link
+            component={Routerlink}
+            to={`/${post.username}`}
+            underline="hover"
+            sx={styles.displayName}
+          >
+            {post.displayName}
+          </Link>
+        }
+        subheader={
+          <Link
+            component={Routerlink}
+            to={`/${post.username}`}
+            underline="none"
+            sx={styles.username}
+          >
+            @{post.username}
+          </Link>
+        }
       />
       <CardContent sx={styles.cardContent}>
         <Typography>{post.textContent}</Typography>
