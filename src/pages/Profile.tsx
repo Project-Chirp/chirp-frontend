@@ -1,7 +1,16 @@
 import React from "react";
 import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Button, Typography, Tabs, Tab, Avatar, Box } from "@mui/material";
+import {
+  Button,
+  Typography,
+  Tabs,
+  Tab,
+  Avatar,
+  Box,
+  Divider,
+  Link,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ProfileTweets from "../components/Profile/ProfileTweets";
 import axios from "axios";
@@ -13,26 +22,33 @@ import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
+import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
   avatar: {
-    height: 140,
+    border: "5px solid white",
+    height: "140px",
     marginTop: "-15%",
-    width: 140,
+    width: "25%",
+    minWidth: "48px",
   },
   avatarContainer: {
     alignItems: "flex-start",
     display: "flex",
     justifyContent: "space-between",
   },
-  banner: { width: "100%", height: "200px" },
+  banner: { width: "100%", height: "200px", backgroundColor: "gray.main" },
   bio: { paddingTop: 1 },
   displayName: {
     fontSize: 20,
     fontWeight: "bold",
   },
   editProfileButton: {
-    backgroundColor: "black",
+    textTransform: "none",
+    color: "black",
+    ":hover": {
+      backgroundColor: "primary.light",
+    },
   },
   followerButtons: {
     color: "black",
@@ -42,14 +58,18 @@ const styles = {
       backgroundColor: "transparent",
     },
   },
-  followerCount: { fontWeight: "bold", paddingRight: 0.5 },
+  followerCount: { fontWeight: "bold" },
   followerContainer: { paddingTop: 1, display: "flex", gap: 3 },
   header: {
     alignItems: "center",
     display: "flex",
   },
+  headerName: {
+    fontWeight: "bold",
+  },
   joinedDate: {
     display: "flex",
+    color: "grey",
     gap: 0.5,
     paddingTop: 1,
   },
@@ -68,7 +88,13 @@ type ProfileContent = {
   joinedDate: string;
 };
 
-const Profile = () => {
+type ProfileProps = {
+  userId: number;
+  username: string;
+  displayName: string;
+};
+
+const Profile = ({ userId, username, displayName }: ProfileProps) => {
   const navigate = useNavigate();
   const [value, setValue] = React.useState("one");
   const [profileContents, setProfileContents] = React.useState<ProfileContent>({
@@ -109,30 +135,19 @@ const Profile = () => {
               <KeyboardBackspaceIcon color="secondary" />
             </IconButton>
             <Box>
-              <Typography sx={styles.displayName}>
-                {user.displayName}
-              </Typography>
+              <Typography sx={styles.headerName}>{user.displayName}</Typography>
               <Typography sx={styles.tweetCount}>
                 {profileContents.postCount} Tweets
               </Typography>
             </Box>
           </Box>
           <Box>
-            <Box
-              component="img"
-              sx={styles.banner}
-              src={process.env.PUBLIC_URL + "/blue.jpg"}
-              alt="Temp"
-            />
+            <Box sx={styles.banner} />
             <Box sx={styles.profileContent}>
               <Box sx={styles.avatarContainer}>
-                <Avatar
-                  alt="Profile Picture"
-                  src={process.env.PUBLIC_URL + "/rock.jpg"}
-                  sx={styles.avatar}
-                />
+                <Avatar sx={styles.avatar} />
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   startIcon={<EditIcon />}
                   sx={styles.editProfileButton}
                 >
@@ -153,18 +168,28 @@ const Profile = () => {
                 <Typography>Joined {profileContents.joinedDate}</Typography>
               </Box>
               <Box sx={styles.followerContainer}>
-                <Button sx={styles.followerButtons}>
+                <Link
+                  component={Routerlink}
+                  to={"/"}
+                  underline="hover"
+                  sx={styles.followerButtons}
+                >
                   <Typography component="span" sx={styles.followerCount}>
                     500M
                   </Typography>
-                  <Typography component="span">Followers</Typography>
-                </Button>
-                <Button sx={styles.followerButtons}>
+                  <Typography component="span"> Followers</Typography>
+                </Link>
+                <Link
+                  component={Routerlink}
+                  to={"/"}
+                  underline="hover"
+                  sx={styles.followerButtons}
+                >
                   <Typography component="span" sx={styles.followerCount}>
                     0
                   </Typography>
-                  <Typography component="span">Following</Typography>
-                </Button>
+                  <Typography component="span"> Following</Typography>
+                </Link>
               </Box>
             </Box>
           </Box>
@@ -181,6 +206,7 @@ const Profile = () => {
             <Tab value="two" label="Replies" />
             <Tab value="three" label="Likes" />
           </Tabs>
+          <Divider />
           {value === "one" && (
             <Box>
               <ProfileTweets />

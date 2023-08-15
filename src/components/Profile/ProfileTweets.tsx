@@ -3,6 +3,7 @@ import PostItem from "../Posts/PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
+import { Divider, Stack } from "@mui/material";
 
 const ProfileTweets = () => {
   const { posts } = useAppSelector((state) => state.posts);
@@ -25,11 +26,12 @@ const ProfileTweets = () => {
   }, [dispatch, user]);
 
   return (
-    <>
+    <Stack divider={<Divider />}>
       {posts.map((o, index) => (
         <PostItem key={index} post={o} />
       ))}
-    </>
+      <Divider />
+    </Stack>
   );
 };
 
