@@ -4,6 +4,7 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  Link,
   Typography,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar/Avatar";
@@ -25,6 +26,7 @@ import { useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import formatTimestamp from "../../utilities/formatTimestamp";
+import { Link as Routerlink } from "react-router-dom";
 
 type PostProps = {
   post: Post;
@@ -49,6 +51,16 @@ const styles = {
       color: "primary.main",
     },
   },
+  displayName: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "black",
+    paddingRight: 0.5,
+  },
+  username: {
+    fontSize: "inherit",
+    color: "grey",
+  },
 };
 
 const PostItem = ({ post }: PostProps) => {
@@ -72,7 +84,26 @@ const PostItem = ({ post }: PostProps) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={`${post.displayName} @${post.username}`}
+        title={
+          <Box>
+            <Link
+              component={Routerlink}
+              to={`/${post.username}`}
+              underline="hover"
+              sx={styles.displayName}
+            >
+              {post.displayName}
+            </Link>
+            <Link
+              component={Routerlink}
+              to={`/${post.username}`}
+              underline="none"
+              sx={styles.username}
+            >
+              @{post.username}
+            </Link>
+          </Box>
+        }
         subheader={formatTimestamp(post.timestamp)}
       />
       <CardActionArea onClick={() => routeChange()}>
