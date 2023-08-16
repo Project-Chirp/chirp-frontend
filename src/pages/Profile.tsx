@@ -22,6 +22,8 @@ import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
 import { Link as Routerlink } from "react-router-dom";
+import { useAppSelector } from "../state/hooks";
+import FollowButton from "../components/Common/FollowButton";
 
 const styles = {
   avatar: {
@@ -39,7 +41,7 @@ const styles = {
   banner: {
     width: "100%",
     height: "200px",
-    backgroundColor: "gray.main",
+    backgroundColor: "primary.main",
     borderSizing: "border-box",
   },
   bio: { paddingTop: 1 },
@@ -49,6 +51,7 @@ const styles = {
   },
   editProfileButton: {
     textTransform: "none",
+    fontWeight: "bold",
     color: "black",
     ":hover": {
       backgroundColor: "primary.light",
@@ -82,7 +85,7 @@ const styles = {
   tweetCount: { fontSize: 13 },
   username: {
     color: "#71797E",
-    fontSize: 16,
+    fontSize: 15,
   },
 };
 
@@ -100,6 +103,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { username } = useParams();
   const [value, setValue] = React.useState("one");
+  const user = useAppSelector((state) => state.user);
   const [profileContents, setProfileContents] = React.useState<ProfileContent>({
     postCount: 0,
     bio: "",
@@ -155,13 +159,18 @@ const Profile = () => {
             <Box sx={styles.profileContent}>
               <Box sx={styles.avatarContainer}>
                 <Avatar sx={styles.avatar} />
-                <Button
-                  variant="outlined"
-                  startIcon={<EditIcon />}
-                  sx={styles.editProfileButton}
-                >
-                  Edit Profile
-                </Button>
+                {username === user.username ? (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<EditIcon />}
+                    sx={styles.editProfileButton}
+                  >
+                    Edit Profile
+                  </Button>
+                ) : (
+                  <FollowButton />
+                )}
               </Box>
               <Box sx={styles.nameContainer}>
                 <Typography variant="h2" sx={styles.displayName}>
@@ -179,7 +188,7 @@ const Profile = () => {
               <Box sx={styles.followerContainer}>
                 <Link
                   component={Routerlink}
-                  to={"/"}
+                  to={`/${username}`}
                   underline="hover"
                   sx={styles.followerButtons}
                 >
@@ -190,7 +199,7 @@ const Profile = () => {
                 </Link>
                 <Link
                   component={Routerlink}
-                  to={"/"}
+                  to={`/${username}`}
                   underline="hover"
                   sx={styles.followerButtons}
                 >

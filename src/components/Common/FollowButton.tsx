@@ -4,6 +4,7 @@ const styles = {
   followButton: {
     boxShadow: "none",
     backgroundColor: "primary.main",
+    textTransform: "none",
     "&:hover": {
       boxShadow: "none",
       backgroundColor: "primary.dark",
@@ -23,8 +24,8 @@ const FollowButton = ({ onClick }: FollowButtonProps) => {
 
   return (
     <Button
-      onClick={handleFollow}
       size="small"
+      onClick={handleFollow}
       sx={styles.followButton}
       variant="contained"
     >
