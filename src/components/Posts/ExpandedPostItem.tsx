@@ -63,6 +63,12 @@ const styles = {
   },
   cardContent: { width: 400 },
   cardMedia: { maxWidth: 200, margin: "auto" },
+  displayName: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "black",
+    paddingRight: 0.5,
+  },
   headerTitle: {
     fontWeight: "bold",
   },
@@ -81,12 +87,6 @@ const styles = {
   topHeader: {
     display: "flex",
     alignItems: "center",
-  },
-  displayName: {
-    fontSize: 15,
-    fontWeight: "bold",
-    color: "black",
-    paddingRight: 0.5,
   },
   username: {
     fontSize: "inherit",

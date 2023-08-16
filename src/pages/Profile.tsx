@@ -26,9 +26,9 @@ import { Link as Routerlink } from "react-router-dom";
 const styles = {
   avatar: {
     border: "5px solid white",
-    height: "140px",
+    height: "110px",
     marginTop: "-15%",
-    width: "25%",
+    width: "20%",
     minWidth: "48px",
   },
   avatarContainer: {
@@ -36,7 +36,12 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
   },
-  banner: { width: "100%", height: "200px", backgroundColor: "gray.main" },
+  banner: {
+    width: "100%",
+    height: "200px",
+    backgroundColor: "gray.main",
+    borderSizing: "border-box",
+  },
   bio: { paddingTop: 1 },
   displayName: {
     fontSize: 20,
