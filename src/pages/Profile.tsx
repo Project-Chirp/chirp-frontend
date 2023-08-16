@@ -12,7 +12,7 @@ import {
   Link,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import ProfileTweets from "../components/Profile/ProfileTweets";
+import ProfilePosts from "../components/Profile/ProfilePosts";
 import axios from "axios";
 import ProfileReplies from "../components/Profile/ProfileReplies";
 import ProfileLikes from "../components/Profile/ProfileLikes";
@@ -53,6 +53,7 @@ const styles = {
     textTransform: "none",
     fontWeight: "bold",
     color: "black",
+    minWidth: "84px",
     ":hover": {
       backgroundColor: "primary.light",
     },
@@ -82,6 +83,9 @@ const styles = {
   },
   nameContainer: { paddingTop: 1 },
   profileContent: { padding: 2 },
+  tabs: {
+    textTransform: "none",
+  },
   tweetCount: { fontSize: 13 },
   username: {
     color: "#71797E",
@@ -220,14 +224,14 @@ const Profile = () => {
             value={value}
             variant="fullWidth"
           >
-            <Tab value="one" label="Tweets" />
-            <Tab value="two" label="Replies" />
-            <Tab value="three" label="Likes" />
+            <Tab sx={styles.tabs} value="one" label="Tweets" />
+            <Tab sx={styles.tabs} value="two" label="Replies" />
+            <Tab sx={styles.tabs} value="three" label="Likes" />
           </Tabs>
           <Divider />
           {value === "one" && (
             <Box>
-              <ProfileTweets />
+              <ProfilePosts />
             </Box>
           )}
           {value === "two" && (

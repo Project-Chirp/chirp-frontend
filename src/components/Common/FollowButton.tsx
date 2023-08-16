@@ -5,6 +5,8 @@ const styles = {
     boxShadow: "none",
     backgroundColor: "primary.main",
     textTransform: "none",
+    fontWeight: "bold",
+    minWidth: "84px",
     "&:hover": {
       boxShadow: "none",
       backgroundColor: "primary.dark",

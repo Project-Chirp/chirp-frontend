@@ -6,7 +6,7 @@ import { Post, setPosts } from "../../state/slices/postsSlice";
 import { Divider, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 
-const ProfileTweets = () => {
+const ProfilePosts = () => {
   const { username } = useParams();
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
@@ -36,4 +36,4 @@ const ProfileTweets = () => {
   );
 };
 
-export default ProfileTweets;
+export default ProfilePosts;
