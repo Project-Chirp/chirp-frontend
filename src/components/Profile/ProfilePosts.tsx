@@ -14,7 +14,7 @@ const ProfilePosts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getOwnTweets",
+        "http://localhost:3001/api/profile/getUserPosts",
         {
           params: {
             username,

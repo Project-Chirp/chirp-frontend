@@ -14,7 +14,7 @@ const ProfileLikes = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getOwnLikes",
+        "http://localhost:3001/api/profile/getUserLikes",
         {
           params: {
             username,

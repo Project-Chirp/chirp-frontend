@@ -14,7 +14,7 @@ const ProfileReplies = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getOwnReplies",
+        "http://localhost:3001/api/profile/getUserReplies",
         {
           params: {
             username,
