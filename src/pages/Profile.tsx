@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
@@ -28,10 +28,10 @@ import FollowButton from "../components/Common/FollowButton";
 const styles = {
   avatar: {
     border: "5px solid white",
-    height: "110px",
+    boxSizing: "border-box",
+    height: "140px",
     marginTop: "-15%",
-    width: "20%",
-    minWidth: "48px",
+    width: "140px",
   },
   avatarContainer: {
     alignItems: "flex-start",
@@ -42,7 +42,6 @@ const styles = {
     width: "100%",
     height: "200px",
     backgroundColor: "primary.main",
-    borderSizing: "border-box",
   },
   bio: { paddingTop: 1 },
   displayName: {
@@ -71,9 +70,6 @@ const styles = {
   header: {
     alignItems: "center",
     display: "flex",
-  },
-  headerName: {
-    fontWeight: "bold",
   },
   joinedDate: {
     display: "flex",
@@ -106,9 +102,9 @@ type ProfileContent = {
 const Profile = () => {
   const navigate = useNavigate();
   const { username } = useParams();
-  const [value, setValue] = React.useState("one");
+  const [value, setValue] = useState("one");
   const user = useAppSelector((state) => state.user);
-  const [profileContents, setProfileContents] = React.useState<ProfileContent>({
+  const [profileContents, setProfileContents] = useState<ProfileContent>({
     postCount: 0,
     bio: "",
     joinedDate: "",
@@ -150,7 +146,7 @@ const Profile = () => {
               <KeyboardBackspaceIcon color="secondary" />
             </IconButton>
             <Box>
-              <Typography sx={styles.headerName}>
+              <Typography sx={styles.displayName}>
                 {profileContents.displayName}
               </Typography>
               <Typography sx={styles.tweetCount}>

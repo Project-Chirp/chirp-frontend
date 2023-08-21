@@ -35,14 +35,14 @@ const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
   }, [dispatch, user, post]);
 
   return (
-    <Stack divider={<Divider />}>
+    <>
       {posts
         .filter((o) => o.parentPostId === post.postId)
         .map((o) => (
           <PostItem key={o.postId} post={o} />
         ))}
       <Divider />
-    </Stack>
+    </>
   );
 };
 
