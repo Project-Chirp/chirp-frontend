@@ -8,7 +8,6 @@ import {
   Divider,
   Link,
 } from "@mui/material";
-import Avatar from "@mui/material/Avatar/Avatar";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -31,14 +30,9 @@ import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
+import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
-  avatar: {
-    opacity: 0.75,
-    "&:hover": {
-      opacity: 1,
-    },
-  },
   actionButton: {
     color: "black",
     textTransform: "none",
@@ -131,11 +125,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         <Typography style={styles.headerTitle}>Post</Typography>
       </Box>
       <CardHeader
-        avatar={
-          <Link component={Routerlink} to={`/${post.username}`}>
-            <Avatar sx={styles.avatar} />
-          </Link>
-        }
+        avatar={<UserAvatar username={post.username} />}
         action={
           <IconButton>
             <MoreVertIcon />

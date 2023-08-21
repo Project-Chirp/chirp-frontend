@@ -7,7 +7,6 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import Avatar from "@mui/material/Avatar/Avatar";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton/IconButton";
@@ -27,18 +26,13 @@ import RepliesModal from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import formatTimestamp from "../../utilities/formatTimestamp";
 import { Link as Routerlink } from "react-router-dom";
+import UserAvatar from "../Common/UserAvatar";
 
 type PostProps = {
   post: Post;
 };
 
 const styles = {
-  avatar: {
-    opacity: 0.75,
-    "&:hover": {
-      opacity: 1,
-    },
-  },
   card: {
     boxShadow: "none",
   },
@@ -84,11 +78,7 @@ const PostItem = ({ post }: PostProps) => {
   return (
     <Card sx={styles.card}>
       <CardHeader
-        avatar={
-          <Link component={Routerlink} to={`/${post.username}`}>
-            <Avatar sx={styles.avatar} />
-          </Link>
-        }
+        avatar={<UserAvatar username={post.username} />}
         action={
           <IconButton>
             <MoreVertIcon />

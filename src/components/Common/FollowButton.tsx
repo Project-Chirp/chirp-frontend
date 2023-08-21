@@ -26,8 +26,8 @@ const FollowButton = ({ onClick }: FollowButtonProps) => {
 
   return (
     <Button
-      size="small"
       onClick={handleFollow}
+      size="small"
       sx={styles.followButton}
       variant="contained"
     >

@@ -10,6 +10,7 @@ import {
 import { useAppSelector } from "../../state/hooks";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import FollowButton from "../Common/FollowButton";
+import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
   avatar: {
@@ -55,21 +56,16 @@ const RelevantUsers = () => {
       <Typography variant="h6" sx={styles.title}>
         Relevant People
       </Typography>
-      <ListItemButton onClick={() => navigate(`/profile`)}>
+      <ListItemButton onClick={() => navigate(`/${relevantUser.username}`)}>
         <ListItemAvatar>
-          <Avatar
-            alt={relevantUser.displayName}
-            component={Routerlink}
-            to="/profile"
-            sx={styles.avatar}
-          />
+          <UserAvatar username={relevantUser.username} />
         </ListItemAvatar>
         <ListItemText
           primary={
             <Link
               color="inherit"
               component={Routerlink}
-              to="/profile"
+              to={`/${relevantUser.username}`}
               underline="hover"
             >
               <Typography component="span" sx={styles.displayName}>

@@ -15,6 +15,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CloseIcon from "@mui/icons-material/Close";
 import { Post } from "../../state/slices/postsSlice";
 import ComposeReply from "./ComposeReply";
+import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
   author: { fontSize: 14 },
@@ -122,7 +123,7 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
             <Box sx={styles.mainContainer}>
               <Box sx={styles.avatarLineContainer}>
                 <Box sx={styles.avatarBox}>
-                  <Avatar>CK</Avatar>
+                  <UserAvatar username={post.username} />
                 </Box>
                 <Box sx={styles.lineBox}>
                   <Divider orientation="vertical" sx={styles.line} />
