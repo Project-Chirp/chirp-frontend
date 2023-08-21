@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Link,
   ListItemAvatar,
@@ -13,12 +12,6 @@ import FollowButton from "../Common/FollowButton";
 import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
-  avatar: {
-    opacity: 0.75,
-    "&:hover": {
-      opacity: 1,
-    },
-  },
   container: {
     boxSizing: "border-box",
     border: "2px solid",
