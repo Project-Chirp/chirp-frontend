@@ -94,14 +94,14 @@ type ProfileContent = {
   bio: string;
   joinedDate: string;
   displayName: string;
-  userId: number;
+  username: string;
   followerCount: number;
   followingCount: number;
 };
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { username } = useParams();
+  const { userId } = useParams();
   const [value, setValue] = useState("one");
   const user = useAppSelector((state) => state.user);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
@@ -109,7 +109,7 @@ const Profile = () => {
     bio: "",
     joinedDate: "",
     displayName: "",
-    userId: 0,
+    username: "",
     followerCount: 0,
     followingCount: 0,
   });
@@ -120,7 +120,7 @@ const Profile = () => {
         "http://localhost:3001/api/profile/getProfileContents",
         {
           params: {
-            username,
+            userId,
           },
         }
       );
@@ -135,7 +135,7 @@ const Profile = () => {
     };
     fetchProfileContents();
     window.scrollTo(0, 0);
-  }, [value, username]);
+  }, [value, userId]);
 
   return (
     <Layout
@@ -159,7 +159,7 @@ const Profile = () => {
             <Box sx={styles.profileContent}>
               <Box sx={styles.avatarContainer}>
                 <Avatar sx={styles.avatar} />
-                {username === user.username ? (
+                {profileContents.username === user.username ? (
                   <Button
                     size="small"
                     variant="outlined"
@@ -177,7 +177,7 @@ const Profile = () => {
                   {profileContents.displayName}
                 </Typography>
                 <Typography variant="h3" sx={styles.username}>
-                  @{username}
+                  @{profileContents.username}
                 </Typography>
               </Box>
               <Typography sx={styles.bio}>{profileContents.bio}</Typography>
@@ -188,7 +188,7 @@ const Profile = () => {
               <Box sx={styles.followerContainer}>
                 <Link
                   component={Routerlink}
-                  to={`/${username}`}
+                  to={`/${userId}`}
                   underline="hover"
                   sx={styles.followerButtons}
                 >
@@ -199,7 +199,7 @@ const Profile = () => {
                 </Link>
                 <Link
                   component={Routerlink}
-                  to={`/${username}`}
+                  to={`/${userId}`}
                   underline="hover"
                   sx={styles.followerButtons}
                 >

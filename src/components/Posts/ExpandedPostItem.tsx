@@ -125,7 +125,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         <Typography style={styles.headerTitle}>Post</Typography>
       </Box>
       <CardHeader
-        avatar={<UserAvatar username={post.username} />}
+        avatar={<UserAvatar userId={post.userId} />}
         action={
           <IconButton>
             <MoreVertIcon />
@@ -134,7 +134,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         title={
           <Link
             component={Routerlink}
-            to={`/${post.username}`}
+            to={`/user/${post.userId}`}
             underline="hover"
             sx={styles.displayName}
           >
@@ -144,7 +144,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         subheader={
           <Link
             component={Routerlink}
-            to={`/${post.username}`}
+            to={`/user/${post.userId}`}
             underline="none"
             sx={styles.username}
           >

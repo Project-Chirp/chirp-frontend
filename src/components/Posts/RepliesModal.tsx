@@ -122,7 +122,7 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
             <Box sx={styles.mainContainer}>
               <Box sx={styles.avatarLineContainer}>
                 <Box sx={styles.avatarBox}>
-                  <UserAvatar username={post.username} />
+                  <UserAvatar userId={post.userId} />
                 </Box>
                 <Box sx={styles.lineBox}>
                   <Divider orientation="vertical" sx={styles.line} />

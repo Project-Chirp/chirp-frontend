@@ -75,20 +75,20 @@ const SuggestedUsers = () => {
       </Typography>
       <List disablePadding>
         {usersData.map((user) => (
-          <ListItemButton key={user.id} onClick={() => navigate(`/profile`)}>
+          <ListItemButton key={user.id} onClick={() => navigate(`/`)}>
             <ListItemAvatar>
               <Avatar
                 alt={user.displayName}
                 component={Routerlink}
                 sx={styles.avatar}
-                to="/profile"
+                to="/"
               />
             </ListItemAvatar>
             <ListItemText
               primary={
                 <Link
                   component={Routerlink}
-                  to="/profile"
+                  to="/"
                   underline="hover"
                   sx={styles.displayName}
                 >

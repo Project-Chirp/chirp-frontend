@@ -78,7 +78,7 @@ const PostItem = ({ post }: PostProps) => {
   return (
     <Card sx={styles.card}>
       <CardHeader
-        avatar={<UserAvatar username={post.username} />}
+        avatar={<UserAvatar userId={post.userId} />}
         action={
           <IconButton>
             <MoreVertIcon />
@@ -88,7 +88,7 @@ const PostItem = ({ post }: PostProps) => {
           <Box>
             <Link
               component={Routerlink}
-              to={`/${post.username}`}
+              to={`/user/${post.userId}`}
               underline="hover"
               sx={styles.displayName}
             >
@@ -96,7 +96,7 @@ const PostItem = ({ post }: PostProps) => {
             </Link>
             <Link
               component={Routerlink}
-              to={`/${post.username}`}
+              to={`/user/${post.userId}`}
               underline="none"
               sx={styles.username}
             >

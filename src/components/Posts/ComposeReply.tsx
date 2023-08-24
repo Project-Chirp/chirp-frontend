@@ -80,7 +80,7 @@ const ComposeReply = ({
       <Box sx={styles.compostPostContainer}>
         <Box sx={styles.topContainer}>
           <Box sx={styles.avatarIcon}>
-            <UserAvatar username={user.username} />
+            <UserAvatar userId={user.userId} />
           </Box>
           <Box sx={styles.textFieldContainer}>
             <TextField

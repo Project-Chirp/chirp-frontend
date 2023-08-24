@@ -12,12 +12,12 @@ const styles = {
 };
 
 type UserAvatarProps = {
-  username?: string;
+  userId?: number;
 };
 
-const UserAvatar = ({ username }: UserAvatarProps) => {
+const UserAvatar = ({ userId }: UserAvatarProps) => {
   return (
-    <Link component={Routerlink} to={`/${username}`}>
+    <Link component={Routerlink} to={`/user/${userId}`}>
       <Avatar sx={styles.avatar} />
     </Link>
   );

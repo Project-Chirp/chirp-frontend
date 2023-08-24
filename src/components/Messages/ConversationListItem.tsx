@@ -47,7 +47,7 @@ const ConversationListItem = ({
     <ListItemButton onClick={onClick} selected={selected}>
       <Stack direction="row" sx={styles.stack}>
         <ListItemAvatar onClick={handleAvatarClick} sx={styles.avatar}>
-          <UserAvatar username={conversation.username} />
+          <UserAvatar userId={conversation.otherUserId} />
         </ListItemAvatar>
         <ListItemText
           disableTypography
