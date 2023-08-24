@@ -28,10 +28,10 @@ const styles = {
     display: "flex",
     alignItems: "center",
   },
-  titleBox: { paddingLeft: 3, width: "100%" },
   headerTitle: {
     fontWeight: "bold",
   },
+  titleBox: { paddingLeft: 3, width: "100%" },
 };
 
 type CreateMessageModalProps = {

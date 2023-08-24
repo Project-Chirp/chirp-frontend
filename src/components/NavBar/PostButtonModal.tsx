@@ -13,10 +13,8 @@ const styles = {
     justifyContent: "center",
   },
   dialogTitle: {
-    paddingBottom: 0,
-    paddingLeft: 0.5,
-    paddingRight: 0.5,
-    paddingTop: 0,
+    paddingX: 0.5,
+    paddingY: 0,
   },
 };
 

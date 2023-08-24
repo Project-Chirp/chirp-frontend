@@ -6,6 +6,8 @@ import {
   Typography,
   Box,
   TextField,
+  DialogActions,
+  Button,
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
@@ -21,6 +23,8 @@ const styles = {
     borderRadius: 5,
   },
   dialogContent: {
+    display: "flex",
+    flexDirection: "column",
     padding: 0,
   },
   dialogTitle: {
@@ -30,10 +34,11 @@ const styles = {
     display: "flex",
     alignItems: "center",
   },
-  titleBox: { paddingLeft: 3, width: "100%" },
   headerTitle: {
     fontWeight: "bold",
   },
+  textFieldContainer: { paddingX: 2, paddingY: 1.5 },
+  titleBox: { paddingLeft: 3, width: "100%" },
 };
 
 type EditProfileModalProps = {
@@ -51,41 +56,51 @@ export default function EditProfileModal({
   const [displayName, setDisplayName] = useState(
     editProfileContents.displayName
   );
+  console.log(bio);
   return (
-    <Dialog
-      fullWidth
-      onClose={onClose}
-      open={open}
-      scroll="paper"
-      PaperProps={{ sx: styles.dialog }}
-    >
-      <DialogTitle sx={styles.dialogTitle}>
-        <IconButton onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-        <Box sx={styles.titleBox}>
-          <Typography sx={styles.headerTitle}>Edit Profile</Typography>
-        </Box>
-      </DialogTitle>
-      <DialogContent sx={styles.dialogContent}>
-        <Box
-          sx={{ display: "flex", flexDirection: "column", gap: 2, padding: 2 }}
-        >
-          <TextField
-            label="Display Name"
-            onChange={(e) => setDisplayName(e.target.value)}
-            variant="outlined"
-            value={displayName}
-          />
-          <TextField
-            label="Bio"
-            onChange={(e) => setBio(e.target.value)}
-            multiline
-            variant="outlined"
-            value={bio}
-          />
-        </Box>
-      </DialogContent>
-    </Dialog>
+    <form>
+      <Dialog
+        fullWidth
+        onClose={onClose}
+        open={open}
+        scroll="paper"
+        PaperProps={{ sx: styles.dialog }}
+      >
+        <DialogTitle sx={styles.dialogTitle}>
+          <IconButton onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+          <Box sx={styles.titleBox}>
+            <Typography sx={styles.headerTitle}>Edit Profile</Typography>
+          </Box>
+        </DialogTitle>
+        <DialogContent sx={styles.dialogContent}>
+          <Box sx={styles.textFieldContainer}>
+            <TextField
+              fullWidth
+              label="Display Name"
+              onChange={(e) => setDisplayName(e.target.value)}
+              variant="outlined"
+              value={displayName}
+              InputProps={{ sx: { borderRadius: 2 } }}
+            />
+          </Box>
+          <Box sx={styles.textFieldContainer}>
+            <TextField
+              fullWidth
+              label="Bio"
+              onChange={(e) => setBio(e.target.value)}
+              multiline
+              variant="outlined"
+              value={bio}
+              InputProps={{ sx: { borderRadius: 2 } }}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outlined">Save</Button>
+        </DialogActions>
+      </Dialog>
+    </form>
   );
 }

@@ -43,7 +43,7 @@ const styles = {
     maxHeight: "90%",
   },
   dialogContent: {
-    padding: 1,
+    "&.MuiDialogContent-root": { padding: 1 },
     alignItems: "center",
     justifyContent: "center",
   },
