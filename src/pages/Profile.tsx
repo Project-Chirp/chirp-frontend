@@ -121,14 +121,14 @@ const Profile = () => {
             <Box
               component="img"
               sx={styles.banner}
-              src={process.env.PUBLIC_URL + "/blue.jpg"}
+              src={"/blue.jpg"}
               alt="Temp"
             />
             <Box sx={styles.profileContent}>
               <Box sx={styles.avatarContainer}>
                 <Avatar
                   alt="Profile Picture"
-                  src={process.env.PUBLIC_URL + "/rock.jpg"}
+                  src={"/rock.jpg"}
                   sx={styles.avatar}
                 />
                 <Button

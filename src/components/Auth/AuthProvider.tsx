@@ -9,9 +9,9 @@ type AuthProviderProps = {
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
 
-  const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
-  const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+  const audience = import.meta.env.VITE_AUTH0_AUDIENCE;
+  const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
+  const domain = import.meta.env.VITE_AUTH0_DOMAIN;
   const redirectUri = window.location.origin;
 
   const onRedirectCallback = (appState: any) => {
