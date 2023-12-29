@@ -19,7 +19,7 @@ const Advertisement = () => {
       <Box
         alt="Advertisement"
         component="img"
-        src={process.env.PUBLIC_URL + "/Ad Gray.gif"}
+        src={"/Ad Gray.gif"}
         sx={styles.ad}
       />
     </Box>

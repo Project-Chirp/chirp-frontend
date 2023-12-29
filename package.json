@@ -24,17 +24,23 @@
     "react-hook-form": "^7.41.3",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.1",
-    "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.1.1",
+    "sass": "^1.69.5",
+    "vite": "^3.2.2",
+    "vite-plugin-svgr": "^4.1.0"
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "tsc && vite build",
+    "test": "vite test",
+    "eject": "vite eject",
+    "serve": "vite preview"
   },
   "eslintConfig": {
     "extends": [
