@@ -144,7 +144,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         subheader={
           <Link
             component={Routerlink}
-            to={`/user/${post.userId}`}
+            to={`/user/${post.username}`}
             underline="none"
             sx={styles.username}
           >
