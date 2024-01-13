@@ -7,7 +7,7 @@ import { Divider, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 const ProfileLikes = () => {
-  const { userId } = useParams();
+  const { username } = useParams();
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
 
@@ -17,14 +17,14 @@ const ProfileLikes = () => {
         "http://localhost:3001/api/profile/getUserLikes",
         {
           params: {
-            userId,
+            username,
           },
         }
       );
       dispatch(setPosts(result.data as Post[]));
     };
     fetchPosts();
-  }, [dispatch, userId]);
+  }, [dispatch, username]);
 
   return (
     <Stack divider={<Divider />}>

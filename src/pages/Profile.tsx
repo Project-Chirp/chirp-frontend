@@ -101,7 +101,7 @@ type ProfileContent = {
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { userId } = useParams();
+  const { username } = useParams();
   const [value, setValue] = useState("one");
   const user = useAppSelector((state) => state.user);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
@@ -120,7 +120,7 @@ const Profile = () => {
         "http://localhost:3001/api/profile/getProfileContents",
         {
           params: {
-            userId,
+            username,
           },
         }
       );
@@ -135,7 +135,7 @@ const Profile = () => {
     };
     fetchProfileContents();
     window.scrollTo(0, 0);
-  }, [value, userId]);
+  }, [value, username]);
 
   return (
     <Layout
@@ -188,7 +188,7 @@ const Profile = () => {
               <Box sx={styles.followerContainer}>
                 <Link
                   component={Routerlink}
-                  to={`/${userId}`}
+                  to={`/user/${username}`} // TODO: Create Modal to check followers
                   underline="hover"
                   sx={styles.followerButtons}
                 >
@@ -199,7 +199,7 @@ const Profile = () => {
                 </Link>
                 <Link
                   component={Routerlink}
-                  to={`/${userId}`}
+                  to={`/user/${username}`} // TODO: Create Modal to check following
                   underline="hover"
                   sx={styles.followerButtons}
                 >

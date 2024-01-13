@@ -63,7 +63,7 @@ function App() {
         element={<ProtectedRoute component={DirectMessage} />}
       />
       <Route
-        path="/user/:userId"
+        path="/user/:username"
         element={<ProtectedRoute component={Profile} />}
       />
       <Route

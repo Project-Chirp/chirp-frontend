@@ -88,7 +88,7 @@ const PostItem = ({ post }: PostProps) => {
           <Box>
             <Link
               component={Routerlink}
-              to={`/user/${post.userId}`}
+              to={`/user/${post.username}`}
               underline="hover"
               sx={styles.displayName}
             >
@@ -96,7 +96,7 @@ const PostItem = ({ post }: PostProps) => {
             </Link>
             <Link
               component={Routerlink}
-              to={`/user/${post.userId}`}
+              to={`/user/${post.username}`}
               underline="none"
               sx={styles.username}
             >
