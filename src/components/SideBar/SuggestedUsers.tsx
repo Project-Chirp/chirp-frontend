@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import FollowButton from "../Common/FollowButton";
+import { useState } from "react";
 
 const styles = {
   avatar: {

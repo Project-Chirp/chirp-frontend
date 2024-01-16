@@ -103,6 +103,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { username } = useParams();
   const [value, setValue] = useState("one");
+  const [followStatus, setFollowStatus] = useState(false);
   const user = useAppSelector((state) => state.user);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
     postCount: 0,
@@ -113,6 +114,25 @@ const Profile = () => {
     followerCount: 0,
     followingCount: 0,
   });
+
+  useEffect(() => {
+    const fetchFollowStatus = async () => {
+      const result = await axios.get(
+        "http://localhost:3001/api/profile/getFollowStatus",
+        {
+          params: {
+            userId: user.userId,
+            username,
+          },
+        }
+      );
+      setFollowStatus(result.data.followStatus);
+    };
+
+    if (profileContents.username !== username) {
+      fetchFollowStatus();
+    }
+  }, [profileContents.username, username, user.userId]);
 
   useEffect(() => {
     const fetchProfileContents = async () => {
@@ -135,7 +155,11 @@ const Profile = () => {
     };
     fetchProfileContents();
     window.scrollTo(0, 0);
-  }, [value, username]);
+  }, [value, username, followStatus]);
+
+  const fetchFollowStatus = (followStatus: boolean) => {
+    setFollowStatus(followStatus);
+  };
 
   return (
     <Layout
@@ -169,7 +193,10 @@ const Profile = () => {
                     Edit Profile
                   </Button>
                 ) : (
-                  <FollowButton />
+                  <FollowButton
+                    username={username}
+                    fetchFollowStatus={fetchFollowStatus}
+                  />
                 )}
               </Box>
               <Box sx={styles.nameContainer}>
