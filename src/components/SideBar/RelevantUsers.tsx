@@ -49,7 +49,7 @@ const RelevantUsers = () => {
       <Typography variant="h6" sx={styles.title}>
         Relevant People
       </Typography>
-      <ListItemButton onClick={() => navigate(`/${relevantUser.userId}`)}>
+      <ListItemButton onClick={() => navigate(`/${relevantUser.username}`)}>
         <ListItemAvatar>
           <UserAvatar username={relevantUser.username} />
         </ListItemAvatar>
@@ -58,7 +58,7 @@ const RelevantUsers = () => {
             <Link
               color="inherit"
               component={Routerlink}
-              to={`/${relevantUser.userId}`}
+              to={`/${relevantUser.username}`}
               underline="hover"
             >
               <Typography component="span" sx={styles.displayName}>
@@ -70,7 +70,7 @@ const RelevantUsers = () => {
             <Typography
               component="span"
               sx={styles.username}
-            >{`@${relevantUser.userId}`}</Typography>
+            >{`@${relevantUser.username}`}</Typography>
           }
           sx={styles.listItemText}
         />
