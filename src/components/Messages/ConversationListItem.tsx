@@ -46,7 +46,7 @@ const ConversationListItem = ({
           onClick={(e: React.MouseEvent) => e.stopPropagation()}
           sx={styles.avatar}
         >
-          <UserAvatar userId={conversation.otherUserId} />
+          <UserAvatar username={conversation.username} />
         </ListItemAvatar>
         <ListItemText
           disableTypography
