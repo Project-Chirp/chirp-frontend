@@ -1,5 +1,4 @@
 import { Avatar, Link } from "@mui/material";
-import React from "react";
 import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
@@ -12,12 +11,12 @@ const styles = {
 };
 
 type UserAvatarProps = {
-  userId?: number;
+  username?: string;
 };
 
-const UserAvatar = ({ userId }: UserAvatarProps) => {
+const UserAvatar = ({ username }: UserAvatarProps) => {
   return (
-    <Link component={Routerlink} to={`/user/${userId}`}>
+    <Link component={Routerlink} to={`/${username}`}>
       <Avatar sx={styles.avatar} />
     </Link>
   );

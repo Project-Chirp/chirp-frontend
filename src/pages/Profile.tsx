@@ -188,7 +188,7 @@ const Profile = () => {
               <Box sx={styles.followerContainer}>
                 <Link
                   component={Routerlink}
-                  to={`/user/${username}`} // TODO: Create Modal to check followers
+                  to={`/${username}`} // TODO: Create Modal to check followers
                   underline="hover"
                   sx={styles.followerButtons}
                 >
@@ -199,7 +199,7 @@ const Profile = () => {
                 </Link>
                 <Link
                   component={Routerlink}
-                  to={`/user/${username}`} // TODO: Create Modal to check following
+                  to={`/${username}`} // TODO: Create Modal to check following
                   underline="hover"
                   sx={styles.followerButtons}
                 >

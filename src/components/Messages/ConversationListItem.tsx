@@ -39,14 +39,13 @@ const ConversationListItem = ({
   onClick,
   selected,
 }: ConversationListItemProps) => {
-  const handleAvatarClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
   return (
     <ListItemButton onClick={onClick} selected={selected}>
       <Stack direction="row" sx={styles.stack}>
-        <ListItemAvatar onClick={handleAvatarClick} sx={styles.avatar}>
+        <ListItemAvatar
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
+          sx={styles.avatar}
+        >
           <UserAvatar userId={conversation.otherUserId} />
         </ListItemAvatar>
         <ListItemText

@@ -60,7 +60,7 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
     <form onSubmit={onSubmit}>
       <Box sx={styles.compostPostContainer}>
         <Box sx={styles.avatarIcon}>
-          <UserAvatar userId={user.userId} />
+          <UserAvatar username={user.username} />
         </Box>
         <Box sx={styles.textFieldContainer}>
           <TextField
