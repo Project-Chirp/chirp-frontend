@@ -1,38 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Button, Typography, Tabs, Tab, Avatar, Box } from "@mui/material";
+import {
+  Button,
+  Typography,
+  Tabs,
+  Tab,
+  Avatar,
+  Box,
+  Divider,
+  Link,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import ProfileTweets from "../components/Profile/ProfileTweets";
+import ProfilePosts from "../components/Profile/ProfilePosts";
 import axios from "axios";
-import { useAppSelector } from "../state/hooks";
 import ProfileReplies from "../components/Profile/ProfileReplies";
 import ProfileLikes from "../components/Profile/ProfileLikes";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
+import { Link as Routerlink } from "react-router-dom";
+import { useAppSelector } from "../state/hooks";
+import FollowButton from "../components/Common/FollowButton";
 
 const styles = {
   avatar: {
-    height: 140,
+    border: "5px solid white",
+    boxSizing: "border-box",
+    height: "140px",
     marginTop: "-15%",
-    width: 140,
+    width: "140px",
   },
   avatarContainer: {
     alignItems: "flex-start",
     display: "flex",
     justifyContent: "space-between",
   },
-  banner: { width: "100%", height: "200px" },
+  banner: {
+    width: "100%",
+    height: "200px",
+    backgroundColor: "primary.main",
+  },
   bio: { paddingTop: 1 },
   displayName: {
     fontSize: 20,
     fontWeight: "bold",
   },
   editProfileButton: {
-    backgroundColor: "black",
+    textTransform: "none",
+    fontWeight: "bold",
+    color: "black",
+    minWidth: "84px",
+    ":hover": {
+      backgroundColor: "primary.light",
+    },
   },
   followerButtons: {
     color: "black",
@@ -42,7 +65,7 @@ const styles = {
       backgroundColor: "transparent",
     },
   },
-  followerCount: { fontWeight: "bold", paddingRight: 0.5 },
+  followerCount: { fontWeight: "bold" },
   followerContainer: { paddingTop: 1, display: "flex", gap: 3 },
   header: {
     alignItems: "center",
@@ -50,15 +73,19 @@ const styles = {
   },
   joinedDate: {
     display: "flex",
+    color: "grey",
     gap: 0.5,
     paddingTop: 1,
   },
   nameContainer: { paddingTop: 1 },
   profileContent: { padding: 2 },
+  tabs: {
+    textTransform: "none",
+  },
   tweetCount: { fontSize: 13 },
   username: {
     color: "#71797E",
-    fontSize: 16,
+    fontSize: 15,
   },
 };
 
@@ -66,17 +93,26 @@ type ProfileContent = {
   postCount: number;
   bio: string;
   joinedDate: string;
+  displayName: string;
+  username: string;
+  followerCount: number;
+  followingCount: number;
 };
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [value, setValue] = React.useState("one");
-  const [profileContents, setProfileContents] = React.useState<ProfileContent>({
+  const { username } = useParams();
+  const [value, setValue] = useState("one");
+  const user = useAppSelector((state) => state.user);
+  const [profileContents, setProfileContents] = useState<ProfileContent>({
     postCount: 0,
     bio: "",
     joinedDate: "",
+    displayName: "",
+    username: "",
+    followerCount: 0,
+    followingCount: 0,
   });
-  const user = useAppSelector((state) => state.user);
 
   useEffect(() => {
     const fetchProfileContents = async () => {
@@ -84,7 +120,7 @@ const Profile = () => {
         "http://localhost:3001/api/profile/getProfileContents",
         {
           params: {
-            userId: user.userId,
+            username,
           },
         }
       );
@@ -98,7 +134,8 @@ const Profile = () => {
       });
     };
     fetchProfileContents();
-  }, [value, user]);
+    window.scrollTo(0, 0);
+  }, [value, username]);
 
   return (
     <Layout
@@ -110,7 +147,7 @@ const Profile = () => {
             </IconButton>
             <Box>
               <Typography sx={styles.displayName}>
-                {user.displayName}
+                {profileContents.displayName}
               </Typography>
               <Typography sx={styles.tweetCount}>
                 {profileContents.postCount} Tweets
@@ -118,33 +155,29 @@ const Profile = () => {
             </Box>
           </Box>
           <Box>
-            <Box
-              component="img"
-              sx={styles.banner}
-              src={"/blue.jpg"}
-              alt="Temp"
-            />
+            <Box sx={styles.banner} />
             <Box sx={styles.profileContent}>
               <Box sx={styles.avatarContainer}>
-                <Avatar
-                  alt="Profile Picture"
-                  src={"/rock.jpg"}
-                  sx={styles.avatar}
-                />
-                <Button
-                  variant="contained"
-                  startIcon={<EditIcon />}
-                  sx={styles.editProfileButton}
-                >
-                  Edit Profile
-                </Button>
+                <Avatar sx={styles.avatar} />
+                {profileContents.username === user.username ? (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<EditIcon />}
+                    sx={styles.editProfileButton}
+                  >
+                    Edit Profile
+                  </Button>
+                ) : (
+                  <FollowButton />
+                )}
               </Box>
               <Box sx={styles.nameContainer}>
                 <Typography variant="h2" sx={styles.displayName}>
-                  {user.displayName}
+                  {profileContents.displayName}
                 </Typography>
                 <Typography variant="h3" sx={styles.username}>
-                  @{user.username}
+                  @{profileContents.username}
                 </Typography>
               </Box>
               <Typography sx={styles.bio}>{profileContents.bio}</Typography>
@@ -153,18 +186,28 @@ const Profile = () => {
                 <Typography>Joined {profileContents.joinedDate}</Typography>
               </Box>
               <Box sx={styles.followerContainer}>
-                <Button sx={styles.followerButtons}>
+                <Link
+                  component={Routerlink}
+                  to={`/${username}`} // TODO: Create Modal to check followers
+                  underline="hover"
+                  sx={styles.followerButtons}
+                >
                   <Typography component="span" sx={styles.followerCount}>
-                    500M
+                    {profileContents.followerCount}
                   </Typography>
-                  <Typography component="span">Followers</Typography>
-                </Button>
-                <Button sx={styles.followerButtons}>
+                  <Typography component="span"> Followers</Typography>
+                </Link>
+                <Link
+                  component={Routerlink}
+                  to={`/${username}`} // TODO: Create Modal to check following
+                  underline="hover"
+                  sx={styles.followerButtons}
+                >
                   <Typography component="span" sx={styles.followerCount}>
-                    0
+                    {profileContents.followingCount}
                   </Typography>
-                  <Typography component="span">Following</Typography>
-                </Button>
+                  <Typography component="span"> Following</Typography>
+                </Link>
               </Box>
             </Box>
           </Box>
@@ -177,13 +220,14 @@ const Profile = () => {
             value={value}
             variant="fullWidth"
           >
-            <Tab value="one" label="Tweets" />
-            <Tab value="two" label="Replies" />
-            <Tab value="three" label="Likes" />
+            <Tab sx={styles.tabs} value="one" label="Tweets" />
+            <Tab sx={styles.tabs} value="two" label="Replies" />
+            <Tab sx={styles.tabs} value="three" label="Likes" />
           </Tabs>
+          <Divider />
           {value === "one" && (
             <Box>
-              <ProfileTweets />
+              <ProfilePosts />
             </Box>
           )}
           {value === "two" && (

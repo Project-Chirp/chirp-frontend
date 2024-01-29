@@ -1,7 +1,6 @@
 import {
   ListItemButton,
   ListItemAvatar,
-  Avatar,
   ListItemText,
   Stack,
   Typography,
@@ -9,6 +8,7 @@ import {
 } from "@mui/material";
 import { Conversation } from "../../state/slices/messagesSlice";
 import formatTimestamp from "../../utilities/formatTimestamp";
+import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
   avatar: { margin: "auto" },
@@ -42,8 +42,11 @@ const ConversationListItem = ({
   return (
     <ListItemButton onClick={onClick} selected={selected}>
       <Stack direction="row" sx={styles.stack}>
-        <ListItemAvatar sx={styles.avatar}>
-          <Avatar />
+        <ListItemAvatar
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
+          sx={styles.avatar}
+        >
+          <UserAvatar username={conversation.username} />
         </ListItemAvatar>
         <ListItemText
           disableTypography

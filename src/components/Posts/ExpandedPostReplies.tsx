@@ -3,6 +3,7 @@ import PostItem from "./PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
+import { Divider } from "@mui/material";
 
 type ExpandedPostRepliesProps = {
   post: Post;
@@ -40,6 +41,7 @@ const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
         .map((o) => (
           <PostItem key={o.postId} post={o} />
         ))}
+      <Divider />
     </>
   );
 };

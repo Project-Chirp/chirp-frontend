@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Divider,
   InputAdornment,
@@ -29,6 +28,7 @@ import {
 import theme from "../styles/Theme";
 import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
+import UserAvatar from "../components/Common/UserAvatar";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -187,7 +187,7 @@ const DirectMessage = () => {
         <Box sx={styles.directMessageContainer}>
           <Box sx={styles.headerContainer}>
             <Box sx={styles.headerContent}>
-              <Avatar />
+              <UserAvatar username={selectedConversation.username} />
               <Box>
                 <Typography variant="subtitle1">
                   {selectedConversation.displayName}

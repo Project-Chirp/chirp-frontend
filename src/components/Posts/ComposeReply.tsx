@@ -1,17 +1,11 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { addReply } from "../../state/slices/postsSlice";
+import UserAvatar from "../Common/UserAvatar";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -86,7 +80,7 @@ const ComposeReply = ({
       <Box sx={styles.compostPostContainer}>
         <Box sx={styles.topContainer}>
           <Box sx={styles.avatarIcon}>
-            <Avatar />
+            <UserAvatar username={user.username} />
           </Box>
           <Box sx={styles.textFieldContainer}>
             <TextField

@@ -1,17 +1,11 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
+import UserAvatar from "../Common/UserAvatar";
 
 type ComposePostProps = {
   placeholder: string;
@@ -66,7 +60,7 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
     <form onSubmit={onSubmit}>
       <Box sx={styles.compostPostContainer}>
         <Box sx={styles.avatarIcon}>
-          <Avatar />
+          <UserAvatar username={user.username} />
         </Box>
         <Box sx={styles.textFieldContainer}>
           <TextField

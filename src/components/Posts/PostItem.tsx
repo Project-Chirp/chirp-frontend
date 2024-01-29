@@ -4,9 +4,9 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  Link,
   Typography,
 } from "@mui/material";
-import Avatar from "@mui/material/Avatar/Avatar";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton/IconButton";
@@ -25,6 +25,8 @@ import { useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import formatTimestamp from "../../utilities/formatTimestamp";
+import { Link as Routerlink } from "react-router-dom";
+import UserAvatar from "../Common/UserAvatar";
 
 type PostProps = {
   post: Post;
@@ -49,6 +51,16 @@ const styles = {
       color: "primary.main",
     },
   },
+  displayName: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "black",
+    paddingRight: 0.5,
+  },
+  username: {
+    fontSize: "inherit",
+    color: "grey",
+  },
 };
 
 const PostItem = ({ post }: PostProps) => {
@@ -66,13 +78,32 @@ const PostItem = ({ post }: PostProps) => {
   return (
     <Card sx={styles.card}>
       <CardHeader
-        avatar={<Avatar>CK</Avatar>}
+        avatar={<UserAvatar username={post.username} />}
         action={
           <IconButton>
             <MoreVertIcon />
           </IconButton>
         }
-        title={`${post.displayName} @${post.username}`}
+        title={
+          <Box>
+            <Link
+              component={Routerlink}
+              to={`/${post.username}`}
+              underline="hover"
+              sx={styles.displayName}
+            >
+              {post.displayName}
+            </Link>
+            <Link
+              component={Routerlink}
+              to={`/${post.username}`}
+              underline="none"
+              sx={styles.username}
+            >
+              @{post.username}
+            </Link>
+          </Box>
+        }
         subheader={formatTimestamp(post.timestamp)}
       />
       <CardActionArea onClick={() => routeChange()}>

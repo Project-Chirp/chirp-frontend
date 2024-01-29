@@ -14,6 +14,7 @@ export type Post = {
   isRepost: boolean;
   isQuotePost: boolean;
   parentPostId?: number;
+  userId: number;
 };
 
 type PostSliceType = {
@@ -30,6 +31,7 @@ const initialState: PostSliceType = {
     numberOfReplies: 0,
     numberOfReposts: 0,
     postId: 0,
+    userId: 0,
     textContent: "",
     timestamp: "",
     username: "",
