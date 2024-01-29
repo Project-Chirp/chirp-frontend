@@ -134,7 +134,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         title={
           <Link
             component={Routerlink}
-            to={`/${post.userId}`}
+            to={`/${post.username}`}
             underline="hover"
             sx={styles.displayName}
           >
