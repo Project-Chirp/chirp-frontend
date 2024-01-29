@@ -187,7 +187,7 @@ const DirectMessage = () => {
         <Box sx={styles.directMessageContainer}>
           <Box sx={styles.headerContainer}>
             <Box sx={styles.headerContent}>
-              <UserAvatar userId={selectedConversation.userId} />
+              <UserAvatar username={selectedConversation.username} />
               <Box>
                 <Typography variant="subtitle1">
                   {selectedConversation.displayName}

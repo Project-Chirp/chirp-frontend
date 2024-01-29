@@ -46,7 +46,7 @@ const NavBar = () => {
     {
       icon: <AccountCircleIcon />,
       label: "Profile",
-      route: `/user/${user.username}`,
+      route: `/${user.username}`,
     },
   ];
 
