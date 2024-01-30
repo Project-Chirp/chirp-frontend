@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useAppSelector } from "../../state/hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const styles = {
   followButton: {
@@ -29,16 +29,31 @@ const styles = {
 
 type FollowButtonProps = {
   username?: string;
-  fetchFollowStatus?: (followStatus: boolean) => void;
 };
 
-const FollowButton = ({ username, fetchFollowStatus }: FollowButtonProps) => {
+const FollowButton = ({ username }: FollowButtonProps) => {
   const user = useAppSelector((state) => state.user);
   const [followStatus, setFollowStatus] = useState(false);
 
-  const updateFollowStatus = () => {
-    fetchFollowStatus?.(followStatus);
-  };
+  useEffect(() => {
+    const fetchFollowStatus = async () => {
+      const result = await axios.get(
+        "http://localhost:3001/api/profile/getFollowStatus",
+        {
+          params: {
+            userId: user.userId,
+            username,
+          },
+        }
+      );
+      console.log(result.data);
+      setFollowStatus(result.data.followStatus);
+    };
+
+    if (user.username !== username) {
+      fetchFollowStatus();
+    }
+  }, [followStatus]);
 
   const followUsers = async () => {
     try {
@@ -88,8 +103,6 @@ const FollowButton = ({ username, fetchFollowStatus }: FollowButtonProps) => {
     } else {
       followUsers();
     }
-
-    updateFollowStatus();
   };
 
   return followStatus ? (
