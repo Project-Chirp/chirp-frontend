@@ -23,7 +23,7 @@ import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
 import { Link as Routerlink } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
-import FollowButton from "../components/Common/FollowButton";
+import UserButton from "../components/Common/UserButton";
 
 const styles = {
   avatar: {
@@ -97,6 +97,7 @@ type ProfileContent = {
   username: string;
   followerCount: number;
   followingCount: number;
+  followStatus: boolean;
 };
 
 const Profile = () => {
@@ -104,6 +105,7 @@ const Profile = () => {
   const { username } = useParams();
   const [value, setValue] = useState("one");
   const user = useAppSelector((state) => state.user);
+  const [loading, setLoading] = useState(true);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
     postCount: 0,
     bio: "",
@@ -112,30 +114,38 @@ const Profile = () => {
     username: "",
     followerCount: 0,
     followingCount: 0,
+    followStatus: false,
   });
 
   useEffect(() => {
     const fetchProfileContents = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getProfileContents",
-        {
-          params: {
-            username,
-          },
-        }
-      );
-      const date = new Date(result.data.joinedDate);
-      const month = date.toLocaleString("default", { month: "long" });
-      const year = date.getFullYear();
-      const formattedDate = `${month} ${year}`;
-      setProfileContents({
-        ...result.data,
-        joinedDate: formattedDate,
-      });
+      try {
+        const result = await axios.get(
+          "http://localhost:3001/api/profile/getProfileContents",
+          {
+            params: {
+              userId: user.userId,
+              username,
+            },
+          }
+        );
+        const date = new Date(result.data.joinedDate);
+        const month = date.toLocaleString("default", { month: "long" });
+        const year = date.getFullYear();
+        const formattedDate = `${month} ${year}`;
+        setProfileContents({
+          ...result.data,
+          joinedDate: formattedDate,
+        });
+      } catch (error) {
+        console.error("Error fetching profile contents: ", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchProfileContents();
     window.scrollTo(0, 0);
-  }, [value, username]);
+  }, [username]);
 
   return (
     <Layout
@@ -169,7 +179,12 @@ const Profile = () => {
                     Edit Profile
                   </Button>
                 ) : (
-                  <FollowButton username={username} />
+                  !loading && (
+                    <UserButton
+                      username={profileContents.username}
+                      initialFollowStatus={profileContents.followStatus}
+                    />
+                  )
                 )}
               </Box>
               <Box sx={styles.nameContainer}>
