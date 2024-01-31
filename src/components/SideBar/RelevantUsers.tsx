@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import { useAppSelector } from "../../state/hooks";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
-import FollowButton from "../Common/FollowButton";
 import UserAvatar from "../Common/UserAvatar";
 import UserButton from "../Common/UserButton";
 
