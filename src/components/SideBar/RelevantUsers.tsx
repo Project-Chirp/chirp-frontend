@@ -10,6 +10,7 @@ import { useAppSelector } from "../../state/hooks";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import FollowButton from "../Common/FollowButton";
 import UserAvatar from "../Common/UserAvatar";
+import UserButton from "../Common/UserButton";
 
 const styles = {
   container: {
@@ -74,7 +75,10 @@ const RelevantUsers = () => {
           }
           sx={styles.listItemText}
         />
-        <FollowButton />
+        <UserButton
+          username={relevantUser.username}
+          initialFollowStatus={relevantUser.followStatus}
+        />
       </ListItemButton>
     </Box>
   );

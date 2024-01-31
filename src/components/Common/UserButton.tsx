@@ -32,7 +32,8 @@ const UserButton = ({ username, initialFollowStatus }: UserButtonProps) => {
     }
   }, [followStatus]);
 
-  const handleFollow = async () => {
+  const handleFollow = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     try {
       await axios.put(
         "http://localhost:3001/api/profile/followUser",
@@ -52,7 +53,8 @@ const UserButton = ({ username, initialFollowStatus }: UserButtonProps) => {
     }
   };
 
-  const handleUnfollow = async () => {
+  const handleUnfollow = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     try {
       await axios.put(
         "http://localhost:3001/api/profile/unfollowUser",

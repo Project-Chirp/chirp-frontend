@@ -15,7 +15,7 @@ const styles = {
 };
 
 type FollowButtonProps = {
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
 };
 
 const FollowButton = ({ onClick }: FollowButtonProps) => {
