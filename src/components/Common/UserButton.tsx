@@ -5,11 +5,11 @@ import FollowButton from "./FollowButton";
 import FollowingButton from "./FollowingButton";
 
 type UserButtonProps = {
-  username: string;
   initialFollowStatus: boolean;
+  username: string;
 };
 
-const UserButton = ({ username, initialFollowStatus }: UserButtonProps) => {
+const UserButton = ({ initialFollowStatus, username }: UserButtonProps) => {
   const user = useAppSelector((state) => state.user);
   const [followStatus, setFollowStatus] = useState(initialFollowStatus);
 

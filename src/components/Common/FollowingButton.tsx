@@ -9,9 +9,9 @@ const styles = {
     "&:hover": {
       boxShadow: "none",
       backgroundColor: "gray.light",
-      color: "primary.main",
       border: 1,
       borderColor: "primary.main",
+      color: "primary.main",
     },
   },
 };
@@ -23,9 +23,9 @@ type FollowingButtonProps = {
 const FollowingButton = ({ onClick }: FollowingButtonProps) => {
   return (
     <Button
-      sx={styles.followingButton}
       onClick={onClick}
       size="small"
+      sx={styles.followingButton}
       variant="contained"
     >
       Following
