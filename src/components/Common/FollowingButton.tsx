@@ -1,34 +1,36 @@
 import { Button } from "@mui/material";
 
 const styles = {
-  followButton: {
-    backgroundColor: "primary.main",
+  followingButton: {
     boxShadow: "none",
+    textTransform: "none",
     fontWeight: "bold",
     minWidth: "84px",
     "&:hover": {
-      backgroundColor: "primary.dark",
       boxShadow: "none",
+      backgroundColor: "gray.light",
+      color: "primary.main",
+      border: 1,
+      borderColor: "primary.main",
     },
-    textTransform: "none",
   },
 };
 
-type FollowButtonProps = {
+type FollowingButtonProps = {
   onClick: (e: React.MouseEvent) => void;
 };
 
-const FollowButton = ({ onClick }: FollowButtonProps) => {
+const FollowingButton = ({ onClick }: FollowingButtonProps) => {
   return (
     <Button
-      sx={styles.followButton}
+      sx={styles.followingButton}
       onClick={onClick}
       size="small"
       variant="contained"
     >
-      Follow
+      Following
     </Button>
   );
 };
 
-export default FollowButton;
+export default FollowingButton;

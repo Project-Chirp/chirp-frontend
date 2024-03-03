@@ -8,13 +8,14 @@ export type Post = {
   numberOfReplies: number;
   numberOfReposts: number;
   postId: number;
+  userId: number;
   textContent: string;
   timestamp: string;
   username: string;
   isRepost: boolean;
   isQuotePost: boolean;
   parentPostId?: number;
-  userId: number;
+  followStatus: boolean;
 };
 
 type PostSliceType = {
@@ -37,6 +38,7 @@ const initialState: PostSliceType = {
     username: "",
     isRepost: false,
     isQuotePost: false,
+    followStatus: false,
   },
 };
 
@@ -103,6 +105,15 @@ export const postsSlice = createSlice({
           ? state.expandedPost.numberOfLikes++
           : state.expandedPost.numberOfLikes--;
       }
+    },
+    toggleFollow: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        expandedPost: {
+          ...state.expandedPost,
+          followStatus: !action.payload,
+        },
+      };
     },
   },
 });

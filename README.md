@@ -1,3 +1,3 @@
-# Tweeter - Frontend
+# Chirp - Frontend
 
-Frontend of Twitter clone
+Frontend of Chirp
