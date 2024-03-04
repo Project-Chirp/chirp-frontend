@@ -107,13 +107,7 @@ export const postsSlice = createSlice({
       }
     },
     toggleFollow: (state, action: PayloadAction<boolean>) => {
-      return {
-        ...state,
-        expandedPost: {
-          ...state.expandedPost,
-          followStatus: !action.payload,
-        },
-      };
+      state.expandedPost.followStatus = !action.payload;
     },
   },
 });
