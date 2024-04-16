@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Link,
   ListItemAvatar,
@@ -9,15 +8,10 @@ import {
 } from "@mui/material";
 import { useAppSelector } from "../../state/hooks";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
-import FollowButton from "./FollowButton";
+import FollowButton from "../Common/FollowButton";
+import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
-  avatar: {
-    opacity: 0.75,
-    "&:hover": {
-      opacity: 1,
-    },
-  },
   container: {
     boxSizing: "border-box",
     border: "2px solid",
@@ -55,21 +49,16 @@ const RelevantUsers = () => {
       <Typography variant="h6" sx={styles.title}>
         Relevant People
       </Typography>
-      <ListItemButton onClick={() => navigate(`/profile`)}>
+      <ListItemButton onClick={() => navigate(`/${relevantUser.username}`)}>
         <ListItemAvatar>
-          <Avatar
-            alt={relevantUser.displayName}
-            component={Routerlink}
-            to="/profile"
-            sx={styles.avatar}
-          />
+          <UserAvatar username={relevantUser.username} />
         </ListItemAvatar>
         <ListItemText
           primary={
             <Link
               color="inherit"
               component={Routerlink}
-              to="/profile"
+              to={`/${relevantUser.username}`}
               underline="hover"
             >
               <Typography component="span" sx={styles.displayName}>

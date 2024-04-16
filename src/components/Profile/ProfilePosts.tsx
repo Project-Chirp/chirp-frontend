@@ -3,34 +3,37 @@ import PostItem from "../Posts/PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
+import { Divider, Stack } from "@mui/material";
+import { useParams } from "react-router-dom";
 
-const ProfileTweets = () => {
+const ProfilePosts = () => {
+  const { username } = useParams();
   const { posts } = useAppSelector((state) => state.posts);
-  const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getOwnTweets",
+        "http://localhost:3001/api/profile/getUserPosts",
         {
           params: {
-            userId: user.userId,
+            username,
           },
         }
       );
       dispatch(setPosts(result.data as Post[]));
     };
     fetchPosts();
-  }, [dispatch, user]);
+  }, [dispatch, username]);
 
   return (
-    <>
+    <Stack divider={<Divider />}>
       {posts.map((o, index) => (
         <PostItem key={index} post={o} />
       ))}
-    </>
+      <Divider />
+    </Stack>
   );
 };
 
-export default ProfileTweets;
+export default ProfilePosts;

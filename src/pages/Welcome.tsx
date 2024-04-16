@@ -27,11 +27,7 @@ const Welcome = () => {
       <Typography sx={styles.title} variant="h1">
         Welcome to Tweeter
       </Typography>
-      <img
-        style={styles.logo}
-        src={process.env.PUBLIC_URL + "/logojade.png"}
-        alt="Logo"
-      />
+      <img style={styles.logo} src={"/logojade.png"} alt="Logo" />
       <Button
         size="large"
         variant="contained"

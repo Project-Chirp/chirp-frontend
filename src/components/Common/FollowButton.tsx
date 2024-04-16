@@ -2,12 +2,15 @@ import { Button } from "@mui/material";
 
 const styles = {
   followButton: {
-    boxShadow: "none",
     backgroundColor: "primary.main",
+    boxShadow: "none",
+    fontWeight: "bold",
+    minWidth: "84px",
     "&:hover": {
-      boxShadow: "none",
       backgroundColor: "primary.dark",
+      boxShadow: "none",
     },
+    textTransform: "none",
   },
 };
 

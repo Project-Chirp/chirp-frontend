@@ -1,39 +1,62 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Button, Typography, Tabs, Tab, Avatar, Box } from "@mui/material";
+import {
+  Button,
+  Typography,
+  Tabs,
+  Tab,
+  Avatar,
+  Box,
+  Divider,
+  Link,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import ProfileTweets from "../components/Profile/ProfileTweets";
+import ProfilePosts from "../components/Profile/ProfilePosts";
 import axios from "axios";
-import { useAppSelector } from "../state/hooks";
 import ProfileReplies from "../components/Profile/ProfileReplies";
 import ProfileLikes from "../components/Profile/ProfileLikes";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
+import { Link as Routerlink } from "react-router-dom";
+import { useAppSelector } from "../state/hooks";
+import FollowButton from "../components/Common/FollowButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
 
 const styles = {
   avatar: {
-    height: 140,
+    border: "5px solid white",
+    boxSizing: "border-box",
+    height: "140px",
     marginTop: "-15%",
-    width: 140,
+    width: "140px",
   },
   avatarContainer: {
     alignItems: "flex-start",
     display: "flex",
     justifyContent: "space-between",
   },
-  banner: { width: "100%", height: "200px" },
+  banner: {
+    width: "100%",
+    height: "200px",
+    backgroundColor: "primary.main",
+  },
   bio: { paddingTop: 1 },
   displayName: {
     fontSize: 20,
     fontWeight: "bold",
   },
   editProfileButton: {
-    backgroundColor: "black",
+    textTransform: "none",
+    fontWeight: "bold",
+    color: "black",
+    minWidth: "84px",
+    ":hover": {
+      backgroundColor: "primary.light",
+    },
   },
   followerButtons: {
     color: "black",
@@ -43,7 +66,7 @@ const styles = {
       backgroundColor: "transparent",
     },
   },
-  followerCount: { fontWeight: "bold", paddingRight: 0.5 },
+  followerCount: { fontWeight: "bold" },
   followerContainer: { paddingTop: 1, display: "flex", gap: 3 },
   header: {
     alignItems: "center",
@@ -51,15 +74,19 @@ const styles = {
   },
   joinedDate: {
     display: "flex",
+    color: "grey",
     gap: 0.5,
     paddingTop: 1,
   },
   nameContainer: { paddingTop: 1 },
   profileContent: { padding: 2 },
+  tabs: {
+    textTransform: "none",
+  },
   tweetCount: { fontSize: 13 },
   username: {
     color: "#71797E",
-    fontSize: 16,
+    fontSize: 15,
   },
 };
 
@@ -67,18 +94,27 @@ type ProfileContent = {
   postCount: number;
   bio: string;
   joinedDate: string;
+  displayName: string;
+  username: string;
+  followerCount: number;
+  followingCount: number;
 };
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
+  const { username } = useParams();
   const [value, setValue] = useState("one");
+  const user = useAppSelector((state) => state.user);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
     postCount: 0,
     bio: "",
     joinedDate: "",
+    displayName: "",
+    username: "",
+    followerCount: 0,
+    followingCount: 0,
   });
-  const user = useAppSelector((state) => state.user);
+  const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProfileContents = async () => {
@@ -86,7 +122,7 @@ const Profile = () => {
         "http://localhost:3001/api/profile/getProfileContents",
         {
           params: {
-            userId: user.userId,
+            username,
           },
         }
       );
@@ -100,119 +136,116 @@ const Profile = () => {
       });
     };
     fetchProfileContents();
-  }, [value, user]);
+    window.scrollTo(0, 0);
+  }, [value, username]);
 
   return (
-    <>
-      <Layout
-        middleContent={
-          <Box>
-            <Box style={styles.header}>
-              <IconButton onClick={() => navigate(-1)}>
-                <KeyboardBackspaceIcon color="secondary" />
-              </IconButton>
-              <Box>
-                <Typography sx={styles.displayName}>
-                  {user.displayName}
-                </Typography>
-                <Typography sx={styles.tweetCount}>
-                  {profileContents.postCount} Tweets
-                </Typography>
-              </Box>
-            </Box>
+    <Layout
+      middleContent={
+        <Box>
+          <Box style={styles.header}>
+            <IconButton onClick={() => navigate(-1)}>
+              <KeyboardBackspaceIcon color="secondary" />
+            </IconButton>
             <Box>
-              <Box
-                component="img"
-                sx={styles.banner}
-                src={process.env.PUBLIC_URL + "/blue.jpg"}
-                alt="Temp"
-              />
-              <Box sx={styles.profileContent}>
-                <Box sx={styles.avatarContainer}>
-                  <Avatar
-                    alt="Profile Picture"
-                    src={process.env.PUBLIC_URL + "/rock.jpg"}
-                    sx={styles.avatar}
-                  />
+              <Typography sx={styles.displayName}>
+                {profileContents.displayName}
+              </Typography>
+              <Typography sx={styles.tweetCount}>
+                {profileContents.postCount} Tweets
+              </Typography>
+            </Box>
+          </Box>
+          <Box>
+            <Box sx={styles.banner} />
+            <Box sx={styles.profileContent}>
+              <Box sx={styles.avatarContainer}>
+                <Avatar sx={styles.avatar} />
+                {profileContents.username === user.username ? (
                   <Button
-                    onClick={() => setEditProfileModalOpen(true)}
+                    size="small"
+                    variant="outlined"
                     startIcon={<EditIcon />}
                     sx={styles.editProfileButton}
-                    variant="contained"
                   >
                     Edit Profile
                   </Button>
-                </Box>
-                <Box sx={styles.nameContainer}>
-                  <Typography variant="h2" sx={styles.displayName}>
-                    {user.displayName}
+                ) : (
+                  <FollowButton />
+                )}
+              </Box>
+              <Box sx={styles.nameContainer}>
+                <Typography variant="h2" sx={styles.displayName}>
+                  {profileContents.displayName}
+                </Typography>
+                <Typography variant="h3" sx={styles.username}>
+                  @{profileContents.username}
+                </Typography>
+              </Box>
+              <Typography sx={styles.bio}>{profileContents.bio}</Typography>
+              <Box sx={styles.joinedDate}>
+                <CalendarMonthIcon />
+                <Typography>Joined {profileContents.joinedDate}</Typography>
+              </Box>
+              <Box sx={styles.followerContainer}>
+                <Link
+                  component={Routerlink}
+                  to={`/${username}`} // TODO: Create Modal to check followers
+                  underline="hover"
+                  sx={styles.followerButtons}
+                >
+                  <Typography component="span" sx={styles.followerCount}>
+                    {profileContents.followerCount}
                   </Typography>
-                  <Typography variant="h3" sx={styles.username}>
-                    @{user.username}
+                  <Typography component="span"> Followers</Typography>
+                </Link>
+                <Link
+                  component={Routerlink}
+                  to={`/${username}`} // TODO: Create Modal to check following
+                  underline="hover"
+                  sx={styles.followerButtons}
+                >
+                  <Typography component="span" sx={styles.followerCount}>
+                    {profileContents.followingCount}
                   </Typography>
-                </Box>
-                <Typography sx={styles.bio}>{profileContents.bio}</Typography>
-                <Box sx={styles.joinedDate}>
-                  <CalendarMonthIcon />
-                  <Typography>Joined {profileContents.joinedDate}</Typography>
-                </Box>
-                <Box sx={styles.followerContainer}>
-                  <Button sx={styles.followerButtons}>
-                    <Typography component="span" sx={styles.followerCount}>
-                      500M
-                    </Typography>
-                    <Typography component="span">Followers</Typography>
-                  </Button>
-                  <Button sx={styles.followerButtons}>
-                    <Typography component="span" sx={styles.followerCount}>
-                      0
-                    </Typography>
-                    <Typography component="span">Following</Typography>
-                  </Button>
-                </Box>
+                  <Typography component="span"> Following</Typography>
+                </Link>
               </Box>
             </Box>
-            <Tabs
-              centered
-              component="nav"
-              onChange={(_: React.SyntheticEvent, newValue: string) =>
-                setValue(newValue)
-              }
-              value={value}
-              variant="fullWidth"
-            >
-              <Tab value="one" label="Tweets" />
-              <Tab value="two" label="Replies" />
-              <Tab value="three" label="Likes" />
-            </Tabs>
-            {value === "one" && (
-              <Box>
-                <ProfileTweets />
-              </Box>
-            )}
-            {value === "two" && (
-              <Box>
-                <ProfileReplies />
-              </Box>
-            )}
-            {value === "three" && (
-              <Box>
-                <ProfileLikes />
-              </Box>
-            )}
           </Box>
-        }
-        rightContent={<SideBar />}
-      />
-      <EditProfileModal
-        open={editProfileModalOpen}
-        onClose={() => setEditProfileModalOpen(false)}
-        editProfileContents={{
-          displayName: user.displayName,
-          bio: profileContents.bio,
-        }}
-      />
-    </>
+          <Tabs
+            centered
+            component="nav"
+            onChange={(_: React.SyntheticEvent, newValue: string) =>
+              setValue(newValue)
+            }
+            value={value}
+            variant="fullWidth"
+          >
+            <Tab sx={styles.tabs} value="one" label="Tweets" />
+            <Tab sx={styles.tabs} value="two" label="Replies" />
+            <Tab sx={styles.tabs} value="three" label="Likes" />
+          </Tabs>
+          <Divider />
+          {value === "one" && (
+            <Box>
+              <ProfilePosts />
+            </Box>
+          )}
+          {value === "two" && (
+            <Box>
+              <ProfileReplies />
+            </Box>
+          )}
+          {value === "three" && (
+            <Box>
+              <ProfileLikes />
+            </Box>
+          )}
+        </Box>
+      }
+      rightContent={<SideBar />}
+    />
   );
 };
 
