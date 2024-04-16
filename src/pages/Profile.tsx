@@ -142,107 +142,117 @@ const Profile = () => {
   return (
     <Layout
       middleContent={
-        <Box>
-          <Box style={styles.header}>
-            <IconButton onClick={() => navigate(-1)}>
-              <KeyboardBackspaceIcon color="secondary" />
-            </IconButton>
-            <Box>
-              <Typography sx={styles.displayName}>
-                {profileContents.displayName}
-              </Typography>
-              <Typography sx={styles.tweetCount}>
-                {profileContents.postCount} Tweets
-              </Typography>
-            </Box>
-          </Box>
+        <>
           <Box>
-            <Box sx={styles.banner} />
-            <Box sx={styles.profileContent}>
-              <Box sx={styles.avatarContainer}>
-                <Avatar sx={styles.avatar} />
-                {profileContents.username === user.username ? (
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    startIcon={<EditIcon />}
-                    sx={styles.editProfileButton}
-                  >
-                    Edit Profile
-                  </Button>
-                ) : (
-                  <FollowButton />
-                )}
-              </Box>
-              <Box sx={styles.nameContainer}>
-                <Typography variant="h2" sx={styles.displayName}>
+            <Box style={styles.header}>
+              <IconButton onClick={() => navigate(-1)}>
+                <KeyboardBackspaceIcon color="secondary" />
+              </IconButton>
+              <Box>
+                <Typography sx={styles.displayName}>
                   {profileContents.displayName}
                 </Typography>
-                <Typography variant="h3" sx={styles.username}>
-                  @{profileContents.username}
+                <Typography sx={styles.tweetCount}>
+                  {profileContents.postCount} Tweets
                 </Typography>
               </Box>
-              <Typography sx={styles.bio}>{profileContents.bio}</Typography>
-              <Box sx={styles.joinedDate}>
-                <CalendarMonthIcon />
-                <Typography>Joined {profileContents.joinedDate}</Typography>
-              </Box>
-              <Box sx={styles.followerContainer}>
-                <Link
-                  component={Routerlink}
-                  to={`/${username}`} // TODO: Create Modal to check followers
-                  underline="hover"
-                  sx={styles.followerButtons}
-                >
-                  <Typography component="span" sx={styles.followerCount}>
-                    {profileContents.followerCount}
+            </Box>
+            <Box>
+              <Box sx={styles.banner} />
+              <Box sx={styles.profileContent}>
+                <Box sx={styles.avatarContainer}>
+                  <Avatar sx={styles.avatar} />
+                  {profileContents.username === user.username ? (
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<EditIcon />}
+                      sx={styles.editProfileButton}
+                    >
+                      Edit Profile
+                    </Button>
+                  ) : (
+                    <FollowButton />
+                  )}
+                </Box>
+                <Box sx={styles.nameContainer}>
+                  <Typography variant="h2" sx={styles.displayName}>
+                    {profileContents.displayName}
                   </Typography>
-                  <Typography component="span"> Followers</Typography>
-                </Link>
-                <Link
-                  component={Routerlink}
-                  to={`/${username}`} // TODO: Create Modal to check following
-                  underline="hover"
-                  sx={styles.followerButtons}
-                >
-                  <Typography component="span" sx={styles.followerCount}>
-                    {profileContents.followingCount}
+                  <Typography variant="h3" sx={styles.username}>
+                    @{profileContents.username}
                   </Typography>
-                  <Typography component="span"> Following</Typography>
-                </Link>
+                </Box>
+                <Typography sx={styles.bio}>{profileContents.bio}</Typography>
+                <Box sx={styles.joinedDate}>
+                  <CalendarMonthIcon />
+                  <Typography>Joined {profileContents.joinedDate}</Typography>
+                </Box>
+                <Box sx={styles.followerContainer}>
+                  <Link
+                    component={Routerlink}
+                    to={`/${username}`} // TODO: Create Modal to check followers
+                    underline="hover"
+                    sx={styles.followerButtons}
+                  >
+                    <Typography component="span" sx={styles.followerCount}>
+                      {profileContents.followerCount}
+                    </Typography>
+                    <Typography component="span"> Followers</Typography>
+                  </Link>
+                  <Link
+                    component={Routerlink}
+                    to={`/${username}`} // TODO: Create Modal to check following
+                    underline="hover"
+                    sx={styles.followerButtons}
+                  >
+                    <Typography component="span" sx={styles.followerCount}>
+                      {profileContents.followingCount}
+                    </Typography>
+                    <Typography component="span"> Following</Typography>
+                  </Link>
+                </Box>
               </Box>
             </Box>
+            <Tabs
+              centered
+              component="nav"
+              onChange={(_: React.SyntheticEvent, newValue: string) =>
+                setValue(newValue)
+              }
+              value={value}
+              variant="fullWidth"
+            >
+              <Tab sx={styles.tabs} value="one" label="Tweets" />
+              <Tab sx={styles.tabs} value="two" label="Replies" />
+              <Tab sx={styles.tabs} value="three" label="Likes" />
+            </Tabs>
+            <Divider />
+            {value === "one" && (
+              <Box>
+                <ProfilePosts />
+              </Box>
+            )}
+            {value === "two" && (
+              <Box>
+                <ProfileReplies />
+              </Box>
+            )}
+            {value === "three" && (
+              <Box>
+                <ProfileLikes />
+              </Box>
+            )}
           </Box>
-          <Tabs
-            centered
-            component="nav"
-            onChange={(_: React.SyntheticEvent, newValue: string) =>
-              setValue(newValue)
-            }
-            value={value}
-            variant="fullWidth"
-          >
-            <Tab sx={styles.tabs} value="one" label="Tweets" />
-            <Tab sx={styles.tabs} value="two" label="Replies" />
-            <Tab sx={styles.tabs} value="three" label="Likes" />
-          </Tabs>
-          <Divider />
-          {value === "one" && (
-            <Box>
-              <ProfilePosts />
-            </Box>
-          )}
-          {value === "two" && (
-            <Box>
-              <ProfileReplies />
-            </Box>
-          )}
-          {value === "three" && (
-            <Box>
-              <ProfileLikes />
-            </Box>
-          )}
-        </Box>
+          <EditProfileModal
+            open={editProfileModalOpen}
+            onClose={() => setEditProfileModalOpen(false)}
+            editProfileContents={{
+              displayName: user.displayName,
+              bio: profileContents.bio,
+            }}
+          />
+        </>
       }
       rightContent={<SideBar />}
     />
