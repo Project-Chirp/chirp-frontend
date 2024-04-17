@@ -1,4 +1,7 @@
 import { Button } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
+import { useAppSelector } from "../../state/hooks";
+import axios from "axios";
 
 const styles = {
   followingButton: {
@@ -17,13 +20,40 @@ const styles = {
 };
 
 type FollowingButtonProps = {
-  onClick: (e: React.MouseEvent) => void;
+  setFollowStatus: Dispatch<SetStateAction<boolean>>;
+  username: string;
 };
 
-const FollowingButton = ({ onClick }: FollowingButtonProps) => {
+const FollowingButton = ({
+  setFollowStatus,
+  username,
+}: FollowingButtonProps) => {
+  const user = useAppSelector((state) => state.user);
+
+  const handleUnfollow = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      await axios.put(
+        "http://localhost:3001/api/profile/unfollowUser",
+        {
+          userId: user.userId,
+          username,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setFollowStatus(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Button
-      onClick={onClick}
+      onClick={handleUnfollow}
       size="small"
       sx={styles.followingButton}
       variant="contained"

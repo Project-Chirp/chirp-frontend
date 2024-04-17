@@ -181,6 +181,11 @@ const Profile = () => {
                 ) : (
                   !loading && (
                     <UserButton
+                      key={
+                        profileContents.followStatus
+                          ? "following"
+                          : "notFollowing"
+                      }
                       username={profileContents.username}
                       initialFollowStatus={profileContents.followStatus}
                     />
