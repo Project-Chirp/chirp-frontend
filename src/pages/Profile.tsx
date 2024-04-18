@@ -141,11 +141,10 @@ const Profile = () => {
         });
       } catch (error) {
         console.error("Error fetching profile contents: ", error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchProfileContents();
+    setLoading(false);
     window.scrollTo(0, 0);
   }, [username]);
 
