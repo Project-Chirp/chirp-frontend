@@ -23,7 +23,8 @@ import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
 import { Link as Routerlink } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
-import UserButton from "../components/Common/UserButton";
+import FollowingButton from "../components/Common/FollowingButton";
+import FollowButton from "../components/Common/FollowButton";
 
 const styles = {
   avatar: {
@@ -89,7 +90,7 @@ const styles = {
   },
 };
 
-type ProfileContent = {
+export type ProfileContent = {
   postCount: number;
   bio: string;
   joinedDate: string;
@@ -118,6 +119,7 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    setLoading(true);
     const fetchProfileContents = async () => {
       try {
         const result = await axios.get(
@@ -169,28 +171,37 @@ const Profile = () => {
             <Box sx={styles.profileContent}>
               <Box sx={styles.avatarContainer}>
                 <Avatar sx={styles.avatar} />
-                {profileContents.username === user.username ? (
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    startIcon={<EditIcon />}
-                    sx={styles.editProfileButton}
-                  >
-                    Edit Profile
-                  </Button>
-                ) : (
-                  !loading && (
-                    <UserButton
-                      key={
-                        profileContents.followStatus
-                          ? "following"
-                          : "notFollowing"
+                {!loading &&
+                  (profileContents.username === user.username ? (
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<EditIcon />}
+                      sx={styles.editProfileButton}
+                    >
+                      Edit Profile
+                    </Button>
+                  ) : profileContents.followStatus ? (
+                    <FollowingButton
+                      onClick={() =>
+                        setProfileContents({
+                          ...profileContents,
+                          followStatus: false,
+                        })
                       }
-                      username={profileContents.username}
-                      initialFollowStatus={profileContents.followStatus}
+                      username={username}
                     />
-                  )
-                )}
+                  ) : (
+                    <FollowButton
+                      onClick={() =>
+                        setProfileContents({
+                          ...profileContents,
+                          followStatus: true,
+                        })
+                      }
+                      username={username}
+                    />
+                  ))}
               </Box>
               <Box sx={styles.nameContainer}>
                 <Typography variant="h2" sx={styles.displayName}>

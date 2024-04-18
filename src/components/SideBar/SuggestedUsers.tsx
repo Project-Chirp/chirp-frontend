@@ -9,7 +9,9 @@ import {
   Link,
 } from "@mui/material";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
-import UserButton from "../Common/UserButton";
+import FollowButton from "../Common/FollowButton";
+import { useAppDispatch } from "../../state/hooks";
+import { toggleFollow } from "../../state/slices/postsSlice";
 
 const styles = {
   avatar: {
@@ -71,6 +73,7 @@ const usersData = [
 ];
 
 const SuggestedUsers = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   return (
@@ -108,7 +111,11 @@ const SuggestedUsers = () => {
               }
               sx={styles.listItemText}
             />
-            <UserButton username={""} initialFollowStatus={false} />
+            {/* TODO: update to render Following Button as well */}
+            <FollowButton
+              onClick={() => dispatch(toggleFollow(true))}
+              username={""}
+            />
           </ListItemButton>
         ))}
       </List>

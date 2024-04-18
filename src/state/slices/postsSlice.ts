@@ -118,6 +118,7 @@ export const {
   setPosts,
   setExpandedPost,
   toggleLikePost,
+  toggleFollow,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

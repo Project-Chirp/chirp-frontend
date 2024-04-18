@@ -18,11 +18,11 @@ const styles = {
 };
 
 type FollowButtonProps = {
-  setFollowStatus: Dispatch<SetStateAction<boolean>>;
-  username: string;
+  onClick: () => void;
+  username?: string;
 };
 
-const FollowButton = ({ setFollowStatus, username }: FollowButtonProps) => {
+const FollowButton = ({ onClick, username }: FollowButtonProps) => {
   const user = useAppSelector((state) => state.user);
 
   const handleFollow = async (e: React.MouseEvent) => {
@@ -40,7 +40,7 @@ const FollowButton = ({ setFollowStatus, username }: FollowButtonProps) => {
           },
         }
       );
-      setFollowStatus(true);
+      onClick();
     } catch (error) {
       console.log(error);
     }
