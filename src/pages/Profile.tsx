@@ -17,6 +17,7 @@ import axios from "axios";
 import ProfileReplies from "../components/Profile/ProfileReplies";
 import ProfileLikes from "../components/Profile/ProfileLikes";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CakeIcon from "@mui/icons-material/Cake";
 import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
@@ -72,13 +73,14 @@ const styles = {
     alignItems: "center",
     display: "flex",
   },
-  joinedDate: {
+  nameContainer: { paddingTop: 1 },
+  personalInfo: {
+    alignItems: "center",
     display: "flex",
     color: "grey",
-    gap: 0.5,
+    gap: 2,
     paddingTop: 1,
   },
-  nameContainer: { paddingTop: 1 },
   profileContent: { padding: 2 },
   tabs: {
     textTransform: "none",
@@ -91,13 +93,14 @@ const styles = {
 };
 
 type ProfileContent = {
-  postCount: number;
-  bio: string;
-  joinedDate: string;
+  bio?: string;
+  birthDate?: string;
   displayName: string;
-  username: string;
   followerCount: number;
   followingCount: number;
+  joinedDate: string;
+  postCount: number;
+  username: string;
 };
 
 const Profile = () => {
@@ -106,38 +109,62 @@ const Profile = () => {
   const [value, setValue] = useState("one");
   const user = useAppSelector((state) => state.user);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
-    postCount: 0,
     bio: "",
-    joinedDate: "",
+    birthDate: undefined,
     displayName: "",
-    username: "",
     followerCount: 0,
     followingCount: 0,
+    joinedDate: "",
+    postCount: 0,
+    username: "",
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfileContents = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getProfileContents",
-        {
-          params: {
-            username,
-          },
-        }
-      );
-      const date = new Date(result.data.joinedDate);
-      const month = date.toLocaleString("default", { month: "long" });
-      const year = date.getFullYear();
-      const formattedDate = `${month} ${year}`;
-      setProfileContents({
-        ...result.data,
-        joinedDate: formattedDate,
-      });
+      try {
+        setLoading(true);
+        const result = await axios.get(
+          "http://localhost:3001/api/profile/getProfileContents",
+          {
+            params: {
+              username,
+            },
+          }
+        );
+        setProfileContents({
+          ...result.data,
+        });
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
     };
     fetchProfileContents();
     window.scrollTo(0, 0);
   }, [value, username]);
+
+  // TODO: Make date utility functions or use a library for date formatting
+
+  const formatJoinedDate = (joinedDateString: string) => {
+    const joinedDateObj = new Date(joinedDateString);
+    const joinedMonth = joinedDateObj.toLocaleString("default", {
+      month: "long",
+    });
+    const joinedYear = joinedDateObj.getFullYear();
+    return `${joinedMonth} ${joinedYear}`;
+  };
+
+  const formatBirthDate = (birthDateString: string) => {
+    const birthDateObj = new Date(birthDateString);
+    return birthDateObj.toLocaleString("default", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   return (
     <Layout
@@ -164,10 +191,11 @@ const Profile = () => {
                   <Avatar sx={styles.avatar} />
                   {profileContents.username === user.username ? (
                     <Button
+                      onClick={() => setEditProfileModalOpen(true)}
                       size="small"
-                      variant="outlined"
                       startIcon={<EditIcon />}
                       sx={styles.editProfileButton}
+                      variant="outlined"
                     >
                       Edit Profile
                     </Button>
@@ -183,10 +211,24 @@ const Profile = () => {
                     @{profileContents.username}
                   </Typography>
                 </Box>
-                <Typography sx={styles.bio}>{profileContents.bio}</Typography>
-                <Box sx={styles.joinedDate}>
-                  <CalendarMonthIcon />
-                  <Typography>Joined {profileContents.joinedDate}</Typography>
+                {profileContents.bio && (
+                  <Typography sx={styles.bio}>{profileContents.bio}</Typography>
+                )}
+                <Box sx={styles.personalInfo}>
+                  <Box sx={{ display: "flex", gap: 0.5 }}>
+                    <CalendarMonthIcon />
+                    <Typography>
+                      Joined {formatJoinedDate(profileContents.joinedDate)}
+                    </Typography>
+                  </Box>
+                  {profileContents.birthDate && (
+                    <Box sx={{ display: "flex", gap: 0.5 }}>
+                      <CakeIcon />
+                      <Typography>
+                        Born {formatBirthDate(profileContents.birthDate)}
+                      </Typography>
+                    </Box>
+                  )}
                 </Box>
                 <Box sx={styles.followerContainer}>
                   <Link
@@ -244,14 +286,15 @@ const Profile = () => {
               </Box>
             )}
           </Box>
-          <EditProfileModal
-            open={editProfileModalOpen}
-            onClose={() => setEditProfileModalOpen(false)}
-            editProfileContents={{
-              displayName: user.displayName,
-              bio: profileContents.bio,
-            }}
-          />
+          {!loading && (
+            <EditProfileModal
+              bio={profileContents.bio}
+              birthDate={profileContents.birthDate}
+              displayName={profileContents.displayName}
+              open={editProfileModalOpen}
+              onClose={() => setEditProfileModalOpen(false)}
+            />
+          )}
         </>
       }
       rightContent={<SideBar />}

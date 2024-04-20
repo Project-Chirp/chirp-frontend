@@ -11,11 +11,8 @@ import {
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
-
-type EditProfileContents = {
-  bio: string;
-  displayName?: string;
-};
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const styles = {
   dialog: {
@@ -42,21 +39,28 @@ const styles = {
 };
 
 type EditProfileModalProps = {
-  editProfileContents: EditProfileContents;
+  bio?: string;
+  birthDate?: string | Date;
+  displayName: string;
   onClose: () => void;
   open: boolean;
 };
 
-export default function EditProfileModal({
-  editProfileContents,
+const EditProfileModal = ({
+  bio,
+  birthDate,
+  displayName,
   onClose,
   open,
-}: EditProfileModalProps) {
-  const [bio, setBio] = useState(editProfileContents.bio);
-  const [displayName, setDisplayName] = useState(
-    editProfileContents.displayName
-  );
-  console.log(bio);
+}: EditProfileModalProps) => {
+  const [bioValue, setBioValue] = useState(bio);
+  const [birthDateValue, setBirthDateValue] = useState(birthDate || new Date());
+  const [displayNameValue, setDisplayNameValue] = useState(displayName);
+  console.log(displayName);
+  console.log(bioValue, "bioValue");
+  console.log(birthDateValue, "birthDateValue");
+  console.log(displayNameValue, "displayNameValue");
+
   return (
     <form>
       <Dialog
@@ -79,9 +83,9 @@ export default function EditProfileModal({
             <TextField
               fullWidth
               label="Display Name"
-              onChange={(e) => setDisplayName(e.target.value)}
+              onChange={(e) => setDisplayNameValue(e.target.value)}
               variant="outlined"
-              value={displayName}
+              value={displayNameValue}
               InputProps={{ sx: { borderRadius: 2 } }}
             />
           </Box>
@@ -89,12 +93,33 @@ export default function EditProfileModal({
             <TextField
               fullWidth
               label="Bio"
-              onChange={(e) => setBio(e.target.value)}
+              onChange={(e) => setBioValue(e.target.value)}
               multiline
+              rows={2}
               variant="outlined"
-              value={bio}
+              value={bioValue}
               InputProps={{ sx: { borderRadius: 2 } }}
             />
+          </Box>
+          <Box sx={styles.textFieldContainer}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                renderInput={(props) => (
+                  <TextField
+                    id="date"
+                    placeholder="Birth Date"
+                    variant="outlined"
+                    {...props}
+                  />
+                )}
+                label="Birth Date"
+                maxDate={new Date()}
+                onChange={(e) => {
+                  e && setBirthDateValue(e);
+                }}
+                value={birthDateValue}
+              />
+            </LocalizationProvider>
           </Box>
         </DialogContent>
         <DialogActions>
@@ -103,4 +128,6 @@ export default function EditProfileModal({
       </Dialog>
     </form>
   );
-}
+};
+
+export default EditProfileModal;
