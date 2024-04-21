@@ -92,7 +92,12 @@ const styles = {
   },
 };
 
-type ProfileContent = {
+export type EditableProfileContents = Pick<
+  ProfileContent,
+  "bio" | "birthDate" | "displayName"
+>;
+
+export type ProfileContent = {
   bio?: string;
   birthDate?: string;
   displayName: string;
@@ -147,7 +152,6 @@ const Profile = () => {
   }, [value, username]);
 
   // TODO: Make date utility functions or use a library for date formatting
-
   const formatJoinedDate = (joinedDateString: string) => {
     const joinedDateObj = new Date(joinedDateString);
     const joinedMonth = joinedDateObj.toLocaleString("default", {
@@ -291,8 +295,11 @@ const Profile = () => {
               bio={profileContents.bio}
               birthDate={profileContents.birthDate}
               displayName={profileContents.displayName}
-              open={editProfileModalOpen}
               onClose={() => setEditProfileModalOpen(false)}
+              onSubmit={(editedBio: EditableProfileContents) => {
+                setProfileContents({ ...profileContents, ...editedBio });
+              }}
+              open={editProfileModalOpen}
             />
           )}
         </>

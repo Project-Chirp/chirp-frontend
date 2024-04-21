@@ -15,6 +15,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useAppSelector } from "../../state/hooks";
+import { EditableProfileContents } from "../../pages/Profile";
 
 const styles = {
   dialog: {
@@ -45,6 +46,7 @@ type EditProfileModalProps = {
   birthDate?: string | Date;
   displayName: string;
   onClose: () => void;
+  onSubmit: (editedBio: EditableProfileContents) => void;
   open: boolean;
 };
 
@@ -52,16 +54,16 @@ const EditProfileModal = ({
   bio,
   birthDate,
   displayName,
-  onClose,
   open,
+  onClose,
+  onSubmit,
 }: EditProfileModalProps) => {
   const [bioValue, setBioValue] = useState(bio);
   const [birthDateValue, setBirthDateValue] = useState(birthDate || new Date());
   const [displayNameValue, setDisplayNameValue] = useState(displayName);
   const user = useAppSelector((state) => state.user);
 
-  const onSubmit = async (e: React.SyntheticEvent) => {
-    console.log("CLICKED");
+  const saveProfile = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const newBio = await axios.put("http://localhost:3001/api/profile", {
@@ -70,6 +72,8 @@ const EditProfileModal = ({
         displayName: displayNameValue,
         userId: user.userId,
       });
+      onSubmit(newBio.data);
+      onClose();
     } catch (e) {
       console.log(e);
     }
@@ -83,7 +87,7 @@ const EditProfileModal = ({
       scroll="paper"
       PaperProps={{ sx: styles.dialog }}
     >
-      <form onSubmit={onSubmit}>
+      <form onSubmit={saveProfile}>
         <DialogTitle sx={styles.dialogTitle}>
           <IconButton onClick={onClose}>
             <CloseIcon />
