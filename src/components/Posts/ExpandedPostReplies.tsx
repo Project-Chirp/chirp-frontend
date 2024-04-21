@@ -6,10 +6,10 @@ import { Post, setPosts } from "../../state/slices/postsSlice";
 import { Divider } from "@mui/material";
 
 type ExpandedPostRepliesProps = {
-  post: Post;
+  postId: number;
 };
 
-const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
+const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -22,22 +22,23 @@ const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
           {
             params: {
               userId: user.userId,
-              postId: post.postId,
+              postId: postId,
             },
           }
         );
         dispatch(setPosts(resultReplies.data as Post[]));
+        console.log(resultReplies);
       } catch (e) {
         console.log(e.message);
       }
     };
     fetchPosts();
-  }, [dispatch, user, post]);
+  }, [dispatch, user, postId]);
 
   return (
     <>
       {posts
-        .filter((o) => o.parentPostId === post.postId)
+        .filter((o) => o.parentPostId === postId)
         .map((o) => (
           <PostItem key={o.postId} post={o} />
         ))}
