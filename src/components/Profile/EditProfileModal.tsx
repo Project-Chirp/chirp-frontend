@@ -13,6 +13,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import axios from "axios";
+import { useAppSelector } from "../../state/hooks";
 
 const styles = {
   dialog: {
@@ -56,20 +58,32 @@ const EditProfileModal = ({
   const [bioValue, setBioValue] = useState(bio);
   const [birthDateValue, setBirthDateValue] = useState(birthDate || new Date());
   const [displayNameValue, setDisplayNameValue] = useState(displayName);
-  console.log(displayName);
-  console.log(bioValue, "bioValue");
-  console.log(birthDateValue, "birthDateValue");
-  console.log(displayNameValue, "displayNameValue");
+  const user = useAppSelector((state) => state.user);
+
+  const onSubmit = async (e: React.SyntheticEvent) => {
+    console.log("CLICKED");
+    e.preventDefault();
+    try {
+      const newBio = await axios.put("http://localhost:3001/api/profile", {
+        bio: bioValue,
+        birthDate: birthDateValue,
+        displayName: displayNameValue,
+        userId: user.userId,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
-    <form>
-      <Dialog
-        fullWidth
-        onClose={onClose}
-        open={open}
-        scroll="paper"
-        PaperProps={{ sx: styles.dialog }}
-      >
+    <Dialog
+      fullWidth
+      onClose={onClose}
+      open={open}
+      scroll="paper"
+      PaperProps={{ sx: styles.dialog }}
+    >
+      <form onSubmit={onSubmit}>
         <DialogTitle sx={styles.dialogTitle}>
           <IconButton onClick={onClose}>
             <CloseIcon />
@@ -123,10 +137,12 @@ const EditProfileModal = ({
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined">Save</Button>
+          <Button type="submit" variant="outlined">
+            Save
+          </Button>
         </DialogActions>
-      </Dialog>
-    </form>
+      </form>
+    </Dialog>
   );
 };
 
