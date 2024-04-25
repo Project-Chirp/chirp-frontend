@@ -17,7 +17,7 @@ const ProfileLikes = () => {
         "http://localhost:3001/api/profile/getUserLikes",
         {
           params: {
-            username,
+            visitedUsername: username,
           },
         }
       );

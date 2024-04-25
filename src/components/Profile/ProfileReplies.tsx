@@ -17,7 +17,7 @@ const ProfileReplies = () => {
         "http://localhost:3001/api/profile/getUserReplies",
         {
           params: {
-            username,
+            visitedUsername: username,
           },
         }
       );

@@ -17,7 +17,7 @@ const ProfilePosts = () => {
         "http://localhost:3001/api/profile/getUserPosts",
         {
           params: {
-            username,
+            visitedUsername: username,
           },
         }
       );
