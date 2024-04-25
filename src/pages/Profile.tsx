@@ -91,6 +91,7 @@ const styles = {
 };
 
 export type ProfileContent = {
+  userId: number;
   postCount: number;
   bio: string;
   joinedDate: string;
@@ -108,6 +109,7 @@ const Profile = () => {
   const user = useAppSelector((state) => state.user);
   const [loading, setLoading] = useState(true);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
+    userId: NaN,
     postCount: 0,
     bio: "",
     joinedDate: "",
@@ -141,10 +143,11 @@ const Profile = () => {
         });
       } catch (error) {
         console.error("Error fetching profile contents: ", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProfileContents();
-    setLoading(false);
     window.scrollTo(0, 0);
   }, [username]);
 
@@ -171,7 +174,8 @@ const Profile = () => {
               <Box sx={styles.avatarContainer}>
                 <Avatar sx={styles.avatar} />
                 {!loading &&
-                  (profileContents.username === user.username ? (
+                  profileContents.userId &&
+                  (profileContents.userId === user.userId ? (
                     <Button
                       size="small"
                       variant="outlined"
@@ -186,9 +190,10 @@ const Profile = () => {
                         setProfileContents({
                           ...profileContents,
                           followStatus: false,
+                          followerCount: --profileContents.followerCount,
                         })
                       }
-                      username={username}
+                      visitedUserId={profileContents.userId}
                     />
                   ) : (
                     <FollowButton
@@ -196,9 +201,10 @@ const Profile = () => {
                         setProfileContents({
                           ...profileContents,
                           followStatus: true,
+                          followerCount: ++profileContents.followerCount,
                         })
                       }
-                      username={username}
+                      visitedUserId={profileContents.userId}
                     />
                   ))}
               </Box>
@@ -218,17 +224,6 @@ const Profile = () => {
               <Box sx={styles.followerContainer}>
                 <Link
                   component={Routerlink}
-                  to={`/${username}`} // TODO: Create Modal to check followers
-                  underline="hover"
-                  sx={styles.followerButtons}
-                >
-                  <Typography component="span" sx={styles.followerCount}>
-                    {profileContents.followerCount}
-                  </Typography>
-                  <Typography component="span"> Followers</Typography>
-                </Link>
-                <Link
-                  component={Routerlink}
                   to={`/${username}`} // TODO: Create Modal to check following
                   underline="hover"
                   sx={styles.followerButtons}
@@ -237,6 +232,17 @@ const Profile = () => {
                     {profileContents.followingCount}
                   </Typography>
                   <Typography component="span"> Following</Typography>
+                </Link>
+                <Link
+                  component={Routerlink}
+                  to={`/${username}`} // TODO: Create Modal to check followers
+                  underline="hover"
+                  sx={styles.followerButtons}
+                >
+                  <Typography component="span" sx={styles.followerCount}>
+                    {profileContents.followerCount}
+                  </Typography>
+                  <Typography component="span"> Followers</Typography>
                 </Link>
               </Box>
             </Box>
@@ -255,20 +261,24 @@ const Profile = () => {
             <Tab sx={styles.tabs} value="three" label="Likes" />
           </Tabs>
           <Divider />
-          {value === "one" && (
-            <Box>
-              <ProfilePosts />
-            </Box>
-          )}
-          {value === "two" && (
-            <Box>
-              <ProfileReplies />
-            </Box>
-          )}
-          {value === "three" && (
-            <Box>
-              <ProfileLikes />
-            </Box>
+          {!loading && profileContents.userId && (
+            <>
+              {value === "one" && (
+                <Box>
+                  <ProfilePosts userId={profileContents.userId} />
+                </Box>
+              )}
+              {value === "two" && (
+                <Box>
+                  <ProfileReplies userId={profileContents.userId} />
+                </Box>
+              )}
+              {value === "three" && (
+                <Box>
+                  <ProfileLikes userId={profileContents.userId} />
+                </Box>
+              )}
+            </>
           )}
         </Box>
       }

@@ -4,10 +4,12 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import { Divider, Stack } from "@mui/material";
-import { useParams } from "react-router-dom";
 
-const ProfileReplies = () => {
-  const { username } = useParams();
+type ProfileRepliesProps = {
+  userId: number;
+};
+
+const ProfileReplies = ({ userId }: ProfileRepliesProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
 
@@ -17,14 +19,14 @@ const ProfileReplies = () => {
         "http://localhost:3001/api/profile/getUserReplies",
         {
           params: {
-            visitedUsername: username,
+            visitedUserId: userId,
           },
         }
       );
       dispatch(setPosts(result.data as Post[]));
     };
     fetchPosts();
-  }, [dispatch, username]);
+  }, [dispatch, userId]);
 
   return (
     <Stack divider={<Divider />}>

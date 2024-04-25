@@ -22,10 +22,10 @@ const styles = {
 
 type FollowingButtonProps = {
   onClick: () => void;
-  username?: string;
+  visitedUserId: number;
 };
 
-const FollowingButton = ({ onClick, username }: FollowingButtonProps) => {
+const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
   const user = useAppSelector((state) => state.user);
 
   const handleUnfollow = async (e: React.MouseEvent) => {
@@ -36,7 +36,7 @@ const FollowingButton = ({ onClick, username }: FollowingButtonProps) => {
         "http://localhost:3001/api/follow/unfollowUser",
         {
           currentUserId: user.userId,
-          visitedUsername: username,
+          visitedUserId: visitedUserId,
         },
         {
           headers: {
