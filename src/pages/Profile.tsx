@@ -91,7 +91,7 @@ const styles = {
 };
 
 export type ProfileContent = {
-  userId: number;
+  userId?: number;
   postCount: number;
   bio: string;
   joinedDate: string;
@@ -109,7 +109,6 @@ const Profile = () => {
   const user = useAppSelector((state) => state.user);
   const [loading, setLoading] = useState(true);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
-    userId: NaN,
     postCount: 0,
     bio: "",
     joinedDate: "",
@@ -186,24 +185,24 @@ const Profile = () => {
                     </Button>
                   ) : profileContents.followStatus ? (
                     <FollowingButton
-                      onClick={() =>
+                      onClick={() => {
                         setProfileContents({
                           ...profileContents,
                           followStatus: false,
                           followerCount: --profileContents.followerCount,
-                        })
-                      }
+                        });
+                      }}
                       visitedUserId={profileContents.userId}
                     />
                   ) : (
                     <FollowButton
-                      onClick={() =>
+                      onClick={() => {
                         setProfileContents({
                           ...profileContents,
                           followStatus: true,
                           followerCount: ++profileContents.followerCount,
-                        })
-                      }
+                        });
+                      }}
                       visitedUserId={profileContents.userId}
                     />
                   ))}
