@@ -33,10 +33,10 @@ const FollowingButton = ({ onClick, username }: FollowingButtonProps) => {
 
     try {
       await axios.put(
-        "http://localhost:3001/api/profile/unfollowUser",
+        "http://localhost:3001/api/follow/unfollowUser",
         {
-          userId: user.userId,
-          username,
+          currentUserId: user.userId,
+          visitedUsername: username,
         },
         {
           headers: {

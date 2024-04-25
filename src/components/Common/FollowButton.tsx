@@ -29,10 +29,10 @@ const FollowButton = ({ onClick, username }: FollowButtonProps) => {
     e.stopPropagation();
     try {
       await axios.put(
-        "http://localhost:3001/api/profile/followUser",
+        "http://localhost:3001/api/follow/followUser",
         {
-          userId: user.userId,
-          username,
+          currentUserId: user.userId,
+          visitedUsername: username,
         },
         {
           headers: {

@@ -126,8 +126,8 @@ const Profile = () => {
           "http://localhost:3001/api/profile/getProfileContents",
           {
             params: {
-              userId: user.userId,
-              username,
+              currentUserId: user.userId,
+              visitedUsername: username,
             },
           }
         );
