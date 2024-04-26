@@ -23,6 +23,7 @@ import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
 import { Link as Routerlink } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
+import FollowingButton from "../components/Common/FollowingButton";
 import FollowButton from "../components/Common/FollowButton";
 
 const styles = {
@@ -89,14 +90,16 @@ const styles = {
   },
 };
 
-type ProfileContent = {
-  postCount: number;
+export type ProfileContent = {
   bio: string;
-  joinedDate: string;
   displayName: string;
-  username: string;
   followerCount: number;
   followingCount: number;
+  followStatus: boolean;
+  joinedDate: string;
+  postCount: number;
+  userId?: number;
+  username: string;
 };
 
 const Profile = () => {
@@ -104,38 +107,48 @@ const Profile = () => {
   const { username } = useParams();
   const [value, setValue] = useState("one");
   const user = useAppSelector((state) => state.user);
+  const [loading, setLoading] = useState(true);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
-    postCount: 0,
     bio: "",
-    joinedDate: "",
     displayName: "",
-    username: "",
     followerCount: 0,
     followingCount: 0,
+    followStatus: false,
+    joinedDate: "",
+    postCount: 0,
+    username: "",
   });
 
   useEffect(() => {
+    setLoading(true);
     const fetchProfileContents = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getProfileContents",
-        {
-          params: {
-            username,
-          },
-        }
-      );
-      const date = new Date(result.data.joinedDate);
-      const month = date.toLocaleString("default", { month: "long" });
-      const year = date.getFullYear();
-      const formattedDate = `${month} ${year}`;
-      setProfileContents({
-        ...result.data,
-        joinedDate: formattedDate,
-      });
+      try {
+        const result = await axios.get(
+          "http://localhost:3001/api/profile/getProfileContents",
+          {
+            params: {
+              currentUserId: user.userId,
+              visitedUsername: username,
+            },
+          }
+        );
+        const date = new Date(result.data.joinedDate);
+        const month = date.toLocaleString("default", { month: "long" });
+        const year = date.getFullYear();
+        const formattedDate = `${month} ${year}`;
+        setProfileContents({
+          ...result.data,
+          joinedDate: formattedDate,
+        });
+      } catch (error) {
+        console.error("Error fetching profile contents: ", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchProfileContents();
     window.scrollTo(0, 0);
-  }, [value, username]);
+  }, [username]);
 
   return (
     <Layout
@@ -159,18 +172,40 @@ const Profile = () => {
             <Box sx={styles.profileContent}>
               <Box sx={styles.avatarContainer}>
                 <Avatar sx={styles.avatar} />
-                {profileContents.username === user.username ? (
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    startIcon={<EditIcon />}
-                    sx={styles.editProfileButton}
-                  >
-                    Edit Profile
-                  </Button>
-                ) : (
-                  <FollowButton />
-                )}
+                {!loading &&
+                  profileContents.userId &&
+                  (profileContents.userId === user.userId ? (
+                    <Button
+                      startIcon={<EditIcon />}
+                      size="small"
+                      sx={styles.editProfileButton}
+                      variant="outlined"
+                    >
+                      Edit Profile
+                    </Button>
+                  ) : profileContents.followStatus ? (
+                    <FollowingButton
+                      onClick={() => {
+                        setProfileContents({
+                          ...profileContents,
+                          followStatus: false,
+                          followerCount: --profileContents.followerCount,
+                        });
+                      }}
+                      visitedUserId={profileContents.userId}
+                    />
+                  ) : (
+                    <FollowButton
+                      onClick={() => {
+                        setProfileContents({
+                          ...profileContents,
+                          followStatus: true,
+                          followerCount: ++profileContents.followerCount,
+                        });
+                      }}
+                      visitedUserId={profileContents.userId}
+                    />
+                  ))}
               </Box>
               <Box sx={styles.nameContainer}>
                 <Typography variant="h2" sx={styles.displayName}>
@@ -188,17 +223,6 @@ const Profile = () => {
               <Box sx={styles.followerContainer}>
                 <Link
                   component={Routerlink}
-                  to={`/${username}`} // TODO: Create Modal to check followers
-                  underline="hover"
-                  sx={styles.followerButtons}
-                >
-                  <Typography component="span" sx={styles.followerCount}>
-                    {profileContents.followerCount}
-                  </Typography>
-                  <Typography component="span"> Followers</Typography>
-                </Link>
-                <Link
-                  component={Routerlink}
                   to={`/${username}`} // TODO: Create Modal to check following
                   underline="hover"
                   sx={styles.followerButtons}
@@ -207,6 +231,17 @@ const Profile = () => {
                     {profileContents.followingCount}
                   </Typography>
                   <Typography component="span"> Following</Typography>
+                </Link>
+                <Link
+                  component={Routerlink}
+                  to={`/${username}`} // TODO: Create Modal to check followers
+                  underline="hover"
+                  sx={styles.followerButtons}
+                >
+                  <Typography component="span" sx={styles.followerCount}>
+                    {profileContents.followerCount}
+                  </Typography>
+                  <Typography component="span"> Followers</Typography>
                 </Link>
               </Box>
             </Box>
@@ -225,20 +260,24 @@ const Profile = () => {
             <Tab sx={styles.tabs} value="three" label="Likes" />
           </Tabs>
           <Divider />
-          {value === "one" && (
-            <Box>
-              <ProfilePosts />
-            </Box>
-          )}
-          {value === "two" && (
-            <Box>
-              <ProfileReplies />
-            </Box>
-          )}
-          {value === "three" && (
-            <Box>
-              <ProfileLikes />
-            </Box>
+          {!loading && profileContents.userId && (
+            <>
+              {value === "one" && (
+                <Box>
+                  <ProfilePosts userId={profileContents.userId} />
+                </Box>
+              )}
+              {value === "two" && (
+                <Box>
+                  <ProfileReplies userId={profileContents.userId} />
+                </Box>
+              )}
+              {value === "three" && (
+                <Box>
+                  <ProfileLikes userId={profileContents.userId} />
+                </Box>
+              )}
+            </>
           )}
         </Box>
       }
