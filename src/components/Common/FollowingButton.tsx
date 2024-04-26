@@ -1,30 +1,35 @@
 import { Button } from "@mui/material";
 import { useAppSelector } from "../../state/hooks";
 import axios from "axios";
+import { useState } from "react";
 
 const styles = {
   followingButton: {
+    backgroundColor: "gray.light",
+    border: 1,
     boxShadow: "none",
-    textTransform: "none",
+    color: "primary.main",
     fontWeight: "bold",
     minWidth: "84px",
+    textTransform: "none",
     "&:hover": {
       boxShadow: "none",
       backgroundColor: "gray.light",
       border: 1,
-      borderColor: "primary.main",
-      color: "primary.main",
+      borderColor: "error.main",
+      color: "error.main",
     },
   },
 };
 
 type FollowingButtonProps = {
-  onClick: () => void;
+  onClick?: () => void;
   visitedUserId: number;
 };
 
 const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
   const user = useAppSelector((state) => state.user);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleUnfollow = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -42,7 +47,7 @@ const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
           },
         }
       );
-      onClick();
+      onClick?.();
     } catch (error) {
       console.log(error);
     }
@@ -51,11 +56,13 @@ const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
   return (
     <Button
       onClick={handleUnfollow}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       size="small"
       sx={styles.followingButton}
       variant="contained"
     >
-      Following
+      {isHovered ? "Unfollow" : "Following"}
     </Button>
   );
 };

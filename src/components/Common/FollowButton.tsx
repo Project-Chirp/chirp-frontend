@@ -4,20 +4,18 @@ import { useAppSelector } from "../../state/hooks";
 
 const styles = {
   followButton: {
-    backgroundColor: "primary.main",
     boxShadow: "none",
     fontWeight: "bold",
     minWidth: "84px",
+    textTransform: "none",
     "&:hover": {
-      backgroundColor: "primary.dark",
       boxShadow: "none",
     },
-    textTransform: "none",
   },
 };
 
 type FollowButtonProps = {
-  onClick: () => void;
+  onClick?: () => void;
   visitedUserId: number;
 };
 
@@ -39,7 +37,7 @@ const FollowButton = ({ onClick, visitedUserId }: FollowButtonProps) => {
           },
         }
       );
-      onClick();
+      onClick?.();
     } catch (error) {
       console.log(error);
     }
