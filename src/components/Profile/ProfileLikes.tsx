@@ -65,11 +65,10 @@ const ProfileLikes = ({ userId }: ProfileLikesProps) => {
     fetchPosts({ pageParam: 1 });
   }, [userId]);
 
-  return status === "pending" ? (
-    <PageLoader />
-  ) : status === "error" ? (
-    <div>{error.message}</div>
-  ) : (
+  if (status === "pending") return <PageLoader />;
+  if (status === "error") return <div>{error.message}</div>;
+
+  return (
     <Stack divider={<Divider />}>
       {posts.map((o, index) => (
         <PostItem key={index} post={o} />
