@@ -112,10 +112,7 @@ const SuggestedUsers = () => {
               sx={styles.listItemText}
             />
             {/* TODO: update to render Following Button as well */}
-            <FollowButton
-              onClick={() => dispatch(toggleFollow(true))}
-              username={""}
-            />
+            <FollowButton onClick={() => {}} visitedUserId={NaN} />
           </ListItemButton>
         ))}
       </List>

@@ -105,7 +105,7 @@ export type ProfileContent = {
 const Profile = () => {
   const navigate = useNavigate();
   const { username } = useParams();
-  const [value, setValue] = useState("one");
+  const [value, setValue] = useState("two");
   const user = useAppSelector((state) => state.user);
   const [loading, setLoading] = useState(true);
   const [profileContents, setProfileContents] = useState<ProfileContent>({

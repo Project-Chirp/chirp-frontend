@@ -80,12 +80,12 @@ const RelevantUsers = () => {
         {relevantUser.followStatus ? (
           <FollowingButton
             onClick={() => dispatch(toggleFollow(false))}
-            username={relevantUser.username}
+            visitedUserId={relevantUser.userId}
           />
         ) : (
           <FollowButton
             onClick={() => dispatch(toggleFollow(true))}
-            username={relevantUser.username}
+            visitedUserId={relevantUser.userId}
           />
         )}
       </ListItemButton>
