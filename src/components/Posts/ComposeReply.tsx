@@ -1,11 +1,12 @@
 import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { addReply } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
+import EmojiPicker from "emoji-picker-react";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -37,6 +38,7 @@ const styles = {
     padddingY: 0,
     justifyContent: "space-between",
   },
+  emojiContainer: { position: "absolute", zIndex: 1, marginTop: 5 },
 };
 
 const ComposeReply = ({
@@ -72,6 +74,24 @@ const ComposeReply = ({
       onClose?.();
     } catch (err) {
       console.log(err);
+    }
+  };
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
+  const emojiContainerRef = useRef<HTMLDivElement>(null);
+  const clickOffEmojiPicker = (event: React.FocusEvent<HTMLDivElement>) => {
+    const emojiButton = event.relatedTarget as HTMLElement;
+    const isEmojiButton = emojiButton && emojiButton.id === "emoji-button";
+
+    if (
+      emojiContainerRef.current &&
+      !emojiContainerRef.current.contains(emojiButton) &&
+      !isEmojiButton
+    ) {
+      setShowEmojiPicker(false);
     }
   };
 
@@ -112,9 +132,30 @@ const ComposeReply = ({
               <IconButton size="small">
                 <AddPhotoAlternateOutlinedIcon />
               </IconButton>
-              <IconButton size="small">
+              <IconButton
+                size="small"
+                onClick={toggleEmojiPicker}
+                id="emoji-button"
+              >
                 <EmojiEmotionsOutlinedIcon />
               </IconButton>
+              {showEmojiPicker && (
+                <Box
+                  sx={styles.emojiContainer}
+                  ref={emojiContainerRef}
+                  tabIndex={0}
+                  onBlur={clickOffEmojiPicker}
+                >
+                  <EmojiPicker
+                    onEmojiClick={(emoji) => {
+                      setPostTextContent(
+                        (prevContent) => prevContent + emoji.emoji
+                      );
+                    }}
+                    previewConfig={{ showPreview: false }}
+                  />
+                </Box>
+              )}
             </Stack>
           </Box>
         )}

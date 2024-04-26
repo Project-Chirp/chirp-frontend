@@ -29,6 +29,8 @@ import theme from "../styles/Theme";
 import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
+import EmojiPicker from "emoji-picker-react";
+import zIndex from "@mui/material/styles/zIndex";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -84,6 +86,7 @@ const styles = {
     backgroundColor: theme.palette.primary.main,
   },
   timestamp: { marginTop: 0.5 },
+  emojiContainer: { position: "absolute", marginBottom: 65, zIndex: 1 },
 };
 
 export type Message = {
@@ -107,6 +110,10 @@ const DirectMessage = () => {
   const userExists = conversations.find(
     (o) => o.otherUserId === Number(userId2)
   );
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
@@ -170,6 +177,19 @@ const DirectMessage = () => {
       console.log(err);
     }
   };
+  const emojiContainerRef = useRef<HTMLDivElement>(null);
+  const clickOffEmojiPicker = (event: React.FocusEvent<HTMLDivElement>) => {
+    const emojiButton = event.relatedTarget as HTMLElement;
+    const isEmojiButton = emojiButton && emojiButton.id === "emoji-button";
+
+    if (
+      emojiContainerRef.current &&
+      !emojiContainerRef.current.contains(emojiButton) &&
+      !isEmojiButton
+    ) {
+      setShowEmojiPicker(false);
+    }
+  };
 
   return (
     <Stack
@@ -199,6 +219,7 @@ const DirectMessage = () => {
               <InfoOutlinedIcon />
             </IconButton>
           </Box>
+
           <Divider />
           <Box sx={styles.chatContainer}>
             <List component="div" ref={messageRef} sx={styles.messageList}>
@@ -232,6 +253,7 @@ const DirectMessage = () => {
               ))}
             </List>
             <Divider />
+
             <form onSubmit={onSubmit}>
               <Box sx={styles.chatInputContainer}>
                 <TextField
@@ -244,9 +266,29 @@ const DirectMessage = () => {
                         <IconButton>
                           <AddPhotoAlternateOutlinedIcon />
                         </IconButton>
-                        <IconButton>
+                        <IconButton
+                          onClick={toggleEmojiPicker}
+                          id="emoji-button"
+                        >
                           <EmojiEmotionsOutlinedIcon />
                         </IconButton>
+                        {showEmojiPicker && (
+                          <Box
+                            sx={styles.emojiContainer}
+                            ref={emojiContainerRef}
+                            tabIndex={0}
+                            onBlur={clickOffEmojiPicker}
+                          >
+                            <EmojiPicker
+                              onEmojiClick={(emoji) => {
+                                setTextContent(
+                                  (prevContent) => prevContent + emoji.emoji
+                                );
+                              }}
+                              previewConfig={{ showPreview: false }}
+                            />
+                          </Box>
+                        )}
                         <IconButton>
                           <GifBoxOutlinedIcon />
                         </IconButton>
