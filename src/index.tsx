@@ -8,12 +8,11 @@ import theme from "./styles/Theme";
 import AuthProvider from "./components/Auth/AuthProvider";
 import { Provider } from "react-redux";
 import { store } from "./state/store";
+import { queryClient } from "./utilities/queryClient";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-
-const queryClient = new QueryClient();
 
 root.render(
   <React.StrictMode>

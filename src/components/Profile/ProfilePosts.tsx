@@ -6,6 +6,8 @@ import { Post, setPosts } from "../../state/slices/postsSlice";
 import { Divider, Stack } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
+import PageLoader from "../../pages/PageLoader";
+import { queryClient } from "../../utilities/queryClient";
 
 type ProfilePostsProps = {
   userId: number;
@@ -41,7 +43,7 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
 
   const { error, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     {
-      queryKey: ["query"],
+      queryKey: ["posts"],
       queryFn: fetchPosts,
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {
@@ -59,11 +61,13 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
   }, [fetchNextPage, inView]);
 
   useEffect(() => {
+    queryClient.clear();
+
     fetchPosts({ pageParam: 1 });
   }, [userId]);
 
   return status === "pending" ? (
-    <div>Loading...</div>
+    <PageLoader />
   ) : status === "error" ? (
     <div>{error.message}</div>
   ) : (
