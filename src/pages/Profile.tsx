@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
@@ -82,6 +82,7 @@ const styles = {
     gap: 2,
     paddingTop: 1,
   },
+  personalInfoContent: { display: "flex", gap: 0.5 },
   profileContent: { padding: 2 },
   tabs: {
     textTransform: "none",
@@ -104,8 +105,10 @@ export type ProfileContent = {
   displayName: string;
   followerCount: number;
   followingCount: number;
+  followStatus: boolean;
   joinedDate: string;
   postCount: number;
+  userId?: number;
   username: string;
 };
 
@@ -114,13 +117,13 @@ const Profile = () => {
   const { username } = useParams();
   const [value, setValue] = useState("one");
   const user = useAppSelector((state) => state.user);
-  const [loading, setLoading] = useState(true);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
     bio: "",
     birthDate: undefined,
     displayName: "",
     followerCount: 0,
     followingCount: 0,
+    followStatus: false,
     joinedDate: "",
     postCount: 0,
     username: "",
@@ -137,7 +140,8 @@ const Profile = () => {
           "http://localhost:3001/api/profile/getProfileContents",
           {
             params: {
-              username,
+              currentUserId: user.userId,
+              visitedUsername: username,
             },
           }
         );
@@ -196,19 +200,41 @@ const Profile = () => {
               <Box sx={styles.profileContent}>
                 <Box sx={styles.avatarContainer}>
                   <Avatar sx={styles.avatar} />
-                  {profileContents.username === user.username ? (
-                    <Button
-                      onClick={() => setEditProfileModalOpen(true)}
-                      size="small"
-                      startIcon={<EditIcon />}
-                      sx={styles.editProfileButton}
-                      variant="outlined"
-                    >
-                      Edit Profile
-                    </Button>
-                  ) : (
-                    <FollowButton />
-                  )}
+                  {!loading &&
+                    profileContents.userId &&
+                    (profileContents.userId === user.userId ? (
+                      <Button
+                        onClick={() => setEditProfileModalOpen(true)}
+                        startIcon={<EditIcon />}
+                        size="small"
+                        sx={styles.editProfileButton}
+                        variant="outlined"
+                      >
+                        Edit Profile
+                      </Button>
+                    ) : profileContents.followStatus ? (
+                      <FollowingButton
+                        onClick={() => {
+                          setProfileContents({
+                            ...profileContents,
+                            followStatus: false,
+                            followerCount: --profileContents.followerCount,
+                          });
+                        }}
+                        visitedUserId={profileContents.userId}
+                      />
+                    ) : (
+                      <FollowButton
+                        onClick={() => {
+                          setProfileContents({
+                            ...profileContents,
+                            followStatus: true,
+                            followerCount: ++profileContents.followerCount,
+                          });
+                        }}
+                        visitedUserId={profileContents.userId}
+                      />
+                    ))}
                 </Box>
                 <Box sx={styles.nameContainer}>
                   <Typography variant="h2" sx={styles.displayName}>
@@ -222,14 +248,14 @@ const Profile = () => {
                   <Typography sx={styles.bio}>{profileContents.bio}</Typography>
                 )}
                 <Box sx={styles.personalInfo}>
-                  <Box sx={{ display: "flex", gap: 0.5 }}>
+                  <Box sx={styles.personalInfoContent}>
                     <CalendarMonthIcon />
                     <Typography>
                       Joined {formatJoinedDate(profileContents.joinedDate)}
                     </Typography>
                   </Box>
                   {profileContents.birthDate && (
-                    <Box sx={{ display: "flex", gap: 0.5 }}>
+                    <Box sx={styles.personalInfoContent}>
                       <CakeIcon />
                       <Typography>
                         Born {formatBirthDate(profileContents.birthDate)}
@@ -266,9 +292,7 @@ const Profile = () => {
             <Tabs
               centered
               component="nav"
-              onChange={(_: React.SyntheticEvent, newValue: string) =>
-                setValue(newValue)
-              }
+              onChange={(_, newValue: string) => setValue(newValue)}
               value={value}
               variant="fullWidth"
             >
@@ -277,19 +301,17 @@ const Profile = () => {
               <Tab sx={styles.tabs} value="three" label="Likes" />
             </Tabs>
             <Divider />
-            {value === "one" && (
+            {!loading && profileContents.userId && (
               <Box>
-                <ProfilePosts />
-              </Box>
-            )}
-            {value === "two" && (
-              <Box>
-                <ProfileReplies />
-              </Box>
-            )}
-            {value === "three" && (
-              <Box>
-                <ProfileLikes />
+                {value === "one" && (
+                  <ProfilePosts userId={profileContents.userId} />
+                )}
+                {value === "two" && (
+                  <ProfileReplies userId={profileContents.userId} />
+                )}
+                {value === "three" && (
+                  <ProfileLikes userId={profileContents.userId} />
+                )}
               </Box>
             )}
           </Box>
