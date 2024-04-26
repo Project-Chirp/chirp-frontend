@@ -91,32 +91,32 @@ const styles = {
 };
 
 export type ProfileContent = {
-  userId?: number;
-  postCount: number;
   bio: string;
-  joinedDate: string;
   displayName: string;
-  username: string;
   followerCount: number;
   followingCount: number;
   followStatus: boolean;
+  joinedDate: string;
+  postCount: number;
+  userId?: number;
+  username: string;
 };
 
 const Profile = () => {
   const navigate = useNavigate();
   const { username } = useParams();
-  const [value, setValue] = useState("two");
+  const [value, setValue] = useState("one");
   const user = useAppSelector((state) => state.user);
   const [loading, setLoading] = useState(true);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
-    postCount: 0,
     bio: "",
-    joinedDate: "",
     displayName: "",
-    username: "",
     followerCount: 0,
     followingCount: 0,
     followStatus: false,
+    joinedDate: "",
+    postCount: 0,
+    username: "",
   });
 
   useEffect(() => {
@@ -176,10 +176,10 @@ const Profile = () => {
                   profileContents.userId &&
                   (profileContents.userId === user.userId ? (
                     <Button
-                      size="small"
-                      variant="outlined"
                       startIcon={<EditIcon />}
+                      size="small"
                       sx={styles.editProfileButton}
+                      variant="outlined"
                     >
                       Edit Profile
                     </Button>
