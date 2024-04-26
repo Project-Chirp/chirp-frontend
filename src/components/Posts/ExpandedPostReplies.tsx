@@ -27,7 +27,6 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
           }
         );
         dispatch(setPosts(resultReplies.data as Post[]));
-        console.log(resultReplies);
       } catch (e) {
         console.log(e.message);
       }
