@@ -10,7 +10,13 @@ import ComposePost from "../Posts/ComposePost";
 import { useAppSelector } from "../../state/hooks";
 
 const styles = {
-  logo: { alignSelf: "left", paddingTop: 2, paddingLeft: 2 },
+  logo: {
+    alignSelf: "left",
+    height: 50,
+    paddingLeft: 2,
+    paddingTop: 2,
+    width: 50,
+  },
   navList: {
     display: "flex",
     flexDirection: "column",
@@ -56,7 +62,7 @@ const NavBar = () => {
         <Box sx={styles.navList}>
           <Avatar
             alt="logo"
-            src="https://www.iconpacks.net/icons/2/free-twitter-logo-icon-2429-thumb.png"
+            src={`/chirp-logo-transparent.png`}
             sx={styles.logo}
           />
           <List component="nav">

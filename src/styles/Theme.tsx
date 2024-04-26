@@ -4,9 +4,11 @@ import createPalette from "@mui/material/styles/createPalette";
 declare module "@mui/material/styles/createPalette" {
   interface PaletteOptions {
     gray: PaletteOptions["primary"];
+    white: PaletteOptions["primary"];
   }
   interface Palette {
     gray: Palette["primary"];
+    white: Palette["primary"];
   }
 }
 
@@ -31,6 +33,9 @@ const palette = createPalette({
   gray: {
     main: "#adb5bd",
     light: "#F4F5F6",
+  },
+  white: {
+    main: "#ffffff",
   },
 });
 

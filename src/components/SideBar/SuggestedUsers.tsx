@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import FollowButton from "../Common/FollowButton";
+import { useAppDispatch } from "../../state/hooks";
+import { toggleFollow } from "../../state/slices/postsSlice";
 
 const styles = {
   avatar: {
@@ -42,30 +44,36 @@ const styles = {
   },
 };
 
+// TODO: Return followStatus from the follow table as well for every user.
 const usersData = [
   {
     id: 1,
     displayName: "John Doe",
     username: "john_doe",
+    followStatus: false,
   },
   {
     id: 2,
     displayName: "Jane Smith",
     username: "jane_smith",
+    followStatus: false,
   },
   {
     id: 3,
     displayName: "Chad Son",
     username: "chad_son",
+    followStatus: false,
   },
   {
     id: 4,
     displayName: "Michael Myers",
     username: "michael_myers",
+    followStatus: false,
   },
 ];
 
 const SuggestedUsers = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   return (
@@ -103,7 +111,8 @@ const SuggestedUsers = () => {
               }
               sx={styles.listItemText}
             />
-            <FollowButton />
+            {/* TODO: update to render Following Button as well */}
+            <FollowButton onClick={() => {}} visitedUserId={NaN} />
           </ListItemButton>
         ))}
       </List>

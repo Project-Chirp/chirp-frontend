@@ -24,6 +24,7 @@ import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
 import { Link as Routerlink } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
+import FollowingButton from "../components/Common/FollowingButton";
 import FollowButton from "../components/Common/FollowButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
 
@@ -113,6 +114,7 @@ const Profile = () => {
   const { username } = useParams();
   const [value, setValue] = useState("one");
   const user = useAppSelector((state) => state.user);
+  const [loading, setLoading] = useState(true);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
     bio: "",
     birthDate: undefined,
@@ -127,6 +129,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const fetchProfileContents = async () => {
       try {
         setLoading(true);
@@ -149,7 +152,7 @@ const Profile = () => {
     };
     fetchProfileContents();
     window.scrollTo(0, 0);
-  }, [value, username]);
+  }, [username]);
 
   // TODO: Make date utility functions or use a library for date formatting
   const formatJoinedDate = (joinedDateString: string) => {
