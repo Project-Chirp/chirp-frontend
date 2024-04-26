@@ -2,20 +2,20 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export type Post = {
   displayName: string;
+  followStatus: boolean;
   imagePath?: string;
   isLikedByCurrentUser: boolean;
+  isQuotePost?: boolean;
+  isRepost?: boolean;
   numberOfLikes: number;
   numberOfReplies: number;
   numberOfReposts: number;
+  parentPostId?: number;
   postId: number;
-  userId: number;
   textContent: string;
   timestamp: string;
+  userId: number;
   username: string;
-  isRepost: boolean;
-  isQuotePost: boolean;
-  parentPostId?: number;
-  followStatus: boolean;
 };
 
 type PostSliceType = {
@@ -27,18 +27,16 @@ const initialState: PostSliceType = {
   posts: [],
   expandedPost: {
     displayName: "",
+    followStatus: false,
     isLikedByCurrentUser: false,
     numberOfLikes: 0,
     numberOfReplies: 0,
     numberOfReposts: 0,
     postId: 0,
-    userId: 0,
     textContent: "",
     timestamp: "",
+    userId: 0,
     username: "",
-    isRepost: false,
-    isQuotePost: false,
-    followStatus: false,
   },
 };
 
@@ -107,13 +105,7 @@ export const postsSlice = createSlice({
       }
     },
     toggleFollow: (state, action: PayloadAction<boolean>) => {
-      return {
-        ...state,
-        expandedPost: {
-          ...state.expandedPost,
-          followStatus: !action.payload,
-        },
-      };
+      state.expandedPost.followStatus = !action.payload;
     },
   },
 });
@@ -124,6 +116,7 @@ export const {
   setPosts,
   setExpandedPost,
   toggleLikePost,
+  toggleFollow,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

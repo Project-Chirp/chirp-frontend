@@ -25,7 +25,7 @@ const Welcome = () => {
   return (
     <Box sx={styles.container}>
       <Typography sx={styles.title} variant="h1">
-        Welcome to Tweeter
+        Welcome to Chrip
       </Typography>
       <img style={styles.logo} src={"/logojade.png"} alt="Logo" />
       <Button
@@ -33,7 +33,7 @@ const Welcome = () => {
         variant="contained"
         onClick={() => loginWithRedirect()}
       >
-        Take me to Tweeter
+        Take me to Chirp
       </Button>
     </Box>
   );

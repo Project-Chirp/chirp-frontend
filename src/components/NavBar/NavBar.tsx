@@ -10,7 +10,13 @@ import ComposePost from "../Posts/ComposePost";
 import { useAppSelector } from "../../state/hooks";
 
 const styles = {
-  logo: { alignSelf: "left", paddingTop: 2, paddingLeft: 2 },
+  logo: {
+    alignSelf: "left",
+    height: 50,
+    paddingLeft: 2,
+    paddingTop: 2,
+    width: 50,
+  },
   navList: {
     display: "flex",
     flexDirection: "column",

@@ -4,12 +4,14 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import { Divider, Stack } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 
-const ProfileReplies = () => {
-  const { username } = useParams();
+type ProfileRepliesProps = {
+  userId: number;
+};
+
+const ProfileReplies = ({ userId }: ProfileRepliesProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
 
@@ -19,7 +21,7 @@ const ProfileReplies = () => {
         "http://localhost:3001/api/profile/getUserReplies",
         {
           params: {
-            username,
+            visitedUserId: userId,
             offset: pageParam,
           },
         }
@@ -37,15 +39,16 @@ const ProfileReplies = () => {
     }
   };
 
-  const { data, error, status, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
+  const { error, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    {
       queryKey: ["query"],
       queryFn: fetchPosts,
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.length ? allPages.length + 1 : undefined;
       },
-    });
+    }
+  );
 
   const { ref, inView } = useInView();
 
@@ -57,7 +60,7 @@ const ProfileReplies = () => {
 
   useEffect(() => {
     fetchPosts({ pageParam: 1 });
-  }, [username]);
+  }, [userId]);
 
   return status === "pending" ? (
     <div>Loading...</div>

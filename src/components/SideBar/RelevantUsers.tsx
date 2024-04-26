@@ -6,10 +6,12 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
-import UserButton from "../Common/UserButton";
+import FollowingButton from "../Common/FollowingButton";
+import { toggleFollow } from "../../state/slices/postsSlice";
+import FollowButton from "../Common/FollowButton";
 
 const styles = {
   container: {
@@ -42,6 +44,7 @@ const styles = {
 
 const RelevantUsers = () => {
   const relevantUser = useAppSelector((state) => state.posts.expandedPost);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   return (
@@ -74,10 +77,17 @@ const RelevantUsers = () => {
           }
           sx={styles.listItemText}
         />
-        <UserButton
-          username={relevantUser.username}
-          initialFollowStatus={relevantUser.followStatus}
-        />
+        {relevantUser.followStatus ? (
+          <FollowingButton
+            onClick={() => dispatch(toggleFollow(false))}
+            visitedUserId={relevantUser.userId}
+          />
+        ) : (
+          <FollowButton
+            onClick={() => dispatch(toggleFollow(true))}
+            visitedUserId={relevantUser.userId}
+          />
+        )}
       </ListItemButton>
     </Box>
   );
