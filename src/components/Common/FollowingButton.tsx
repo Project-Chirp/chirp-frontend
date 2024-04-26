@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const styles = {
   followingButton: {
-    backgroundColor: "gray.light",
+    backgroundColor: "white.main",
     border: 1,
     boxShadow: "none",
     color: "primary.main",
@@ -14,7 +14,7 @@ const styles = {
     textTransform: "none",
     "&:hover": {
       boxShadow: "none",
-      backgroundColor: "gray.light",
+      backgroundColor: "white.main",
       border: 1,
       borderColor: "error.main",
       color: "error.main",
