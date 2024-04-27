@@ -24,7 +24,7 @@ const ExpandedPost = () => {
             parentPostId={expandedPost.postId}
           />
           <Divider />
-          <ExpandedPostReplies post={expandedPost} />
+          <ExpandedPostReplies postId={expandedPost.postId} />
         </Box>
       }
       rightContent={<ExpandedPostSidebar />}
