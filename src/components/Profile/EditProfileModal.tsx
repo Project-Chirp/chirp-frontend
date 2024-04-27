@@ -19,7 +19,6 @@ import { EditableProfileContents } from "../../pages/Profile";
 
 const styles = {
   dialog: {
-    height: "60%",
     borderRadius: 5,
   },
   dialogContent: {
