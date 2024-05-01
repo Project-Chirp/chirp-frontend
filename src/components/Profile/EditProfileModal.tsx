@@ -21,21 +21,22 @@ const styles = {
   dialog: {
     borderRadius: 5,
   },
+  dialogActions: { paddingX: 2, paddingY: 1.5 },
   dialogContent: {
     display: "flex",
     flexDirection: "column",
     padding: 0,
   },
   dialogTitle: {
-    paddingBottom: 0,
     paddingX: 0.5,
-    paddingTop: 1,
+    paddingY: 1,
     display: "flex",
     alignItems: "center",
   },
   headerTitle: {
     fontWeight: "bold",
   },
+  textField: { sx: { borderRadius: 2 } },
   textFieldContainer: { paddingX: 2, paddingY: 1.5 },
   titleBox: { paddingLeft: 3, width: "100%" },
 };
@@ -65,13 +66,17 @@ const EditProfileModal = ({
   const saveProfile = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const newBio = await axios.put("http://localhost:3001/api/profile", {
+      await axios.put("http://localhost:3001/api/profile", {
         bio: bioValue,
         birthDate: birthDateValue,
         displayName: displayNameValue,
         userId: user.userId,
       });
-      onSubmit(newBio.data);
+      onSubmit({
+        bio: bioValue,
+        birthDate: birthDateValue.toString(),
+        displayName: displayNameValue,
+      });
       onClose();
     } catch (e) {
       console.log(e);
@@ -103,7 +108,7 @@ const EditProfileModal = ({
               onChange={(e) => setDisplayNameValue(e.target.value)}
               variant="outlined"
               value={displayNameValue}
-              InputProps={{ sx: { borderRadius: 2 } }}
+              InputProps={styles.textField}
             />
           </Box>
           <Box sx={styles.textFieldContainer}>
@@ -115,7 +120,7 @@ const EditProfileModal = ({
               rows={2}
               variant="outlined"
               value={bioValue}
-              InputProps={{ sx: { borderRadius: 2 } }}
+              InputProps={styles.textField}
             />
           </Box>
           <Box sx={styles.textFieldContainer}>
@@ -139,7 +144,7 @@ const EditProfileModal = ({
             </LocalizationProvider>
           </Box>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={styles.dialogActions}>
           <Button type="submit" variant="outlined">
             Save
           </Button>

@@ -178,9 +178,9 @@ const Profile = () => {
   };
 
   return (
-    <Layout
-      middleContent={
-        <>
+    <>
+      <Layout
+        middleContent={
           <Box>
             <Box style={styles.header}>
               <IconButton onClick={() => navigate(-1)}>
@@ -315,22 +315,22 @@ const Profile = () => {
               </Box>
             )}
           </Box>
-          {!loading && (
-            <EditProfileModal
-              bio={profileContents.bio}
-              birthDate={profileContents.birthDate}
-              displayName={profileContents.displayName}
-              onClose={() => setEditProfileModalOpen(false)}
-              onSubmit={(editedBio: EditableProfileContents) => {
-                setProfileContents({ ...profileContents, ...editedBio });
-              }}
-              open={editProfileModalOpen}
-            />
-          )}
-        </>
-      }
-      rightContent={<SideBar />}
-    />
+        }
+        rightContent={<SideBar />}
+      />
+      {!loading && editProfileModalOpen && (
+        <EditProfileModal
+          bio={profileContents.bio}
+          birthDate={profileContents.birthDate}
+          displayName={profileContents.displayName}
+          onClose={() => setEditProfileModalOpen(false)}
+          onSubmit={(editedProfile: EditableProfileContents) => {
+            setProfileContents({ ...profileContents, ...editedProfile });
+          }}
+          open={editProfileModalOpen}
+        />
+      )}
+    </>
   );
 };
 
