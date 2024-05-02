@@ -18,13 +18,7 @@ const styles = {
     height: "60%",
     borderRadius: 5,
   },
-  dialogContent: {
-    padding: 0,
-  },
   dialogTitle: {
-    paddingBottom: 0,
-    paddingX: 0.5,
-    paddingTop: 1,
     display: "flex",
     alignItems: "center",
   },
@@ -74,7 +68,7 @@ export default function CreateMessageModal({
         onSearchClose={() => setFocusSearchBar(false)}
         onSearchOpen={() => setFocusSearchBar(true)}
       />
-      <DialogContent sx={styles.dialogContent}>
+      <DialogContent>
         {!focusSearchBar && <MessagesModalList onClose={onClose} />}
       </DialogContent>
     </Dialog>

@@ -101,8 +101,29 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "&.MuiFormControl-root": {
-            padding: 0,
+            padding: "0px",
           },
+        },
+      },
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          padding: "4px",
+        },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          padding: "0px",
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          padding: "8px 16px 16px 16px",
         },
       },
     },

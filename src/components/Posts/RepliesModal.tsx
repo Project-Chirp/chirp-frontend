@@ -43,15 +43,10 @@ const styles = {
     maxHeight: "90%",
   },
   dialogContent: {
-    "&.MuiDialogContent-root": { padding: 1 },
     alignItems: "center",
     justifyContent: "center",
   },
   displayName: { fontSize: 14, fontWeight: "bold" },
-  dialogTitle: {
-    paddingX: 0.5,
-    paddingY: 0,
-  },
   line: {
     borderRightWidth: "3px",
   },
@@ -111,7 +106,7 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
       scroll="paper"
       sx={styles.dialog}
     >
-      <DialogTitle sx={styles.dialogTitle}>
+      <DialogTitle>
         <IconButton disableRipple onClick={onClose}>
           <CloseIcon />
         </IconButton>

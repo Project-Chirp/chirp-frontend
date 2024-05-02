@@ -21,15 +21,11 @@ const styles = {
   dialog: {
     borderRadius: 5,
   },
-  dialogActions: { paddingX: 2, paddingY: 1.5 },
   dialogContent: {
     display: "flex",
     flexDirection: "column",
-    padding: 0,
   },
   dialogTitle: {
-    paddingX: 0.5,
-    paddingY: 1,
     display: "flex",
     alignItems: "center",
   },
@@ -37,7 +33,7 @@ const styles = {
     fontWeight: "bold",
   },
   textField: { sx: { borderRadius: 2 } },
-  textFieldContainer: { paddingX: 2, paddingY: 1.5 },
+  textFieldContainer: { padding: 2 },
   titleBox: { paddingLeft: 3, width: "100%" },
 };
 
@@ -136,15 +132,15 @@ const EditProfileModal = ({
                 )}
                 label="Birth Date"
                 maxDate={new Date()}
-                onChange={(e) => {
-                  e && setBirthDateValue(e);
+                onChange={(value) => {
+                  value && setBirthDateValue(value);
                 }}
                 value={birthDateValue}
               />
             </LocalizationProvider>
           </Box>
         </DialogContent>
-        <DialogActions sx={styles.dialogActions}>
+        <DialogActions>
           <Button type="submit" variant="outlined">
             Save
           </Button>
