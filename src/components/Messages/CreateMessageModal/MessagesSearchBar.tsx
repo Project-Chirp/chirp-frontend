@@ -19,7 +19,9 @@ import { SelectedUser } from "../../../state/slices/messagesSlice";
 const styles = {
   autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
   box: {
-    padding: 1,
+    paddingBottom: 1,
+    paddingTop: 0,
+    paddingX: 2,
   },
   displayName: {
     fontWeight: "bold",

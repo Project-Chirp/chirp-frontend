@@ -7,16 +7,8 @@ const styles = {
     ".MuiDialog-scrollPaper": { alignItems: "flex-start" },
   },
   dialogContent: {
-    padding: 0,
-    paddingBottom: 2,
     alignItems: "center",
     justifyContent: "center",
-  },
-  dialogTitle: {
-    paddingBottom: 0,
-    paddingLeft: 0.5,
-    paddingRight: 0.5,
-    paddingTop: 0,
   },
 };
 
@@ -39,7 +31,7 @@ export default function PostButtonModal({
       scroll="paper"
       sx={styles.dialog}
     >
-      <DialogTitle sx={styles.dialogTitle}>
+      <DialogTitle>
         <IconButton disableRipple onClick={onClose}>
           <CloseIcon />
         </IconButton>
