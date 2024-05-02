@@ -23,10 +23,12 @@ import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
 import { Link as Routerlink } from "react-router-dom";
-import { useAppSelector } from "../state/hooks";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
 import FollowingButton from "../components/Common/FollowingButton";
 import FollowButton from "../components/Common/FollowButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
+import { setDisplayName } from "../state/slices/userSlice";
+import { updateDisplayNames } from "../state/slices/postsSlice";
 
 const styles = {
   avatar: {
@@ -114,9 +116,10 @@ export type ProfileContent = {
 
 const Profile = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { username } = useParams();
   const [value, setValue] = useState("one");
-  const user = useAppSelector((state) => state.user);
+  const currentUserId = useAppSelector((state) => state.user.userId);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
     bio: "",
     birthDate: undefined,
@@ -140,7 +143,7 @@ const Profile = () => {
           "http://localhost:3001/api/profile/getProfileContents",
           {
             params: {
-              currentUserId: user.userId,
+              currentUserId,
               visitedUsername: username,
             },
           }
@@ -202,7 +205,7 @@ const Profile = () => {
                   <Avatar sx={styles.avatar} />
                   {!loading &&
                     profileContents.userId &&
-                    (profileContents.userId === user.userId ? (
+                    (profileContents.userId === currentUserId ? (
                       <Button
                         onClick={() => setEditProfileModalOpen(true)}
                         startIcon={<EditIcon />}
@@ -325,6 +328,13 @@ const Profile = () => {
           displayName={profileContents.displayName}
           onClose={() => setEditProfileModalOpen(false)}
           onSubmit={(editedProfile: EditableProfileContents) => {
+            dispatch(setDisplayName(editedProfile.displayName));
+            dispatch(
+              updateDisplayNames({
+                prevDisplayName: profileContents.displayName,
+                newDisplayName: editedProfile.displayName,
+              })
+            );
             setProfileContents({ ...profileContents, ...editedProfile });
           }}
           open={editProfileModalOpen}
