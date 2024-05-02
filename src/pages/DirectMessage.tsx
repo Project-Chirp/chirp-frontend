@@ -29,7 +29,7 @@ import theme from "../styles/Theme";
 import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
 import zIndex from "@mui/material/styles/zIndex";
 
 const styles = {
@@ -111,9 +111,7 @@ const DirectMessage = () => {
     (o) => o.otherUserId === Number(userId2)
   );
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const toggleEmojiPicker = () => {
-    setShowEmojiPicker(!showEmojiPicker);
-  };
+  const twitterEmojiStyle = EmojiStyle.TWITTER;
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
@@ -178,7 +176,7 @@ const DirectMessage = () => {
     }
   };
   const emojiContainerRef = useRef<HTMLDivElement>(null);
-  const clickOffEmojiPicker = (event: React.FocusEvent<HTMLDivElement>) => {
+  const clickOffEmojiPicker = (event: React.FocusEvent) => {
     const emojiButton = event.relatedTarget as HTMLElement;
     const isEmojiButton = emojiButton && emojiButton.id === "emoji-button";
 
@@ -267,7 +265,7 @@ const DirectMessage = () => {
                           <AddPhotoAlternateOutlinedIcon />
                         </IconButton>
                         <IconButton
-                          onClick={toggleEmojiPicker}
+                          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                           id="emoji-button"
                         >
                           <EmojiEmotionsOutlinedIcon />
@@ -280,6 +278,7 @@ const DirectMessage = () => {
                             onBlur={clickOffEmojiPicker}
                           >
                             <EmojiPicker
+                              emojiStyle={twitterEmojiStyle}
                               onEmojiClick={(emoji) => {
                                 setTextContent(
                                   (prevContent) => prevContent + emoji.emoji

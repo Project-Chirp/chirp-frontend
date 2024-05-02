@@ -94,6 +94,10 @@ const styles = {
     gap: 0.5,
   },
   username: { fontSize: 14 },
+  paperProps: {
+    overflow: "visible",
+    borderRadius: 20,
+  },
 };
 
 type PostModalProps = {
@@ -110,6 +114,7 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
       open={open}
       scroll="paper"
       sx={styles.dialog}
+      PaperProps={{ style: styles.paperProps }}
     >
       <DialogTitle sx={styles.dialogTitle}>
         <IconButton disableRipple onClick={onClose}>

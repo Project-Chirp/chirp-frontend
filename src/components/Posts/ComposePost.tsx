@@ -6,7 +6,7 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
 
 type ComposePostProps = {
   placeholder: string;
@@ -30,6 +30,11 @@ const styles = {
     marginTop: 1,
   },
   emojiContainer: { position: "absolute", zIndex: 1 },
+  emojiPicker: {
+    height: 300,
+    width: 250,
+    "--epr-emoji-size": "25px",
+  },
 };
 
 const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
@@ -38,20 +43,9 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
   const emojiContainerRef = useRef<HTMLDivElement>(null);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const twitterEmojiStyle = EmojiStyle.TWITTER;
 
-  const toggleEmojiPicker = (isPostButton: Boolean) => {
-    if (isPostButton === true) {
-      if (showEmojiPicker === false) {
-        return;
-      } else {
-        setShowEmojiPicker(!showEmojiPicker);
-      }
-    } else if (isPostButton === false) {
-      setShowEmojiPicker(!showEmojiPicker);
-    }
-  };
-
-  const clickOffEmojiPicker = (event: React.FocusEvent<HTMLDivElement>) => {
+  const clickOffEmojiPicker = (event: React.FocusEvent) => {
     const emojiButton = event.relatedTarget as HTMLElement;
     const isEmojiButton = emojiButton && emojiButton.id === "emoji-button";
 
@@ -112,19 +106,18 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
                 <IconButton
                   id="emoji-button"
                   size="small"
-                  onClick={() => toggleEmojiPicker(false)}
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                 >
                   <EmojiEmotionsOutlinedIcon />
                 </IconButton>
               </Stack>
             </Stack>
-
             <Button
               disabled={!postTextContent.trim()}
               size="small"
               type="submit"
               variant="contained"
-              onClick={() => toggleEmojiPicker(true)}
+              onBlur={(event) => clickOffEmojiPicker(event)}
             >
               Post
             </Button>
@@ -137,6 +130,8 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
               onBlur={clickOffEmojiPicker}
             >
               <EmojiPicker
+                style={styles.emojiPicker}
+                emojiStyle={twitterEmojiStyle}
                 onEmojiClick={(emoji) => {
                   setPostTextContent(
                     (prevContent) => prevContent + emoji.emoji
