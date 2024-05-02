@@ -38,19 +38,19 @@ const NavBar = () => {
 
   const navItems = [
     {
-      icon: <HomeIcon />,
+      icon: <HomeIcon fontSize="large" />,
       label: "Home",
       route: "/",
     },
     {
-      icon: <MailIcon />,
+      icon: <MailIcon fontSize="large" />,
       label: "Messages",
       route: selectedConversation.userId
         ? `/messages/${user.userId}/${selectedConversation.userId}`
         : "/messages",
     },
     {
-      icon: <AccountCircleIcon />,
+      icon: <AccountCircleIcon fontSize="large" />,
       label: "Profile",
       route: `/${user.username}`,
     },
