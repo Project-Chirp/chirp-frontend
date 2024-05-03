@@ -156,7 +156,9 @@ const PostItem = ({ post }: PostProps) => {
           >
             {post.numberOfLikes}
           </Button>
-          <Button startIcon={<ShareOutlinedIcon />} sx={styles.defaultButton} />
+          <IconButton>
+            <ShareOutlinedIcon />
+          </IconButton>
         </Box>
       </CardActions>
       <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />

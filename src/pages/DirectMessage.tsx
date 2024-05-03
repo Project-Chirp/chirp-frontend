@@ -48,8 +48,10 @@ const styles = {
     flexDirection: "column",
     height: "100%",
   },
+  displayName: { fontWeight: "bold" },
   divider: { height: "auto" },
   headerContainer: {
+    alignItems: "center",
     display: "flex",
     justifyContent: "space-between",
     paddingLeft: 2,
@@ -189,7 +191,7 @@ const DirectMessage = () => {
             <Box sx={styles.headerContent}>
               <UserAvatar username={selectedConversation.username} />
               <Box>
-                <Typography variant="subtitle1">
+                <Typography sx={styles.displayName} variant="subtitle1">
                   {selectedConversation.displayName}
                 </Typography>
                 <Typography variant="subtitle2">{`@${selectedConversation.username}`}</Typography>
