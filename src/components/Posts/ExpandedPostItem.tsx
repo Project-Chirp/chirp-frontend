@@ -35,7 +35,6 @@ import UserAvatar from "../Common/UserAvatar";
 const styles = {
   actionButton: {
     color: "black",
-    textTransform: "none",
     "&:hover": {
       backgroundColor: "transparent",
     },

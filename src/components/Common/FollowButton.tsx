@@ -7,7 +7,6 @@ const styles = {
     boxShadow: "none",
     fontWeight: "bold",
     minWidth: "84px",
-    textTransform: "none",
     "&:hover": {
       boxShadow: "none",
     },

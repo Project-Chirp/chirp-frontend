@@ -54,7 +54,6 @@ const styles = {
     fontWeight: "bold",
   },
   editProfileButton: {
-    textTransform: "none",
     fontWeight: "bold",
     color: "black",
     minWidth: "84px",
@@ -65,7 +64,6 @@ const styles = {
   followerButtons: {
     color: "black",
     padding: 0,
-    textTransform: "none",
     "&:hover": {
       backgroundColor: "transparent",
     },

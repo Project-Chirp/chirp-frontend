@@ -44,7 +44,7 @@ const theme = createTheme({
   typography: {
     fontFamily: ["Inter"].join(","), // If we want to add more fonts, we can append to the array.
     button: {
-      fontSize: "1rem",
+      textTransform: "none",
     },
   },
   components: {
