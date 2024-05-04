@@ -16,6 +16,7 @@ type ProfileLikesProps = {
 const ProfileLikes = ({ userId }: ProfileLikesProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
+  const { ref, inView } = useInView();
 
   const fetchPosts = async ({ pageParam = 1 }) => {
     try {
@@ -51,8 +52,6 @@ const ProfileLikes = ({ userId }: ProfileLikesProps) => {
       },
     }
   );
-
-  const { ref, inView } = useInView();
 
   useEffect(() => {
     if (inView) {

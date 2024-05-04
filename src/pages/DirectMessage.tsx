@@ -34,6 +34,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { queryClient } from "../utilities/queryClient";
 import PageLoader from "./PageLoader";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -66,7 +67,11 @@ const styles = {
     flexDirection: "column",
     alignItems: "flex-start",
   },
-  messageList: { flex: 1, overflowY: "scroll" },
+  messageList: {
+    overflow: "auto",
+    display: "flex",
+    flexDirection: "column-reverse",
+  },
   messageText: {
     padding: 1,
     borderRadius: 10,
@@ -112,7 +117,6 @@ const DirectMessage = () => {
   const userExists = conversations.find(
     (o) => o.otherUserId === Number(userId2)
   );
-  const { ref, inView } = useInView();
 
   const fetchUser = async () => {
     try {
@@ -126,7 +130,9 @@ const DirectMessage = () => {
           userId: Number(userId2),
         })
       );
-    } catch (error) {}
+    } catch (error) {
+      console.log("error fetching user data:", error);
+    }
   };
 
   const fetchDirectMessage = async ({ pageParam = 1 }) => {
@@ -134,7 +140,6 @@ const DirectMessage = () => {
       const result = await axios.get(
         `http://localhost:3001/api/messages/${userId1}/${userId2}?offset=${pageParam}`
       );
-      console.log(result.data);
 
       if (pageParam > 1) {
         setMessages([...messages, ...result.data] as Message[]);
@@ -148,27 +153,20 @@ const DirectMessage = () => {
     }
   };
 
-  const { error, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["messages"],
-      queryFn: fetchDirectMessage,
-      initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages) => {
-        return lastPage.length ? allPages.length + 1 : undefined;
-      },
-    });
+  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["messages"],
+    queryFn: fetchDirectMessage,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length ? allPages.length + 1 : undefined;
+    },
+  });
 
   useEffect(() => {
     queryClient.clear();
     fetchDirectMessage({ pageParam: 1 });
     fetchUser();
   }, [userId2]);
-
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, inView]);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -208,6 +206,7 @@ const DirectMessage = () => {
           username: selectedConversation.username,
         })
       );
+      messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
     } catch (err) {
       console.log(err);
     }
@@ -246,12 +245,22 @@ const DirectMessage = () => {
           </Box>
           <Divider />
           <Box sx={styles.chatContainer}>
-            <List component="div" ref={messageRef} sx={styles.messageList}>
-              <div ref={ref}></div>
-              {messages
-                .slice()
-                .reverse()
-                .map((o, index) => (
+            <List
+              component="div"
+              ref={messageRef}
+              sx={styles.messageList}
+              id="scrollable"
+            >
+              <InfiniteScroll
+                dataLength={messages.length}
+                next={fetchNextPage}
+                style={{ display: "flex", flexDirection: "column-reverse" }}
+                inverse={true}
+                hasMore={hasNextPage}
+                loader={<h4>Loading...</h4>}
+                scrollableTarget={"scrollable"}
+              >
+                {messages.map((o, index) => (
                   <ListItem component="div" key={index}>
                     <ListItemText
                       sx={
@@ -281,6 +290,7 @@ const DirectMessage = () => {
                     />
                   </ListItem>
                 ))}
+              </InfiniteScroll>
             </List>
             <Divider />
             <form onSubmit={onSubmit}>
