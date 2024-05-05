@@ -1,6 +1,9 @@
 import HomeIcon from "@mui/icons-material/Home";
 import MailIcon from "@mui/icons-material/Mail";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Avatar, Box, Button, List, Toolbar } from "@mui/material";
 import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
@@ -41,11 +44,13 @@ const NavBar = () => {
   const navItems = [
     {
       icon: <HomeIcon fontSize="large" />,
+      altIcon: <HomeOutlinedIcon fontSize="large" />,
       label: "Home",
       route: "/",
     },
     {
       icon: <MailIcon fontSize="large" />,
+      altIcon: <MailOutlinedIcon fontSize="large" />,
       label: "Messages",
       route: selectedConversation.userId
         ? `/messages/${user.userId}/${selectedConversation.userId}`
@@ -53,6 +58,7 @@ const NavBar = () => {
     },
     {
       icon: <AccountCircleIcon fontSize="large" />,
+      altIcon: <AccountCircleOutlinedIcon fontSize="large" />,
       label: "Profile",
       route: `/${user.username}`,
     },
@@ -72,6 +78,7 @@ const NavBar = () => {
               <NavItem
                 key={index}
                 icon={navItem.icon}
+                altIcon={navItem.altIcon}
                 label={navItem.label}
                 route={navItem.route}
                 active={location.pathname === navItem.route}

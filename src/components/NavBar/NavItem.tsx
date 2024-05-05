@@ -4,15 +4,16 @@ import { Link as Routerlink } from "react-router-dom";
 
 type NavItemProps = {
   icon: React.ReactElement;
+  altIcon: React.ReactElement;
   label: string;
   route: string;
   active: boolean;
 };
 
-const NavItem = ({ icon, label, route, active }: NavItemProps) => {
+const NavItem = ({ icon, altIcon, label, route, active }: NavItemProps) => {
   return (
     <ListItemButton component={Routerlink} to={route} selected={active}>
-      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemIcon>{active ? altIcon : icon}</ListItemIcon>
       <ListItemText primary={label} />
     </ListItemButton>
   );
