@@ -6,6 +6,7 @@ import {
   CardContent,
   Link,
   Typography,
+  useTheme,
 } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -52,18 +53,12 @@ const styles = {
     },
   },
   displayName: {
-    fontSize: 15,
-    fontWeight: "bold",
-    color: "black",
     paddingRight: 0.5,
-  },
-  username: {
-    fontSize: "inherit",
-    color: "grey",
   },
 };
 
 const PostItem = ({ post }: PostProps) => {
+  const theme = useTheme();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
@@ -87,24 +82,28 @@ const PostItem = ({ post }: PostProps) => {
         title={
           <Box>
             <Link
+              color={theme.typography.subtitle1.color}
               component={Routerlink}
               to={`/${post.username}`}
               underline="hover"
               sx={styles.displayName}
+              variant="subtitle1"
             >
               {post.displayName}
             </Link>
             <Link
+              color={theme.typography.subtitle2.color}
               component={Routerlink}
               to={`/${post.username}`}
               underline="none"
-              sx={styles.username}
+              variant="subtitle2"
             >
               @{post.username}
             </Link>
           </Box>
         }
         subheader={formatTimestamp(post.timestamp)}
+        subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent sx={styles.cardContent}>

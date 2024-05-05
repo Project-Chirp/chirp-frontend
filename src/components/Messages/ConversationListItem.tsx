@@ -14,18 +14,23 @@ const styles = {
   avatar: { margin: "auto" },
   displayName: {
     flex: "1, 1, auto",
+    lineHeight: "inherit",
     minWidth: 0,
-    fontWeight: "bold",
   },
   primaryTextContainer: {
     display: "flex",
+    lineHeight: "1.25rem",
     gap: 0.5,
   },
   stack: {
     width: "100%",
   },
-  timestamp: { flex: "1, 0, auto", minWidth: "fit-content" },
-  username: { flex: "1, 1, auto", minWidth: 0 },
+  timestamp: {
+    flex: "1, 0, auto",
+    lineHeight: "inherit",
+    minWidth: "fit-content",
+  },
+  username: { flex: "1, 1, auto", lineHeight: "inherit", minWidth: 0 },
 };
 
 type ConversationListItemProps = {
@@ -52,19 +57,19 @@ const ConversationListItem = ({
           disableTypography
           primary={
             <Box sx={styles.primaryTextContainer}>
-              <Typography noWrap sx={styles.displayName} variant="body2">
+              <Typography noWrap sx={styles.displayName} variant="subtitle1">
                 {conversation.displayName}
               </Typography>
-              <Typography noWrap sx={styles.username} variant="body2">
+              <Typography noWrap sx={styles.username} variant="subtitle2">
                 {`@${conversation.username}`}
               </Typography>
-              <Typography noWrap sx={styles.timestamp} variant="body2">
+              <Typography noWrap sx={styles.timestamp} variant="subtitle2">
                 {`- ${formatTimestamp(conversation.timestamp)}`}
               </Typography>
             </Box>
           }
           secondary={
-            <Typography noWrap variant="body2">
+            <Typography noWrap variant="body1">
               {conversation.textContent}
             </Typography>
           }

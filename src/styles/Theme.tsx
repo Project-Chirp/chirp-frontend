@@ -5,47 +5,64 @@ declare module "@mui/material/styles/createPalette" {
   interface PaletteOptions {
     gray: PaletteOptions["primary"];
     white: PaletteOptions["primary"];
+    black: PaletteOptions["primary"];
   }
   interface Palette {
     gray: Palette["primary"];
     white: Palette["primary"];
+    black: Palette["primary"];
   }
 }
 
 const palette = createPalette({
   primary: {
-    main: "#22AA6F",
     contrastText: "#FFFFFF",
-    light: "#c6ebd4",
+    light: "#C6EBD4",
+    main: "#22AA6F",
   },
   secondary: {
     main: "#212529",
   },
   error: {
-    main: "#f44336",
+    main: "#F44336",
   },
   warning: {
-    main: "#ffa726",
+    main: "#FFA726",
   },
   success: {
     main: "#22AA6F",
   },
   gray: {
-    main: "#adb5bd",
+    dark: "#808080",
+    main: "#ADB5BD",
     light: "#F4F5F6",
   },
   white: {
-    main: "#ffffff",
+    main: "#FFFFFF",
+  },
+  black: {
+    main: "#000000",
   },
 });
 
 const theme = createTheme({
   palette: palette,
   typography: {
-    fontFamily: ["Inter"].join(","), // If we want to add more fonts, we can append to the array.
     button: {
       textTransform: "none",
     },
+    body1: { fontSize: "0.9375rem" },
+    body2: { color: palette.gray.dark, fontSize: "0.8125rem" },
+    fontFamily: ["Inter"].join(","), // If we want to add more fonts, we can append to the array.
+    h1: { fontSize: "1.75rem", fontWeight: 400 },
+    h2: { fontSize: "1.5rem", fontWeight: 500 },
+    h3: { fontSize: "1.25rem", fontWeight: 600 },
+    subtitle1: {
+      color: palette.black.main,
+      fontSize: "0.9375rem",
+      fontWeight: "bold",
+    },
+    subtitle2: { color: palette.gray.dark, fontWeight: 400 },
   },
   components: {
     MuiButton: {
@@ -91,6 +108,13 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "50px",
+        },
+      },
+    },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
         },
       },
     },

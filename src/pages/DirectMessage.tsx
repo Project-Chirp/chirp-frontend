@@ -25,7 +25,6 @@ import {
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
-import theme from "../styles/Theme";
 import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
@@ -48,7 +47,6 @@ const styles = {
     flexDirection: "column",
     height: "100%",
   },
-  displayName: { fontWeight: "bold" },
   divider: { height: "auto" },
   headerContainer: {
     alignItems: "center",
@@ -67,7 +65,7 @@ const styles = {
   messageText: {
     padding: 1,
     borderRadius: 10,
-    backgroundColor: "#cce3d9",
+    backgroundColor: "primary.light",
   },
   middleContent: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
   nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
@@ -83,7 +81,7 @@ const styles = {
   sentMessageText: {
     padding: 1,
     borderRadius: 10,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: "primary.main",
   },
   timestamp: { marginTop: 0.5 },
 };
@@ -191,7 +189,7 @@ const DirectMessage = () => {
             <Box sx={styles.headerContent}>
               <UserAvatar username={selectedConversation.username} />
               <Box>
-                <Typography sx={styles.displayName} variant="subtitle1">
+                <Typography variant="subtitle1">
                   {selectedConversation.displayName}
                 </Typography>
                 <Typography variant="subtitle2">{`@${selectedConversation.username}`}</Typography>
@@ -221,11 +219,11 @@ const DirectMessage = () => {
                             : styles.messageText
                         }
                       >
-                        <Typography variant="body2">{o.textContent}</Typography>
+                        <Typography>{o.textContent}</Typography>
                       </Box>
                     }
                     secondary={
-                      <Typography sx={styles.timestamp} variant="caption">
+                      <Typography sx={styles.timestamp} variant="body2">
                         {formatTimestamp(o.timestamp)}
                       </Typography>
                     }
