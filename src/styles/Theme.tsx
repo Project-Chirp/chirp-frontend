@@ -3,18 +3,29 @@ import createPalette from "@mui/material/styles/createPalette";
 
 declare module "@mui/material/styles/createPalette" {
   interface PaletteOptions {
+    black: PaletteOptions["primary"];
     gray: PaletteOptions["primary"];
     white: PaletteOptions["primary"];
-    black: PaletteOptions["primary"];
   }
   interface Palette {
+    black: Palette["primary"];
     gray: Palette["primary"];
     white: Palette["primary"];
-    black: Palette["primary"];
   }
 }
 
 const palette = createPalette({
+  black: {
+    main: "#000000",
+  },
+  error: {
+    main: "#F44336",
+  },
+  gray: {
+    dark: "#808080",
+    main: "#ADB5BD",
+    light: "#F4F5F6",
+  },
   primary: {
     contrastText: "#FFFFFF",
     light: "#C6EBD4",
@@ -23,25 +34,14 @@ const palette = createPalette({
   secondary: {
     main: "#212529",
   },
-  error: {
-    main: "#F44336",
+  success: {
+    main: "#22AA6F",
   },
   warning: {
     main: "#FFA726",
   },
-  success: {
-    main: "#22AA6F",
-  },
-  gray: {
-    dark: "#808080",
-    main: "#ADB5BD",
-    light: "#F4F5F6",
-  },
   white: {
     main: "#FFFFFF",
-  },
-  black: {
-    main: "#000000",
   },
 });
 
@@ -67,13 +67,13 @@ const theme = createTheme({
   components: {
     MuiButton: {
       styleOverrides: {
-        root: {
-          borderRadius: "40px",
+        root: ({ theme }) => ({
+          borderRadius: theme.spacing(5),
           "&.Mui-disabled": {
             backgroundColor: palette.primary.light,
             color: palette.primary.contrastText,
           },
-        },
+        }),
       },
     },
     MuiButtonBase: {
@@ -94,6 +94,27 @@ const theme = createTheme({
         PaperProps: { sx: { borderRadius: 5 } },
       },
     },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          padding: theme.spacing(1, 2, 2, 2),
+        }),
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          padding: theme.spacing(0),
+        }),
+      },
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          padding: theme.spacing(0.5),
+        }),
+      },
+    },
     MuiIconButton: {
       styleOverrides: {
         root: {
@@ -106,9 +127,9 @@ const theme = createTheme({
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: {
-          borderRadius: "50px",
-        },
+        root: ({ theme }) => ({
+          borderRadius: theme.spacing(5),
+        }),
       },
     },
     MuiTabs: {
@@ -125,29 +146,8 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "&.MuiFormControl-root": {
-            padding: "0px",
+            padding: 0,
           },
-        },
-      },
-    },
-    MuiDialogTitle: {
-      styleOverrides: {
-        root: {
-          padding: "4px",
-        },
-      },
-    },
-    MuiDialogContent: {
-      styleOverrides: {
-        root: {
-          padding: "0px",
-        },
-      },
-    },
-    MuiDialogActions: {
-      styleOverrides: {
-        root: {
-          padding: "8px 16px 16px 16px",
         },
       },
     },
