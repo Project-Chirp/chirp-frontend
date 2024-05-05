@@ -17,7 +17,6 @@ import ComposeReply from "./ComposeReply";
 import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
-  author: { fontSize: 14 },
   avatarBox: {
     display: "flex",
     justifyContent: "center",
@@ -42,7 +41,6 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
   },
-  displayName: { fontSize: 14, fontWeight: "bold" },
   line: {
     borderRightWidth: "3px",
   },
@@ -62,21 +60,13 @@ const styles = {
   },
   postContent: {
     paddingRight: 3,
-  },
-  replyingText: {
-    display: "flex",
-    alignItems: "center",
-  },
-  replyingTo: {
-    fontSize: 14,
-    paddingTop: 0.5,
+    paddingBottom: 0.5,
   },
   textContent: {
     flex: "0 0 88%",
     display: "flex",
     flexDirection: "column",
   },
-  username: { fontSize: 14 },
 };
 
 type PostModalProps = {
@@ -112,9 +102,9 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
             </Box>
             <Box sx={styles.textContent}>
               <Box sx={styles.namesAndOption}>
-                <Typography sx={styles.displayName}>
+                <Typography variant="subtitle1">
                   {post.displayName}
-                  <Typography component="span" sx={styles.username}>
+                  <Typography component="span" variant="subtitle2">
                     {` @${post.username}`}
                   </Typography>
                 </Typography>
@@ -125,9 +115,9 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
               <Typography sx={styles.postContent}>
                 {post.textContent}
               </Typography>
-              <Typography variant="subtitle1" sx={styles.replyingTo}>
+              <Typography>
                 Replying to
-                <Typography component="span" color="primary" sx={styles.author}>
+                <Typography component="span" color="primary">
                   {` @${post.username}`}
                 </Typography>
               </Typography>

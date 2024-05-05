@@ -61,8 +61,9 @@ const theme = createTheme({
       color: palette.black.main,
       fontSize: "0.9375rem",
       fontWeight: "bold",
+      lineHeight: 1.43,
     },
-    subtitle2: { color: palette.gray.dark, fontWeight: 400 },
+    subtitle2: { color: palette.gray.dark, fontWeight: 400, lineHeight: 1.43 },
   },
   components: {
     MuiButton: {

@@ -14,12 +14,10 @@ const styles = {
   avatar: { margin: "auto" },
   displayName: {
     flex: "1, 1, auto",
-    lineHeight: "inherit",
     minWidth: 0,
   },
   primaryTextContainer: {
     display: "flex",
-    lineHeight: "1.25rem",
     gap: 0.5,
   },
   stack: {
@@ -27,10 +25,10 @@ const styles = {
   },
   timestamp: {
     flex: "1, 0, auto",
-    lineHeight: "inherit",
+    fontSize: 15,
     minWidth: "fit-content",
   },
-  username: { flex: "1, 1, auto", lineHeight: "inherit", minWidth: 0 },
+  username: { flex: "1, 1, auto", fontSize: 15, minWidth: 0 },
 };
 
 type ConversationListItemProps = {
