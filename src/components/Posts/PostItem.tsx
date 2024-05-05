@@ -42,7 +42,6 @@ const styles = {
     justifyContent: "space-between",
     width: "100%",
   },
-  cardContent: { width: 400 },
   coloredButton: {
     color: "primary.main",
   },
@@ -106,7 +105,7 @@ const PostItem = ({ post }: PostProps) => {
         subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
       />
       <CardActionArea onClick={() => routeChange()}>
-        <CardContent sx={styles.cardContent}>
+        <CardContent>
           <Typography>{post.textContent}</Typography>
         </CardContent>
         {post.imagePath && (

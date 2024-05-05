@@ -54,7 +54,6 @@ const styles = {
   cardActions: {
     width: "100%",
   },
-  cardContent: { width: 400 },
   cardMedia: { maxWidth: 200, margin: "auto" },
   headerTitle: {
     fontWeight: "bold",
@@ -62,7 +61,6 @@ const styles = {
   likedIcon: {
     color: "primary.main",
   },
-  nameText: { lineHeight: "inherit" },
   timestampBox: {
     display: "flex",
     paddingLeft: 2,
@@ -123,7 +121,6 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           <Link
             color={theme.typography.subtitle1.color}
             component={Routerlink}
-            sx={styles.nameText}
             to={`/${post.username}`}
             underline="hover"
             variant="subtitle1"
@@ -135,7 +132,6 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           <Link
             color={theme.typography.subtitle2.color}
             component={Routerlink}
-            sx={styles.nameText}
             to={`/${post.username}`}
             underline="none"
             variant="subtitle2"
@@ -144,7 +140,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           </Link>
         }
       />
-      <CardContent sx={styles.cardContent}>
+      <CardContent>
         <Typography>{post.textContent}</Typography>
       </CardContent>
       {post.imagePath && (
