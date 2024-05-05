@@ -6,11 +6,12 @@ type NavItemProps = {
   icon: React.ReactElement;
   label: string;
   route: string;
+  active: boolean;
 };
 
-const NavItem = ({ icon, label, route }: NavItemProps) => {
+const NavItem = ({ icon, label, route, active }: NavItemProps) => {
   return (
-    <ListItemButton component={Routerlink} to={route}>
+    <ListItemButton component={Routerlink} to={route} selected={active}>
       <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText primary={label} />
     </ListItemButton>

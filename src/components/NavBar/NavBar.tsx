@@ -8,6 +8,7 @@ import PostButtonModal from "./PostButtonModal";
 import { useState } from "react";
 import ComposePost from "../Posts/ComposePost";
 import { useAppSelector } from "../../state/hooks";
+import { useLocation } from "react-router-dom";
 
 const styles = {
   logo: {
@@ -32,6 +33,7 @@ const styles = {
 };
 
 const NavBar = () => {
+  const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
   const { selectedConversation } = useAppSelector((state) => state.messages);
   const user = useAppSelector((state) => state.user);
@@ -72,6 +74,7 @@ const NavBar = () => {
                 icon={navItem.icon}
                 label={navItem.label}
                 route={navItem.route}
+                active={location.pathname === navItem.route}
               />
             ))}
           </List>
