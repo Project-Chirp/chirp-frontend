@@ -20,7 +20,7 @@ const Welcome = () => {
 
   return (
     <Box sx={styles.container}>
-      <Typography variant="h1">Welcome to Chrip</Typography>
+      <Typography variant="h1">Welcome to Chirp</Typography>
       <img style={styles.logo} src={"/logojade.png"} alt="Logo" />
       <Button
         size="large"
