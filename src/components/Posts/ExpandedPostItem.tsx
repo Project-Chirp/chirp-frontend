@@ -21,17 +21,21 @@ import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { useNavigate, useParams } from "react-router-dom";
-import { toggleLikePost } from "../../state/slices/postsSlice";
-import { setExpandedPost } from "../../state/slices/postsSlice";
+import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
+import {
+  toggleLikePost,
+  setExpandedPost,
+  Post,
+} from "../../state/slices/postsSlice";
+
 import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
-import RepliesModal from "./RepliesModal";
-import { Post } from "../../state/slices/postsSlice";
+
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
-import { Link as Routerlink } from "react-router-dom";
+
 import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
+import RepliesModal from "./RepliesModal";
 
 const styles = {
   actionButton: {

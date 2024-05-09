@@ -40,7 +40,7 @@ const initialState: PostSliceType = {
   },
 };
 
-export const postsSlice = createSlice({
+const postsSlice = createSlice({
   name: "post",
   initialState,
   reducers: {

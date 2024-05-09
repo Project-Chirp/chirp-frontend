@@ -30,8 +30,11 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.10",
+    "@typescript-eslint/parser": "^7.8.0",
     "@vitejs/plugin-react": "^4.1.1",
     "eslint": "^8.57.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.34.1",
     "sass": "^1.69.5",
     "typescript-eslint": "^7.8.0",

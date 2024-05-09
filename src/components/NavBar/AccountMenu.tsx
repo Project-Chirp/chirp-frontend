@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Link } from "@mui/material";
-import { Typography } from "@mui/material";
-import { Button } from "@mui/material";
+import { Avatar, Link , Typography , Button } from "@mui/material";
+
+
 import Popover from "@mui/material/Popover";
 import Stack from "@mui/material/Stack/Stack";
 import React from "react";

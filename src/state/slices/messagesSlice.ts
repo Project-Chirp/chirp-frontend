@@ -24,7 +24,7 @@ const initialState: ConversationDetails = {
   conversations: [],
 };
 
-export const messagesSlice = createSlice({
+const messagesSlice = createSlice({
   name: "messages",
   initialState,
   reducers: {

@@ -19,15 +19,19 @@ import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, toggleLikePost } from "../../state/slices/postsSlice";
-import { useNavigate } from "react-router-dom";
-import { setExpandedPost } from "../../state/slices/postsSlice";
+import {
+  Post,
+  toggleLikePost,
+  setExpandedPost,
+} from "../../state/slices/postsSlice";
+import { useNavigate, Link as Routerlink } from "react-router-dom";
+
 import { useState } from "react";
-import RepliesModal from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import formatTimestamp from "../../utilities/formatTimestamp";
-import { Link as Routerlink } from "react-router-dom";
+
 import UserAvatar from "../Common/UserAvatar";
+import RepliesModal from "./RepliesModal";
 
 type PostProps = {
   post: Post;

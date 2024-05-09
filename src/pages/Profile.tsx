@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState , useEffect } from "react";
+
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
   Button,
@@ -19,11 +19,11 @@ import ProfileReplies from "../components/Profile/ProfileReplies";
 import ProfileLikes from "../components/Profile/ProfileLikes";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CakeIcon from "@mui/icons-material/Cake";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams , Link as Routerlink } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
-import { Link as Routerlink } from "react-router-dom";
+
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import FollowingButton from "../components/Common/FollowingButton";
 import FollowButton from "../components/Common/FollowButton";
