@@ -1,5 +1,5 @@
-import { Dialog, DialogTitle, DialogContent, IconButton } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
+import { Dialog, DialogTitle, DialogContent, IconButton } from "@mui/material/";
 
 const styles = {
   dialog: {

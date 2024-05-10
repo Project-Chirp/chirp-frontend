@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import PostItem from "./PostItem";
+import { Divider, Stack } from "@mui/material";
 import axios from "axios";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import { Divider, Stack } from "@mui/material";
+import PostItem from "./PostItem";
 
 const PostList = () => {
   const { posts } = useAppSelector((state) => state.posts);

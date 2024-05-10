@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
   DialogTitle,
@@ -5,11 +6,10 @@ import {
   IconButton,
   Typography,
 } from "@mui/material/";
-import CloseIcon from "@mui/icons-material/Close";
-import MessagesModalList from "./MessagesModalList";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
+import MessagesModalList from "./MessagesModalList";
 import MessagesSearchBar from "./MessagesSearchBar";
 
 const styles = {

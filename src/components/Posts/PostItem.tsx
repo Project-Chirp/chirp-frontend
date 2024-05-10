@@ -1,3 +1,9 @@
+import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import {
   Box,
   Button,
@@ -8,28 +14,20 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import CardHeader from "@mui/material/CardHeader/CardHeader";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import IconButton from "@mui/material/IconButton/IconButton";
-import CardMedia from "@mui/material/CardMedia/CardMedia";
 import CardActions from "@mui/material/CardActions/CardActions";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
-import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import CardHeader from "@mui/material/CardHeader/CardHeader";
+import CardMedia from "@mui/material/CardMedia/CardMedia";
+import IconButton from "@mui/material/IconButton/IconButton";
+import { useState } from "react";
+import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
   Post,
   toggleLikePost,
   setExpandedPost,
 } from "../../state/slices/postsSlice";
-import { useNavigate, Link as Routerlink } from "react-router-dom";
-
-import { useState } from "react";
-import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import formatTimestamp from "../../utilities/formatTimestamp";
-
+import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import UserAvatar from "../Common/UserAvatar";
 import RepliesModal from "./RepliesModal";
 

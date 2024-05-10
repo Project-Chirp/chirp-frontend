@@ -1,13 +1,13 @@
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeIcon from "@mui/icons-material/Home";
 import MailIcon from "@mui/icons-material/Mail";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Avatar, Box, Button, List, Toolbar } from "@mui/material";
+import { useState } from "react";
+import { useAppSelector } from "../../state/hooks";
+import ComposePost from "../Posts/ComposePost";
 import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
 import PostButtonModal from "./PostButtonModal";
-import { useState } from "react";
-import ComposePost from "../Posts/ComposePost";
-import { useAppSelector } from "../../state/hooks";
 
 const styles = {
   icon: {

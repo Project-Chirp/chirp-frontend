@@ -1,3 +1,10 @@
+import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import {
   Box,
   Button,
@@ -8,33 +15,23 @@ import {
   Divider,
   Link,
 } from "@mui/material";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import CardHeader from "@mui/material/CardHeader/CardHeader";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import IconButton from "@mui/material/IconButton/IconButton";
-import CardMedia from "@mui/material/CardMedia/CardMedia";
 import CardActions from "@mui/material/CardActions/CardActions";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
-import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import CardHeader from "@mui/material/CardHeader/CardHeader";
+import CardMedia from "@mui/material/CardMedia/CardMedia";
+import IconButton from "@mui/material/IconButton/IconButton";
+import { useTheme } from "@mui/material/styles";
 import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
   toggleLikePost,
   setExpandedPost,
   Post,
 } from "../../state/slices/postsSlice";
-
 import formatTimestamp from "../../utilities/formatTimestamp";
-import { useEffect, useState } from "react";
-
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
-
 import UserAvatar from "../Common/UserAvatar";
-import { useTheme } from "@mui/material/styles";
 import RepliesModal from "./RepliesModal";
 
 const styles = {
