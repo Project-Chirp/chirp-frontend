@@ -3,11 +3,11 @@ import PostItem from "../Posts/PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import { Divider, Stack } from "@mui/material";
+import { Box, Divider, Stack } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
 import PageLoader from "../../pages/PageLoader";
 import { queryClient } from "../../utilities/queryClient";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 type ProfilePostsProps = {
   userId: number;
@@ -41,28 +41,24 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
     }
   };
 
-  const { error, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-    {
-      queryKey: ["posts"],
-      queryFn: fetchPosts,
-      initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages) => {
-        return lastPage.length ? allPages.length + 1 : undefined;
-      },
-    }
-  );
-
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, inView]);
+  const {
+    error,
+    status,
+    fetchNextPage,
+    isFetchingNextPage,
+    isFetched,
+    hasNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: fetchPosts,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length ? allPages.length + 1 : undefined;
+    },
+  });
 
   useEffect(() => {
     queryClient.clear();
-
     fetchPosts({ pageParam: 1 });
   }, [userId]);
 
@@ -71,12 +67,20 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
 
   return (
     <Stack divider={<Divider />}>
-      {posts.map((o, index) => (
-        <PostItem key={index} post={o} />
-      ))}
-
-      <div ref={ref}>{isFetchingNextPage && "Loading..."}</div>
-      <Divider />
+      <InfiniteScroll
+        dataLength={posts.length}
+        next={fetchNextPage}
+        hasMore={hasNextPage}
+        loader={<h4>Loading...</h4>}
+        scrollableTarget={"scrollable"}
+      >
+        {posts.map((o, index) => (
+          <Box key={index}>
+            <PostItem post={o} />
+            <Divider />
+          </Box>
+        ))}
+      </InfiniteScroll>
     </Stack>
   );
 };

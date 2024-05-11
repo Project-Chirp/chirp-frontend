@@ -3,11 +3,11 @@ import PostItem from "./PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import { Divider, Stack } from "@mui/material";
-import { InView, useInView } from "react-intersection-observer";
+import { Box, Divider, Stack } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { queryClient } from "../../utilities/queryClient";
 import PageLoader from "../../pages/PageLoader";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 type ExpandedPostRepliesProps = {
   postId: number;
@@ -47,43 +47,40 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
     }
   };
 
-  const { error, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-    {
+  const { error, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
       queryKey: ["expandedposts"],
       queryFn: fetchPosts,
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.length ? allPages.length + 1 : undefined;
       },
-    }
-  );
-
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, inView]);
+    });
 
   useEffect(() => {
     queryClient.clear();
     fetchPosts({ pageParam: 1 });
-  }, [user.userId, postId]);
+  }, [postId]);
 
   if (status === "pending") return <PageLoader />;
   if (status === "error") return <div>{error.message}</div>;
 
   return (
     <Stack divider={<Divider />}>
-      {posts
-        .filter((o) => o.parentPostId === postId)
-        .map((o, index) => (
-          <PostItem key={index} post={o} />
+      <InfiniteScroll
+        dataLength={posts.length}
+        next={fetchNextPage}
+        hasMore={hasNextPage}
+        loader={<h4>Loading...</h4>}
+        scrollableTarget={"scrollable"}
+      >
+        {posts.map((o, index) => (
+          <Box key={index}>
+            <PostItem post={o} />
+            <Divider />
+          </Box>
         ))}
-
-      <div ref={ref}>{isFetchingNextPage && "Loading..."}</div>
-      <Divider />
+      </InfiniteScroll>
     </Stack>
   );
 };

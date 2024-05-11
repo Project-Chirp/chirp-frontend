@@ -249,7 +249,7 @@ const DirectMessage = () => {
               component="div"
               ref={messageRef}
               sx={styles.messageList}
-              id="scrollable"
+              id={"scrollable"}
             >
               <InfiniteScroll
                 dataLength={messages.length}
