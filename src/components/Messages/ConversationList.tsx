@@ -11,6 +11,10 @@ import {
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SearchBar from "../Common/SearchBar";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { queryClient } from "../../utilities/queryClient";
+import PageLoader from "../../pages/PageLoader";
 
 const styles = {
   header: {
@@ -30,18 +34,48 @@ const ConversationList = () => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchMessages = async () => {
+  const fetchMessages = async ({ pageParam = 1 }) => {
+    setLoading(true);
+    try {
       const result = await axios.get("http://localhost:3001/api/messages", {
         params: {
           userId: user.userId,
+          offset: pageParam,
         },
       });
-      dispatch(setConversations(result.data));
-    };
-    fetchMessages();
-  }, [dispatch, user]);
+
+      if (pageParam > 1) {
+        dispatch(setConversations([...conversations, ...result.data]));
+      } else {
+        dispatch(setConversations(result.data));
+      }
+
+      return result.data;
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["expandedposts"],
+    queryFn: fetchMessages,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length ? allPages.length + 1 : undefined;
+    },
+  });
+
+  useEffect(() => {
+    queryClient.clear();
+    fetchMessages({ pageParam: 1 });
+  }, [user]);
+
+  if (status === "pending") return <PageLoader />;
+  if (status === "error") return <div>{error.message}</div>;
 
   return (
     <Box>
@@ -56,23 +90,31 @@ const ConversationList = () => {
       </Box>
       <Divider />
       <List component="div">
-        {conversations.map((o) => (
-          <ConversationListItem
-            key={o.otherUserId}
-            conversation={o}
-            onClick={() => {
-              dispatch(
-                setSelectedConversation({
-                  displayName: o.displayName,
-                  username: o.username,
-                  userId: o.otherUserId,
-                })
-              );
-              navigate(`/messages/${user.userId}/${o.otherUserId}`);
-            }}
-            selected={selectedConversation.userId === o.otherUserId}
-          />
-        ))}
+        <InfiniteScroll
+          dataLength={conversations.length}
+          next={fetchNextPage}
+          hasMore={hasNextPage}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget={"scrollable"}
+        >
+          {conversations.map((o) => (
+            <ConversationListItem
+              key={o.otherUserId}
+              conversation={o}
+              onClick={() => {
+                dispatch(
+                  setSelectedConversation({
+                    displayName: o.displayName,
+                    username: o.username,
+                    userId: o.otherUserId,
+                  })
+                );
+                navigate(`/messages/${user.userId}/${o.otherUserId}`);
+              }}
+              selected={selectedConversation.userId === o.otherUserId}
+            />
+          ))}
+        </InfiniteScroll>
       </List>
       <CreateMessageModal
         onClose={() => showMessageModal(false)}
