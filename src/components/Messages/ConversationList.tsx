@@ -31,51 +31,21 @@ const ConversationList = () => {
     (state) => state.messages
   );
   const [messageModal, showMessageModal] = useState(false);
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-
-  const fetchMessages = async ({ pageParam = 1 }) => {
-    setLoading(true);
-    try {
-      const result = await axios.get("http://localhost:3001/api/messages", {
-        params: {
-          userId: user.userId,
-          offset: pageParam,
-        },
-      });
-
-      if (pageParam > 1) {
-        dispatch(setConversations([...conversations, ...result.data]));
-      } else {
-        dispatch(setConversations(result.data));
-      }
-
-      return result.data;
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["expandedposts"],
-    queryFn: fetchMessages,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length ? allPages.length + 1 : undefined;
-    },
-  });
 
   useEffect(() => {
-    queryClient.clear();
-    fetchMessages({ pageParam: 1 });
-  }, [user]);
-
-  if (status === "pending") return <PageLoader />;
-  if (status === "error") return <div>{error.message}</div>;
+    const fetchMessages = async () => {
+      const result = await axios.get("http://localhost:3001/api/messages", {
+        params: {
+          userId: userId,
+        },
+      });
+      dispatch(setConversations(result.data));
+    };
+    fetchMessages();
+  }, [dispatch, userId]);
 
   return (
     <Box>
@@ -90,30 +60,23 @@ const ConversationList = () => {
       </Box>
       <Divider />
       <List component="div">
-        <InfiniteScroll
-          dataLength={conversations.length}
-          next={fetchNextPage}
-          hasMore={hasNextPage}
-          loader={<PageLoader />}
-        >
-          {conversations.map((o) => (
-            <ConversationListItem
-              key={o.otherUserId}
-              conversation={o}
-              onClick={() => {
-                dispatch(
-                  setSelectedConversation({
-                    displayName: o.displayName,
-                    username: o.username,
-                    userId: o.otherUserId,
-                  })
-                );
-                navigate(`/messages/${user.userId}/${o.otherUserId}`);
-              }}
-              selected={selectedConversation.userId === o.otherUserId}
-            />
-          ))}
-        </InfiniteScroll>
+        {conversations.map((o) => (
+          <ConversationListItem
+            key={o.otherUserId}
+            conversation={o}
+            onClick={() => {
+              dispatch(
+                setSelectedConversation({
+                  displayName: o.displayName,
+                  username: o.username,
+                  userId: o.otherUserId,
+                })
+              );
+              navigate(`/messages/${userId}/${o.otherUserId}`);
+            }}
+            selected={selectedConversation.userId === o.otherUserId}
+          />
+        ))}
       </List>
       <CreateMessageModal
         onClose={() => showMessageModal(false)}
