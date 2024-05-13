@@ -19,7 +19,8 @@ import ComingSoon from "./pages/ComingSoon";
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-  const user = useAppSelector((state) => state.user);
+  const userIsLoading = useAppSelector((state) => state.user.isLoading);
+  const username = useAppSelector((state) => state.user.username);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -39,7 +40,7 @@ function App() {
     getUser();
   }, [getAccessTokenSilently, dispatch]);
 
-  if (isLoading || (isAuthenticated && user.isLoading)) {
+  if (isLoading || (isAuthenticated && userIsLoading)) {
     return <PageLoader />;
   }
 
@@ -47,7 +48,7 @@ function App() {
     return <Welcome />;
   }
 
-  if (!user.username) {
+  if (!username) {
     return <Register />;
   }
 
