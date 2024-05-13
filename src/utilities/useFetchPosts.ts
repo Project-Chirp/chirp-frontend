@@ -6,7 +6,7 @@ import { Post, setPosts } from "../state/slices/postsSlice";
 const useFetchPosts = (url: string, userId?: number) => {
   const posts = useAppSelector((state) => state.posts.posts);
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const fetchPosts = async (pageParam = 1) => {
     setLoading(true);
