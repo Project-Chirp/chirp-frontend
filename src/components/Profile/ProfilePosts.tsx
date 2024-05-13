@@ -1,69 +1,40 @@
 import { useEffect } from "react";
 import PostItem from "../Posts/PostItem";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, setPosts } from "../../state/slices/postsSlice";
+import { useAppSelector } from "../../state/hooks";
 import { Box, Divider, Stack } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import PageLoader from "../../pages/PageLoader";
 import { queryClient } from "../../utilities/queryClient";
 import InfiniteScroll from "react-infinite-scroll-component";
+import useFetchPosts from "../../utilities/useFetchPosts";
 
 type ProfilePostsProps = {
   userId: number;
 };
 
 const ProfilePosts = ({ userId }: ProfilePostsProps) => {
-  const { posts } = useAppSelector((state) => state.posts);
-  const dispatch = useAppDispatch();
+  const posts = useAppSelector((state) => state.posts.posts);
+  const { fetchPosts } = useFetchPosts(
+    "http://localhost:3001/api/profile/getUserPosts",
+    userId
+  );
 
-  const fetchPosts = async ({ pageParam = 1 }) => {
-    try {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getUserPosts",
-        {
-          params: {
-            visitedUserId: userId,
-            offset: pageParam,
-          },
-        }
-      );
+  useEffect(() => {
+    queryClient.clear();
+    fetchPosts(1);
+  }, [userId]);
 
-      if (pageParam > 1) {
-        dispatch(setPosts([...posts, ...result.data] as Post[]));
-      } else {
-        dispatch(setPosts(result.data as Post[]));
-      }
-
-      return result.data;
-    } catch (error) {
-      console.log("error fetching posts:", error);
-    }
-  };
-
-  const {
-    error,
-    status,
-    fetchNextPage,
-    isFetchingNextPage,
-    isFetched,
-    hasNextPage,
-  } = useInfiniteQuery({
+  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ["posts"],
-    queryFn: fetchPosts,
+    queryFn: ({ pageParam }) => fetchPosts(pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length ? allPages.length + 1 : undefined;
     },
   });
 
-  useEffect(() => {
-    queryClient.clear();
-    fetchPosts({ pageParam: 1 });
-  }, [userId]);
-
   if (status === "pending") return <PageLoader />;
-  if (status === "error") return <div>{error.message}</div>;
+  if (status === "error") return <Box>{error.message}</Box>; // TODO: Create an Error Component
 
   return (
     <Stack divider={<Divider />}>
@@ -72,7 +43,6 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
         next={fetchNextPage}
         hasMore={hasNextPage}
         loader={<PageLoader />}
-        scrollableTarget={"scrollable"}
       >
         {posts.map((o, index) => (
           <Box key={index}>

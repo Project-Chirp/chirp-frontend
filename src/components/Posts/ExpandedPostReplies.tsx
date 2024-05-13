@@ -14,19 +14,19 @@ type ExpandedPostRepliesProps = {
 };
 
 const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
-  const { posts } = useAppSelector((state) => state.posts);
-  const user = useAppSelector((state) => state.user);
+  const posts = useAppSelector((state) => state.posts.posts);
+  const userId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
-  const fetchPosts = async ({ pageParam = 1 }) => {
+  const fetchReplies = async ({ pageParam = 1 }) => {
     setLoading(true);
     try {
       const resultReplies = await axios.get(
         "http://localhost:3001/api/posts/fetchReplies",
         {
           params: {
-            userId: user.userId,
+            userId: userId,
             postId: postId,
             offset: pageParam,
           },
@@ -40,30 +40,29 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
       }
 
       return resultReplies.data;
-    } catch (e) {
-      console.log(e.message);
+    } catch (error) {
+      console.log(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const { error, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["expandedposts"],
-      queryFn: fetchPosts,
-      initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages) => {
-        return lastPage.length ? allPages.length + 1 : undefined;
-      },
-    });
+  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["expandedposts"],
+    queryFn: fetchReplies,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length ? allPages.length + 1 : undefined;
+    },
+  });
 
   useEffect(() => {
     queryClient.clear();
-    fetchPosts({ pageParam: 1 });
+    fetchReplies({ pageParam: 1 });
   }, [postId]);
 
   if (status === "pending") return <PageLoader />;
-  if (status === "error") return <div>{error.message}</div>;
+  if (status === "error") return <Box>{error.message}</Box>; // TODO: Create an Error Component
 
   return (
     <Stack divider={<Divider />}>
@@ -72,7 +71,6 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
         next={fetchNextPage}
         hasMore={hasNextPage}
         loader={<PageLoader />}
-        scrollableTarget={"scrollable"}
       >
         {posts.map((o, index) => (
           <Box key={index}>

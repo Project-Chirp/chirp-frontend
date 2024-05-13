@@ -11,7 +11,15 @@ import useFetchPosts from "../../utilities/useFetchPosts";
 const PostList = () => {
   const posts = useAppSelector((state) => state.posts.posts);
   const user = useAppSelector((state) => state.user);
-  const { fetchPosts } = useFetchPosts("http://localhost:3001/api/posts");
+  const { fetchPosts } = useFetchPosts(
+    "http://localhost:3001/api/posts",
+    user.userId
+  );
+
+  useEffect(() => {
+    queryClient.clear();
+    fetchPosts(1);
+  }, [user.userId]);
 
   const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ["timeline"],
@@ -22,13 +30,8 @@ const PostList = () => {
     },
   });
 
-  useEffect(() => {
-    queryClient.clear();
-    fetchPosts(1);
-  }, [user.userId]);
-
   if (status === "pending") return <PageLoader />;
-  if (status === "error") return <div>{error.message}</div>; // TODO: Create an Error Component
+  if (status === "error") return <Box>{error.message}</Box>; // TODO: Create an Error Component
 
   return (
     <Stack divider={<Divider />}>

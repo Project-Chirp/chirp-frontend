@@ -3,9 +3,8 @@ import { useAppDispatch, useAppSelector } from "../state/hooks";
 import axios from "axios";
 import { Post, setPosts } from "../state/slices/postsSlice";
 
-const useFetchPosts = (url: string) => {
+const useFetchPosts = (url: string, userId?: number) => {
   const posts = useAppSelector((state) => state.posts.posts);
-  const userId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
@@ -34,7 +33,7 @@ const useFetchPosts = (url: string) => {
     }
   };
 
-  return { fetchPosts };
+  return { fetchPosts, loading };
 };
 
 export default useFetchPosts;

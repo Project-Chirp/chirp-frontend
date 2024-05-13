@@ -95,7 +95,6 @@ const ConversationList = () => {
           next={fetchNextPage}
           hasMore={hasNextPage}
           loader={<PageLoader />}
-          scrollableTarget={"scrollable"}
         >
           {conversations.map((o) => (
             <ConversationListItem
