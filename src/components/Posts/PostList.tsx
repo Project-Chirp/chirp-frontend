@@ -10,16 +10,16 @@ import useFetchPosts from "../../utilities/useFetchPosts";
 
 const PostList = () => {
   const posts = useAppSelector((state) => state.posts.posts);
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const { fetchPosts } = useFetchPosts(
     "http://localhost:3001/api/posts",
-    user.userId
+    userId
   );
 
   useEffect(() => {
     queryClient.clear();
     fetchPosts(1);
-  }, [user.userId]);
+  }, [userId]);
 
   const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ["timeline"],

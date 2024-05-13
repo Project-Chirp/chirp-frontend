@@ -19,6 +19,11 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    queryClient.clear();
+    fetchReplies({ pageParam: 1 });
+  }, [postId]);
+
   const fetchReplies = async ({ pageParam = 1 }) => {
     setLoading(true);
     try {
@@ -55,11 +60,6 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
       return lastPage.length ? allPages.length + 1 : undefined;
     },
   });
-
-  useEffect(() => {
-    queryClient.clear();
-    fetchReplies({ pageParam: 1 });
-  }, [postId]);
 
   if (status === "pending") return <PageLoader />;
   if (status === "error") return <Box>{error.message}</Box>; // TODO: Create an Error Component
