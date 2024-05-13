@@ -40,7 +40,6 @@ const PostList = () => {
         next={fetchNextPage}
         hasMore={hasNextPage}
         loader={<PageLoader />}
-        scrollableTarget={"scrollable"}
       >
         {posts.map((o, index) => (
           <Box key={index}>

@@ -70,6 +70,7 @@ const styles = {
   messageList: {
     overflow: "auto",
     display: "flex",
+    flex: 1,
     flexDirection: "column-reverse",
   },
   messageText: {
@@ -334,6 +335,7 @@ const DirectMessage = () => {
           </Box>
         </Box>
       </Box>
+      <Divider orientation="vertical" />
     </Stack>
   );
 };
