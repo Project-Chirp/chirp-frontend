@@ -71,7 +71,7 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
         dataLength={posts.length}
         next={fetchNextPage}
         hasMore={hasNextPage}
-        loader={<h4>Loading...</h4>}
+        loader={<PageLoader />}
         scrollableTarget={"scrollable"}
       >
         {posts.map((o, index) => (

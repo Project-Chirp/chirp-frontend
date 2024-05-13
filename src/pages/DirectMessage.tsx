@@ -257,7 +257,7 @@ const DirectMessage = () => {
                 style={{ display: "flex", flexDirection: "column-reverse" }}
                 inverse={true}
                 hasMore={hasNextPage}
-                loader={<h4>Loading...</h4>}
+                loader={<PageLoader />}
                 scrollableTarget={"scrollable"}
               >
                 {messages.map((o, index) => (
