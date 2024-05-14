@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Divider,
   InputAdornment,
   List,
@@ -29,6 +30,11 @@ import theme from "../styles/Theme";
 import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
+import { queryClient } from "../utilities/queryClient";
+import PageLoader from "./PageLoader";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -61,7 +67,12 @@ const styles = {
     flexDirection: "column",
     alignItems: "flex-start",
   },
-  messageList: { flex: 1, overflowY: "scroll" },
+  messageList: {
+    overflow: "auto",
+    display: "flex",
+    flex: 1,
+    flexDirection: "column-reverse",
+  },
   messageText: {
     padding: 1,
     borderRadius: 10,
@@ -108,25 +119,55 @@ const DirectMessage = () => {
     (o) => o.otherUserId === Number(userId2)
   );
 
-  useEffect(() => {
-    const fetchDirectMessage = async () => {
-      const result = await axios.get(
-        `http://localhost:3001/api/messages/${userId1}/${userId2}`
+  const fetchUser = async () => {
+    try {
+      const otherUser = await axios.get(
+        `http://localhost:3001/api/messages/${userId2}`
       );
-      setMessages(result.data.messages as Message[]);
+
       dispatch(
         setSelectedConversation({
-          ...result.data.otherUser,
+          ...otherUser.data,
           userId: Number(userId2),
         })
       );
-    };
-    fetchDirectMessage();
-  }, [dispatch, userId1, userId2]);
+    } catch (error) {
+      console.log("error fetching user data:", error);
+    }
+  };
+
+  const fetchDirectMessage = async ({ pageParam = 1 }) => {
+    try {
+      const result = await axios.get(
+        `http://localhost:3001/api/messages/${userId1}/${userId2}?offset=${pageParam}`
+      );
+
+      if (pageParam > 1) {
+        setMessages([...messages, ...result.data] as Message[]);
+      } else {
+        setMessages(result.data as Message[]);
+      }
+
+      return result.data;
+    } catch (error) {
+      console.log("error fetching posts:", error);
+    }
+  };
+
+  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["messages"],
+    queryFn: fetchDirectMessage,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length ? allPages.length + 1 : undefined;
+    },
+  });
 
   useEffect(() => {
-    messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
-  }, [messages]);
+    queryClient.clear();
+    fetchDirectMessage({ pageParam: 1 });
+    fetchUser();
+  }, [userId2]);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -139,7 +180,7 @@ const DirectMessage = () => {
         })
       ).data as Message;
       setTextContent("");
-      setMessages([...messages, newMessage]);
+      setMessages([newMessage, ...messages]);
       if (userExists) {
         dispatch(
           setSelectedConversation({
@@ -166,10 +207,14 @@ const DirectMessage = () => {
           username: selectedConversation.username,
         })
       );
+      messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
     } catch (err) {
       console.log(err);
     }
   };
+
+  if (status === "pending") return <PageLoader />;
+  if (status === "error") return <div>{error.message}</div>;
 
   return (
     <Stack
@@ -201,35 +246,52 @@ const DirectMessage = () => {
           </Box>
           <Divider />
           <Box sx={styles.chatContainer}>
-            <List component="div" ref={messageRef} sx={styles.messageList}>
-              {messages.map((o) => (
-                <ListItem component="div" key={o.messageId}>
-                  <ListItemText
-                    sx={
-                      o.sentUserId === user.userId
-                        ? styles.sentMessage
-                        : styles.message
-                    }
-                    disableTypography
-                    primary={
-                      <Box
-                        sx={
-                          o.sentUserId === user.userId
-                            ? styles.sentMessageText
-                            : styles.messageText
-                        }
-                      >
-                        <Typography variant="body2">{o.textContent}</Typography>
-                      </Box>
-                    }
-                    secondary={
-                      <Typography sx={styles.timestamp} variant="caption">
-                        {formatTimestamp(o.timestamp)}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              ))}
+            <List
+              component="div"
+              ref={messageRef}
+              sx={styles.messageList}
+              id={"scrollable"}
+            >
+              <InfiniteScroll
+                dataLength={messages.length}
+                next={fetchNextPage}
+                style={{ display: "flex", flexDirection: "column-reverse" }}
+                inverse={true}
+                hasMore={hasNextPage}
+                loader={<PageLoader />}
+                scrollableTarget={"scrollable"}
+              >
+                {messages.map((o, index) => (
+                  <ListItem component="div" key={index}>
+                    <ListItemText
+                      sx={
+                        o.sentUserId === user.userId
+                          ? styles.sentMessage
+                          : styles.message
+                      }
+                      disableTypography
+                      primary={
+                        <Box
+                          sx={
+                            o.sentUserId === user.userId
+                              ? styles.sentMessageText
+                              : styles.messageText
+                          }
+                        >
+                          <Typography variant="body2">
+                            {o.textContent}
+                          </Typography>
+                        </Box>
+                      }
+                      secondary={
+                        <Typography sx={styles.timestamp} variant="caption">
+                          {formatTimestamp(o.timestamp)}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                ))}
+              </InfiniteScroll>
             </List>
             <Divider />
             <form onSubmit={onSubmit}>
@@ -273,6 +335,7 @@ const DirectMessage = () => {
           </Box>
         </Box>
       </Box>
+      <Divider orientation="vertical" />
     </Stack>
   );
 };

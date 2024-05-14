@@ -1,39 +1,56 @@
 import { useEffect } from "react";
 import PostItem from "../Posts/PostItem";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, setPosts } from "../../state/slices/postsSlice";
-import { Divider, Stack } from "@mui/material";
+import { useAppSelector } from "../../state/hooks";
+import { Box, Divider, Stack } from "@mui/material";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { queryClient } from "../../utilities/queryClient";
+import PageLoader from "../../pages/PageLoader";
+import InfiniteScroll from "react-infinite-scroll-component";
+import useFetchPosts from "../../utilities/useFetchPosts";
 
 type ProfileRepliesProps = {
   userId: number;
 };
 
 const ProfileReplies = ({ userId }: ProfileRepliesProps) => {
-  const { posts } = useAppSelector((state) => state.posts);
-  const dispatch = useAppDispatch();
+  const posts = useAppSelector((state) => state.posts.posts);
+  const { fetchPosts } = useFetchPosts(
+    "http://localhost:3001/api/profile/getUserReplies",
+    userId
+  );
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getUserReplies",
-        {
-          params: {
-            visitedUserId: userId,
-          },
-        }
-      );
-      dispatch(setPosts(result.data as Post[]));
-    };
-    fetchPosts();
-  }, [dispatch, userId]);
+    queryClient.clear();
+    fetchPosts(1);
+  }, [userId]);
+
+  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["replies"],
+    queryFn: ({ pageParam }) => fetchPosts(pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length ? allPages.length + 1 : undefined;
+    },
+  });
+
+  if (status === "pending") return <PageLoader />;
+  if (status === "error") return <Box>{error.message}</Box>; // TODO: Create an Error Component
 
   return (
-    <Stack divider={<Divider />}>
-      {posts.map((o, index) => (
-        <PostItem key={index} post={o} />
-      ))}
-      <Divider />
+    <Stack>
+      <InfiniteScroll
+        dataLength={posts.length}
+        next={fetchNextPage}
+        hasMore={hasNextPage}
+        loader={<PageLoader />}
+      >
+        {posts.map((o, index) => (
+          <Box key={index}>
+            <PostItem post={o} />
+            <Divider />
+          </Box>
+        ))}
+      </InfiniteScroll>
     </Stack>
   );
 };
