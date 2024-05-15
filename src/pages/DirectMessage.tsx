@@ -29,7 +29,8 @@ import theme from "../styles/Theme";
 import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
-import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
+import EmojiPicker, { EmojiStyle, EmojiClickData } from "emoji-picker-react";
+import ClickOffEmojis from "../components/Common/ClickOffEmojiPicker";
 import zIndex from "@mui/material/styles/zIndex";
 
 const styles = {
@@ -86,7 +87,7 @@ const styles = {
     backgroundColor: theme.palette.primary.main,
   },
   timestamp: { marginTop: 0.5 },
-  emojiContainer: { position: "absolute", marginBottom: 65, zIndex: 1 },
+  emojiContainer: { position: "absolute", marginBottom: 45, zIndex: 1 },
 };
 
 export type Message = {
@@ -111,7 +112,7 @@ const DirectMessage = () => {
     (o) => o.otherUserId === Number(userId2)
   );
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const twitterEmojiStyle = EmojiStyle.TWITTER;
+  const dmMargin = "marginBottom: 65";
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
@@ -173,19 +174,6 @@ const DirectMessage = () => {
       );
     } catch (err) {
       console.log(err);
-    }
-  };
-  const emojiContainerRef = useRef<HTMLDivElement>(null);
-  const clickOffEmojiPicker = (event: React.FocusEvent) => {
-    const emojiButton = event.relatedTarget as HTMLElement;
-    const isEmojiButton = emojiButton && emojiButton.id === "emoji-button";
-
-    if (
-      emojiContainerRef.current &&
-      !emojiContainerRef.current.contains(emojiButton) &&
-      !isEmojiButton
-    ) {
-      setShowEmojiPicker(false);
     }
   };
 
@@ -271,22 +259,17 @@ const DirectMessage = () => {
                           <EmojiEmotionsOutlinedIcon />
                         </IconButton>
                         {showEmojiPicker && (
-                          <Box
-                            sx={styles.emojiContainer}
-                            ref={emojiContainerRef}
-                            tabIndex={0}
-                            onBlur={clickOffEmojiPicker}
-                          >
-                            <EmojiPicker
-                              emojiStyle={twitterEmojiStyle}
-                              onEmojiClick={(emoji) => {
-                                setTextContent(
-                                  (prevContent) => prevContent + emoji.emoji
-                                );
-                              }}
-                              previewConfig={{ showPreview: false }}
-                            />
-                          </Box>
+                          <ClickOffEmojis
+                            setPostContent={(emoji: EmojiClickData) => {
+                              setTextContent(
+                                (prevContent) => prevContent + emoji.emoji
+                              );
+                            }}
+                            setShowEmojiPicker={() => {
+                              setShowEmojiPicker(false);
+                            }}
+                            emojiContainerStyle={styles.emojiContainer}
+                          />
                         )}
                         <IconButton>
                           <GifBoxOutlinedIcon />

@@ -6,7 +6,8 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
-import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
+import EmojiPicker, { EmojiStyle, EmojiClickData } from "emoji-picker-react";
+import ClickOffEmojis from "../Common/ClickOffEmojiPicker";
 
 type ComposePostProps = {
   placeholder: string;
@@ -40,23 +41,8 @@ const styles = {
 const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const emojiContainerRef = useRef<HTMLDivElement>(null);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const twitterEmojiStyle = EmojiStyle.TWITTER;
-
-  const clickOffEmojiPicker = (event: React.FocusEvent) => {
-    const emojiButton = event.relatedTarget as HTMLElement;
-    const isEmojiButton = emojiButton && emojiButton.id === "emoji-button";
-
-    if (
-      emojiContainerRef.current &&
-      !emojiContainerRef.current.contains(emojiButton) &&
-      !isEmojiButton
-    ) {
-      setShowEmojiPicker(false);
-    }
-  };
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -78,6 +64,10 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
       console.log(err);
     }
   };
+
+  // useEffect(() => {
+  //   console.log(showEmojiPicker);
+  // }, [showEmojiPicker]);
 
   return (
     <form onSubmit={onSubmit}>
@@ -106,7 +96,13 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
                 <IconButton
                   id="emoji-button"
                   size="small"
-                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    if (!showEmojiPicker) {
+                      console.log("test");
+                      setShowEmojiPicker(true);
+                    }
+                  }}
                 >
                   <EmojiEmotionsOutlinedIcon />
                 </IconButton>
@@ -117,29 +113,20 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
               size="small"
               type="submit"
               variant="contained"
-              onBlur={(event) => clickOffEmojiPicker(event)}
             >
               Post
             </Button>
           </Box>
           {showEmojiPicker && (
-            <Box
-              sx={styles.emojiContainer}
-              ref={emojiContainerRef}
-              tabIndex={0}
-              onBlur={clickOffEmojiPicker}
-            >
-              <EmojiPicker
-                style={styles.emojiPicker}
-                emojiStyle={twitterEmojiStyle}
-                onEmojiClick={(emoji) => {
-                  setPostTextContent(
-                    (prevContent) => prevContent + emoji.emoji
-                  );
-                }}
-                previewConfig={{ showPreview: false }}
-              />
-            </Box>
+            <ClickOffEmojis
+              setPostContent={(emoji: EmojiClickData) => {
+                setPostTextContent((prevContent) => prevContent + emoji.emoji);
+              }}
+              setShowEmojiPicker={() => {
+                setShowEmojiPicker(false);
+              }}
+              emojiContainerStyle={styles.emojiContainer}
+            />
           )}
         </Box>
       </Box>

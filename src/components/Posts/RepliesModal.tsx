@@ -92,6 +92,7 @@ const styles = {
   paperProps: {
     overflow: "visible",
     borderRadius: 20,
+    padding: 10, //Fix padding
   },
 };
 

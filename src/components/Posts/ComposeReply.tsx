@@ -6,7 +6,8 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { addReply } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
-import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
+import EmojiPicker, { EmojiStyle, EmojiClickData } from "emoji-picker-react";
+import ClickOffEmojis from "../Common/ClickOffEmojiPicker";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -38,7 +39,7 @@ const styles = {
     padddingY: 0,
     justifyContent: "space-between",
   },
-  emojiContainer: { position: "absolute", zIndex: 1, marginTop: 5 },
+  emojiContainer: { position: "absolute", zIndex: 1 },
   emojiPicker: {
     height: 300,
     width: 250,
@@ -55,10 +56,7 @@ const ComposeReply = ({
   const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const twitterEmojiStyle = EmojiStyle.TWITTER;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-
-  const emojiContainerRef = useRef<HTMLDivElement>(null);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -83,19 +81,6 @@ const ComposeReply = ({
       onClose?.();
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const clickOffEmojiPicker = (event: React.FocusEvent) => {
-    const emojiButton = event.relatedTarget as HTMLElement;
-    const isEmojiButton = emojiButton && emojiButton.id === "emoji-button";
-
-    if (
-      emojiContainerRef.current &&
-      !emojiContainerRef.current.contains(emojiButton) &&
-      !isEmojiButton
-    ) {
-      setShowEmojiPicker(false);
     }
   };
 
@@ -125,7 +110,6 @@ const ComposeReply = ({
               sx={styles.postButton}
               type="submit"
               variant="contained"
-              onBlur={(event) => clickOffEmojiPicker(event)}
             >
               Post
             </Button>
@@ -144,26 +128,20 @@ const ComposeReply = ({
               >
                 <EmojiEmotionsOutlinedIcon />
               </IconButton>
-              {showEmojiPicker && (
-                <Box
-                  sx={styles.emojiContainer}
-                  ref={emojiContainerRef}
-                  tabIndex={0}
-                  onBlur={clickOffEmojiPicker}
-                >
-                  <EmojiPicker
-                    style={styles.emojiPicker}
-                    emojiStyle={twitterEmojiStyle}
-                    onEmojiClick={(emoji) => {
-                      setPostTextContent(
-                        (prevContent) => prevContent + emoji.emoji
-                      );
-                    }}
-                    previewConfig={{ showPreview: false }}
-                  />
-                </Box>
-              )}
             </Stack>
+            {showEmojiPicker && (
+              <ClickOffEmojis
+                setPostContent={(emoji: EmojiClickData) => {
+                  setPostTextContent(
+                    (prevContent) => prevContent + emoji.emoji
+                  );
+                }}
+                setShowEmojiPicker={() => {
+                  setShowEmojiPicker(false);
+                }}
+                emojiContainerStyle={styles.emojiContainer}
+              />
+            )}
           </Box>
         )}
       </Box>
