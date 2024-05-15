@@ -3,6 +3,8 @@ import SuggestedUserItem from "./SuggestedUsers";
 import SidebarFooter from "./SidebarFooter";
 import Advertisement from "./Advertisement";
 import SearchBar from "../Common/SearchBar";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const styles = {
   rightContent: {
@@ -17,10 +19,22 @@ const styles = {
 };
 
 const SideBar = () => {
+  const [focusSearchBar, setFocusSearchBar] = useState(false);
+  const navigate = useNavigate();
+  const onSelect = (selectedUsername: string) => {
+    const path = `/${selectedUsername}`;
+    navigate(path);
+  };
+
   return (
     <Box sx={styles.rightContent}>
       <Box sx={styles.searchBarContainer}>
-        <SearchBar placeholder="Search Chirp" />
+        <SearchBar
+          placeholder="Search Chirp"
+          onSearchOpen={() => setFocusSearchBar(true)}
+          onSearchClose={() => setFocusSearchBar(false)}
+          onSelect={onSelect}
+        />
       </Box>
       <SuggestedUserItem />
       <Advertisement />

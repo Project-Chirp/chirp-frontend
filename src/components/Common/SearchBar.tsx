@@ -12,14 +12,18 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { User } from "../../state/slices/userSlice";
 import axios from "axios";
+import { queryClient } from "../../utilities/queryClient";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import PageLoader from "../../pages/PageLoader";
+import { useAuth0 } from "@auth0/auth0-react";
+import { SelectedUser } from "../../state/slices/messagesSlice";
 
 type SearchBarProps = {
   placeholder: string;
   onSearchOpen: () => void;
   onSearchClose: () => void;
-  onSelect: (state?: number) => void;
+  onSelect: (state: string) => void;
 };
 
 const styles = {
@@ -41,22 +45,59 @@ const SearchBar = ({
   onSearchOpen,
   onSelect,
 }: SearchBarProps) => {
+  const { getAccessTokenSilently } = useAuth0();
   const [keywords, setKeywords] = useState("");
-  const [userList, setUserList] = useState<User[]>([]);
-
-  const fetchUsers = async ({ pageParam = 1 }) => {
-    const result = await axios.get("http://localhost:3001/api/users/getUsers", {
-      params: {
-        keyword: keywords,
-        offset: pageParam,
-      },
-    });
-    setUserList(result.data as User[]);
-  };
+  const [userList, setUserList] = useState<SelectedUser[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchUsers({ pageParam: 1 });
+    if (keywords.trim().length > 0) {
+      fetchUsers({ pageParam: 1 });
+    }
   }, [keywords]);
+
+  const fetchUsers = async ({ pageParam = 1 }) => {
+    setLoading(true);
+    try {
+      const token = await getAccessTokenSilently();
+      const result = await axios.get(
+        `http://localhost:3001/api/users/getUsers`,
+        {
+          params: {
+            keyword: keywords,
+            offset: 1,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (pageParam > 1) {
+        setUserList((prev) => [...prev, ...result.data]);
+      } else {
+        setUserList(result.data as SelectedUser[]);
+      }
+
+      return result.data;
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["searchUsers"],
+    queryFn: fetchUsers,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length ? allPages.length + 1 : undefined;
+    },
+  });
+
+  if (status === "pending") return <PageLoader />;
+  if (status === "error") return <Box>{error.message}</Box>; // TODO: Create an Error Component
 
   return (
     <Box sx={styles.box}>
@@ -69,11 +110,17 @@ const SearchBar = ({
         onClose={onSearchClose}
         options={userList}
         openOnFocus
+        loading={loading}
+        filterOptions={(x) => x}
+        onInputChange={(event, newInputValue) => {
+          setKeywords(newInputValue);
+        }}
+        inputValue={keywords}
+        ListboxProps={{ sx: { position: "relative" } }}
         renderInput={(params) => {
           return (
             <TextField
               {...params}
-              onChange={(word) => setKeywords(word.target.value)}
               fullWidth
               hiddenLabel
               InputProps={{
@@ -96,7 +143,7 @@ const SearchBar = ({
             <ListItemButton
               key={option.userId}
               component="li"
-              onClick={() => onSelect(option.userId)}
+              onClick={() => onSelect(option.username)}
             >
               <ListItemAvatar>
                 <Avatar />
