@@ -43,7 +43,7 @@ const Messages = () => {
         <Box sx={styles.rightContent}>
           <Box sx={styles.selectMessageContainer}>
             <Box>
-              <Typography variant="h6">Select a Message</Typography>
+              <Typography variant="h1">Select a Message</Typography>
               <Typography>
                 Choose one of your existing conversations or start a new one!
               </Typography>
