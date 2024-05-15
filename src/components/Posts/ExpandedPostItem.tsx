@@ -31,11 +31,11 @@ import { Post } from "../../state/slices/postsSlice";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
+import { useTheme } from "@mui/material/styles";
 
 const styles = {
   actionButton: {
-    color: "black",
-    textTransform: "none",
+    color: "black.main",
     "&:hover": {
       backgroundColor: "transparent",
     },
@@ -45,8 +45,7 @@ const styles = {
     paddingX: 1,
     paddingY: 1,
   },
-  actionCount: { fontWeight: "bold", fontSize: 14.5, paddingRight: 0.5 },
-  actionText: { fontSize: 14.5 },
+  actionCount: { fontWeight: "bold", paddingRight: 0.5 },
   backButton: { "&:hover": { backgroundColor: "transparent" } },
   card: {
     padding: 0,
@@ -55,23 +54,12 @@ const styles = {
   cardActions: {
     width: "100%",
   },
-  cardContent: { width: 400 },
   cardMedia: { maxWidth: 200, margin: "auto" },
-  displayName: {
-    fontSize: 15,
-    fontWeight: "bold",
-    color: "black",
-    paddingRight: 0.5,
-  },
   headerTitle: {
     fontWeight: "bold",
   },
   likedIcon: {
     color: "primary.main",
-  },
-  timestamp: {
-    fontSize: 14.5,
-    color: "#a4a8ab",
   },
   timestampBox: {
     display: "flex",
@@ -79,12 +67,9 @@ const styles = {
     paddingY: 1,
   },
   topHeader: {
-    display: "flex",
     alignItems: "center",
-  },
-  username: {
-    fontSize: "inherit",
-    color: "grey",
+    display: "flex",
+    paddingTop: 1,
   },
 };
 
@@ -93,6 +78,7 @@ type ExpandedPostItemProps = {
 };
 
 const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
+  const theme = useTheme();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const urlParams = useParams();
@@ -118,11 +104,11 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
 
   return (
     <Card sx={styles.card}>
-      <Box style={styles.topHeader}>
+      <Box sx={styles.topHeader}>
         <IconButton onClick={() => navigate(-1)} sx={styles.backButton}>
           <KeyboardBackspaceIcon color="secondary" />
         </IconButton>
-        <Typography style={styles.headerTitle}>Post</Typography>
+        <Typography variant="h2">Post</Typography>
       </Box>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
@@ -133,26 +119,28 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         }
         title={
           <Link
+            color={theme.typography.subtitle1.color}
             component={Routerlink}
             to={`/${post.username}`}
             underline="hover"
-            sx={styles.displayName}
+            variant="subtitle1"
           >
             {post.displayName}
           </Link>
         }
         subheader={
           <Link
+            color={theme.typography.subtitle2.color}
             component={Routerlink}
             to={`/${post.username}`}
             underline="none"
-            sx={styles.username}
+            variant="subtitle2"
           >
             @{post.username}
           </Link>
         }
       />
-      <CardContent sx={styles.cardContent}>
+      <CardContent>
         <Typography>{post.textContent}</Typography>
       </CardContent>
       {post.imagePath && (
@@ -163,7 +151,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
-        <Typography component="span" sx={styles.timestamp}>
+        <Typography component="span" variant="subtitle2">
           {formatTimestamp(post.timestamp)}
         </Typography>
       </Box>
@@ -174,9 +162,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfReposts}
             </Typography>
-            <Typography component="span" sx={styles.actionText}>
-              Reposts
-            </Typography>
+            <Typography component="span">Reposts</Typography>
           </Button>
         </Box>
         <Box>
@@ -184,9 +170,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfReplies}
             </Typography>
-            <Typography component="span" sx={styles.actionText}>
-              Replies
-            </Typography>
+            <Typography component="span">Replies</Typography>
           </Button>
         </Box>
         <Box>
@@ -194,9 +178,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfLikes}
             </Typography>
-            <Typography component="span" sx={styles.actionText}>
-              Likes
-            </Typography>
+            <Typography component="span">Likes</Typography>
           </Button>
         </Box>
       </Box>

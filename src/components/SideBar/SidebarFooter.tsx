@@ -1,10 +1,8 @@
-import { Box, Link } from "@mui/material";
+import { Box, Link, useTheme } from "@mui/material";
 import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
   footerText: {
-    color: "gray.main",
-    fontSize: 12,
     paddingRight: 1.5,
   },
   footerNav: {
@@ -14,66 +12,62 @@ const styles = {
 };
 
 const SidebarFooter = () => {
+  const theme = useTheme();
   return (
     <Box component="nav" sx={styles.footerNav}>
       <Link
+        color={theme.typography.body2.color}
         component={Routerlink}
         sx={styles.footerText}
         target="_blank"
         to="/coming-soon"
         underline="hover"
-        variant="subtitle2"
+        variant="body2"
       >
         Terms of Service
       </Link>
       <Link
+        color={theme.typography.body2.color}
         component={Routerlink}
         sx={styles.footerText}
         target="_blank"
         to="/coming-soon"
         underline="hover"
-        variant="subtitle2"
+        variant="body2"
       >
         Privacy Policy
       </Link>
       <Link
+        color={theme.typography.body2.color}
         component={Routerlink}
         sx={styles.footerText}
         target="_blank"
         to="/coming-soon"
         underline="hover"
-        variant="subtitle2"
+        variant="body2"
       >
         Contact Us
       </Link>
       <Link
+        color={theme.typography.body2.color}
         component={Routerlink}
         sx={styles.footerText}
         target="_blank"
         to="/coming-soon"
         underline="hover"
-        variant="subtitle2"
+        variant="body2"
       >
         About The Team
       </Link>
       <Link
+        color={theme.typography.body2.color}
         href="https://github.com/Project-Chirp"
         sx={styles.footerText}
         target="_blank"
         underline="hover"
-        variant="subtitle2"
+        variant="body2"
       >
         GitHub
-      </Link>
-      <Link
-        component={Routerlink}
-        sx={styles.footerText}
-        target="_blank"
-        to="/coming-soon"
-        underline="hover"
-        variant="subtitle2"
-      >
-        Docs
       </Link>
     </Box>
   );
