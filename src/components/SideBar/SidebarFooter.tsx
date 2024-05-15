@@ -69,17 +69,6 @@ const SidebarFooter = () => {
       >
         GitHub
       </Link>
-      <Link
-        color={theme.typography.body2.color}
-        component={Routerlink}
-        sx={styles.footerText}
-        target="_blank"
-        to="/coming-soon"
-        underline="hover"
-        variant="body2"
-      >
-        Docs
-      </Link>
     </Box>
   );
 };
