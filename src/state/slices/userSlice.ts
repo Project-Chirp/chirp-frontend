@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export type User = {
+type User = {
   isLoading: boolean;
   userId?: number;
   username?: string;
