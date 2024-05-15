@@ -50,6 +50,7 @@ const styles = {
     backgroundColor: "primary.main",
   },
   bio: { paddingTop: 1 },
+  displayName: { fontWeight: 700 },
   editProfileButton: {
     fontWeight: "bold",
     color: "black.main",
@@ -63,6 +64,7 @@ const styles = {
   header: {
     alignItems: "center",
     display: "flex",
+    gap: 2,
     padding: 1,
   },
   nameContainer: { paddingTop: 1 },
@@ -223,7 +225,7 @@ const Profile = () => {
                     ))}
                 </Box>
                 <Box sx={styles.nameContainer}>
-                  <Typography variant="h3">
+                  <Typography variant="h3" sx={styles.displayName}>
                     {profileContents.displayName}
                   </Typography>
                   <Typography variant="subtitle2" sx={styles.username}>
