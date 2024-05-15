@@ -39,7 +39,7 @@ const AccountMenu = () => {
       <Button onClick={handleClick} sx={styles.button}>
         <Avatar />
         <Stack sx={styles.nameContainer}>
-          <Typography color="primary" variant="subtitle1" fontSize={15}>
+          <Typography color="primary" variant="subtitle1">
             {user.displayName}
           </Typography>
           <Typography
