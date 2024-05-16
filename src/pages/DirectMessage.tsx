@@ -246,7 +246,6 @@ const DirectMessage = () => {
           </Box>
           <Divider />
           <Box sx={styles.chatContainer}>
-<<<<<<< HEAD
             <List
               component="div"
               ref={messageRef}
@@ -293,37 +292,6 @@ const DirectMessage = () => {
                   </ListItem>
                 ))}
               </InfiniteScroll>
-=======
-            <List component="div" ref={messageRef} sx={styles.messageList}>
-              {messages.map((o) => (
-                <ListItem component="div" key={o.messageId}>
-                  <ListItemText
-                    sx={
-                      o.sentUserId === user.userId
-                        ? styles.sentMessage
-                        : styles.message
-                    }
-                    disableTypography
-                    primary={
-                      <Box
-                        sx={
-                          o.sentUserId === user.userId
-                            ? styles.sentMessageText
-                            : styles.messageText
-                        }
-                      >
-                        <Typography>{o.textContent}</Typography>
-                      </Box>
-                    }
-                    secondary={
-                      <Typography sx={styles.timestamp} variant="body2">
-                        {formatTimestamp(o.timestamp)}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              ))}
->>>>>>> main
             </List>
             <Divider />
             <form onSubmit={onSubmit}>
