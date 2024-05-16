@@ -61,12 +61,18 @@ const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
+  const [clipboardPath, setClipboardPath] = useState("");
 
   const navigate = useNavigate();
   const routeChange = () => {
     const path = `/post/${post.postId}`;
     navigate(path);
     dispatch(setExpandedPost(post));
+  };
+
+  const clipboardCopy = () => {
+    const path = `http://localhost:3000/post/${post.postId}`;
+    navigator.clipboard.writeText(path);
   };
 
   return (
@@ -155,7 +161,7 @@ const PostItem = ({ post }: PostProps) => {
             {post.numberOfLikes}
           </Button>
           <IconButton>
-            <ShareOutlinedIcon />
+            <ShareOutlinedIcon onClick={() => clipboardCopy()} />
           </IconButton>
         </Box>
       </CardActions>

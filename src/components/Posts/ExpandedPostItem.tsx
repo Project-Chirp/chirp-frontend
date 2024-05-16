@@ -102,6 +102,11 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
 
   const navigate = useNavigate();
 
+  const clipboardCopy = () => {
+    const path = `http://localhost:3000/post/${post.postId}`;
+    navigator.clipboard.writeText(path);
+  };
+
   return (
     <Card sx={styles.card}>
       <Box sx={styles.topHeader}>
@@ -217,7 +222,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             )}
           </IconButton>
           <IconButton>
-            <ShareOutlinedIcon />
+            <ShareOutlinedIcon onClick={() => clipboardCopy()} />
           </IconButton>
         </Stack>
       </CardActions>
