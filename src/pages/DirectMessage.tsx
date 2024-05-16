@@ -278,7 +278,7 @@ const DirectMessage = () => {
                               : styles.messageText
                           }
                         >
-                          <Typography variant="body2">
+                          <Typography variant="body1">
                             {o.textContent}
                           </Typography>
                         </Box>
