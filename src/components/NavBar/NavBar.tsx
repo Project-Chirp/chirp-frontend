@@ -10,6 +10,10 @@ import ComposePost from "../Posts/ComposePost";
 import { useAppSelector } from "../../state/hooks";
 
 const styles = {
+  icon: {
+    color: "black.main",
+    opacity: 0.8,
+  },
   logo: {
     alignSelf: "left",
     height: 50,
@@ -24,7 +28,7 @@ const styles = {
     marginBottom: "auto",
     width: "100%",
   },
-  postButton: { margin: 2 },
+  postButton: { fontSize: 18, margin: 2 },
   toolbar: {
     height: "100%",
     marginLeft: "auto",
@@ -38,19 +42,19 @@ const NavBar = () => {
 
   const navItems = [
     {
-      icon: <HomeIcon />,
+      icon: <HomeIcon sx={styles.icon} />,
       label: "Home",
       route: "/",
     },
     {
-      icon: <MailIcon />,
+      icon: <MailIcon sx={styles.icon} />,
       label: "Messages",
       route: selectedConversation.userId
         ? `/messages/${user.userId}/${selectedConversation.userId}`
         : "/messages",
     },
     {
-      icon: <AccountCircleIcon />,
+      icon: <AccountCircleIcon sx={styles.icon} />,
       label: "Profile",
       route: `/${user.username}`,
     },

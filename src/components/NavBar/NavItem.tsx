@@ -12,7 +12,10 @@ const NavItem = ({ icon, label, route }: NavItemProps) => {
   return (
     <ListItemButton component={Routerlink} to={route}>
       <ListItemIcon>{icon}</ListItemIcon>
-      <ListItemText primary={label} />
+      <ListItemText
+        primary={label}
+        primaryTypographyProps={{ variant: "h3" }}
+      />
     </ListItemButton>
   );
 };

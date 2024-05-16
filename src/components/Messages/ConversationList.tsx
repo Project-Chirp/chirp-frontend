@@ -18,10 +18,12 @@ import PageLoader from "../../pages/PageLoader";
 
 const styles = {
   header: {
+    alignItems: "center",
     display: "flex",
     justifyContent: "space-between",
-    paddingTop: 2,
-    paddingX: 2,
+    paddingTop: 1,
+    paddingLeft: 2,
+    paddingRight: 1,
   },
   searchBarContainer: { padding: 1 },
 };
@@ -50,7 +52,7 @@ const ConversationList = () => {
   return (
     <Box>
       <Box sx={styles.header}>
-        <Typography variant="h6">Messages</Typography>
+        <Typography variant="h2">Messages</Typography>
         <IconButton onClick={() => showMessageModal(true)}>
           <ChatOutlinedIcon />
         </IconButton>

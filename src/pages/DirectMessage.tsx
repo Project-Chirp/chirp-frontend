@@ -26,7 +26,6 @@ import {
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
-import theme from "../styles/Theme";
 import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
@@ -56,6 +55,7 @@ const styles = {
   },
   divider: { height: "auto" },
   headerContainer: {
+    alignItems: "center",
     display: "flex",
     justifyContent: "space-between",
     paddingLeft: 2,
@@ -76,7 +76,7 @@ const styles = {
   messageText: {
     padding: 1,
     borderRadius: 10,
-    backgroundColor: "#cce3d9",
+    backgroundColor: "primary.light",
   },
   middleContent: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
   nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
@@ -92,7 +92,7 @@ const styles = {
   sentMessageText: {
     padding: 1,
     borderRadius: 10,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: "primary.main",
   },
   timestamp: { marginTop: 0.5 },
 };

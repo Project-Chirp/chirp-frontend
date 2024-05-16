@@ -39,8 +39,13 @@ const AccountMenu = () => {
       <Button onClick={handleClick} sx={styles.button}>
         <Avatar />
         <Stack sx={styles.nameContainer}>
-          <Typography>{user.displayName}</Typography>
-          <Typography>{`@${user.username}`}</Typography>
+          <Typography color="primary" variant="subtitle1">
+            {user.displayName}
+          </Typography>
+          <Typography
+            color="primary"
+            variant="subtitle2"
+          >{`@${user.username}`}</Typography>
         </Stack>
       </Button>
       <Popover
