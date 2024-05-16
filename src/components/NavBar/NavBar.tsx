@@ -63,7 +63,7 @@ const NavBar = () => {
       route: `/${user.username}`,
     },
   ];
-
+  console.log(location);
   return (
     <>
       <Toolbar sx={styles.toolbar}>

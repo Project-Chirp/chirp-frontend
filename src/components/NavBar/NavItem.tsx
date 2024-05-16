@@ -1,5 +1,5 @@
 import React from "react";
-import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { Link as Routerlink } from "react-router-dom";
 
 type NavItemProps = {
@@ -10,11 +10,34 @@ type NavItemProps = {
   active: boolean;
 };
 
+const styles = {
+  navItem: {
+    borderRadius: "30px",
+    // width: "auto",
+    ":hover": {
+      bgcolor: "green",
+    },
+  },
+  box: {
+    display: "flex",
+    width: "auto",
+    // alignItems: "center",
+    // padding: "10px",
+  },
+};
+
 const NavItem = ({ icon, altIcon, label, route, active }: NavItemProps) => {
   return (
-    <ListItemButton component={Routerlink} to={route} selected={active}>
-      <ListItemIcon>{active ? altIcon : icon}</ListItemIcon>
-      <ListItemText primary={label} />
+    <ListItemButton
+      sx={styles.navItem}
+      component={Routerlink}
+      to={route}
+      selected={active}
+    >
+      <Box sx={styles.box}>
+        <ListItemIcon>{active ? altIcon : icon}</ListItemIcon>
+        <ListItemText primary={label} />
+      </Box>
     </ListItemButton>
   );
 };

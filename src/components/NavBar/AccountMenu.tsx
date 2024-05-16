@@ -6,6 +6,7 @@ import Popover from "@mui/material/Popover";
 import Stack from "@mui/material/Stack/Stack";
 import React from "react";
 import { useAppSelector } from "../../state/hooks";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const styles = {
   button: {
@@ -58,6 +59,7 @@ const AccountMenu = () => {
         }}
       >
         <Button component={Link} onClick={() => logout()}>
+          <LogoutIcon></LogoutIcon>
           Log Out
         </Button>
       </Popover>
