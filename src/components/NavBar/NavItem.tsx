@@ -13,16 +13,16 @@ type NavItemProps = {
 const styles = {
   navItem: {
     borderRadius: "30px",
-    // width: "auto",
+    width: "fit-content",
+    paddingLeft: "12px",
+    paddingRight: "12px",
+    transitionDuration: "0.2s",
     ":hover": {
-      bgcolor: "green",
+      bgcolor: "inherit",
     },
   },
   box: {
     display: "flex",
-    width: "auto",
-    // alignItems: "center",
-    // padding: "10px",
   },
 };
 
