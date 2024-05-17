@@ -15,28 +15,20 @@ const styles = {
   },
   nameContainer: { paddingLeft: 2, textAlign: "left" },
   popover: {
-    padding: "10px 0", // Padding around the popover content
-    borderRadius: "8px", // Rounded corners
-    "&::after": {
-      content: '""',
-      // position: "absolute",
-      position: "relative",
-      bottom: "-10px", // Position the arrow at the bottom
-      left: "50%",
-      transform: "translateX(-50%)",
-      borderWidth: "10px",
-      borderStyle: "solid",
-      // borderColor: "#1c1c1c transparent transparent transparent", // Arrow color matching the popover background
-    },
+    paddingTop: "10px",
+    paddingBottom: "10px",
+    borderRadius: "10px", // Rounded corners
   },
   popoverButton: {
-    justifyContent: "flex-start", // Align text to the left
-    padding: "10px 20px", // Padding for the button
-    textTransform: "none", // Keep the text in the original case
+    paddingTop: "5px",
+    paddingBottom: "5px",
+    paddingRight: "20px",
+    paddingLeft: "20px",
+    textTransform: "none",
   },
-  // popoverIcon: {
-  //   marginRight: "10px",
-  // },
+  popoverIcon: {
+    marginRight: "10px",
+  },
 };
 
 const AccountMenu = () => {
@@ -87,9 +79,7 @@ const AccountMenu = () => {
           component={Link}
           onClick={() => logout()}
         >
-          <LogoutIcon
-          // sx={styles.popoverIcon}
-          ></LogoutIcon>
+          <LogoutIcon sx={styles.popoverIcon}></LogoutIcon>
           Log Out
         </Button>
       </Popover>
