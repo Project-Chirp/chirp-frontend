@@ -31,6 +31,7 @@ const SideBar = () => {
       <Box sx={styles.searchBarContainer}>
         <SearchBar
           placeholder="Search Chirp"
+          focusSearchBar={focusSearchBar}
           onSearchOpen={() => setFocusSearchBar(true)}
           onSearchClose={() => setFocusSearchBar(false)}
           onSelect={onSelect}
