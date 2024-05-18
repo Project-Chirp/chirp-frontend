@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { queryClient } from "../../utilities/queryClient";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import PageLoader from "../../pages/PageLoader";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -35,6 +34,9 @@ const styles = {
   },
   displayName: {
     fontWeight: "bold",
+  },
+  listBox: {
+    position: "sticky",
   },
   searchIcon: { paddingRight: 0 },
 };
@@ -116,7 +118,7 @@ const SearchBar = ({
           setKeywords(newInputValue);
         }}
         inputValue={keywords}
-        ListboxProps={{ sx: { position: "relative" } }}
+        ListboxProps={{ sx: styles.listBox }}
         renderInput={(params) => {
           return (
             <TextField
@@ -152,7 +154,7 @@ const SearchBar = ({
                 disableTypography
                 primary={
                   <Box>
-                    <Typography sx={styles.displayName} variant="body2">
+                    <Typography sx={styles.displayName} variant="body1">
                       {option.displayName}
                     </Typography>
                     <Typography variant="body2">{`@${option.username}`}</Typography>
