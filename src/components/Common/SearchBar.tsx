@@ -20,13 +20,16 @@ import { SelectedUser } from "../../state/slices/messagesSlice";
 
 type SearchBarProps = {
   placeholder: string;
+  focusSearchBar: boolean;
   onSearchOpen: () => void;
   onSearchClose: () => void;
   onSelect: (state: string) => void;
 };
 
 const styles = {
-  autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
+  autocomplete: {
+    "&.MuiAutocomplete-input": { paddingX: 0 },
+  },
   box: {
     paddingBottom: 1,
     paddingTop: 0,
@@ -39,10 +42,17 @@ const styles = {
     position: "sticky",
   },
   searchIcon: { paddingRight: 0 },
+  searchIconFocused: {
+    paddingRight: 0,
+    "&.Mui-disabled": {
+      color: "primary.main",
+    },
+  },
 };
 
 const SearchBar = ({
   placeholder,
+  focusSearchBar,
   onSearchClose,
   onSearchOpen,
   onSelect,
@@ -119,6 +129,7 @@ const SearchBar = ({
         }}
         inputValue={keywords}
         ListboxProps={{ sx: styles.listBox }}
+        clearIcon
         renderInput={(params) => {
           return (
             <TextField
@@ -129,7 +140,14 @@ const SearchBar = ({
                 ...params.InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <IconButton disabled sx={styles.searchIcon}>
+                    <IconButton
+                      disabled
+                      sx={
+                        focusSearchBar
+                          ? styles.searchIconFocused
+                          : styles.searchIcon
+                      }
+                    >
                       <SearchRoundedIcon />
                     </IconButton>
                   </InputAdornment>
