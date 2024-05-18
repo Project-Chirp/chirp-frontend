@@ -30,7 +30,6 @@ import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
 import { queryClient } from "../utilities/queryClient";
 import PageLoader from "./PageLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
