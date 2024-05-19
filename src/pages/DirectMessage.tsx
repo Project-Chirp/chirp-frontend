@@ -253,6 +253,7 @@ const DirectMessage = () => {
                               (prevContent) => prevContent + emoji.emoji
                             );
                           }}
+                          pickerPosition="top"
                         />
                         <IconButton>
                           <GifBoxOutlinedIcon />

@@ -5,24 +5,29 @@ import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
 
 type EmojiPickerIconButtonProps = {
   onEmojiClick: (emoji: EmojiClickData) => void;
+  pickerHeight?: number;
+  pickerPosition?: "top" | "bottom";
+  pickerWidth?: number;
 };
 
 const styles = {
-  emojiContainer: { position: "absolute", top: 150, zIndex: 1 },
+  emojiContainer: { position: "absolute", zIndex: 1 },
   emojiPicker: {
-    height: 300,
-    width: 250,
     "--epr-emoji-size": "25px",
   },
 };
 
 const EmojiPickerIconButton = ({
   onEmojiClick,
+  pickerHeight = 450,
+  pickerPosition = "bottom",
+  pickerWidth = 350,
 }: EmojiPickerIconButtonProps) => {
   const emojiContainerRef = useRef<HTMLDivElement>(null);
   const emojiIconButtonRef = useRef<HTMLButtonElement>(null);
   const twitterEmojiStyle = EmojiStyle.TWITTER;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const top = pickerPosition === "bottom" ? 150 : -450;
 
   const handleClick = (event: MouseEvent) => {
     if (
@@ -51,12 +56,15 @@ const EmojiPickerIconButton = ({
       >
         <EmojiEmotionsOutlinedIcon />
       </IconButton>
-      <Box sx={styles.emojiContainer} ref={emojiContainerRef}>
+      <Box sx={{ ...styles.emojiContainer, top: top }} ref={emojiContainerRef}>
         <EmojiPicker
           emojiStyle={twitterEmojiStyle}
+          height={pickerHeight}
           onEmojiClick={onEmojiClick}
           open={showEmojiPicker}
           previewConfig={{ showPreview: false }}
+          style={styles.emojiPicker as React.CSSProperties}
+          width={pickerWidth}
         />
       </Box>
     </>
