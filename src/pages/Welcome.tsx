@@ -13,10 +13,6 @@ const styles = {
     width: 250,
     height: 250,
   },
-  title: {
-    fontWeight: 700,
-    fontSize: 32,
-  },
 };
 
 const Welcome = () => {
@@ -24,9 +20,7 @@ const Welcome = () => {
 
   return (
     <Box sx={styles.container}>
-      <Typography sx={styles.title} variant="h1">
-        Welcome to Chrip
-      </Typography>
+      <Typography variant="h1">Welcome to Chirp</Typography>
       <img style={styles.logo} src={"/logojade.png"} alt="Logo" />
       <Button
         size="large"

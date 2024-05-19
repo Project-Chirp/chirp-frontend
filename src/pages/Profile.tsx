@@ -10,6 +10,7 @@ import {
   Box,
   Divider,
   Link,
+  useTheme,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ProfilePosts from "../components/Profile/ProfilePosts";
@@ -49,25 +50,13 @@ const styles = {
     backgroundColor: "primary.main",
   },
   bio: { paddingTop: 1 },
-  displayName: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
+  displayName: { fontWeight: 700 },
   editProfileButton: {
-    textTransform: "none",
     fontWeight: "bold",
-    color: "black",
+    color: "black.main",
     minWidth: "84px",
     ":hover": {
       backgroundColor: "primary.light",
-    },
-  },
-  followerButtons: {
-    color: "black",
-    padding: 0,
-    textTransform: "none",
-    "&:hover": {
-      backgroundColor: "transparent",
     },
   },
   followerCount: { fontWeight: "bold" },
@@ -75,25 +64,20 @@ const styles = {
   header: {
     alignItems: "center",
     display: "flex",
+    gap: 2,
+    padding: 1,
   },
   nameContainer: { paddingTop: 1 },
   personalInfo: {
     alignItems: "center",
     display: "flex",
-    color: "grey",
+    color: "gray.dark",
     gap: 2,
     paddingTop: 1,
   },
   personalInfoContent: { display: "flex", gap: 0.5 },
   profileContent: { padding: 2 },
-  tabs: {
-    textTransform: "none",
-  },
-  tweetCount: { fontSize: 13 },
-  username: {
-    color: "#71797E",
-    fontSize: 15,
-  },
+  username: { fontSize: 16 },
 };
 
 export type EditableProfileContents = Pick<
@@ -115,6 +99,7 @@ export type ProfileContent = {
 };
 
 const Profile = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { username } = useParams();
@@ -185,16 +170,16 @@ const Profile = () => {
       <Layout
         middleContent={
           <Box>
-            <Box style={styles.header}>
+            <Box sx={styles.header}>
               <IconButton onClick={() => navigate(-1)}>
                 <KeyboardBackspaceIcon color="secondary" />
               </IconButton>
               <Box>
-                <Typography sx={styles.displayName}>
+                <Typography variant="h3">
                   {profileContents.displayName}
                 </Typography>
-                <Typography sx={styles.tweetCount}>
-                  {profileContents.postCount} Tweets
+                <Typography variant="subtitle2">
+                  {profileContents.postCount} Posts
                 </Typography>
               </Box>
             </Box>
@@ -240,10 +225,10 @@ const Profile = () => {
                     ))}
                 </Box>
                 <Box sx={styles.nameContainer}>
-                  <Typography variant="h2" sx={styles.displayName}>
+                  <Typography variant="h3" sx={styles.displayName}>
                     {profileContents.displayName}
                   </Typography>
-                  <Typography variant="h3" sx={styles.username}>
+                  <Typography variant="subtitle2" sx={styles.username}>
                     @{profileContents.username}
                   </Typography>
                 </Box>
@@ -268,10 +253,10 @@ const Profile = () => {
                 </Box>
                 <Box sx={styles.followerContainer}>
                   <Link
+                    color={theme.palette.black.main}
                     component={Routerlink}
                     to={`/${username}`} // TODO: Create Modal to check followers
                     underline="hover"
-                    sx={styles.followerButtons}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followerCount}
@@ -279,10 +264,10 @@ const Profile = () => {
                     <Typography component="span"> Followers</Typography>
                   </Link>
                   <Link
+                    color={theme.palette.black.main}
                     component={Routerlink}
                     to={`/${username}`} // TODO: Create Modal to check following
                     underline="hover"
-                    sx={styles.followerButtons}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
@@ -299,9 +284,9 @@ const Profile = () => {
               value={value}
               variant="fullWidth"
             >
-              <Tab sx={styles.tabs} value="one" label="Tweets" />
-              <Tab sx={styles.tabs} value="two" label="Replies" />
-              <Tab sx={styles.tabs} value="three" label="Likes" />
+              <Tab value="one" label="Tweets" />
+              <Tab value="two" label="Replies" />
+              <Tab value="three" label="Likes" />
             </Tabs>
             <Divider />
             {!loading && profileContents.userId && (
