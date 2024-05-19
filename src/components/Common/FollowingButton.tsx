@@ -11,7 +11,6 @@ const styles = {
     color: "primary.main",
     fontWeight: "bold",
     minWidth: "84px",
-    textTransform: "none",
     "&:hover": {
       boxShadow: "none",
       backgroundColor: "white.main",

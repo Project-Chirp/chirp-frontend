@@ -5,6 +5,7 @@ import {
   ListItemButton,
   ListItemText,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
@@ -25,24 +26,12 @@ const styles = {
     width: "100%",
     overflow: "hidden",
   },
-  displayName: {
-    fontWeight: "bold",
-    color: "black",
-    fontSize: "0.875rem",
-  },
   listItemText: { marginY: 0.5 },
-  title: {
-    fontWeight: "bold",
-    paddingX: 2,
-    paddingY: 1,
-  },
-  username: {
-    color: "rgba(0, 0, 0, 0.6)",
-    fontSize: "0.875rem",
-  },
+  title: { fontWeight: "bold", paddingX: 2, paddingY: 1 },
 };
 
 const RelevantUsers = () => {
+  const theme = useTheme();
   const relevantUser = useAppSelector((state) => state.posts.expandedPost);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -59,24 +48,27 @@ const RelevantUsers = () => {
         <ListItemText
           primary={
             <Link
-              color="inherit"
+              color={theme.typography.subtitle1.color}
               component={Routerlink}
               to={`/${relevantUser.username}`}
               underline="hover"
+              variant="subtitle1"
             >
-              <Typography component="span" sx={styles.displayName}>
-                {relevantUser.displayName}
-              </Typography>
+              {relevantUser.displayName}
             </Link>
           }
           secondary={
             <Typography
+              color={theme.typography.subtitle2.color}
               component="span"
-              sx={styles.username}
-            >{`@${relevantUser.username}`}</Typography>
+              variant="subtitle2"
+            >
+              {`@${relevantUser.username}`}
+            </Typography>
           }
           sx={styles.listItemText}
         />
+        {/* TODO: Remove this if the post is by the current user */}
         {relevantUser.followStatus ? (
           <FollowingButton
             onClick={() => dispatch(toggleFollow(false))}

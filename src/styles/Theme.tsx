@@ -3,60 +3,78 @@ import createPalette from "@mui/material/styles/createPalette";
 
 declare module "@mui/material/styles/createPalette" {
   interface PaletteOptions {
+    black: PaletteOptions["primary"];
     gray: PaletteOptions["primary"];
     white: PaletteOptions["primary"];
   }
   interface Palette {
+    black: Palette["primary"];
     gray: Palette["primary"];
     white: Palette["primary"];
   }
 }
 
 const palette = createPalette({
+  black: {
+    main: "#000000",
+  },
+  error: {
+    main: "#F44336",
+  },
+  gray: {
+    dark: "#808080",
+    main: "#ADB5BD",
+    light: "#F4F5F6",
+  },
   primary: {
-    main: "#22AA6F",
     contrastText: "#FFFFFF",
-    light: "#c6ebd4",
+    light: "#C6EBD4",
+    main: "#22AA6F",
   },
   secondary: {
     main: "#212529",
   },
-  error: {
-    main: "#f44336",
-  },
-  warning: {
-    main: "#ffa726",
-  },
   success: {
     main: "#22AA6F",
   },
-  gray: {
-    main: "#adb5bd",
-    light: "#F4F5F6",
+  warning: {
+    main: "#FFA726",
   },
   white: {
-    main: "#ffffff",
+    main: "#FFFFFF",
   },
 });
 
 const theme = createTheme({
   palette: palette,
   typography: {
-    fontFamily: ["Inter"].join(","), // If we want to add more fonts, we can append to the array.
     button: {
-      fontSize: "1rem",
+      textTransform: "none",
     },
+    body1: { fontSize: "0.9375rem" },
+    body2: { color: palette.gray.dark, fontSize: "0.8125rem" },
+    fontFamily: ["Inter"].join(","), // If we want to add more fonts, we can append to the array.
+    h1: { fontSize: "1.75rem", fontWeight: 400 },
+    h2: { fontSize: "1.5rem", fontWeight: 500 },
+    h3: { fontSize: "1.25rem", fontWeight: 600 },
+    subtitle1: {
+      color: palette.black.main,
+      fontSize: "0.9375rem",
+      fontWeight: "bold",
+      lineHeight: 1.43,
+    },
+    subtitle2: { color: palette.gray.dark, fontWeight: 400, lineHeight: 1.43 },
   },
   components: {
     MuiButton: {
       styleOverrides: {
-        root: {
-          borderRadius: "40px",
+        root: ({ theme }) => ({
+          borderRadius: theme.spacing(5),
           "&.Mui-disabled": {
             backgroundColor: palette.primary.light,
             color: palette.primary.contrastText,
           },
-        },
+        }),
       },
     },
     MuiButtonBase: {
@@ -77,6 +95,27 @@ const theme = createTheme({
         PaperProps: { sx: { borderRadius: 5 } },
       },
     },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          padding: theme.spacing(1, 2, 2, 2),
+        }),
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          padding: theme.spacing(0),
+        }),
+      },
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          padding: theme.spacing(0.5),
+        }),
+      },
+    },
     MuiIconButton: {
       styleOverrides: {
         root: {
@@ -89,8 +128,15 @@ const theme = createTheme({
     },
     MuiOutlinedInput: {
       styleOverrides: {
+        root: ({ theme }) => ({
+          borderRadius: theme.spacing(5),
+        }),
+      },
+    },
+    MuiTabs: {
+      styleOverrides: {
         root: {
-          borderRadius: "50px",
+          textTransform: "none",
         },
       },
     },
@@ -101,29 +147,8 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "&.MuiFormControl-root": {
-            padding: "0px",
+            padding: 0,
           },
-        },
-      },
-    },
-    MuiDialogTitle: {
-      styleOverrides: {
-        root: {
-          padding: "4px",
-        },
-      },
-    },
-    MuiDialogContent: {
-      styleOverrides: {
-        root: {
-          padding: "0px",
-        },
-      },
-    },
-    MuiDialogActions: {
-      styleOverrides: {
-        root: {
-          padding: "8px 16px 16px 16px",
         },
       },
     },
