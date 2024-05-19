@@ -24,23 +24,20 @@ const EmojiPickerIconButton = ({
   const twitterEmojiStyle = EmojiStyle.TWITTER;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
-  const clickOffEmojiPicker =
-    (showEmojiPicker: boolean) => (event: MouseEvent) => {
-      if (
-        emojiContainerRef.current &&
-        !emojiContainerRef.current.contains(event.target as Node) &&
-        emojiIconButtonRef.current &&
-        !emojiIconButtonRef.current.contains(event.target as Node)
-      ) {
-        setShowEmojiPicker(false);
-      }
-    };
+  const handleClick = (event: MouseEvent) => {
+    if (
+      emojiContainerRef.current &&
+      !emojiContainerRef.current.contains(event.target as Node) &&
+      emojiIconButtonRef.current &&
+      !emojiIconButtonRef.current.contains(event.target as Node)
+    ) {
+      setShowEmojiPicker(false);
+    }
+  };
 
   useEffect(() => {
-    const handleClick = clickOffEmojiPicker(true);
     document.body.addEventListener("mousedown", handleClick);
     return () => {
-      const handleClick = clickOffEmojiPicker(false);
       document.removeEventListener("mousedown", handleClick);
     };
   }, []);
@@ -54,16 +51,14 @@ const EmojiPickerIconButton = ({
       >
         <EmojiEmotionsOutlinedIcon />
       </IconButton>
-      {showEmojiPicker && (
-        <Box sx={styles.emojiContainer} ref={emojiContainerRef}>
-          <EmojiPicker
-            style={styles.emojiPicker}
-            emojiStyle={twitterEmojiStyle}
-            onEmojiClick={onEmojiClick}
-            previewConfig={{ showPreview: false }}
-          />
-        </Box>
-      )}
+      <Box sx={styles.emojiContainer} ref={emojiContainerRef}>
+        <EmojiPicker
+          emojiStyle={twitterEmojiStyle}
+          onEmojiClick={onEmojiClick}
+          open={showEmojiPicker}
+          previewConfig={{ showPreview: false }}
+        />
+      </Box>
     </>
   );
 };
