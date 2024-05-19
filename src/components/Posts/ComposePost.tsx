@@ -117,17 +117,16 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
               Post
             </Button>
           </Box>
-          {showEmojiPicker && (
-            <ClickOffEmojis
-              setPostContent={(emoji: EmojiClickData) => {
-                setPostTextContent((prevContent) => prevContent + emoji.emoji);
-              }}
-              setShowEmojiPicker={() => {
-                setShowEmojiPicker(false);
-              }}
-              emojiContainerStyle={styles.emojiContainer}
-            />
-          )}
+
+          <ClickOffEmojis
+            setPostContent={(emoji: EmojiClickData) => {
+              setPostTextContent((prevContent) => prevContent + emoji.emoji);
+            }}
+            setShowEmojiPicker={() => {
+              setShowEmojiPicker(false);
+            }}
+            emojiContainerStyle={styles.emojiContainer}
+          />
         </Box>
       </Box>
     </form>

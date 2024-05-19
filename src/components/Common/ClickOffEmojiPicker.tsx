@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
 import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
-import { click } from "@testing-library/user-event/dist/click";
 
 type ClickOffProps = {
   setPostContent: (emoji: EmojiClickData) => void;
@@ -31,38 +30,57 @@ const ClickOffEmojis = ({
   emojiContainerStyle,
 }: ClickOffProps) => {
   const emojiContainerRef = useRef<HTMLDivElement>(null);
+  const testRef = useRef(null);
   const user = useAppSelector((state) => state.user);
   const twitterEmojiStyle = EmojiStyle.TWITTER;
+  const [showEmojiPicker, setShowEmojiPicker2] = useState(false);
 
   const clickOffEmojiPicker =
     (showEmojiPicker: boolean) => (event: MouseEvent) => {
       if (
         emojiContainerRef.current &&
-        !emojiContainerRef.current.contains(event.target as Node)
+        !emojiContainerRef.current.contains(event.target as Node) &&
+        testRef.current &&
+        !testRef.current.contains(event.target as Node)
       ) {
         console.log("in emoji picker");
-        setShowEmojiPicker();
+        setShowEmojiPicker2(false);
       }
     };
 
   useEffect(() => {
     const handleClick = clickOffEmojiPicker(true);
-    document.body.addEventListener("mouseup", handleClick);
+    document.body.addEventListener("mousedown", handleClick);
     return () => {
       const handleClick = clickOffEmojiPicker(false);
-      document.removeEventListener("mouseup", handleClick);
+      document.removeEventListener("mousedown", handleClick);
     };
   }, []);
 
   return (
-    <Box sx={emojiContainerStyle} ref={emojiContainerRef} tabIndex={0}>
-      <EmojiPicker
-        style={styles.emojiPicker}
-        emojiStyle={twitterEmojiStyle}
-        onEmojiClick={setPostContent}
-        previewConfig={{ showPreview: false }}
-      />
-    </Box>
+    <>
+      <IconButton
+        ref={testRef}
+        id="emoji-button"
+        size="small"
+        onClick={(event) => {
+          event.stopPropagation();
+          setShowEmojiPicker2(!showEmojiPicker);
+        }}
+      >
+        <EmojiEmotionsOutlinedIcon />
+      </IconButton>
+      {showEmojiPicker && (
+        <Box sx={emojiContainerStyle} ref={emojiContainerRef} tabIndex={0}>
+          <EmojiPicker
+            style={styles.emojiPicker}
+            emojiStyle={twitterEmojiStyle}
+            onEmojiClick={setPostContent}
+            previewConfig={{ showPreview: false }}
+          />
+        </Box>
+      )}
+    </>
   );
 };
 
