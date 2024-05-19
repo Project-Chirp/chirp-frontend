@@ -16,7 +16,6 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ConversationList from "../components/Messages/ConversationList";
@@ -28,9 +27,8 @@ import {
 import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
-import EmojiPicker, { EmojiStyle, EmojiClickData } from "emoji-picker-react";
-import ClickOffEmojis from "../components/Common/ClickOffEmojiPicker";
-import zIndex from "@mui/material/styles/zIndex";
+import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
+import { EmojiClickData } from "emoji-picker-react";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -87,7 +85,6 @@ const styles = {
     backgroundColor: "primary.main",
   },
   timestamp: { marginTop: 0.5 },
-  emojiContainer: { position: "absolute", marginBottom: 45, zIndex: 1 },
 };
 
 export type Message = {
@@ -111,8 +108,6 @@ const DirectMessage = () => {
   const userExists = conversations.find(
     (o) => o.otherUserId === Number(userId2)
   );
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const dmMargin = "marginBottom: 65";
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
@@ -252,25 +247,13 @@ const DirectMessage = () => {
                         <IconButton>
                           <AddPhotoAlternateOutlinedIcon />
                         </IconButton>
-                        <IconButton
-                          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                          id="emoji-button"
-                        >
-                          <EmojiEmotionsOutlinedIcon />
-                        </IconButton>
-                        {showEmojiPicker && (
-                          <ClickOffEmojis
-                            setPostContent={(emoji: EmojiClickData) => {
-                              setTextContent(
-                                (prevContent) => prevContent + emoji.emoji
-                              );
-                            }}
-                            setShowEmojiPicker={() => {
-                              setShowEmojiPicker(false);
-                            }}
-                            emojiContainerStyle={styles.emojiContainer}
-                          />
-                        )}
+                        <EmojiPickerIconButton
+                          onEmojiClick={(emoji: EmojiClickData) => {
+                            setTextContent(
+                              (prevContent) => prevContent + emoji.emoji
+                            );
+                          }}
+                        />
                         <IconButton>
                           <GifBoxOutlinedIcon />
                         </IconButton>

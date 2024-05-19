@@ -1,13 +1,12 @@
 import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { addReply } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
-import EmojiPicker, { EmojiStyle, EmojiClickData } from "emoji-picker-react";
-import ClickOffEmojis from "../Common/ClickOffEmojiPicker";
+import { EmojiClickData } from "emoji-picker-react";
+import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -39,12 +38,6 @@ const styles = {
     padddingY: 0,
     justifyContent: "space-between",
   },
-  emojiContainer: { position: "absolute", zIndex: 1 },
-  emojiPicker: {
-    height: 300,
-    width: 250,
-    "--epr-emoji-size": "25px",
-  },
 };
 
 const ComposeReply = ({
@@ -56,7 +49,6 @@ const ComposeReply = ({
   const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -121,27 +113,14 @@ const ComposeReply = ({
               <IconButton size="small">
                 <AddPhotoAlternateOutlinedIcon />
               </IconButton>
-              <IconButton
-                size="small"
-                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                id="emoji-button"
-              >
-                <EmojiEmotionsOutlinedIcon />
-              </IconButton>
-            </Stack>
-            {showEmojiPicker && (
-              <ClickOffEmojis
-                setPostContent={(emoji: EmojiClickData) => {
+              <EmojiPickerIconButton
+                onEmojiClick={(emoji: EmojiClickData) => {
                   setPostTextContent(
                     (prevContent) => prevContent + emoji.emoji
                   );
                 }}
-                setShowEmojiPicker={() => {
-                  setShowEmojiPicker(false);
-                }}
-                emojiContainerStyle={styles.emojiContainer}
               />
-            )}
+            </Stack>
           </Box>
         )}
       </Box>
