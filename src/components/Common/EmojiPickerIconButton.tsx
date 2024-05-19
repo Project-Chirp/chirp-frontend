@@ -27,7 +27,7 @@ const EmojiPickerIconButton = ({
   const emojiIconButtonRef = useRef<HTMLButtonElement>(null);
   const twitterEmojiStyle = EmojiStyle.TWITTER;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const top = pickerPosition === "bottom" ? 150 : -450;
+  const top = pickerPosition === "bottom" ? 150 : -460;
 
   const handleClick = (event: MouseEvent) => {
     if (
