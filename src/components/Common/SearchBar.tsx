@@ -116,7 +116,7 @@ const SearchBar = ({
       <Autocomplete
         fullWidth
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
-        id="messages-search"
+        id="search"
         popupIcon={false}
         onOpen={onSearchOpen}
         onClose={onSearchClose}
@@ -127,9 +127,10 @@ const SearchBar = ({
         onInputChange={(event, newInputValue) => {
           setKeywords(newInputValue);
         }}
+        clearIcon
         inputValue={keywords}
         ListboxProps={{ sx: styles.listBox }}
-        clearIcon
+        disableClearable
         renderInput={(params) => {
           return (
             <TextField
@@ -138,6 +139,7 @@ const SearchBar = ({
               hiddenLabel
               InputProps={{
                 ...params.InputProps,
+                type: "search",
                 startAdornment: (
                   <InputAdornment position="start">
                     <IconButton
