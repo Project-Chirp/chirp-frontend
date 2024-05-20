@@ -127,10 +127,8 @@ const SearchBar = ({
         onInputChange={(event, newInputValue) => {
           setKeywords(newInputValue);
         }}
-        clearIcon
         inputValue={keywords}
         ListboxProps={{ sx: styles.listBox }}
-        disableClearable
         renderInput={(params) => {
           return (
             <TextField
