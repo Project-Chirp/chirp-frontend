@@ -1,12 +1,6 @@
-import { useEffect } from "react";
 import PostItem from "../Posts/PostItem";
 import { useAppSelector } from "../../state/hooks";
 import { Box, Divider, Stack } from "@mui/material";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import PageLoader from "../../pages/PageLoader";
-import { queryClient } from "../../utilities/queryClient";
-import InfiniteScroll from "react-infinite-scroll-component";
-import useFetchPosts from "../../utilities/useFetchPosts";
 import InfiniteScrollList from "../Common/InfiniteScrollList";
 
 type ProfileLikesProps = {
@@ -22,6 +16,7 @@ const ProfileLikes = ({ userId }: ProfileLikesProps) => {
         dataLength={posts.length}
         url="http://localhost:3001/api/profile/getUserLikes"
         fetchParams={{ userId }}
+        queryKey="likes"
       >
         {posts.map((o) => (
           <Box key={o.postId}>

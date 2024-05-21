@@ -10,6 +10,7 @@ type InfiniteScrollListProps = {
   dataLength: number;
   url: string;
   fetchParams: {};
+  queryKey: string;
   children: ReactNode;
 };
 
@@ -17,6 +18,7 @@ const InfiniteScrollList = ({
   dataLength,
   url,
   fetchParams,
+  queryKey,
   children,
 }: InfiniteScrollListProps) => {
   const { fetchPosts, clearAllPosts } = useFetchPosts(url, fetchParams);
@@ -28,7 +30,7 @@ const InfiniteScrollList = ({
   }, [JSON.stringify(fetchParams)]);
 
   const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["likes"],
+    queryKey: [queryKey],
     queryFn: ({ pageParam }) => fetchPosts(pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {

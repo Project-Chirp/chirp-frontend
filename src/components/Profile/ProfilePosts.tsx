@@ -1,12 +1,7 @@
-import { useEffect } from "react";
 import PostItem from "../Posts/PostItem";
 import { useAppSelector } from "../../state/hooks";
 import { Box, Divider, Stack } from "@mui/material";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import PageLoader from "../../pages/PageLoader";
-import { queryClient } from "../../utilities/queryClient";
-import InfiniteScroll from "react-infinite-scroll-component";
-import useFetchPosts from "../../utilities/useFetchPosts";
+import InfiniteScrollList from "../Common/InfiniteScrollList";
 
 type ProfilePostsProps = {
   userId: number;
@@ -14,36 +9,14 @@ type ProfilePostsProps = {
 
 const ProfilePosts = ({ userId }: ProfilePostsProps) => {
   const posts = useAppSelector((state) => state.posts.posts);
-  const { fetchPosts, clearAllPosts } = useFetchPosts(
-    "http://localhost:3001/api/profile/getUserPosts",
-    { userId }
-  );
-
-  useEffect(() => {
-    clearAllPosts();
-    queryClient.clear();
-    fetchPosts(1);
-  }, [userId]);
-
-  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["posts"],
-    queryFn: ({ pageParam }) => fetchPosts(pageParam),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length ? allPages.length + 1 : undefined;
-    },
-  });
-
-  if (status === "pending") return <PageLoader />;
-  if (status === "error") return <Box>{error.message}</Box>; // TODO: Create an Error Component
 
   return (
     <Stack divider={<Divider />}>
-      <InfiniteScroll
+      <InfiniteScrollList
         dataLength={posts.length}
-        next={fetchNextPage}
-        hasMore={hasNextPage}
-        loader={<PageLoader />}
+        url="http://localhost:3001/api/profile/getUserPosts"
+        fetchParams={{ userId }}
+        queryKey="posts"
       >
         {posts.map((o) => (
           <Box key={o.postId}>
@@ -51,7 +24,7 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
             <Divider />
           </Box>
         ))}
-      </InfiniteScroll>
+      </InfiniteScrollList>
     </Stack>
   );
 };
