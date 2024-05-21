@@ -11,12 +11,13 @@ import useFetchPosts from "../../utilities/useFetchPosts";
 const PostList = () => {
   const posts = useAppSelector((state) => state.posts.posts);
   const userId = useAppSelector((state) => state.user.userId);
-  const { fetchPosts } = useFetchPosts(
+  const { fetchPosts, clearAllPosts } = useFetchPosts(
     "http://localhost:3001/api/posts",
     userId
   );
 
   useEffect(() => {
+    clearAllPosts();
     queryClient.clear();
     fetchPosts(1);
   }, [userId]);

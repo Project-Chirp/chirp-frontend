@@ -117,6 +117,9 @@ export const postsSlice = createSlice({
           : o
       );
     },
+    clearPosts: (state) => {
+      state.posts = [];
+    },
   },
 });
 
@@ -128,6 +131,7 @@ export const {
   toggleLikePost,
   toggleFollow,
   updateDisplayNames,
+  clearPosts,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

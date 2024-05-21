@@ -7,6 +7,7 @@ import PageLoader from "../../pages/PageLoader";
 import { queryClient } from "../../utilities/queryClient";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useFetchPosts from "../../utilities/useFetchPosts";
+import InfiniteScrollList from "../Common/InfiniteScrollList";
 
 type ProfileLikesProps = {
   userId: number;
@@ -14,43 +15,21 @@ type ProfileLikesProps = {
 
 const ProfileLikes = ({ userId }: ProfileLikesProps) => {
   const posts = useAppSelector((state) => state.posts.posts);
-  const { fetchPosts } = useFetchPosts(
-    "http://localhost:3001/api/profile/getUserLikes",
-    userId
-  );
-
-  useEffect(() => {
-    queryClient.clear();
-    fetchPosts(1);
-  }, [userId]);
-
-  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["likes"],
-    queryFn: ({ pageParam }) => fetchPosts(pageParam),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length ? allPages.length + 1 : undefined;
-    },
-  });
-
-  if (status === "pending") return <PageLoader />;
-  if (status === "error") return <Box>{error.message}</Box>; // TODO: Create an Error Component
 
   return (
     <Stack divider={<Divider />}>
-      <InfiniteScroll
+      <InfiniteScrollList
         dataLength={posts.length}
-        next={fetchNextPage}
-        hasMore={hasNextPage}
-        loader={<PageLoader />}
+        url="http://localhost:3001/api/profile/getUserLikes"
+        fetchParams={{ userId }}
       >
-        {posts.map((o, index) => (
-          <Box key={index}>
+        {posts.map((o) => (
+          <Box key={o.postId}>
             <PostItem post={o} />
             <Divider />
           </Box>
         ))}
-      </InfiniteScroll>
+      </InfiniteScrollList>
     </Stack>
   );
 };

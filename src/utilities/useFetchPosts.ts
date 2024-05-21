@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import axios from "axios";
-import { Post, setPosts } from "../state/slices/postsSlice";
+import { Post, clearPosts, setPosts } from "../state/slices/postsSlice";
 
-const useFetchPosts = (url: string, userId?: number) => {
+const useFetchPosts = (url: string, params?: {}) => {
   const posts = useAppSelector((state) => state.posts.posts);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ const useFetchPosts = (url: string, userId?: number) => {
     try {
       const result = await axios.get(url, {
         params: {
-          userId: userId,
+          ...params,
           offset: pageParam,
         },
       });
@@ -33,7 +33,11 @@ const useFetchPosts = (url: string, userId?: number) => {
     }
   };
 
-  return { fetchPosts, loading };
+  const clearAllPosts = () => {
+    dispatch(clearPosts());
+  };
+
+  return { clearAllPosts, fetchPosts, loading };
 };
 
 export default useFetchPosts;

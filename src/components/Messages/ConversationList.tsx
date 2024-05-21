@@ -11,10 +11,6 @@ import {
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SearchBar from "../Common/SearchBar";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { queryClient } from "../../utilities/queryClient";
-import PageLoader from "../../pages/PageLoader";
 
 const styles = {
   header: {

@@ -14,12 +14,13 @@ type ProfileRepliesProps = {
 
 const ProfileReplies = ({ userId }: ProfileRepliesProps) => {
   const posts = useAppSelector((state) => state.posts.posts);
-  const { fetchPosts } = useFetchPosts(
+  const { fetchPosts, clearAllPosts } = useFetchPosts(
     "http://localhost:3001/api/profile/getUserReplies",
-    userId
+    { userId }
   );
 
   useEffect(() => {
+    clearAllPosts();
     queryClient.clear();
     fetchPosts(1);
   }, [userId]);
@@ -44,8 +45,8 @@ const ProfileReplies = ({ userId }: ProfileRepliesProps) => {
         hasMore={hasNextPage}
         loader={<PageLoader />}
       >
-        {posts.map((o, index) => (
-          <Box key={index}>
+        {posts.map((o) => (
+          <Box key={o.postId}>
             <PostItem post={o} />
             <Divider />
           </Box>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PostItem from "./PostItem";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, setPosts } from "../../state/slices/postsSlice";
+import { Post, clearPosts, setPosts } from "../../state/slices/postsSlice";
 import { Box, Divider, Stack } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { queryClient } from "../../utilities/queryClient";
@@ -20,6 +20,7 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    dispatch(clearPosts());
     queryClient.clear();
     fetchReplies({ pageParam: 1 });
   }, [postId]);
@@ -72,8 +73,8 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
         hasMore={hasNextPage}
         loader={<PageLoader />}
       >
-        {posts.map((o, index) => (
-          <Box key={index}>
+        {posts.map((o) => (
+          <Box key={o.postId}>
             <PostItem post={o} />
             <Divider />
           </Box>

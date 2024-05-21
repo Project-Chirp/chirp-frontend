@@ -14,12 +14,13 @@ type ProfilePostsProps = {
 
 const ProfilePosts = ({ userId }: ProfilePostsProps) => {
   const posts = useAppSelector((state) => state.posts.posts);
-  const { fetchPosts } = useFetchPosts(
+  const { fetchPosts, clearAllPosts } = useFetchPosts(
     "http://localhost:3001/api/profile/getUserPosts",
-    userId
+    { userId }
   );
 
   useEffect(() => {
+    clearAllPosts();
     queryClient.clear();
     fetchPosts(1);
   }, [userId]);
@@ -44,8 +45,8 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
         hasMore={hasNextPage}
         loader={<PageLoader />}
       >
-        {posts.map((o, index) => (
-          <Box key={index}>
+        {posts.map((o) => (
+          <Box key={o.postId}>
             <PostItem post={o} />
             <Divider />
           </Box>
