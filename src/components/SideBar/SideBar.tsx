@@ -19,23 +19,10 @@ const styles = {
 };
 
 const SideBar = () => {
-  const [focusSearchBar, setFocusSearchBar] = useState(false);
-  const navigate = useNavigate();
-  const onSelect = (selectedUsername: string) => {
-    const path = `/${selectedUsername}`;
-    navigate(path);
-  };
-
   return (
     <Box sx={styles.rightContent}>
       <Box sx={styles.searchBarContainer}>
-        <SearchBar
-          placeholder="Search Chirp"
-          focusSearchBar={focusSearchBar}
-          onSearchOpen={() => setFocusSearchBar(true)}
-          onSearchClose={() => setFocusSearchBar(false)}
-          onSelect={onSelect}
-        />
+        <SearchBar placeholder="Search Chirp" />
       </Box>
       <SuggestedUserItem />
       <Advertisement />

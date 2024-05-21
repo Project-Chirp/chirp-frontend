@@ -11,24 +11,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import PageLoader from "../../pages/PageLoader";
 import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
+import { useNavigate } from "react-router-dom";
 
 type SearchBarProps = {
   placeholder: string;
-  focusSearchBar: boolean;
-  onSearchOpen: () => void;
-  onSearchClose: () => void;
-  onSelect: (state: string) => void;
 };
 
 const styles = {
   autocomplete: {
     "&.MuiAutocomplete-input": { paddingX: 0 },
+    position: "relative",
   },
   box: {
     paddingBottom: 1,
@@ -39,7 +37,9 @@ const styles = {
     fontWeight: "bold",
   },
   listBox: {
-    position: "sticky",
+    maxHeight: "60vh", // Set a maximum height to prevent the list from expanding infinitely
+    overflowY: "auto", // Add scrollbar if the list exceeds maxHeight
+    zIndex: 1300,
   },
   searchIcon: { paddingRight: 0 },
   searchIconFocused: {
@@ -50,17 +50,38 @@ const styles = {
   },
 };
 
-const SearchBar = ({
-  placeholder,
-  focusSearchBar,
-  onSearchClose,
-  onSearchOpen,
-  onSelect,
-}: SearchBarProps) => {
+const SearchBar = ({ placeholder }: SearchBarProps) => {
   const { getAccessTokenSilently } = useAuth0();
+  const navigate = useNavigate();
   const [keywords, setKeywords] = useState("");
   const [userList, setUserList] = useState<SelectedUser[]>([]);
   const [loading, setLoading] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const searchBarRef = useRef<HTMLDivElement>(null);
+  const [focusSearchBar, setFocusSearchBar] = useState(false);
+  const onSelect = (selectedUsername: string) => {
+    const path = `/${selectedUsername}`;
+    navigate(path);
+  };
+
+  const handleClick = (event: MouseEvent) => {
+    if (
+      containerRef.current &&
+      !containerRef.current.contains(event.target as Node) &&
+      searchBarRef.current &&
+      !searchBarRef.current.contains(event.target as Node)
+    ) {
+      console.log("Test");
+      setFocusSearchBar(false);
+    }
+  };
+
+  useEffect(() => {
+    document.body.addEventListener("mousedown", handleClick);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  }, []);
 
   useEffect(() => {
     if (keywords.trim().length > 0) {
@@ -118,21 +139,21 @@ const SearchBar = ({
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
         id="search"
         popupIcon={false}
-        onOpen={onSearchOpen}
-        onClose={onSearchClose}
+        clearIcon={false}
         options={userList}
         openOnFocus
         loading={loading}
         filterOptions={(x) => x}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(_, newInputValue) => {
           setKeywords(newInputValue);
         }}
         inputValue={keywords}
-        ListboxProps={{ sx: styles.listBox }}
+        ListboxProps={{ ref: containerRef }}
         renderInput={(params) => {
           return (
             <TextField
               {...params}
+              ref={searchBarRef}
               fullWidth
               hiddenLabel
               InputProps={{
