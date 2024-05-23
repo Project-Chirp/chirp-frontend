@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import { useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
@@ -22,7 +22,9 @@ import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ConversationList from "../components/Messages/ConversationList";
 import {
+  Message,
   appendConversation,
+  setMessages,
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
@@ -34,6 +36,7 @@ import { useInView } from "react-intersection-observer";
 import { queryClient } from "../utilities/queryClient";
 import PageLoader from "./PageLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
+import InfiniteScrollList from "../components/Common/InfiniteScrollList";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -62,6 +65,10 @@ const styles = {
     paddingRight: 2,
   },
   headerContent: { alignItems: "center", display: "flex", gap: 2, padding: 1 },
+  infiniteScroll: {
+    display: "flex",
+    flexDirection: "column-reverse",
+  } as CSSProperties,
   message: {
     display: "flex",
     flexDirection: "column",
@@ -97,20 +104,11 @@ const styles = {
   timestamp: { marginTop: 0.5 },
 };
 
-export type Message = {
-  messageId: number;
-  timestamp: string;
-  textContent: string;
-  sentUserId: number;
-  receivedUserId: number;
-};
-
 const DirectMessage = () => {
   const { userId1, userId2 } = useParams();
   const [textContent, setTextContent] = useState("");
-  const [messages, setMessages] = useState<Message[]>([]);
   const user = useAppSelector((state) => state.user);
-  const { selectedConversation, conversations } = useAppSelector(
+  const { selectedConversation, conversations, messages } = useAppSelector(
     (state) => state.messages
   );
   const messageRef = useRef<HTMLDivElement>(null);
@@ -136,36 +134,36 @@ const DirectMessage = () => {
     }
   };
 
-  const fetchDirectMessage = async ({ pageParam = 1 }) => {
-    try {
-      const result = await axios.get(
-        `http://localhost:3001/api/messages/${userId1}/${userId2}?offset=${pageParam}`
-      );
+  // const fetchDirectMessage = async ({ pageParam = 1 }) => {
+  //   try {
+  //     const result = await axios.get(
+  //       `http://localhost:3001/api/messages/${userId1}/${userId2}?offset=${pageParam}`
+  //     );
 
-      if (pageParam > 1) {
-        setMessages([...messages, ...result.data] as Message[]);
-      } else {
-        setMessages(result.data as Message[]);
-      }
+  //     if (pageParam > 1) {
+  //       dispatch(setMessages([...messages, ...result.data] as Message[]));
+  //     } else {
+  //       dispatch(setMessages(result.data as Message[]));
+  //     }
 
-      return result.data;
-    } catch (error) {
-      console.log("error fetching posts:", error);
-    }
-  };
+  //     return result.data;
+  //   } catch (error) {
+  //     console.log("error fetching posts:", error);
+  //   }
+  // };
 
-  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["messages"],
-    queryFn: fetchDirectMessage,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length ? allPages.length + 1 : undefined;
-    },
-  });
+  // const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
+  //   queryKey: ["messages"],
+  //   queryFn: fetchDirectMessage,
+  //   initialPageParam: 1,
+  //   getNextPageParam: (lastPage, allPages) => {
+  //     return lastPage.length ? allPages.length + 1 : undefined;
+  //   },
+  // });
 
   useEffect(() => {
-    queryClient.clear();
-    fetchDirectMessage({ pageParam: 1 });
+    // queryClient.clear();
+    // fetchDirectMessage({ pageParam: 1 });
     fetchUser();
   }, [userId2]);
 
@@ -213,8 +211,8 @@ const DirectMessage = () => {
     }
   };
 
-  if (status === "pending") return <PageLoader />;
-  if (status === "error") return <div>{error.message}</div>;
+  // if (status === "pending") return <PageLoader />;
+  // if (status === "error") return <div>{error.message}</div>;
 
   return (
     <Stack
@@ -252,14 +250,13 @@ const DirectMessage = () => {
               sx={styles.messageList}
               id={"scrollable"}
             >
-              <InfiniteScroll
+              <InfiniteScrollList
                 dataLength={messages.length}
-                next={fetchNextPage}
-                style={{ display: "flex", flexDirection: "column-reverse" }}
                 inverse={true}
-                hasMore={hasNextPage}
-                loader={<PageLoader />}
+                queryKey="messages"
                 scrollableTarget={"scrollable"}
+                style={styles.infiniteScroll}
+                url={`http://localhost:3001/api/messages/${userId1}/${userId2}?`}
               >
                 {messages.map((o, index) => (
                   <ListItem component="div" key={index}>
@@ -291,7 +288,7 @@ const DirectMessage = () => {
                     />
                   </ListItem>
                 ))}
-              </InfiniteScroll>
+              </InfiniteScrollList>
             </List>
             <Divider />
             <form onSubmit={onSubmit}>

@@ -1,37 +1,45 @@
-import React, { ReactNode, useEffect } from "react";
+import React, { CSSProperties, ReactNode, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PageLoader from "../../pages/PageLoader";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { queryClient } from "../../utilities/queryClient";
 import useFetchPosts from "../../utilities/useFetchPosts";
 import { Box } from "@mui/material";
+import useFetchMessages from "../../utilities/useFetchMessages";
 
 type InfiniteScrollListProps = {
-  dataLength: number;
-  url: string;
-  fetchParams: {};
-  queryKey: string;
   children: ReactNode;
+  dataLength: number;
+  inverse?: boolean;
+  fetchParams?: {};
+  queryKey: string;
+  scrollableTarget?: ReactNode;
+  style?: CSSProperties;
+  url: string;
 };
 
 const InfiniteScrollList = ({
+  children,
   dataLength,
-  url,
+  inverse = false,
   fetchParams,
   queryKey,
-  children,
+  scrollableTarget,
+  style,
+  url,
 }: InfiniteScrollListProps) => {
-  const { fetchPosts, clearAllPosts } = useFetchPosts(url, fetchParams);
+  const { fetchPosts } = useFetchPosts({ url, params: fetchParams });
+  const { fetchMessages } = useFetchMessages({ url, params: fetchParams });
 
   useEffect(() => {
-    clearAllPosts();
     queryClient.clear();
-    fetchPosts(1);
-  }, [JSON.stringify(fetchParams)]);
+    inverse ? fetchMessages(1) : fetchPosts(1);
+  }, [JSON.stringify(fetchParams), url]);
 
   const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: [queryKey],
-    queryFn: ({ pageParam }) => fetchPosts(pageParam),
+    queryFn: ({ pageParam }) =>
+      inverse ? fetchMessages(pageParam) : fetchPosts(pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length ? allPages.length + 1 : undefined;
@@ -43,9 +51,12 @@ const InfiniteScrollList = ({
   return (
     <InfiniteScroll
       dataLength={dataLength}
-      next={fetchNextPage}
       hasMore={hasNextPage}
+      inverse={inverse}
       loader={<PageLoader />}
+      next={fetchNextPage}
+      scrollableTarget={scrollableTarget}
+      style={style}
     >
       {children}
     </InfiniteScroll>
