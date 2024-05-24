@@ -6,8 +6,8 @@ import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
 type EmojiPickerIconButtonProps = {
   onEmojiClick: (emoji: EmojiClickData) => void;
   pickerHeight?: number;
-  pickerPosition?: "top" | "bottom";
   pickerWidth?: number;
+  topPosition?: boolean;
 };
 
 const styles = {
@@ -15,19 +15,22 @@ const styles = {
   emojiPicker: {
     "--epr-emoji-size": "25px",
   },
+  activeButton: {
+    color: "primary.main",
+  },
 };
 
 const EmojiPickerIconButton = ({
   onEmojiClick,
-  pickerHeight = 450,
-  pickerPosition = "bottom",
-  pickerWidth = 350,
+  pickerHeight = 350,
+  pickerWidth = 300,
+  topPosition = false,
 }: EmojiPickerIconButtonProps) => {
   const emojiContainerRef = useRef<HTMLDivElement>(null);
   const emojiIconButtonRef = useRef<HTMLButtonElement>(null);
   const twitterEmojiStyle = EmojiStyle.TWITTER;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const top = pickerPosition === "bottom" ? 150 : -460;
+  const top = topPosition ? -(pickerHeight + 10) : 150;
 
   const handleClick = (event: MouseEvent) => {
     if (
@@ -51,8 +54,9 @@ const EmojiPickerIconButton = ({
     <>
       <IconButton
         ref={emojiIconButtonRef}
-        size="small"
         onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+        size="small"
+        sx={{ ...(showEmojiPicker && styles.activeButton) }}
       >
         <EmojiEmotionsOutlinedIcon />
       </IconButton>
