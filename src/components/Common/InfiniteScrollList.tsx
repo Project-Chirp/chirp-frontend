@@ -2,10 +2,10 @@ import React, { CSSProperties, ReactNode, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PageLoader from "../../pages/PageLoader";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { queryClient } from "../../utilities/queryClient";
 import useFetchPosts from "../../utilities/useFetchPosts";
 import { Box } from "@mui/material";
 import useFetchMessages from "../../utilities/useFetchMessages";
+import { QueryClient } from "@tanstack/react-query";
 
 type InfiniteScrollListProps = {
   children: ReactNode;
@@ -16,6 +16,12 @@ type InfiniteScrollListProps = {
   scrollableTarget?: ReactNode;
   style?: CSSProperties;
   url: string;
+};
+
+const styles = {
+  list: {
+    overflow: "hidden",
+  },
 };
 
 const InfiniteScrollList = ({
@@ -56,7 +62,7 @@ const InfiniteScrollList = ({
       loader={<PageLoader />}
       next={fetchNextPage}
       scrollableTarget={scrollableTarget}
-      style={style}
+      style={{ ...style, ...styles.list }}
     >
       {children}
     </InfiniteScroll>
@@ -64,3 +70,4 @@ const InfiniteScrollList = ({
 };
 
 export default InfiniteScrollList;
+export const queryClient = new QueryClient();
