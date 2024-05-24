@@ -105,7 +105,7 @@ const styles = {
 };
 
 const DirectMessage = () => {
-  const { userId1, userId2 } = useParams();
+  const { currentUserId, otherUserId } = useParams();
   const [textContent, setTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const { selectedConversation, conversations, messages } = useAppSelector(
@@ -114,19 +114,19 @@ const DirectMessage = () => {
   const messageRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const userExists = conversations.find(
-    (o) => o.otherUserId === Number(userId2)
+    (o) => o.otherUserId === Number(otherUserId)
   );
 
   const fetchUser = async () => {
     try {
-      const otherUser = await axios.get(
-        `http://localhost:3001/api/messages/${userId2}`
+      const otherUserData = await axios.get(
+        `http://localhost:3001/api/messages/${otherUserId}`
       );
 
       dispatch(
         setSelectedConversation({
-          ...otherUser.data,
-          userId: Number(userId2),
+          ...otherUserData.data,
+          userId: Number(otherUserId),
         })
       );
     } catch (error) {
@@ -165,7 +165,7 @@ const DirectMessage = () => {
     // queryClient.clear();
     // fetchDirectMessage({ pageParam: 1 });
     fetchUser();
-  }, [userId2]);
+  }, [otherUserId]);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -192,7 +192,7 @@ const DirectMessage = () => {
             username: selectedConversation.username,
             textContent: "",
             timestamp: new Date().toString(),
-            otherUserId: Number(userId2),
+            otherUserId: Number(otherUserId),
           })
         );
       }
@@ -256,7 +256,7 @@ const DirectMessage = () => {
                 queryKey="messages"
                 scrollableTarget={"scrollable"}
                 style={styles.infiniteScroll}
-                url={`http://localhost:3001/api/messages/${userId1}/${userId2}?`}
+                url={`http://localhost:3001/api/messages/${currentUserId}/${otherUserId}`}
               >
                 {messages.map((o, index) => (
                   <ListItem component="div" key={index}>
