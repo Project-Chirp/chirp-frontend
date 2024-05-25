@@ -3,9 +3,10 @@ import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { addReply } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
+import { EmojiClickData } from "emoji-picker-react";
+import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -16,26 +17,19 @@ type ComposeReplyProps = {
 const styles = {
   avatarIcon: { paddingRight: 1.5 },
   compostPostContainer: {
-    justifyContent: "space-between",
-  },
-  textFieldContainer: {
-    width: "100%",
     display: "flex",
-    alignItems: "center",
-  },
-  textField: { paddingBottom: 2, paddingRight: 1 },
-  postActions: {
-    paddingLeft: 7.5,
     paddingBottom: 2,
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 1,
   },
-  postButton: {
-    minHeight: "34px",
-  },
-  topContainer: {
+  textFieldContainer: { width: "100%" },
+  textField: { paddingBottom: 2 },
+  postActions: {
     display: "flex",
-    paddingX: 2,
-    padddingY: 0,
     justifyContent: "space-between",
+    marginTop: 1,
+    position: "relative",
   },
 };
 
@@ -78,27 +72,39 @@ const ComposeReply = ({
   return (
     <form onSubmit={onSubmit}>
       <Box sx={styles.compostPostContainer}>
-        <Box sx={styles.topContainer}>
-          <Box sx={styles.avatarIcon}>
-            <UserAvatar username={user.username} />
-          </Box>
-          <Box sx={styles.textFieldContainer}>
-            <TextField
-              fullWidth
-              hiddenLabel
-              id="standard-multiline-static"
-              multiline
-              onChange={(e) => setPostTextContent(e.target.value)}
-              onFocus={() => setFocusReply(true)}
-              placeholder={placeholder}
-              sx={styles.textField}
-              value={postTextContent}
-              variant="standard"
-            />
+        <Box sx={styles.avatarIcon}>
+          <UserAvatar username={user.username} />
+        </Box>
+        <Box sx={styles.textFieldContainer}>
+          <TextField
+            fullWidth
+            hiddenLabel
+            multiline
+            onChange={(e) => setPostTextContent(e.target.value)}
+            onFocus={() => setFocusReply(true)}
+            placeholder={placeholder}
+            sx={styles.textField}
+            value={postTextContent}
+            variant="standard"
+          />
+          <Box sx={styles.postActions}>
+            {focusReply && (
+              <Stack direction="row">
+                <IconButton size="small">
+                  <AddPhotoAlternateOutlinedIcon />
+                </IconButton>
+                <EmojiPickerIconButton
+                  onEmojiClick={(emoji: EmojiClickData) => {
+                    setPostTextContent(
+                      (prevContent) => prevContent + emoji.emoji
+                    );
+                  }}
+                />
+              </Stack>
+            )}
             <Button
               disabled={!postTextContent.trim()}
               size="small"
-              sx={styles.postButton}
               type="submit"
               variant="contained"
             >
@@ -106,18 +112,6 @@ const ComposeReply = ({
             </Button>
           </Box>
         </Box>
-        {focusReply && (
-          <Box sx={styles.postActions}>
-            <Stack direction="row">
-              <IconButton size="small">
-                <AddPhotoAlternateOutlinedIcon />
-              </IconButton>
-              <IconButton size="small">
-                <EmojiEmotionsOutlinedIcon />
-              </IconButton>
-            </Stack>
-          </Box>
-        )}
       </Box>
     </form>
   );

@@ -67,6 +67,12 @@ const styles = {
     display: "flex",
     flexDirection: "column",
   },
+  username: { fontSize: 14 },
+  paperProps: {
+    overflow: "visible",
+    borderRadius: 20,
+    padding: 10, //Fix padding
+  },
 };
 
 type PostModalProps = {
@@ -83,6 +89,7 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
       open={open}
       scroll="paper"
       sx={styles.dialog}
+      PaperProps={{ style: styles.paperProps }}
     >
       <DialogTitle>
         <IconButton disableRipple onClick={onClose}>
