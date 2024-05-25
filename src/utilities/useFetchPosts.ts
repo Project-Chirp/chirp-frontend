@@ -45,11 +45,7 @@ const useFetchPosts = ({ url, params }: UseFetchPostsProps) => {
     }
   };
 
-  const clearAllPosts = () => {
-    dispatch(clearPosts());
-  };
-
-  return { clearAllPosts, fetchPosts, loading };
+  return { fetchPosts, loading };
 };
 
 export default useFetchPosts;

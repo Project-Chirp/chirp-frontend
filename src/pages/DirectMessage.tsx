@@ -31,11 +31,6 @@ import {
 import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
-import { queryClient } from "../utilities/queryClient";
-import PageLoader from "./PageLoader";
-import InfiniteScroll from "react-infinite-scroll-component";
 import InfiniteScrollList from "../components/Common/InfiniteScrollList";
 
 const styles = {
@@ -134,36 +129,7 @@ const DirectMessage = () => {
     }
   };
 
-  // const fetchDirectMessage = async ({ pageParam = 1 }) => {
-  //   try {
-  //     const result = await axios.get(
-  //       `http://localhost:3001/api/messages/${userId1}/${userId2}?offset=${pageParam}`
-  //     );
-
-  //     if (pageParam > 1) {
-  //       dispatch(setMessages([...messages, ...result.data] as Message[]));
-  //     } else {
-  //       dispatch(setMessages(result.data as Message[]));
-  //     }
-
-  //     return result.data;
-  //   } catch (error) {
-  //     console.log("error fetching posts:", error);
-  //   }
-  // };
-
-  // const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
-  //   queryKey: ["messages"],
-  //   queryFn: fetchDirectMessage,
-  //   initialPageParam: 1,
-  //   getNextPageParam: (lastPage, allPages) => {
-  //     return lastPage.length ? allPages.length + 1 : undefined;
-  //   },
-  // });
-
   useEffect(() => {
-    // queryClient.clear();
-    // fetchDirectMessage({ pageParam: 1 });
     fetchUser();
   }, [otherUserId]);
 
@@ -210,9 +176,6 @@ const DirectMessage = () => {
       console.log(err);
     }
   };
-
-  // if (status === "pending") return <PageLoader />;
-  // if (status === "error") return <div>{error.message}</div>;
 
   return (
     <Stack
