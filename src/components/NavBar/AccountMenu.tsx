@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Link } from "@mui/material";
+import { Avatar, Box, Link } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack/Stack";
 import React from "react";
 import { useAppSelector } from "../../state/hooks";
 import LogoutIcon from "@mui/icons-material/Logout";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const styles = {
   button: {
@@ -17,7 +18,7 @@ const styles = {
   popover: {
     paddingTop: "10px",
     paddingBottom: "10px",
-    borderRadius: "10px", // Rounded corners
+    borderRadius: "10px",
   },
   popoverButton: {
     paddingTop: "5px",

@@ -17,8 +17,9 @@ const styles = {
     paddingLeft: "12px",
     paddingRight: "12px",
     transitionDuration: "0.2s",
+    "&.Mui-selected": { backgroundColor: "transparent" },
     ":hover": {
-      bgcolor: "inherit",
+      backgroundColor: "primary.light",
     },
   },
   box: {

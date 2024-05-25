@@ -33,6 +33,11 @@ const styles = {
     height: "100%",
     marginLeft: "auto",
   },
+  list: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+  },
 };
 
 const NavBar = () => {
@@ -73,7 +78,7 @@ const NavBar = () => {
             src={`/chirp-logo-transparent.png`}
             sx={styles.logo}
           />
-          <List component="nav">
+          <List sx={styles.list} component="nav">
             {navItems.map((navItem, index) => (
               <NavItem
                 key={index}
