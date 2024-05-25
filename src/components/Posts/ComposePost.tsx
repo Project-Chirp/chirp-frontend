@@ -1,15 +1,13 @@
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
-import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
-import axios from "axios";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
+import { EmojiClickData } from "emoji-picker-react";
+import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 
 type ComposePostProps = {
   placeholder: string;
-  minRows?: number;
 };
 
 const styles = {
@@ -27,10 +25,11 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     marginTop: 1,
+    position: "relative",
   },
 };
 
-const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
+const ComposePost = ({ placeholder }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -66,7 +65,6 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
           <TextField
             fullWidth
             hiddenLabel
-            minRows={minRows}
             multiline
             onChange={(e) => setPostTextContent(e.target.value)}
             placeholder={placeholder}
@@ -79,9 +77,13 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
               <IconButton size="small">
                 <AddPhotoAlternateOutlinedIcon />
               </IconButton>
-              <IconButton size="small">
-                <EmojiEmotionsOutlinedIcon />
-              </IconButton>
+              <EmojiPickerIconButton
+                onEmojiClick={(emoji: EmojiClickData) => {
+                  setPostTextContent(
+                    (prevContent) => prevContent + emoji.emoji
+                  );
+                }}
+              />
             </Stack>
             <Button
               disabled={!postTextContent.trim()}
