@@ -17,7 +17,6 @@ import ComposeReply from "./ComposeReply";
 import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
-  author: { fontSize: 14 },
   avatarBox: {
     display: "flex",
     justifyContent: "center",
@@ -29,28 +28,18 @@ const styles = {
     flexDirection: "column",
     gap: 0.25,
   },
-  card: {
-    padding: 0,
-    boxShadow: "none",
-  },
+  card: { paddingX: 1 },
   cardContent: {
     padding: 0,
     display: "flex",
-    flexDirection: "column",
   },
   cardMedia: { maxWidth: 200, margin: "auto" },
   dialog: {
     maxHeight: "90%",
   },
   dialogContent: {
-    padding: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  displayName: { fontSize: 14, fontWeight: "bold" },
-  dialogTitle: {
-    paddingX: 0.5,
-    paddingY: 0,
   },
   line: {
     borderRightWidth: "3px",
@@ -62,38 +51,28 @@ const styles = {
     flex: 1,
     paddingBottom: 1,
   },
-  mainContainer: {
-    display: "flex",
-  },
-  moreButton: { paddingY: 0 },
-  names: {
-    display: "flex",
-  },
+  moreButton: { padding: 0.5 },
   namesAndOption: {
     width: "100%",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  postContentContainer: {
-    display: "flex",
-    flexDirection: "column",
+  postContent: {
     paddingRight: 3,
-  },
-  replyingText: {
-    display: "flex",
-    alignItems: "center",
-  },
-  replyingTo: {
-    fontSize: 14,
+    paddingBottom: 0.5,
   },
   textContent: {
     flex: "0 0 88%",
     display: "flex",
     flexDirection: "column",
-    gap: 0.5,
   },
   username: { fontSize: 14 },
+  paperProps: {
+    overflow: "visible",
+    borderRadius: 20,
+    padding: 10, //Fix padding
+  },
 };
 
 type PostModalProps = {
@@ -110,8 +89,9 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
       open={open}
       scroll="paper"
       sx={styles.dialog}
+      PaperProps={{ style: styles.paperProps }}
     >
-      <DialogTitle sx={styles.dialogTitle}>
+      <DialogTitle>
         <IconButton disableRipple onClick={onClose}>
           <CloseIcon />
         </IconButton>
@@ -119,44 +99,35 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
       <DialogContent sx={styles.dialogContent}>
         <Card sx={styles.card}>
           <CardContent sx={styles.cardContent}>
-            <Box sx={styles.mainContainer}>
-              <Box sx={styles.avatarLineContainer}>
-                <Box sx={styles.avatarBox}>
-                  <UserAvatar username={post.username} />
-                </Box>
-                <Box sx={styles.lineBox}>
-                  <Divider orientation="vertical" sx={styles.line} />
-                </Box>
+            <Box sx={styles.avatarLineContainer}>
+              <Box sx={styles.avatarBox}>
+                <UserAvatar username={post.username} />
               </Box>
-              <Box sx={styles.textContent}>
-                <Box sx={styles.namesAndOption}>
-                  <Box sx={styles.names}>
-                    <Typography sx={styles.displayName}>
-                      {`${post.displayName} `}
-                      <Typography
-                        component="span"
-                        sx={styles.username}
-                      >{`@${post.username}`}</Typography>
-                    </Typography>
-                  </Box>
-                  <IconButton sx={styles.moreButton}>
-                    <MoreVertIcon />
-                  </IconButton>
-                </Box>
-                <Box sx={styles.postContentContainer}>
-                  <Typography>{post.textContent}</Typography>
-                </Box>
-                <Box sx={styles.replyingText}>
-                  <Typography variant="subtitle1" sx={styles.replyingTo}>
-                    {`Replying to `}
-                    <Typography
-                      component="span"
-                      color="primary"
-                      sx={styles.author}
-                    >{`@${post.username}`}</Typography>
+              <Box sx={styles.lineBox}>
+                <Divider orientation="vertical" sx={styles.line} />
+              </Box>
+            </Box>
+            <Box sx={styles.textContent}>
+              <Box sx={styles.namesAndOption}>
+                <Typography variant="subtitle1">
+                  {post.displayName}
+                  <Typography component="span" variant="subtitle2">
+                    {` @${post.username}`}
                   </Typography>
-                </Box>
+                </Typography>
+                <IconButton size="small" sx={styles.moreButton}>
+                  <MoreVertIcon />
+                </IconButton>
               </Box>
+              <Typography sx={styles.postContent}>
+                {post.textContent}
+              </Typography>
+              <Typography>
+                Replying to
+                <Typography component="span" color="primary">
+                  {` @${post.username}`}
+                </Typography>
+              </Typography>
             </Box>
           </CardContent>
           {post.imagePath && (

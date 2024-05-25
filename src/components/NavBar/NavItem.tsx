@@ -37,7 +37,10 @@ const NavItem = ({ icon, altIcon, label, route, active }: NavItemProps) => {
     >
       <Box sx={styles.box}>
         <ListItemIcon>{active ? altIcon : icon}</ListItemIcon>
-        <ListItemText primary={label} />
+        <ListItemText
+          primary={label}
+          primaryTypographyProps={{ variant: "h3" }}
+        />
       </Box>
     </ListItemButton>
   );

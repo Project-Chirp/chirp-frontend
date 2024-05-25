@@ -14,6 +14,10 @@ import { useAppSelector } from "../../state/hooks";
 import { useLocation } from "react-router-dom";
 
 const styles = {
+  icon: {
+    color: "black.main",
+    opacity: 0.8,
+  },
   logo: {
     alignSelf: "left",
     height: 50,
@@ -28,7 +32,7 @@ const styles = {
     marginBottom: "auto",
     width: "100%",
   },
-  postButton: { margin: 2 },
+  postButton: { fontSize: 18, margin: 2 },
   toolbar: {
     height: "100%",
     marginLeft: "auto",
@@ -48,22 +52,22 @@ const NavBar = () => {
 
   const navItems = [
     {
-      icon: <HomeIcon fontSize="large" />,
-      altIcon: <HomeOutlinedIcon fontSize="large" />,
+      icon: <HomeIcon fontSize="large" sx={styles.icon} />,
+      altIcon: <HomeOutlinedIcon fontSize="large" sx={styles.icon} />,
       label: "Home",
       route: "/",
     },
     {
-      icon: <MailIcon fontSize="large" />,
-      altIcon: <MailOutlinedIcon fontSize="large" />,
+      icon: <MailIcon fontSize="large" sx={styles.icon} />,
+      altIcon: <MailOutlinedIcon fontSize="large" sx={styles.icon} />,
       label: "Messages",
       route: selectedConversation.userId
         ? `/messages/${user.userId}/${selectedConversation.userId}`
         : "/messages",
     },
     {
-      icon: <AccountCircleIcon fontSize="large" />,
-      altIcon: <AccountCircleOutlinedIcon fontSize="large" />,
+      icon: <AccountCircleIcon fontSize="large" sx={styles.icon} />,
+      altIcon: <AccountCircleOutlinedIcon fontSize="large" sx={styles.icon} />,
       label: "Profile",
       route: `/${user.username}`,
     },
@@ -104,7 +108,7 @@ const NavBar = () => {
         onClose={() => setOpenModal(false)}
         openModal={openModal}
       >
-        <ComposePost placeholder="What's happening?" minRows={3} />
+        <ComposePost placeholder="What's happening?" />
       </PostButtonModal>
     </>
   );
