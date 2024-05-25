@@ -10,7 +10,6 @@ import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 
 type ComposePostProps = {
   placeholder: string;
-  minRows?: number;
 };
 
 const styles = {
@@ -28,10 +27,11 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     marginTop: 1,
+    position: "relative",
   },
 };
 
-const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
+const ComposePost = ({ placeholder }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -67,7 +67,6 @@ const ComposePost = ({ placeholder, minRows }: ComposePostProps) => {
           <TextField
             fullWidth
             hiddenLabel
-            minRows={minRows}
             multiline
             onChange={(e) => setPostTextContent(e.target.value)}
             placeholder={placeholder}

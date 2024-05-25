@@ -1,6 +1,6 @@
 import { Box, IconButton } from "@mui/material";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
 
 type EmojiPickerIconButtonProps = {
@@ -30,7 +30,7 @@ const EmojiPickerIconButton = ({
   const emojiIconButtonRef = useRef<HTMLButtonElement>(null);
   const twitterEmojiStyle = EmojiStyle.TWITTER;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const top = topPosition ? -(pickerHeight + 10) : 150;
+  const top = topPosition ? -(pickerHeight + 6) : 40;
 
   const handleClick = (event: MouseEvent) => {
     if (

@@ -41,6 +41,7 @@ const styles = {
   chatInputContainer: {
     boxSizing: "border-box",
     padding: 1,
+    position: "relative",
     width: "100%",
   },
   directMessageContainer: {
@@ -234,7 +235,6 @@ const DirectMessage = () => {
               ))}
             </List>
             <Divider />
-
             <form onSubmit={onSubmit}>
               <Box sx={styles.chatInputContainer}>
                 <TextField
