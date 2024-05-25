@@ -52,22 +52,22 @@ const NavBar = () => {
 
   const navItems = [
     {
-      icon: <HomeIcon fontSize="large" sx={styles.icon} />,
-      altIcon: <HomeOutlinedIcon fontSize="large" sx={styles.icon} />,
+      icon: <HomeOutlinedIcon fontSize="large" sx={styles.icon} />,
+      altIcon: <HomeIcon fontSize="large" sx={styles.icon} />,
       label: "Home",
       route: "/",
     },
     {
-      icon: <MailIcon fontSize="large" sx={styles.icon} />,
-      altIcon: <MailOutlinedIcon fontSize="large" sx={styles.icon} />,
+      icon: <MailOutlinedIcon fontSize="large" sx={styles.icon} />,
+      altIcon: <MailIcon fontSize="large" sx={styles.icon} />,
       label: "Messages",
       route: selectedConversation.userId
         ? `/messages/${user.userId}/${selectedConversation.userId}`
         : "/messages",
     },
     {
-      icon: <AccountCircleIcon fontSize="large" sx={styles.icon} />,
-      altIcon: <AccountCircleOutlinedIcon fontSize="large" sx={styles.icon} />,
+      icon: <AccountCircleOutlinedIcon fontSize="large" sx={styles.icon} />,
+      altIcon: <AccountCircleIcon fontSize="large" sx={styles.icon} />,
       label: "Profile",
       route: `/${user.username}`,
     },

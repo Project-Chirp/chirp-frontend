@@ -24,6 +24,7 @@ const styles = {
   },
   box: {
     display: "flex",
+    alignItems: "center",
   },
 };
 
@@ -39,7 +40,9 @@ const NavItem = ({ icon, altIcon, label, route, active }: NavItemProps) => {
         <ListItemIcon>{active ? altIcon : icon}</ListItemIcon>
         <ListItemText
           primary={label}
-          primaryTypographyProps={{ variant: "h3" }}
+          primaryTypographyProps={
+            active ? { variant: "h3" } : { variant: "h3", fontWeight: 500 }
+          }
         />
       </Box>
     </ListItemButton>
