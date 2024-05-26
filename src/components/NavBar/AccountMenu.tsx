@@ -7,12 +7,21 @@ import Stack from "@mui/material/Stack/Stack";
 import React from "react";
 import { useAppSelector } from "../../state/hooks";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const styles = {
   button: {
+    "&.Mui-selected": {
+      ":hover": {
+        backgroundColor: "primary.light",
+      },
+      backgroundColor: "transparent",
+    },
+    ":hover": {
+      backgroundColor: "primary.light",
+    },
     marginTop: "auto",
-    marginBottom: 2,
+    marginBottom: 1,
+    padding: 1.5,
   },
   nameContainer: { paddingLeft: 2, textAlign: "left" },
   popover: {
@@ -71,14 +80,14 @@ const AccountMenu = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "top",
+          vertical: -10,
           horizontal: "center",
         }}
         transformOrigin={{
           vertical: "bottom",
           horizontal: "center",
         }}
-        sx={{ ".MuiPopover-paper": styles.popover }}
+        sx={{ ".MuiPopover-paper": styles.popover, borderColor: "black" }}
       >
         <Button
           sx={styles.popoverButton}

@@ -20,6 +20,7 @@ const styles = {
     opacity: 0.9,
   },
   iconButton: {
+    alignSelf: "flex-start",
     "&.Mui-selected": {
       ":hover": {
         backgroundColor: "primary.light",
@@ -30,15 +31,15 @@ const styles = {
       backgroundColor: "primary.light",
     },
     marginLeft: 0.25,
-    marginTop: 1,
+    marginY: 1,
     padding: 0.5,
-    width: "fit-content",
   },
   logo: {
     height: 50,
     width: 50,
   },
   navItemList: {
+    alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
     gap: 1,

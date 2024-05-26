@@ -30,7 +30,6 @@ const styles = {
     borderRadius: 10,
     paddingX: 1.5,
     transitionDuration: "0.25s",
-    width: "fit-content",
   },
   listItemText: { marginRight: 1 },
   unselectedText: { fontWeight: 500 },
