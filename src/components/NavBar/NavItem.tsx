@@ -1,10 +1,16 @@
-import React from "react";
-import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { ReactElement } from "react";
+import {
+  Box,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  SvgIconProps,
+} from "@mui/material";
 import { Link as Routerlink } from "react-router-dom";
 
 type NavItemProps = {
-  icon: React.ReactElement;
-  altIcon: React.ReactElement;
+  icon: ReactElement<SvgIconProps>;
+  altIcon: ReactElement<SvgIconProps>;
   label: string;
   route: string;
   active: boolean;
