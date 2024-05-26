@@ -37,7 +37,7 @@ const styles = {
     marginBottom: "auto",
     width: "100%",
   },
-  postButton: { fontSize: "1.0625rem", margin: 2 },
+  postButton: { fontSize: "1.0625rem", marginY: 2, paddingY: 1 },
   toolbar: {
     height: "100%",
     marginLeft: "auto",

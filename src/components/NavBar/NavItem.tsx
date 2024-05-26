@@ -1,10 +1,10 @@
 import { ReactElement } from "react";
 import {
-  Box,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   SvgIconProps,
+  Typography,
 } from "@mui/material";
 import { Link as Routerlink } from "react-router-dom";
 
@@ -18,20 +18,22 @@ type NavItemProps = {
 
 const styles = {
   navItem: {
-    borderRadius: "30px",
-    width: "fit-content",
-    paddingLeft: "12px",
-    paddingRight: "12px",
-    transitionDuration: "0.2s",
-    "&.Mui-selected": { backgroundColor: "transparent" },
+    "&.Mui-selected": {
+      ":hover": {
+        backgroundColor: "primary.light",
+      },
+      backgroundColor: "transparent",
+    },
     ":hover": {
       backgroundColor: "primary.light",
     },
+    borderRadius: 10,
+    paddingX: 1.5,
+    transitionDuration: "0.25s",
+    width: "fit-content",
   },
-  box: {
-    display: "flex",
-    alignItems: "center",
-  },
+  listItemText: { marginRight: 1 },
+  unselectedText: { fontWeight: 500 },
 };
 
 const NavItem = ({ icon, altIcon, label, route, active }: NavItemProps) => {
@@ -42,15 +44,12 @@ const NavItem = ({ icon, altIcon, label, route, active }: NavItemProps) => {
       to={route}
       selected={active}
     >
-      <Box sx={styles.box}>
-        <ListItemIcon>{active ? altIcon : icon}</ListItemIcon>
-        <ListItemText
-          primary={label}
-          primaryTypographyProps={
-            active ? { variant: "h3" } : { variant: "h3", fontWeight: 500 }
-          }
-        />
-      </Box>
+      <ListItemIcon>{active ? altIcon : icon}</ListItemIcon>
+      <ListItemText disableTypography sx={styles.listItemText}>
+        <Typography variant="h3" sx={{ ...(!active && styles.unselectedText) }}>
+          {label}
+        </Typography>
+      </ListItemText>
     </ListItemButton>
   );
 };
