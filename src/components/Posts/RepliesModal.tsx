@@ -1,8 +1,5 @@
 import {
   Box,
-  Card,
-  CardContent,
-  CardMedia,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -32,14 +29,14 @@ const styles = {
   cardContent: {
     padding: 0,
     display: "flex",
+    overflow: "visible",
   },
   cardMedia: { maxWidth: 200, margin: "auto" },
   dialog: {
-    maxHeight: "90%",
+    ".MuiDialog-scrollPaper": { alignItems: "flex-start" },
   },
   dialogContent: {
-    alignItems: "center",
-    justifyContent: "center",
+    overflow: "visible",
   },
   line: {
     borderRightWidth: "3px",
@@ -71,7 +68,6 @@ const styles = {
   paperProps: {
     overflow: "visible",
     borderRadius: 20,
-    padding: 10, //Fix padding
   },
 };
 
@@ -97,8 +93,8 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
         </IconButton>
       </DialogTitle>
       <DialogContent sx={styles.dialogContent}>
-        <Card sx={styles.card}>
-          <CardContent sx={styles.cardContent}>
+        <Box sx={styles.card}>
+          <Box sx={styles.cardContent}>
             <Box sx={styles.avatarLineContainer}>
               <Box sx={styles.avatarBox}>
                 <UserAvatar username={post.username} />
@@ -129,20 +125,16 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
                 </Typography>
               </Typography>
             </Box>
-          </CardContent>
+          </Box>
           {post.imagePath && (
-            <CardMedia
-              sx={styles.cardMedia}
-              component="img"
-              image={post.imagePath}
-            />
+            <Box sx={styles.cardMedia} component="img" src={post.imagePath} />
           )}
           <ComposeReply
             placeholder="Post your reply"
             parentPostId={post.postId}
             onClose={onClose}
           />
-        </Card>
+        </Box>
       </DialogContent>
     </Dialog>
   );
