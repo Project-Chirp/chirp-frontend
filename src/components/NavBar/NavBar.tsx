@@ -4,7 +4,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { Avatar, Box, Button, List, Toolbar } from "@mui/material";
+import { Box, Button, IconButton, List, Toolbar } from "@mui/material";
 import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
 import PostButtonModal from "./PostButtonModal";
@@ -12,23 +12,37 @@ import { useState } from "react";
 import ComposePost from "../Posts/ComposePost";
 import { useAppSelector } from "../../state/hooks";
 import { useLocation } from "react-router-dom";
+import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
   icon: {
     color: "black.main",
     opacity: 0.9,
   },
+  iconButton: {
+    "&.Mui-selected": {
+      ":hover": {
+        backgroundColor: "primary.light",
+      },
+      backgroundColor: "transparent",
+    },
+    ":hover": {
+      backgroundColor: "primary.light",
+    },
+    marginLeft: 0.25,
+    marginTop: 1,
+    padding: 0.5,
+    width: "fit-content",
+  },
   logo: {
-    alignSelf: "left",
     height: 50,
-    paddingLeft: 2,
-    paddingTop: 2,
     width: 50,
   },
   navItemList: {
     display: "flex",
     flexDirection: "column",
     gap: 1,
+    paddingTop: 0,
   },
   navList: {
     display: "flex",
@@ -77,11 +91,14 @@ const NavBar = () => {
     <>
       <Toolbar sx={styles.toolbar}>
         <Box sx={styles.navList}>
-          <Avatar
-            alt="logo"
-            src={`/chirp-logo-transparent.png`}
-            sx={styles.logo}
-          />
+          <IconButton component={Routerlink} sx={styles.iconButton} to="/">
+            <Box
+              alt="logo"
+              component="img"
+              src="/chirp-logo-transparent.png"
+              sx={styles.logo}
+            />
+          </IconButton>
           <List sx={styles.navItemList} component="nav">
             {navItems.map((navItem, index) => (
               <NavItem

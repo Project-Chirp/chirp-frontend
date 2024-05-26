@@ -39,10 +39,10 @@ const styles = {
 const NavItem = ({ icon, altIcon, label, route, active }: NavItemProps) => {
   return (
     <ListItemButton
-      sx={styles.navItem}
       component={Routerlink}
-      to={route}
       selected={active}
+      sx={styles.navItem}
+      to={route}
     >
       <ListItemIcon>{active ? altIcon : icon}</ListItemIcon>
       <ListItemText disableTypography sx={styles.listItemText}>
