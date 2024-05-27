@@ -33,6 +33,7 @@ const styles = {
     marginLeft: 0.25,
     marginY: 1,
     padding: 0.5,
+    transitionDuration: "0.25s",
   },
   logo: {
     height: 50,

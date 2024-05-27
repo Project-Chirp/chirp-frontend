@@ -11,12 +11,14 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const styles = {
   arrow: {
-    fill: "white",
-    filter: "drop-shadow(3px 4px 3px)",
+    color: "white.main",
+    // Similar to MUI box shadow
+    filter:
+      "drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(0px 8px 10px rgba(0,0,0,0.14)) drop-shadow(0px 3px 14px rgba(0,0,0,0.12))",
     left: "50%",
     position: "absolute",
     top: "100%",
-    transform: "translate(-50%, -50%)",
+    transform: "translate(-50%, -45%)",
   },
   button: {
     "&.Mui-selected": {
@@ -31,6 +33,7 @@ const styles = {
     marginTop: "auto",
     marginBottom: 1,
     padding: 1.5,
+    transitionDuration: "0.25s",
   },
   nameContainer: { paddingLeft: 2, textAlign: "left" },
   popover: {
