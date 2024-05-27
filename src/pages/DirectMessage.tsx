@@ -32,6 +32,7 @@ import NavBar from "../components/NavBar/NavBar";
 import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
 import InfiniteScrollList from "../components/Common/InfiniteScrollList";
+import { PayloadAction } from "@reduxjs/toolkit";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -220,6 +221,10 @@ const DirectMessage = () => {
                 scrollableTarget={"scrollable"}
                 style={styles.infiniteScroll}
                 url={`http://localhost:3001/api/messages/${currentUserId}/${otherUserId}`}
+                setData={(newMessage: Message[]): PayloadAction<Message[]> => {
+                  return setMessages(newMessage);
+                }}
+                selectData={(state) => state.messages.messages}
               >
                 {messages.map((o, index) => (
                   <ListItem component="div" key={index}>
