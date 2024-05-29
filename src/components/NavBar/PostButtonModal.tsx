@@ -39,7 +39,7 @@ export default function PostButtonModal({
       PaperProps={{ style: styles.paperProps }}
     >
       <DialogTitle>
-        <IconButton disableRipple onClick={onClose}>
+        <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
