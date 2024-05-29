@@ -21,12 +21,6 @@ const styles = {
     transform: "translate(-50%, -45%)",
   },
   button: {
-    "&.Mui-selected": {
-      ":hover": {
-        backgroundColor: "primary.light",
-      },
-      backgroundColor: "transparent",
-    },
     ":hover": {
       backgroundColor: "primary.light",
     },
@@ -93,7 +87,7 @@ const AccountMenu = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: -10,
+          vertical: -5,
           horizontal: "center",
         }}
         transformOrigin={{

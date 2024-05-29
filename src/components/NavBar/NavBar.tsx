@@ -21,12 +21,6 @@ const styles = {
   },
   iconButton: {
     alignSelf: "flex-start",
-    "&.Mui-selected": {
-      ":hover": {
-        backgroundColor: "primary.light",
-      },
-      backgroundColor: "transparent",
-    },
     ":hover": {
       backgroundColor: "primary.light",
     },
