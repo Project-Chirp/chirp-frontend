@@ -1,18 +1,17 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, SvgIcon, Typography } from "@mui/material";
+import Logo from "../assets/logo.svg?react";
 
 const styles = {
   container: {
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
+    gap: 2,
     height: "100%",
     justifyContent: "center",
   },
-  logo: {
-    width: 250,
-    height: 250,
-  },
+  logo: { fontSize: 250 },
 };
 
 const Welcome = () => {
@@ -21,7 +20,12 @@ const Welcome = () => {
   return (
     <Box sx={styles.container}>
       <Typography variant="h1">Welcome to Chirp</Typography>
-      <img style={styles.logo} src="/chirp-logo-transparent.png" alt="Logo" />
+      <SvgIcon
+        component={Logo}
+        sx={styles.logo}
+        color="primary"
+        inheritViewBox
+      />
       <Button
         size="large"
         variant="contained"

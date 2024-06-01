@@ -4,7 +4,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { Box, Button, IconButton, List, Toolbar } from "@mui/material";
+import { Box, Button, IconButton, List, SvgIcon, Toolbar } from "@mui/material";
 import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
 import PostButtonModal from "./PostButtonModal";
@@ -13,6 +13,7 @@ import ComposePost from "../Posts/ComposePost";
 import { useAppSelector } from "../../state/hooks";
 import { useLocation } from "react-router-dom";
 import { Link as Routerlink } from "react-router-dom";
+import Logo from "../../assets/logo.svg?react";
 
 const styles = {
   icon: {
@@ -24,9 +25,9 @@ const styles = {
     ":hover": {
       backgroundColor: "primary.light",
     },
-    marginLeft: 0.25,
+    marginLeft: 0.5,
     marginY: 1,
-    padding: 0.5,
+    padding: 1,
     transitionDuration: "0.25s",
   },
   logo: {
@@ -88,11 +89,11 @@ const NavBar = () => {
       <Toolbar sx={styles.toolbar}>
         <Box sx={styles.navList}>
           <IconButton component={Routerlink} sx={styles.iconButton} to="/">
-            <Box
-              alt="logo"
-              component="img"
-              src="/chirp-logo-transparent.png"
-              sx={styles.logo}
+            <SvgIcon
+              component={Logo}
+              fontSize="large"
+              color="primary"
+              inheritViewBox
             />
           </IconButton>
           <List sx={styles.navItemList} component="nav">
