@@ -16,7 +16,7 @@ import { useLocation } from "react-router-dom";
 const styles = {
   icon: {
     color: "black.main",
-    opacity: 0.8,
+    opacity: 0.9,
     fontSize: "30px",
   },
   logo: {
@@ -26,6 +26,11 @@ const styles = {
     paddingTop: 2,
     width: 50,
   },
+  navItemList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 1,
+  },
   navList: {
     display: "flex",
     flexDirection: "column",
@@ -33,15 +38,10 @@ const styles = {
     marginBottom: "auto",
     width: "100%",
   },
-  postButton: { fontSize: 18, margin: 2 },
+  postButton: { fontSize: "1.0625rem", margin: 2 },
   toolbar: {
     height: "100%",
     marginLeft: "auto",
-  },
-  list: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
   },
 };
 
@@ -83,7 +83,7 @@ const NavBar = () => {
             src={`/chirp-logo-transparent.png`}
             sx={styles.logo}
           />
-          <List sx={styles.list} component="nav">
+          <List sx={styles.navItemList} component="nav">
             {navItems.map((navItem, index) => (
               <NavItem
                 key={index}
