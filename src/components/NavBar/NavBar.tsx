@@ -17,6 +17,7 @@ const styles = {
   icon: {
     color: "black.main",
     opacity: 0.8,
+    fontSize: "30px",
   },
   logo: {
     alignSelf: "left",
@@ -52,27 +53,27 @@ const NavBar = () => {
 
   const navItems = [
     {
-      icon: <HomeOutlinedIcon fontSize="large" sx={styles.icon} />,
-      altIcon: <HomeIcon fontSize="large" sx={styles.icon} />,
+      icon: <HomeOutlinedIcon sx={styles.icon} />,
+      selectedIcon: <HomeIcon sx={styles.icon} />,
       label: "Home",
       route: "/",
     },
     {
-      icon: <MailOutlinedIcon fontSize="large" sx={styles.icon} />,
-      altIcon: <MailIcon fontSize="large" sx={styles.icon} />,
+      icon: <MailOutlinedIcon sx={styles.icon} />,
+      selectedIcon: <MailIcon sx={styles.icon} />,
       label: "Messages",
       route: selectedConversation.userId
         ? `/messages/${user.userId}/${selectedConversation.userId}`
         : "/messages",
     },
     {
-      icon: <AccountCircleOutlinedIcon fontSize="large" sx={styles.icon} />,
-      altIcon: <AccountCircleIcon fontSize="large" sx={styles.icon} />,
+      icon: <AccountCircleOutlinedIcon sx={styles.icon} />,
+      selectedIcon: <AccountCircleIcon sx={styles.icon} />,
       label: "Profile",
       route: `/${user.username}`,
     },
   ];
-  console.log(location);
+
   return (
     <>
       <Toolbar sx={styles.toolbar}>
@@ -87,10 +88,10 @@ const NavBar = () => {
               <NavItem
                 key={index}
                 icon={navItem.icon}
-                altIcon={navItem.altIcon}
+                selectedIcon={navItem.selectedIcon}
                 label={navItem.label}
                 route={navItem.route}
-                active={location.pathname === navItem.route}
+                selected={location.pathname === navItem.route}
               />
             ))}
           </List>

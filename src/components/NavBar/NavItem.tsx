@@ -4,10 +4,10 @@ import { Link as Routerlink } from "react-router-dom";
 
 type NavItemProps = {
   icon: React.ReactElement;
-  altIcon: React.ReactElement;
+  selectedIcon: React.ReactElement;
   label: string;
   route: string;
-  active: boolean;
+  selected: boolean;
 };
 
 const styles = {
@@ -28,20 +28,26 @@ const styles = {
   },
 };
 
-const NavItem = ({ icon, altIcon, label, route, active }: NavItemProps) => {
+const NavItem = ({
+  icon,
+  selectedIcon,
+  label,
+  route,
+  selected,
+}: NavItemProps) => {
   return (
     <ListItemButton
       sx={styles.navItem}
       component={Routerlink}
       to={route}
-      selected={active}
+      selected={selected}
     >
       <Box sx={styles.box}>
-        <ListItemIcon>{active ? altIcon : icon}</ListItemIcon>
+        <ListItemIcon>{selected ? selectedIcon : icon}</ListItemIcon>
         <ListItemText
           primary={label}
           primaryTypographyProps={
-            active ? { variant: "h3" } : { variant: "h3", fontWeight: 500 }
+            selected ? { variant: "h3" } : { variant: "h3", fontWeight: 500 }
           }
         />
       </Box>
