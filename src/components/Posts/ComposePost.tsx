@@ -10,7 +10,7 @@ import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 
 type ComposePostProps = {
   placeholder: string;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 const styles = {
@@ -53,9 +53,7 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
           displayName: user.displayName,
         })
       );
-      if (onClose) {
-        onClose();
-      }
+      onClose?.();
     } catch (err) {
       console.log(err);
     }

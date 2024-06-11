@@ -18,7 +18,7 @@ const Timeline = () => {
           <Typography sx={styles.headerTitle} variant="h2">
             Timeline
           </Typography>
-          <ComposePost placeholder="What's happening?" onClose={() => {}} />
+          <ComposePost placeholder="What's happening?" />
           <Divider />
           <PostList />
         </Box>
