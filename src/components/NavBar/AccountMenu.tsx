@@ -37,6 +37,10 @@ const styles = {
       overflow: "visible",
     },
   },
+  popoverButton: {
+    paddingX: 2,
+    paddingY: 1,
+  },
   logOutIcon: {
     marginRight: 1.5,
   },
