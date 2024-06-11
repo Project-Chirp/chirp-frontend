@@ -53,7 +53,9 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
           displayName: user.displayName,
         })
       );
-      onClose();
+      if (onClose) {
+        onClose();
+      }
     } catch (err) {
       console.log(err);
     }
