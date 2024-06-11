@@ -31,20 +31,14 @@ const styles = {
   },
   nameContainer: { paddingLeft: 2, textAlign: "left" },
   popover: {
-    paddingTop: "10px",
-    paddingBottom: "10px",
-    borderRadius: "10px",
-    overflow: "visible",
+    ".MuiPopover-paper": {
+      padding: 1,
+      borderRadius: 3,
+      overflow: "visible",
+    },
   },
-  popoverButton: {
-    paddingTop: "5px",
-    paddingBottom: "5px",
-    paddingRight: "20px",
-    paddingLeft: "20px",
-    textTransform: "none",
-  },
-  popoverIcon: {
-    marginRight: "10px",
+  logOutIcon: {
+    marginRight: 1.5,
   },
 };
 
@@ -94,9 +88,7 @@ const AccountMenu = () => {
           vertical: "bottom",
           horizontal: "center",
         }}
-        sx={{
-          ".MuiPopover-paper": styles.popover,
-        }}
+        sx={styles.popover}
       >
         <ArrowDropDownIcon fontSize="large" sx={styles.arrow} />
         <Button
@@ -104,7 +96,7 @@ const AccountMenu = () => {
           component={Link}
           onClick={() => logout()}
         >
-          <LogoutIcon sx={styles.popoverIcon}></LogoutIcon>
+          <LogoutIcon sx={styles.logOutIcon}></LogoutIcon>
           Log Out
         </Button>
       </Popover>

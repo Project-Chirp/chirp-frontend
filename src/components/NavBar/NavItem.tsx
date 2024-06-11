@@ -10,10 +10,10 @@ import { Link as Routerlink } from "react-router-dom";
 
 type NavItemProps = {
   icon: ReactElement<SvgIconProps>;
-  altIcon: ReactElement<SvgIconProps>;
+  selectedIcon: ReactElement<SvgIconProps>;
   label: string;
   route: string;
-  active: boolean;
+  selected: boolean;
 };
 
 const styles = {
@@ -35,17 +35,26 @@ const styles = {
   unselectedText: { fontWeight: 500 },
 };
 
-const NavItem = ({ icon, altIcon, label, route, active }: NavItemProps) => {
+const NavItem = ({
+  icon,
+  selectedIcon,
+  label,
+  route,
+  selected,
+}: NavItemProps) => {
   return (
     <ListItemButton
       component={Routerlink}
-      selected={active}
+      selected={selected}
       sx={styles.navItem}
       to={route}
     >
-      <ListItemIcon>{active ? altIcon : icon}</ListItemIcon>
+      <ListItemIcon>{selected ? selectedIcon : icon}</ListItemIcon>
       <ListItemText disableTypography sx={styles.listItemText}>
-        <Typography variant="h3" sx={{ ...(!active && styles.unselectedText) }}>
+        <Typography
+          variant="h3"
+          sx={{ ...(!selected && styles.unselectedText) }}
+        >
           {label}
         </Typography>
       </ListItemText>
