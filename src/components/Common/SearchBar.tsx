@@ -1,8 +1,10 @@
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Autocomplete,
   Avatar,
   Box,
+  Button,
   IconButton,
   InputAdornment,
   ListItemAvatar,
@@ -41,10 +43,15 @@ const styles = {
     overflowY: "auto", // Add scrollbar if the list exceeds maxHeight
     zIndex: 1300,
   },
-  searchIcon: { paddingRight: 0 },
+  searchIcon: {
+    paddingRight: 0,
+    ".MuiButtonBase-root": {
+      color: "gray.main",
+    },
+  },
   searchIconFocused: {
     paddingRight: 0,
-    "&.Mui-disabled": {
+    ".Mui-disabled": {
       color: "primary.main",
     },
   },
@@ -59,6 +66,7 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const [focusSearchBar, setFocusSearchBar] = useState(false);
+
   const onSelect = (selectedUsername: string) => {
     const path = `/${selectedUsername}`;
     navigate(path);
@@ -138,8 +146,7 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
         fullWidth
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
         id="search"
-        popupIcon={false}
-        clearIcon={false}
+        forcePopupIcon={false}
         options={userList}
         openOnFocus
         loading={loading}
@@ -158,7 +165,7 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
               hiddenLabel
               InputProps={{
                 ...params.InputProps,
-                type: "search",
+                type: "text",
                 startAdornment: (
                   <InputAdornment position="start">
                     <IconButton
@@ -173,34 +180,56 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
                     </IconButton>
                   </InputAdornment>
                 ),
+                endAdornment: keywords && (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setKeywords("")}>
+                      <ClearIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                ),
               }}
               placeholder={placeholder}
               size="small"
             />
           );
         }}
-        renderOption={(_, option) => {
+        renderOption={(_, option, state) => {
+          const lastOption = state.index === userList.length - 1;
           return (
-            <ListItemButton
-              key={option.userId}
-              component="li"
-              onClick={() => onSelect(option.username)}
-            >
-              <ListItemAvatar>
-                <Avatar />
-              </ListItemAvatar>
-              <ListItemText
-                disableTypography
-                primary={
-                  <Box>
-                    <Typography sx={styles.displayName} variant="body1">
-                      {option.displayName}
-                    </Typography>
-                    <Typography variant="body2">{`@${option.username}`}</Typography>
-                  </Box>
-                }
-              />
-            </ListItemButton>
+            <Box key={option.userId}>
+              <ListItemButton
+                key={option.userId}
+                component="li"
+                onClick={() => onSelect(option.username)}
+              >
+                <ListItemAvatar>
+                  <Avatar />
+                </ListItemAvatar>
+                <ListItemText
+                  disableTypography
+                  primary={
+                    <Box>
+                      <Typography sx={styles.displayName} variant="body1">
+                        {option.displayName}
+                      </Typography>
+                      <Typography variant="body2">{`@${option.username}`}</Typography>
+                    </Box>
+                  }
+                />
+              </ListItemButton>
+              {lastOption && hasNextPage && (
+                <Box textAlign={"center"} padding={1}>
+                  <Button
+                    onClick={() => fetchNextPage()}
+                    disabled={hasNextPage}
+                    variant="contained"
+                    size="small"
+                  >
+                    Load More
+                  </Button>
+                </Box>
+              )}
+            </Box>
           );
         }}
         sx={styles.autocomplete}
