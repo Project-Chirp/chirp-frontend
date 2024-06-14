@@ -4,7 +4,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { Avatar, Box, Button, List, Toolbar } from "@mui/material";
+import { Box, Button, IconButton, List, SvgIcon, Toolbar } from "@mui/material";
 import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
 import PostButtonModal from "./PostButtonModal";
@@ -12,6 +12,8 @@ import { useState } from "react";
 import ComposePost from "../Posts/ComposePost";
 import { useAppSelector } from "../../state/hooks";
 import { useLocation } from "react-router-dom";
+import { Link as Routerlink } from "react-router-dom";
+import Logo from "../../assets/logo.svg?react";
 
 const styles = {
   icon: {
@@ -19,17 +21,26 @@ const styles = {
     opacity: 0.9,
     fontSize: "30px",
   },
+  iconButton: {
+    alignSelf: "flex-start",
+    ":hover": {
+      backgroundColor: "primary.light",
+    },
+    marginLeft: 0.5,
+    marginY: 1,
+    padding: 1,
+    transitionDuration: "0.25s",
+  },
   logo: {
-    alignSelf: "left",
     height: 50,
-    paddingLeft: 2,
-    paddingTop: 2,
     width: 50,
   },
   navItemList: {
+    alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
     gap: 1,
+    paddingTop: 0,
   },
   navList: {
     display: "flex",
@@ -38,7 +49,7 @@ const styles = {
     marginBottom: "auto",
     width: "100%",
   },
-  postButton: { fontSize: "1.0625rem", margin: 2 },
+  postButton: { fontSize: "1.0625rem", marginY: 2, paddingY: 1 },
   toolbar: {
     height: "100%",
     marginLeft: "auto",
@@ -78,11 +89,14 @@ const NavBar = () => {
     <>
       <Toolbar sx={styles.toolbar}>
         <Box sx={styles.navList}>
-          <Avatar
-            alt="logo"
-            src={`/chirp-logo-transparent.png`}
-            sx={styles.logo}
-          />
+          <IconButton component={Routerlink} sx={styles.iconButton} to="/">
+            <SvgIcon
+              component={Logo}
+              fontSize="large"
+              color="primary"
+              inheritViewBox
+            />
+          </IconButton>
           <List sx={styles.navItemList} component="nav">
             {navItems.map((navItem, index) => (
               <NavItem
