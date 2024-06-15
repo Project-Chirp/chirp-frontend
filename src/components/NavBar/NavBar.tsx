@@ -36,7 +36,6 @@ const styles = {
     width: 50,
   },
   navItemList: {
-    alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
     gap: 1,
