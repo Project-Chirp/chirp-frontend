@@ -77,6 +77,12 @@ const styles = {
   },
   personalInfoContent: { display: "flex", gap: 0.5 },
   profileContent: { padding: 2 },
+  tab: {
+    ":hover": {
+      backgroundColor: "primary.light",
+    },
+    transitionDuration: "0.25s",
+  },
   username: { fontSize: 16 },
 };
 
@@ -284,9 +290,9 @@ const Profile = () => {
               value={value}
               variant="fullWidth"
             >
-              <Tab value="one" label="Tweets" />
-              <Tab value="two" label="Replies" />
-              <Tab value="three" label="Likes" />
+              <Tab value="one" label="Posts" sx={styles.tab} />
+              <Tab value="two" label="Replies" sx={styles.tab} />
+              <Tab value="three" label="Likes" sx={styles.tab} />
             </Tabs>
             <Divider />
             {!loading && profileContents.userId && (
