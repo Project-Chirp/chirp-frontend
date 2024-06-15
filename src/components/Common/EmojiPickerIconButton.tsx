@@ -11,7 +11,7 @@ type EmojiPickerIconButtonProps = {
 };
 
 const styles = {
-  emojiContainer: { position: "absolute", zIndex: 1 },
+  emojiContainer: { position: "absolute", zIndex: 1, overflow: "visible" },
   emojiPicker: {
     "--epr-emoji-size": "25px",
   },
