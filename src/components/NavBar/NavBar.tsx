@@ -93,7 +93,10 @@ const NavBar = () => {
         onClose={() => setOpenModal(false)}
         openModal={openModal}
       >
-        <ComposePost placeholder="What's happening?" />
+        <ComposePost
+          placeholder="What's happening?"
+          onClose={() => setOpenModal(false)}
+        />
       </PostButtonModal>
     </>
   );
