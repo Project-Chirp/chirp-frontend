@@ -25,12 +25,14 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
         }}
         selectData={(state) => state.posts.posts}
       >
-        {posts.map((o) => (
-          <Box key={o.postId}>
-            <PostItem post={o} />
-            <Divider />
-          </Box>
-        ))}
+        {posts
+          .filter((o) => o.parentPostId === postId)
+          .map((o) => (
+            <Box key={o.postId}>
+              <PostItem post={o} />
+              <Divider />
+            </Box>
+          ))}
       </InfiniteScrollList>
     </Stack>
   );
