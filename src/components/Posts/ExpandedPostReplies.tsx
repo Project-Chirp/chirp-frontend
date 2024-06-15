@@ -72,12 +72,14 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
         hasMore={hasNextPage}
         loader={<PageLoader />}
       >
-        {posts.map((o, index) => (
-          <Box key={index}>
-            <PostItem post={o} />
-            <Divider />
-          </Box>
-        ))}
+        {posts
+          .filter((o) => o.parentPostId === postId)
+          .map((o, index) => (
+            <Box key={index}>
+              <PostItem post={o} />
+              <Divider />
+            </Box>
+          ))}
       </InfiniteScroll>
     </Stack>
   );
