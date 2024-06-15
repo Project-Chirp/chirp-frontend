@@ -1,8 +1,5 @@
 import {
   Box,
-  Card,
-  CardContent,
-  CardMedia,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -28,18 +25,12 @@ const styles = {
     flexDirection: "column",
     gap: 0.25,
   },
-  card: { paddingX: 1 },
-  cardContent: {
-    padding: 0,
-    display: "flex",
-  },
-  cardMedia: { maxWidth: 200, margin: "auto" },
   dialog: {
-    maxHeight: "90%",
+    ".MuiDialog-scrollPaper": { alignItems: "flex-start" },
   },
   dialogContent: {
-    alignItems: "center",
-    justifyContent: "center",
+    overflow: "visible",
+    paddingX: 1,
   },
   line: {
     borderRightWidth: "3px",
@@ -58,7 +49,17 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
   },
+  paperProps: {
+    overflow: "visible",
+    borderRadius: 20,
+  },
   postContent: {
+    padding: 0,
+    display: "flex",
+    overflow: "visible",
+  },
+  postMedia: { maxWidth: 200, margin: "auto" },
+  postText: {
     paddingRight: 3,
     paddingBottom: 0.5,
   },
@@ -68,11 +69,6 @@ const styles = {
     flexDirection: "column",
   },
   username: { fontSize: 14 },
-  paperProps: {
-    overflow: "visible",
-    borderRadius: 20,
-    padding: 10, //Fix padding
-  },
 };
 
 type PostModalProps = {
@@ -92,57 +88,49 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
       PaperProps={{ style: styles.paperProps }}
     >
       <DialogTitle>
-        <IconButton disableRipple onClick={onClose}>
+        <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
       <DialogContent sx={styles.dialogContent}>
-        <Card sx={styles.card}>
-          <CardContent sx={styles.cardContent}>
-            <Box sx={styles.avatarLineContainer}>
-              <Box sx={styles.avatarBox}>
-                <UserAvatar username={post.username} />
-              </Box>
-              <Box sx={styles.lineBox}>
-                <Divider orientation="vertical" sx={styles.line} />
-              </Box>
+        <Box sx={styles.postContent}>
+          <Box sx={styles.avatarLineContainer}>
+            <Box sx={styles.avatarBox}>
+              <UserAvatar username={post.username} />
             </Box>
-            <Box sx={styles.textContent}>
-              <Box sx={styles.namesAndOption}>
-                <Typography variant="subtitle1">
-                  {post.displayName}
-                  <Typography component="span" variant="subtitle2">
-                    {` @${post.username}`}
-                  </Typography>
-                </Typography>
-                <IconButton size="small" sx={styles.moreButton}>
-                  <MoreVertIcon />
-                </IconButton>
-              </Box>
-              <Typography sx={styles.postContent}>
-                {post.textContent}
-              </Typography>
-              <Typography>
-                Replying to
-                <Typography component="span" color="primary">
+            <Box sx={styles.lineBox}>
+              <Divider orientation="vertical" sx={styles.line} />
+            </Box>
+          </Box>
+          <Box sx={styles.textContent}>
+            <Box sx={styles.namesAndOption}>
+              <Typography variant="subtitle1">
+                {post.displayName}
+                <Typography component="span" variant="subtitle2">
                   {` @${post.username}`}
                 </Typography>
               </Typography>
+              <IconButton size="small" sx={styles.moreButton}>
+                <MoreVertIcon />
+              </IconButton>
             </Box>
-          </CardContent>
-          {post.imagePath && (
-            <CardMedia
-              sx={styles.cardMedia}
-              component="img"
-              image={post.imagePath}
-            />
-          )}
-          <ComposeReply
-            placeholder="Post your reply"
-            parentPostId={post.postId}
-            onClose={onClose}
-          />
-        </Card>
+            <Typography sx={styles.postText}>{post.textContent}</Typography>
+            <Typography>
+              Replying to
+              <Typography component="span" color="primary">
+                {` @${post.username}`}
+              </Typography>
+            </Typography>
+          </Box>
+        </Box>
+        {post.imagePath && (
+          <Box sx={styles.postMedia} component="img" src={post.imagePath} />
+        )}
+        <ComposeReply
+          placeholder="Post your reply"
+          parentPostId={post.postId}
+          onClose={onClose}
+        />
       </DialogContent>
     </Dialog>
   );
