@@ -20,6 +20,7 @@ import PageLoader from "../../pages/PageLoader";
 import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
 import { useNavigate } from "react-router-dom";
+import { queryClient } from "../../utilities/queryClient";
 
 type SearchBarProps = {
   placeholder: string;
@@ -39,8 +40,8 @@ const styles = {
     fontWeight: "bold",
   },
   listBox: {
-    maxHeight: "60vh", // Set a maximum height to prevent the list from expanding infinitely
-    overflowY: "auto", // Add scrollbar if the list exceeds maxHeight
+    maxHeight: "60vh",
+    overflowY: "auto",
     zIndex: 1300,
   },
   searchIcon: {
@@ -63,42 +64,21 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
   const [keywords, setKeywords] = useState("");
   const [userList, setUserList] = useState<SelectedUser[]>([]);
   const [loading, setLoading] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const searchBarRef = useRef<HTMLDivElement>(null);
   const [focusSearchBar, setFocusSearchBar] = useState(false);
 
   const onSelect = (selectedUsername: string) => {
+    setFocusSearchBar(false);
     const path = `/${selectedUsername}`;
     navigate(path);
   };
 
-  const handleClick = (event: MouseEvent) => {
-    if (
-      containerRef.current &&
-      !containerRef.current.contains(event.target as Node) &&
-      searchBarRef.current &&
-      !searchBarRef.current.contains(event.target as Node)
-    ) {
-      console.log("Test");
-      setFocusSearchBar(false);
-    }
-  };
-
   useEffect(() => {
-    document.body.addEventListener("mousedown", handleClick);
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (keywords.trim().length > 0) {
-      fetchUsers({ pageParam: 1 });
-    }
+    fetchUsers({ pageParam: 1 });
   }, [keywords]);
 
   const fetchUsers = async ({ pageParam = 1 }) => {
     setLoading(true);
+    if (keywords.length === 0) return {};
     try {
       const token = await getAccessTokenSilently();
       const result = await axios.get(
@@ -106,7 +86,7 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
         {
           params: {
             keyword: keywords,
-            offset: 1,
+            offset: pageParam,
           },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -148,6 +128,9 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
         id="search"
         forcePopupIcon={false}
         options={userList}
+        open={focusSearchBar}
+        onOpen={() => setFocusSearchBar(true)}
+        onBlur={() => setFocusSearchBar(false)}
         openOnFocus
         loading={loading}
         filterOptions={(x) => x}
@@ -155,12 +138,10 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
           setKeywords(newInputValue);
         }}
         inputValue={keywords}
-        ListboxProps={{ ref: containerRef }}
         renderInput={(params) => {
           return (
             <TextField
               {...params}
-              ref={searchBarRef}
               fullWidth
               hiddenLabel
               InputProps={{
@@ -193,11 +174,12 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
             />
           );
         }}
-        renderOption={(_, option, state) => {
+        renderOption={(params, option, state) => {
           const lastOption = state.index === userList.length - 1;
           return (
             <Box key={option.userId}>
               <ListItemButton
+                {...params}
                 key={option.userId}
                 component="li"
                 onClick={() => onSelect(option.username)}
@@ -221,7 +203,6 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
                 <Box textAlign={"center"} padding={1}>
                   <Button
                     onClick={() => fetchNextPage()}
-                    disabled={hasNextPage}
                     variant="contained"
                     size="small"
                   >
