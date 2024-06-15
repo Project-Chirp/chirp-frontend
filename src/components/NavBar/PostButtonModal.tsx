@@ -10,6 +10,16 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
   },
+  dialogTitle: {
+    paddingBottom: 0,
+    paddingLeft: 0.5,
+    paddingRight: 0.5,
+    paddingTop: 0,
+  },
+  paperProps: {
+    overflow: "visible",
+    borderRadius: 20,
+  },
 };
 
 type PostButtonModalProps = {
@@ -30,6 +40,7 @@ export default function PostButtonModal({
       open={openModal}
       scroll="paper"
       sx={styles.dialog}
+      PaperProps={{ style: styles.paperProps }}
     >
       <DialogTitle>
         <IconButton disableRipple onClick={onClose}>

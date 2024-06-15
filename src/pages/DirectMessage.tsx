@@ -17,7 +17,6 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ConversationList from "../components/Messages/ConversationList";
@@ -33,6 +32,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { queryClient } from "../utilities/queryClient";
 import PageLoader from "./PageLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
+import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
+import { EmojiClickData } from "emoji-picker-react";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -45,6 +46,7 @@ const styles = {
   chatInputContainer: {
     boxSizing: "border-box",
     padding: 1,
+    position: "relative",
     width: "100%",
   },
   directMessageContainer: {
@@ -243,6 +245,7 @@ const DirectMessage = () => {
               <InfoOutlinedIcon />
             </IconButton>
           </Box>
+
           <Divider />
           <Box sx={styles.chatContainer}>
             <List
@@ -305,9 +308,14 @@ const DirectMessage = () => {
                         <IconButton>
                           <AddPhotoAlternateOutlinedIcon />
                         </IconButton>
-                        <IconButton>
-                          <EmojiEmotionsOutlinedIcon />
-                        </IconButton>
+                        <EmojiPickerIconButton
+                          onEmojiClick={(emoji: EmojiClickData) => {
+                            setTextContent(
+                              (prevContent) => prevContent + emoji.emoji
+                            );
+                          }}
+                          topPosition
+                        />
                         <IconButton>
                           <GifBoxOutlinedIcon />
                         </IconButton>
