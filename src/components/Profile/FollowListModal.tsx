@@ -1,20 +1,40 @@
-import { Modal, Box, Typography } from "@mui/material";
+import { Box, Typography, Dialog, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import React from "react";
+
+type FollowListModalProps = {
+  open: boolean;
+  handleClose: () => void;
+};
 
 const styles = {
-  header: {},
+  header: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "8px 16px",
+  },
+  dialog: {
+    borderRadius: 5,
+  },
 };
-const FollowListModal = () => {
-  // const [openModal, setOpenModal] = useState(false);
+
+const FollowListModal = ({ open, handleClose }: FollowListModalProps) => {
   return (
-    <Box>
+    <Dialog
+      fullWidth
+      onClose={handleClose}
+      open={open}
+      scroll="paper"
+      PaperProps={{ sx: styles.dialog }}
+    >
       <Box sx={styles.header}>
-        <Typography> Followers</Typography>
-        <CloseIcon></CloseIcon>
+        <Typography variant="h6">Followers</Typography>
+        <IconButton onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>
       </Box>
-      {/* <Modal openModal = {openModal}></Modal> */}
-    </Box>
+      {/* Additional stuff goes here */}
+    </Dialog>
   );
 };
 
