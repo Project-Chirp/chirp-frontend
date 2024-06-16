@@ -274,6 +274,7 @@ const Profile = () => {
                     component={Routerlink}
                     to={`/${username}`} // TODO: Create Modal to check following
                     underline="hover"
+                    // onClick = {}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
