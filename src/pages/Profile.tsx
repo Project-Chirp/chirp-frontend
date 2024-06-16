@@ -370,6 +370,7 @@ import FollowButton from "../components/Common/FollowButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
 import { setDisplayName } from "../state/slices/userSlice";
 import { updateDisplayNames } from "../state/slices/postsSlice";
+import FollowListModal from "../components/Profile/FollowListModal";
 
 const styles = {
   avatar: {
@@ -464,6 +465,24 @@ const Profile = () => {
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [followModalOpen, setFollowModalOpen] = useState(false);
+  const [followList, setFollowList] = useState([]);
+  const [listType, setListType] = useState("followers"); // 'followers' or 'following'
+
+  const handleOpenFollowers = async () => {
+    // const followers = await fetchFollowers(); // Implement this
+    // setFollowList(followers);
+    setListType("followers");
+    setFollowModalOpen(true);
+    console.log({ followModalOpen });
+  };
+
+  const handleOpenFollowing = async () => {
+    // const following = await fetchFollowing(); // Implement this
+    // setFollowList(following);
+    setListType("following");
+    setFollowModalOpen(true);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -603,7 +622,13 @@ const Profile = () => {
                     component={Routerlink}
                     to={`/${username}`} // TODO: Create Modal to check followers
                     underline="hover"
+                    onClick={handleOpenFollowers}
                   >
+                    {/* Added an onClick to handle opening the followers module and add the component */}
+                    <FollowListModal
+                      open={followModalOpen}
+                      handleClose={() => setFollowModalOpen(false)}
+                    />
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followerCount}
                     </Typography>
@@ -614,8 +639,13 @@ const Profile = () => {
                     component={Routerlink}
                     to={`/${username}`} // TODO: Create Modal to check following
                     underline="hover"
-                    // onClick = {}
+                    onClick={handleOpenFollowing}
                   >
+                    {/* Added an onClick to handle opening the followering module and add the component */}
+                    <FollowListModal
+                      open={followModalOpen}
+                      handleClose={() => setFollowModalOpen(false)}
+                    ></FollowListModal>
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
                     </Typography>
