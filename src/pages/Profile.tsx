@@ -465,24 +465,25 @@ const Profile = () => {
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [followModalOpen, setFollowModalOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [followList, setFollowList] = useState([]);
   const [listType, setListType] = useState("followers"); // 'followers' or 'following'
 
-  const handleOpenFollowers = async () => {
-    // const followers = await fetchFollowers(); // Implement this
-    // setFollowList(followers);
-    setListType("followers");
-    setFollowModalOpen(true);
-    console.log({ followModalOpen });
-  };
+  // const handleOpenFollowers = async () => {
+  //   // const followers = await fetchFollowers(); // Implement this
+  //   // setFollowList(followers);
+  //   // setListType("followers");
+  //   setOpenModal(true);
+  //   console.log({ openModal });
+  // };
 
-  const handleOpenFollowing = async () => {
-    // const following = await fetchFollowing(); // Implement this
-    // setFollowList(following);
-    setListType("following");
-    setFollowModalOpen(true);
-  };
+  // const handleOpenFollowing = async () => {
+  //   // const following = await fetchFollowing(); // Implement this
+  //   // setFollowList(following);
+  //   // setListType("following");
+  //   setOpenModal(true);
+  //   console.log({ openModal });
+  // };
 
   useEffect(() => {
     setLoading(true);
@@ -616,19 +617,15 @@ const Profile = () => {
                     </Box>
                   )}
                 </Box>
+
                 <Box sx={styles.followerContainer}>
                   <Link
                     color={theme.palette.black.main}
                     component={Routerlink}
                     to={`/${username}`} // TODO: Create Modal to check followers
                     underline="hover"
-                    onClick={handleOpenFollowers}
+                    onClick={() => setOpenModal(true)}
                   >
-                    {/* Added an onClick to handle opening the followers module and add the component */}
-                    <FollowListModal
-                      open={followModalOpen}
-                      handleClose={() => setFollowModalOpen(false)}
-                    />
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followerCount}
                     </Typography>
@@ -639,19 +636,23 @@ const Profile = () => {
                     component={Routerlink}
                     to={`/${username}`} // TODO: Create Modal to check following
                     underline="hover"
-                    onClick={handleOpenFollowing}
+                    onClick={() => setOpenModal(true)}
                   >
-                    {/* Added an onClick to handle opening the followering module and add the component */}
-                    <FollowListModal
-                      open={followModalOpen}
-                      handleClose={() => setFollowModalOpen(false)}
-                    ></FollowListModal>
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
                     </Typography>
                     <Typography component="span"> Following</Typography>
                   </Link>
                 </Box>
+
+                {/* Created Modal to check for followers/following */}
+                <FollowListModal
+                  openModal={openModal}
+                  onClose={() => {
+                    setOpenModal(false);
+                    console.log(openModal);
+                  }}
+                />
               </Box>
             </Box>
             <Tabs
