@@ -126,24 +126,6 @@ const Profile = () => {
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
-  const [followList, setFollowList] = useState([]);
-  const [listType, setListType] = useState("followers"); // 'followers' or 'following'
-
-  // const handleOpenFollowers = async () => {
-  //   // const followers = await fetchFollowers(); // Implement this
-  //   // setFollowList(followers);
-  //   // setListType("followers");
-  //   setOpenModal(true);
-  //   console.log({ openModal });
-  // };
-
-  // const handleOpenFollowing = async () => {
-  //   // const following = await fetchFollowing(); // Implement this
-  //   // setFollowList(following);
-  //   // setListType("following");
-  //   setOpenModal(true);
-  //   console.log({ openModal });
-  // };
 
   useEffect(() => {
     setLoading(true);
@@ -310,7 +292,6 @@ const Profile = () => {
                   openModal={openModal}
                   onClose={() => {
                     setOpenModal(false);
-                    console.log(openModal);
                   }}
                 />
               </Box>
