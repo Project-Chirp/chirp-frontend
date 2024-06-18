@@ -1,9 +1,16 @@
-import { Box, Typography, Dialog, IconButton } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Dialog,
+  IconButton,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 type FollowListModalProps = {
-  open: boolean;
-  handleClose: () => void;
+  openModal: boolean;
+  onClose: () => void;
 };
 
 const styles = {
@@ -18,24 +25,26 @@ const styles = {
   },
 };
 
-const FollowListModal = ({ open, handleClose }: FollowListModalProps) => {
+export default function FollowListModal({
+  openModal,
+  onClose,
+}: FollowListModalProps) {
   return (
     <Dialog
       fullWidth
-      onClose={handleClose}
-      open={open}
+      onClose={onClose}
+      open={openModal}
       scroll="paper"
       PaperProps={{ sx: styles.dialog }}
     >
-      <Box sx={styles.header}>
-        <Typography variant="h6">Followers</Typography>
-        <IconButton onClick={handleClose}>
+      <DialogTitle sx={styles.header}>
+        Followers
+        <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
-      </Box>
-      {/* Additional stuff goes here */}
+      </DialogTitle>
+
+      <DialogContent>{/* Additional stuff goes here */}Whats up</DialogContent>
     </Dialog>
   );
-};
-
-export default FollowListModal;
+}
