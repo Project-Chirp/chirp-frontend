@@ -4,20 +4,16 @@ import PageLoader from "../../pages/PageLoader";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Box } from "@mui/material";
 import { QueryClient } from "@tanstack/react-query";
-import useFetchData from "../../utilities/useFetchData";
-import { AnyAction } from "redux";
 
 type InfiniteScrollListProps<T> = {
   children: ReactNode;
   dataLength: number;
   inverse?: boolean;
-  fetchParams?: {};
+  queryFn: (pageParam: number) => Promise<any>;
   queryKey: string;
   scrollableTarget?: ReactNode;
-  setData: (data: T[]) => AnyAction;
-  selectData: (state: any) => T[];
+  scrollThreshold?: number | string;
   style?: CSSProperties;
-  url: string;
 };
 
 const styles = {
@@ -30,36 +26,32 @@ const InfiniteScrollList = <T extends {}>({
   children,
   dataLength,
   inverse = false,
-  fetchParams,
   queryKey,
+  queryFn,
   scrollableTarget,
-  setData,
-  selectData,
+  scrollThreshold = 0.9,
   style,
-  url,
 }: InfiniteScrollListProps<T>) => {
-  const { fetchData } = useFetchData({
-    url,
-    params: fetchParams,
-    setData,
-    selectData,
-  });
-
   useEffect(() => {
     queryClient.clear();
-    fetchData(1);
-  }, [JSON.stringify(fetchParams), url]);
+    queryFn(1);
+  }, []);
 
   const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: [queryKey],
-    queryFn: ({ pageParam }) => fetchData(pageParam),
+    queryFn: ({ pageParam }) => queryFn(pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length ? allPages.length + 1 : undefined;
     },
   });
 
-  if (status === "pending") return <PageLoader />;
+  console.log(hasNextPage);
+  console.log(fetchNextPage);
+
+  if (status === "pending") {
+    return <PageLoader />;
+  }
   if (status === "error") return <Box>{error.message}</Box>; // TODO: Create an Error Component
   return (
     <InfiniteScroll
@@ -69,6 +61,7 @@ const InfiniteScrollList = <T extends {}>({
       loader={<PageLoader />}
       next={fetchNextPage}
       scrollableTarget={scrollableTarget}
+      scrollThreshold={scrollThreshold}
       style={{ ...style, ...styles.list }}
     >
       {children}

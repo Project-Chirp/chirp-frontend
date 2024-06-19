@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Divider,
   InputAdornment,
   List,
@@ -32,8 +31,9 @@ import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import { EmojiClickData } from "emoji-picker-react";
-import InfiniteScrollList from "../components/Common/InfiniteScrollList";
-import { PayloadAction } from "@reduxjs/toolkit";
+import InfiniteScrollList, {
+  queryClient,
+} from "../components/Common/InfiniteScrollList";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -115,12 +115,31 @@ const DirectMessage = () => {
     (o) => o.otherUserId === Number(otherUserId)
   );
 
+  const fetchDirectMessage = async (pageParam = 1) => {
+    console.log(pageParam, currentUserId, otherUserId);
+    try {
+      const result = await axios.get(
+        `http://localhost:3001/api/messages/${currentUserId}/${otherUserId}`,
+        {
+          params: {
+            offset: pageParam,
+          },
+        }
+      );
+      pageParam > 1
+        ? dispatch(setMessages([...messages, ...(result.data as Message[])]))
+        : dispatch(setMessages(result.data as Message[]));
+      return result.data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const fetchUser = async () => {
     try {
       const otherUserData = await axios.get(
         `http://localhost:3001/api/messages/${otherUserId}`
       );
-
       dispatch(
         setSelectedConversation({
           ...otherUserData.data,
@@ -134,6 +153,8 @@ const DirectMessage = () => {
 
   useEffect(() => {
     fetchUser();
+    fetchDirectMessage(1);
+    queryClient.clear();
   }, [otherUserId]);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
@@ -215,19 +236,15 @@ const DirectMessage = () => {
               component="div"
               ref={messageRef}
               sx={styles.messageList}
-              id={"scrollable"}
+              id="scrollable"
             >
               <InfiniteScrollList
                 dataLength={messages.length}
-                inverse={true}
-                queryKey="messages"
-                scrollableTarget={"scrollable"}
+                inverse
+                queryFn={fetchDirectMessage}
+                queryKey="directMessage"
+                scrollableTarget="scrollable"
                 style={styles.infiniteScroll}
-                url={`http://localhost:3001/api/messages/${currentUserId}/${otherUserId}`}
-                setData={(newMessage: Message[]): PayloadAction<Message[]> => {
-                  return setMessages(newMessage);
-                }}
-                selectData={(state) => state.messages.messages}
               >
                 {messages.map((o, index) => (
                   <ListItem component="div" key={index}>
