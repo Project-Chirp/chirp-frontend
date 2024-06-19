@@ -21,12 +21,14 @@ const PostList = () => {
         }}
         selectData={(state) => state.posts.posts}
       >
-        {posts.map((o, index) => (
-          <Box key={index}>
-            <PostItem post={o} />
-            <Divider />
-          </Box>
-        ))}
+        {posts
+          .filter((o) => o.parentPostId == null)
+          .map((o, index) => (
+            <Box key={index}>
+              <PostItem post={o} />
+              <Divider />
+            </Box>
+          ))}
       </InfiniteScrollList>
     </Stack>
   );
