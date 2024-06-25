@@ -4,23 +4,20 @@ import {
   Autocomplete,
   Avatar,
   Box,
-  Button,
   IconButton,
   InputAdornment,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Popper,
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import PageLoader from "../../pages/PageLoader";
 import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
 import { useNavigate } from "react-router-dom";
-import { queryClient } from "../../utilities/queryClient";
 
 type SearchBarProps = {
   placeholder: string;
@@ -46,13 +43,13 @@ const styles = {
   },
   searchIcon: {
     paddingRight: 0,
-    ".MuiButtonBase-root": {
+    "&.Mui-disabled": {
       color: "gray.main",
     },
   },
   searchIconFocused: {
     paddingRight: 0,
-    ".Mui-disabled": {
+    "&.Mui-disabled": {
       color: "primary.main",
     },
   },
@@ -72,11 +69,16 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
     navigate(path);
   };
 
+  const handleClear = () => {
+    setKeywords("");
+    setUserList([]);
+  };
+
   useEffect(() => {
-    fetchUsers({ pageParam: 1 });
+    fetchUsers();
   }, [keywords]);
 
-  const fetchUsers = async ({ pageParam = 1 }) => {
+  const fetchUsers = async () => {
     setLoading(true);
     if (keywords.length === 0) return {};
     try {
@@ -86,7 +88,6 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
         {
           params: {
             keyword: keywords,
-            offset: pageParam,
           },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -94,11 +95,7 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
         }
       );
 
-      if (pageParam > 1) {
-        setUserList((prev) => [...prev, ...result.data]);
-      } else {
-        setUserList(result.data as SelectedUser[]);
-      }
+      setUserList(result.data as SelectedUser[]);
 
       return result.data;
     } catch (error) {
@@ -108,111 +105,85 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
     }
   };
 
-  const { error, status, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["searchUsers"],
-    queryFn: fetchUsers,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length ? allPages.length + 1 : undefined;
-    },
-  });
-
-  if (status === "pending") return <PageLoader />;
-  if (status === "error") return <Box>{error.message}</Box>; // TODO: Create an Error Component
-
   return (
     <Box sx={styles.box}>
       <Autocomplete
+        disablePortal={true}
+        forcePopupIcon={false}
         fullWidth
+        filterOptions={(x) => x}
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
         id="search"
-        forcePopupIcon={false}
-        options={userList}
-        open={focusSearchBar}
-        onOpen={() => setFocusSearchBar(true)}
-        onBlur={() => setFocusSearchBar(false)}
-        openOnFocus
+        inputValue={keywords}
+        ListboxProps={{ sx: styles.listBox }}
         loading={loading}
-        filterOptions={(x) => x}
+        onClose={() => setFocusSearchBar(false)}
         onInputChange={(_, newInputValue) => {
           setKeywords(newInputValue);
         }}
-        inputValue={keywords}
-        renderInput={(params) => {
-          return (
-            <TextField
-              {...params}
-              fullWidth
-              hiddenLabel
-              InputProps={{
-                ...params.InputProps,
-                type: "text",
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IconButton
-                      disabled
-                      sx={
-                        focusSearchBar
-                          ? styles.searchIconFocused
-                          : styles.searchIcon
-                      }
-                    >
-                      <SearchRoundedIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-                endAdornment: keywords && (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setKeywords("")}>
-                      <ClearIcon fontSize="small" />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              placeholder={placeholder}
-              size="small"
-            />
-          );
-        }}
-        renderOption={(params, option, state) => {
-          const lastOption = state.index === userList.length - 1;
-          return (
-            <Box key={option.userId}>
-              <ListItemButton
-                {...params}
-                key={option.userId}
-                component="li"
-                onClick={() => onSelect(option.username)}
-              >
-                <ListItemAvatar>
-                  <Avatar />
-                </ListItemAvatar>
-                <ListItemText
-                  disableTypography
-                  primary={
-                    <Box>
-                      <Typography sx={styles.displayName} variant="body1">
-                        {option.displayName}
-                      </Typography>
-                      <Typography variant="body2">{`@${option.username}`}</Typography>
-                    </Box>
-                  }
-                />
-              </ListItemButton>
-              {lastOption && hasNextPage && (
-                <Box textAlign={"center"} padding={1}>
-                  <Button
-                    onClick={() => fetchNextPage()}
-                    variant="contained"
-                    size="small"
+        onOpen={() => setFocusSearchBar(true)}
+        open={focusSearchBar}
+        openOnFocus
+        options={userList}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            fullWidth
+            hiddenLabel
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: keywords && (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => handleClear()}>
+                    <ClearIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton
+                    disabled
+                    sx={
+                      focusSearchBar
+                        ? styles.searchIconFocused
+                        : styles.searchIcon
+                    }
                   >
-                    Load More
-                  </Button>
-                </Box>
-              )}
-            </Box>
-          );
-        }}
+                    <SearchRoundedIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              type: "text",
+            }}
+            placeholder={placeholder}
+            size="small"
+          />
+        )}
+        renderOption={(params, option) => (
+          <Box key={option.userId}>
+            <ListItemButton
+              {...params}
+              component="li"
+              key={option.userId}
+              onClick={() => onSelect(option.username)}
+            >
+              <ListItemAvatar>
+                <Avatar />
+              </ListItemAvatar>
+              <ListItemText
+                disableTypography
+                primary={
+                  <Box>
+                    <Typography sx={styles.displayName} variant="body1">
+                      {option.displayName}
+                    </Typography>
+                    <Typography variant="body2">{`@${option.username}`}</Typography>
+                  </Box>
+                }
+              />
+            </ListItemButton>
+          </Box>
+        )}
         sx={styles.autocomplete}
       />
     </Box>
