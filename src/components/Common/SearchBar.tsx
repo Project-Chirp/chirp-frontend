@@ -164,6 +164,11 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
               ),
               type: "text",
               inputRef: inputRef,
+              onKeyDown: (e) => {
+                if (e.key === "Enter") {
+                  e.stopPropagation();
+                }
+              },
             }}
             placeholder={placeholder}
             size="small"
