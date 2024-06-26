@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
@@ -65,6 +65,7 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
 
   const onSelect = (selectedUsername: string) => {
     setFocusSearchBar(false);
+    setKeywords("");
     const path = `/${selectedUsername}`;
     navigate(path);
   };
@@ -108,7 +109,7 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
   return (
     <Box sx={styles.box}>
       <Autocomplete
-        disablePortal={true}
+        disablePortal
         forcePopupIcon={false}
         fullWidth
         filterOptions={(x) => x}
@@ -117,11 +118,15 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
         inputValue={keywords}
         ListboxProps={{ sx: styles.listBox }}
         loading={loading}
-        onClose={() => setFocusSearchBar(false)}
+        onBlur={() => setFocusSearchBar(false)}
         onInputChange={(_, newInputValue) => {
           setKeywords(newInputValue);
+          setFocusSearchBar(true);
+          if (newInputValue === "") {
+            setUserList([]); // Clear user list when input is cleared
+          }
         }}
-        onOpen={() => setFocusSearchBar(true)}
+        onFocus={() => setFocusSearchBar(true)}
         open={focusSearchBar}
         openOnFocus
         options={userList}
