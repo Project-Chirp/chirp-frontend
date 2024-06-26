@@ -62,10 +62,14 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
   const [userList, setUserList] = useState<SelectedUser[]>([]);
   const [loading, setLoading] = useState(false);
   const [focusSearchBar, setFocusSearchBar] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onSelect = (selectedUsername: string) => {
     setFocusSearchBar(false);
     setKeywords("");
+    if (inputRef.current) {
+      inputRef.current.blur();
+    }
     const path = `/${selectedUsername}`;
     navigate(path);
   };
@@ -159,6 +163,7 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
                 </InputAdornment>
               ),
               type: "text",
+              inputRef: inputRef,
             }}
             placeholder={placeholder}
             size="small"
