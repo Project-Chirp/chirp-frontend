@@ -9,11 +9,11 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
-  Popper,
   TextField,
   Typography,
+  debounce,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
@@ -56,32 +56,17 @@ const styles = {
 };
 
 const SearchBar = ({ placeholder }: SearchBarProps) => {
-  const { getAccessTokenSilently } = useAuth0();
-  const navigate = useNavigate();
-  const [keywords, setKeywords] = useState("");
-  const [userList, setUserList] = useState<SelectedUser[]>([]);
-  const [loading, setLoading] = useState(false);
+  const debouncedSetter = useMemo(
+    () => debounce((keywords: string) => setKeywords(keywords), 20),
+    []
+  );
   const [focusSearchBar, setFocusSearchBar] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const onSelect = (selectedUsername: string) => {
-    setFocusSearchBar(false);
-    setKeywords("");
-    if (inputRef.current) {
-      inputRef.current.blur();
-    }
-    const path = `/${selectedUsername}`;
-    navigate(path);
-  };
-
-  const handleClear = () => {
-    setKeywords("");
-    setUserList([]);
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, [keywords]);
+  const [keywords, setKeywords] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [userList, setUserList] = useState<SelectedUser[]>([]);
+  const { getAccessTokenSilently } = useAuth0();
+  const navigate = useNavigate();
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -104,11 +89,36 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
 
       return result.data;
     } catch (error) {
-      console.log(error.message);
+      console.error("Failed to fetch users:", error);
     } finally {
       setLoading(false);
     }
   };
+
+  const handleClear = () => {
+    setKeywords("");
+    setUserList([]);
+  };
+
+  const handleInputChange = (newInputValue: string) => {
+    debouncedSetter(newInputValue);
+    setFocusSearchBar(true);
+    if (newInputValue === "") {
+      setUserList([]);
+    }
+  };
+
+  const onSelect = (selectedUsername: string) => {
+    setFocusSearchBar(false);
+    setKeywords("");
+    inputRef.current?.blur();
+    const path = `/${selectedUsername}`;
+    navigate(path);
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [keywords]);
 
   return (
     <Box sx={styles.box}>
@@ -123,13 +133,7 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
         ListboxProps={{ sx: styles.listBox }}
         loading={loading}
         onBlur={() => setFocusSearchBar(false)}
-        onInputChange={(_, newInputValue) => {
-          setKeywords(newInputValue);
-          setFocusSearchBar(true);
-          if (newInputValue === "") {
-            setUserList([]); // Clear user list when input is cleared
-          }
-        }}
+        onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
         onFocus={() => setFocusSearchBar(true)}
         open={focusSearchBar}
         openOnFocus
