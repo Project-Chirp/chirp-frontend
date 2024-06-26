@@ -3,8 +3,6 @@ import SuggestedUserItem from "./SuggestedUsers";
 import SidebarFooter from "./SidebarFooter";
 import Advertisement from "./Advertisement";
 import SearchBar from "../Common/SearchBar";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 const styles = {
   rightContent: {
