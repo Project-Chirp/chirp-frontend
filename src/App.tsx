@@ -15,30 +15,30 @@ import ExpandedPost from "./pages/ExpandedPost";
 import Messages from "./pages/Messages";
 import DirectMessage from "./pages/DirectMessage";
 import ComingSoon from "./pages/ComingSoon";
+import useAxios from "./utilities/useAxios";
 
 function App() {
-  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { isLoading, isAuthenticated } = useAuth0();
 
   const userIsLoading = useAppSelector((state) => state.user.isLoading);
   const username = useAppSelector((state) => state.user.username);
   const dispatch = useAppDispatch();
+  const { loading, error, sendRequest } = useAxios();
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3001/api/users/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const response = await sendRequest({
+          endpoint: "users",
+          method: "GET",
         });
-        dispatch(setUser(response.data));
+        dispatch(setUser(response));
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
-  }, [getAccessTokenSilently, dispatch]);
+  }, [dispatch, sendRequest]);
 
   if (isLoading || (isAuthenticated && userIsLoading)) {
     return <PageLoader />;

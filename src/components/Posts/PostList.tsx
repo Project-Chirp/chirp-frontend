@@ -4,7 +4,6 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import { Divider, Stack } from "@mui/material";
-import { useAuth0 } from "@auth0/auth0-react";
 import useAxios from "../../utilities/useAxios";
 
 const PostList = () => {

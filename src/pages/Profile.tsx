@@ -124,31 +124,22 @@ const Profile = () => {
     username: "",
   });
   const user = useAppSelector((state) => state.user);
-  const { sendRequest } = useAxios();
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const { loading, error, sendRequest } = useAxios();
 
   useEffect(() => {
-    setLoading(true);
     const fetchProfileContents = async () => {
       try {
-        setLoading(true);
-        const result = await axios.get(
-          "http://localhost:3001/api/profile/getProfileContents",
-          {
-            params: {
-              currentUserId,
-              visitedUsername: username,
-            },
-          }
-        );
-        setProfileContents({
-          ...result.data,
+        const result = await sendRequest({
+          endpoint: "profile/getProfileContents",
+          method: "GET",
+          params: { visitedUsername: username },
         });
-        setLoading(false);
+        setProfileContents({
+          ...result,
+        });
       } catch (error) {
         console.log(error);
-        setLoading(false);
       }
     };
     fetchProfileContents();
