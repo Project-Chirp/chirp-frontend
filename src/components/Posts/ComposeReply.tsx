@@ -7,6 +7,7 @@ import { addReply } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
 import { EmojiClickData } from "emoji-picker-react";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
+import useAxios from "../../utilities/useAxios";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -42,23 +43,21 @@ const ComposeReply = ({
   const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const { loading, error, sendRequest } = useAxios();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      const reply = await axios.post(
-        "http://localhost:3001/api/posts/postReply",
-        {
-          userId: user.userId,
-          parentPostId,
-          textContent,
-        }
-      );
+      const reply = await sendRequest({
+        endpoint: "posts/postReply",
+        method: "POST",
+        body: { parentPostId, textContent },
+      });
       setPostTextContent("");
       dispatch(
         addReply({
-          ...reply.data,
+          ...reply,
           username: user.username,
           displayName: user.displayName,
         })

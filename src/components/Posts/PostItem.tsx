@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
-import { toggleLikePostRequest } from "../../utilities/postUtilities";
+import toggleLikePostRequest from "../../utilities/postUtilities";
 import formatTimestamp from "../../utilities/formatTimestamp";
 import useAxios from "../../utilities/useAxios";
 import { Link as Routerlink } from "react-router-dom";
@@ -62,6 +62,7 @@ const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
+  const { sendRequest } = useAxios();
 
   const navigate = useNavigate();
   const routeChange = () => {
@@ -132,8 +133,9 @@ const PostItem = ({ post }: PostProps) => {
             {post.numberOfReplies}
           </Button>
           <Button
-            onClick={() => {
-              toggleLikePostRequest(
+            onClick={async () => {
+              await toggleLikePostRequest(
+                sendRequest,
                 post.isLikedByCurrentUser,
                 post.postId,
                 user.userId

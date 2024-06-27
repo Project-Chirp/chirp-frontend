@@ -28,10 +28,11 @@ import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
-import { toggleLikePostRequest } from "../../utilities/postUtilities";
+import toggleLikePostRequest from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
+import useAxios from "../../utilities/useAxios";
 
 const styles = {
   actionButton: {
@@ -83,19 +84,16 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const user = useAppSelector((state) => state.user);
   const urlParams = useParams();
   const [open, setOpen] = useState(false);
+  const { loading, error, sendRequest } = useAxios();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
-      const backupFetch = await axios.get(
-        "http://localhost:3001/api/posts/fetchPost",
-        {
-          params: {
-            userId: user.userId,
-            postId: urlParams.postId,
-          },
-        }
-      );
-      dispatch(setExpandedPost(backupFetch.data as Post));
+      const backupFetch = await sendRequest({
+        endpoint: "posts/fetchPost",
+        method: "GET",
+        params: { postId: urlParams.postId },
+      });
+      dispatch(setExpandedPost(backupFetch as Post));
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
@@ -202,6 +200,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           <IconButton
             onClick={() => {
               toggleLikePostRequest(
+                sendRequest,
                 post.isLikedByCurrentUser,
                 post.postId,
                 user.userId
