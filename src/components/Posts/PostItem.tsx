@@ -62,7 +62,6 @@ const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
-  const { sendRequest } = useAxios();
 
   const navigate = useNavigate();
   const routeChange = () => {

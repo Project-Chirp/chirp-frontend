@@ -19,6 +19,7 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { toggleLikePost } from "../../state/slices/postsSlice";
@@ -27,7 +28,6 @@ import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
-import useAxios from "../../utilities/useAxios";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
@@ -83,19 +83,22 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const user = useAppSelector((state) => state.user);
   const urlParams = useParams();
   const [open, setOpen] = useState(false);
-  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
-      const backupFetch = await sendRequest({
-        url: "/posts/fetchPost",
-        method: "get",
-        params: { userId: user.userId, postId: urlParams.postId },
-      });
-      dispatch(setExpandedPost(backupFetch as Post));
+      const backupFetch = await axios.get(
+        "http://localhost:3001/api/posts/fetchPost",
+        {
+          params: {
+            userId: user.userId,
+            postId: urlParams.postId,
+          },
+        }
+      );
+      dispatch(setExpandedPost(backupFetch.data as Post));
     };
     updatedExpandedPost();
-  }, [dispatch, user.userId, urlParams.postId, sendRequest]);
+  }, [dispatch, user.userId, urlParams.postId]);
 
   const navigate = useNavigate();
 

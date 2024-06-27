@@ -1,27 +1,54 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+type SendRequestProps = {
+  endpoint: string;
+  method?: "GET" | "POST" | "PUT" | "DELETE"; // Add more methods as needed
+  headers?: { [key: string]: string };
+  body?: any;
+  params?: any;
+};
 
 const useAxios = () => {
-  const [response, setResponse] = useState<AxiosResponse>();
-  const [error, setError] = useState<AxiosError>();
+  const [data, setData] = useState<AxiosResponse>();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<AxiosError | null>(null);
   const { getAccessTokenSilently } = useAuth0();
 
   const sendRequest = useCallback(
-    async (params: AxiosRequestConfig) => {
-      setLoading(params.method === "GET" || params.method === "get");
-
+    async ({
+      endpoint,
+      method = "GET",
+      headers = {},
+      body = null,
+      params = null,
+    }: SendRequestProps): Promise<any> => {
+      setLoading(true);
+      setError(null);
       try {
         const token = await getAccessTokenSilently();
-        const result = await axios.request({
-          ...params,
+
+        if (!import.meta.env.VITE_BASE_URL) {
+          throw new Error("Base URL is not defined");
+        }
+
+        const response = await axios.request({
+          method: method,
+          url: `${import.meta.env.VITE_BASE_URL}/${endpoint}`,
           headers: { Authorization: `Bearer ${token}` },
+          data: body,
+          params,
         });
-        setResponse(result);
-        return result.data;
-      } catch (err) {
-        setError(err);
+
+        setData(response.data);
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          setError(error.response?.data?.message || error.message);
+        } else {
+          setError(error.message);
+        }
       } finally {
         setLoading(false);
       }
@@ -29,7 +56,7 @@ const useAxios = () => {
     [getAccessTokenSilently]
   );
 
-  return { response, error, loading, sendRequest };
+  return { data, loading, error, sendRequest };
 };
 
 export default useAxios;

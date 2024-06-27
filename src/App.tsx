@@ -2,6 +2,7 @@ import Welcome from "./pages/Welcome";
 import Timeline from "./pages/Timeline";
 import { Route, Routes } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 import { useEffect } from "react";
 import Register from "./pages/Register";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
@@ -13,12 +14,10 @@ import { setUser } from "./state/slices/userSlice";
 import ExpandedPost from "./pages/ExpandedPost";
 import Messages from "./pages/Messages";
 import DirectMessage from "./pages/DirectMessage";
-import useAxios from "./utilities/useAxios";
 import ComingSoon from "./pages/ComingSoon";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const { sendRequest } = useAxios();
 
   const userIsLoading = useAppSelector((state) => state.user.isLoading);
   const username = useAppSelector((state) => state.user.username);
@@ -27,14 +26,19 @@ function App() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await sendRequest({ url: "/users", method: "get" });
-        dispatch(setUser(response));
+        const token = await getAccessTokenSilently();
+        const response = await axios.get("http://localhost:3001/api/users/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(setUser(response.data));
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
-  }, [dispatch, sendRequest]);
+  }, [getAccessTokenSilently, dispatch]);
 
   if (isLoading || (isAuthenticated && userIsLoading)) {
     return <PageLoader />;
