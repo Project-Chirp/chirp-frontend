@@ -36,7 +36,7 @@ const useAxios = () => {
         const response = await axios.request({
           method: method,
           url: `${import.meta.env.VITE_BASE_URL}/${endpoint}`,
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { ...headers, Authorization: `Bearer ${token}` },
           data: body,
           params,
         });

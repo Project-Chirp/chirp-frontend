@@ -21,7 +21,6 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
         method: "GET",
         params: { visitedUserId: userId },
       });
-      console.log(result);
       dispatch(setPosts(result as Post[]));
     };
     fetchPosts();
