@@ -16,6 +16,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useAppSelector } from "../../state/hooks";
 import { EditableProfileContents } from "../../pages/Profile";
+import useAxios from "../../utilities/useAxios";
 
 const styles = {
   dialog: {
@@ -58,15 +59,20 @@ const EditProfileModal = ({
   const [birthDateValue, setBirthDateValue] = useState(birthDate || new Date());
   const [displayNameValue, setDisplayNameValue] = useState(displayName);
   const user = useAppSelector((state) => state.user);
+  const { loading, error, sendRequest } = useAxios();
 
   const saveProfile = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      await axios.put("http://localhost:3001/api/profile", {
-        bio: bioValue,
-        birthDate: birthDateValue,
-        displayName: displayNameValue,
-        userId: user.userId,
+      await sendRequest({
+        endpoint: "profile",
+        method: "PUT",
+        body: {
+          bio: bioValue,
+          birthDate: birthDateValue,
+          displayName: displayNameValue,
+          userId: user.userId,
+        },
       });
       onSubmit({
         bio: bioValue,
