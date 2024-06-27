@@ -4,9 +4,10 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  Link,
   Typography,
+  useTheme,
 } from "@mui/material";
-import Avatar from "@mui/material/Avatar/Avatar";
 import CardHeader from "@mui/material/CardHeader/CardHeader";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton/IconButton";
@@ -18,13 +19,16 @@ import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, updatePost } from "../../state/slices/postsSlice";
+import { Post, toggleLikePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
-import { setExpandedPost } from "../../state/slices/expandedPostSlice";
+import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
+import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import formatTimestamp from "../../utilities/formatTimestamp";
 import useAxios from "../../utilities/useAxios";
+import { Link as Routerlink } from "react-router-dom";
+import UserAvatar from "../Common/UserAvatar";
 
 type PostProps = {
   post: Post;
@@ -39,7 +43,6 @@ const styles = {
     justifyContent: "space-between",
     width: "100%",
   },
-  cardContent: { width: 400 },
   coloredButton: {
     color: "primary.main",
   },
@@ -49,51 +52,17 @@ const styles = {
       color: "primary.main",
     },
   },
+  displayName: {
+    paddingRight: 0.5,
+  },
 };
 
 const PostItem = ({ post }: PostProps) => {
+  const theme = useTheme();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const { sendRequest } = useAxios();
-
-  const likePost = async (postId: number, userId?: number) => {
-    await sendRequest({
-      url: "/posts/likePost",
-      method: "post",
-      data: {
-        userId,
-        postId,
-      },
-    });
-    const updatedPost = {
-      ...post,
-      isLikedByCurrentUser: !post.isLikedByCurrentUser,
-      numberOfLikes: post.isLikedByCurrentUser
-        ? post.numberOfLikes - 1
-        : post.numberOfLikes + 1,
-    };
-    dispatch(updatePost(updatedPost));
-  };
-
-  const unlikePost = async (postId: number, userId?: number) => {
-    await sendRequest({
-      url: "/posts/unlikePost",
-      method: "delete",
-      params: {
-        userId,
-        postId,
-      },
-    });
-    const updatedPost = {
-      ...post,
-      isLikedByCurrentUser: !post.isLikedByCurrentUser,
-      numberOfLikes: post.isLikedByCurrentUser
-        ? post.numberOfLikes - 1
-        : post.numberOfLikes + 1,
-    };
-    dispatch(updatePost(updatedPost));
-  };
 
   const navigate = useNavigate();
   const routeChange = () => {
@@ -105,17 +74,40 @@ const PostItem = ({ post }: PostProps) => {
   return (
     <Card sx={styles.card}>
       <CardHeader
-        avatar={<Avatar>CK</Avatar>}
+        avatar={<UserAvatar username={post.username} />}
         action={
           <IconButton>
             <MoreVertIcon />
           </IconButton>
         }
-        title={`${post.displayName} @${post.username}`}
+        title={
+          <Box>
+            <Link
+              color={theme.typography.subtitle1.color}
+              component={Routerlink}
+              to={`/${post.username}`}
+              underline="hover"
+              sx={styles.displayName}
+              variant="subtitle1"
+            >
+              {post.displayName}
+            </Link>
+            <Link
+              color={theme.typography.subtitle2.color}
+              component={Routerlink}
+              to={`/${post.username}`}
+              underline="none"
+              variant="subtitle2"
+            >
+              @{post.username}
+            </Link>
+          </Box>
+        }
         subheader={formatTimestamp(post.timestamp)}
+        subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
       />
       <CardActionArea onClick={() => routeChange()}>
-        <CardContent sx={styles.cardContent}>
+        <CardContent>
           <Typography>{post.textContent}</Typography>
         </CardContent>
         {post.imagePath && (
@@ -129,7 +121,7 @@ const PostItem = ({ post }: PostProps) => {
       <CardActions>
         <Box sx={styles.cardActions}>
           <Button startIcon={<RepeatOutlinedIcon />} sx={styles.defaultButton}>
-            1
+            {post.numberOfReposts}
           </Button>
           <Button
             onClick={() => {
@@ -138,13 +130,16 @@ const PostItem = ({ post }: PostProps) => {
             startIcon={<AddCommentOutlinedIcon />}
             sx={styles.defaultButton}
           >
-            1
+            {post.numberOfReplies}
           </Button>
           <Button
             onClick={() => {
-              post.isLikedByCurrentUser
-                ? unlikePost(post.postId, user.userId)
-                : likePost(post.postId, user.userId);
+              toggleLikePostRequest(
+                post.isLikedByCurrentUser,
+                post.postId,
+                user.userId
+              );
+              dispatch(toggleLikePost(post.postId));
             }}
             startIcon={
               post.isLikedByCurrentUser ? (
@@ -161,7 +156,9 @@ const PostItem = ({ post }: PostProps) => {
           >
             {post.numberOfLikes}
           </Button>
-          <Button startIcon={<ShareOutlinedIcon />} sx={styles.defaultButton} />
+          <IconButton>
+            <ShareOutlinedIcon />
+          </IconButton>
         </Box>
       </CardActions>
       <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />

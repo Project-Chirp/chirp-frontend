@@ -3,20 +3,18 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const styles = {
   dialog: {
-    maxHeight: "90%",
     ".MuiDialog-scrollPaper": { alignItems: "flex-start" },
   },
-  dialogContent: {
-    padding: 0,
-    paddingBottom: 2,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  dialogContent: { overflow: "visible" },
   dialogTitle: {
     paddingBottom: 0,
     paddingLeft: 0.5,
     paddingRight: 0.5,
     paddingTop: 0,
+  },
+  paperProps: {
+    overflow: "visible",
+    borderRadius: 20,
   },
 };
 
@@ -38,9 +36,10 @@ export default function PostButtonModal({
       open={openModal}
       scroll="paper"
       sx={styles.dialog}
+      PaperProps={{ style: styles.paperProps }}
     >
-      <DialogTitle sx={styles.dialogTitle}>
-        <IconButton disableRipple onClick={onClose}>
+      <DialogTitle>
+        <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>

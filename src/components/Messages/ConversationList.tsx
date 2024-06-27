@@ -14,11 +14,14 @@ import useAxios from "../../utilities/useAxios";
 
 const styles = {
   header: {
+    alignItems: "center",
     display: "flex",
     justifyContent: "space-between",
-    paddingTop: 2,
-    paddingX: 2,
+    paddingTop: 1,
+    paddingLeft: 2,
+    paddingRight: 1,
   },
+  searchBarContainer: { padding: 1 },
 };
 
 const ConversationList = () => {
@@ -46,12 +49,14 @@ const ConversationList = () => {
   return (
     <Box>
       <Box sx={styles.header}>
-        <Typography variant="h6">Messages</Typography>
+        <Typography variant="h2">Messages</Typography>
         <IconButton onClick={() => showMessageModal(true)}>
           <ChatOutlinedIcon />
         </IconButton>
       </Box>
-      <SearchBar placeholder="Search Messages" />
+      <Box sx={styles.searchBarContainer}>
+        <SearchBar placeholder="Search Messages" />
+      </Box>
       <Divider />
       <List component="div">
         {conversations.map((o) => (

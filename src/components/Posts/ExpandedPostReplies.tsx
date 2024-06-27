@@ -3,13 +3,15 @@ import PostItem from "./PostItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import useAxios from "../../utilities/useAxios";
+import { Divider } from "@mui/material";
+import axios from "axios";
 
 type ExpandedPostRepliesProps = {
-  post: Post;
+  postId: number;
 };
 
-const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
-  const posts = useAppSelector((state) => state.posts);
+const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
+  const { posts } = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { sendRequest } = useAxios();
@@ -17,26 +19,31 @@ const ExpandedPostReplies = ({ post }: ExpandedPostRepliesProps) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const resultReplies = await sendRequest({
-          url: "/posts/fetchReplies",
-          method: "get",
-          params: { userId: user.userId, postId: post.postId },
-        });
-        dispatch(setPosts(resultReplies as Post[]));
+        const resultReplies = await axios.get(
+          "http://localhost:3001/api/posts/fetchReplies",
+          {
+            params: {
+              userId: user.userId,
+              postId: postId,
+            },
+          }
+        );
+        dispatch(setPosts(resultReplies.data as Post[]));
       } catch (e) {
         console.log(e.message);
       }
     };
     fetchPosts();
-  }, [dispatch, user, post, sendRequest]);
+  }, [dispatch, user, postId]);
 
   return (
     <>
       {posts
-        .filter((o) => o.parentPostId === post.postId)
+        .filter((o) => o.parentPostId === postId)
         .map((o) => (
           <PostItem key={o.postId} post={o} />
         ))}
+      <Divider />
     </>
   );
 };

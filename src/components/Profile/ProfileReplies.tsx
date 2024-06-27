@@ -3,31 +3,40 @@ import PostItem from "../Posts/PostItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import useAxios from "../../utilities/useAxios";
+import { Divider, Stack } from "@mui/material";
+import axios from "axios";
 
-const ProfileReplies = () => {
-  const posts = useAppSelector((state) => state.posts);
-  const user = useAppSelector((state) => state.user);
+type ProfileRepliesProps = {
+  userId: number;
+};
+
+const ProfileReplies = ({ userId }: ProfileRepliesProps) => {
+  const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
   const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const result = await sendRequest({
-        url: "/profile/getOwnReplies",
-        method: "get",
-        params: { userId: user.userId },
-      });
-      dispatch(setPosts(result as Post[]));
+      const result = await axios.get(
+        "http://localhost:3001/api/profile/getUserReplies",
+        {
+          params: {
+            visitedUserId: userId,
+          },
+        }
+      );
+      dispatch(setPosts(result.data as Post[]));
     };
     fetchPosts();
-  }, [dispatch, user, sendRequest]);
+  }, [dispatch, userId]);
 
   return (
-    <>
+    <Stack divider={<Divider />}>
       {posts.map((o, index) => (
         <PostItem key={index} post={o} />
       ))}
-    </>
+      <Divider />
+    </Stack>
   );
 };
 

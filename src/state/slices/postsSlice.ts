@@ -2,43 +2,132 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export type Post = {
   displayName: string;
+  followStatus: boolean;
   imagePath?: string;
   isLikedByCurrentUser: boolean;
+  isQuotePost?: boolean;
+  isRepost?: boolean;
   numberOfLikes: number;
+  numberOfReplies: number;
+  numberOfReposts: number;
+  parentPostId?: number;
   postId: number;
   textContent: string;
   timestamp: string;
+  userId: number;
   username: string;
-  isRepost: boolean;
-  isQuotePost: boolean;
-  parentPostId?: number;
 };
 
-const initialState: Post[] = [];
+type PostSliceType = {
+  posts: Post[];
+  expandedPost: Post;
+};
+
+const initialState: PostSliceType = {
+  posts: [],
+  expandedPost: {
+    displayName: "",
+    followStatus: false,
+    isLikedByCurrentUser: false,
+    numberOfLikes: 0,
+    numberOfReplies: 0,
+    numberOfReposts: 0,
+    postId: 0,
+    textContent: "",
+    timestamp: "",
+    userId: 0,
+    username: "",
+  },
+};
 
 export const postsSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    setPosts: (_, action: PayloadAction<Post[]>) => {
-      return action.payload;
-    },
-    updatePost: (state, action: PayloadAction<Post>) => {
-      const newPosts = state.map((o) => {
-        if (o.postId === action.payload.postId) {
-          return action.payload;
+    addReply: (state, action: PayloadAction<Post>) => {
+      const newReply = {
+        ...action.payload,
+        numberOfLikes: 0,
+        numberOfReplies: 0,
+        numberOfReposts: 0,
+      };
+      const newPosts = state.posts.map((o) => {
+        if (o.postId === action.payload.parentPostId) {
+          return {
+            ...o,
+            numberOfReplies: o.numberOfReplies + 1,
+          };
         }
         return o;
       });
-      return newPosts;
+      state.posts = [newReply, ...newPosts];
+
+      if (action.payload.parentPostId === state.expandedPost.postId) {
+        state.expandedPost.numberOfReplies++;
+      }
     },
     appendPost: (state, action: PayloadAction<Post>) => {
-      state.unshift({ ...action.payload, numberOfLikes: 0 });
-      return state;
+      state.posts.unshift({
+        ...action.payload,
+        numberOfLikes: 0,
+        numberOfReplies: 0,
+        numberOfReposts: 0,
+      });
+    },
+    setPosts: (state, action: PayloadAction<Post[]>) => {
+      state.posts = action.payload;
+    },
+    setExpandedPost: (state, action: PayloadAction<Post>) => {
+      state.expandedPost = action.payload;
+    },
+    toggleLikePost: (state, action: PayloadAction<number>) => {
+      const newPosts = state.posts.map((o) => {
+        if (o.postId === action.payload) {
+          const isLikedByCurrentUser = !o.isLikedByCurrentUser;
+          return {
+            ...o,
+            isLikedByCurrentUser,
+            numberOfLikes: isLikedByCurrentUser
+              ? o.numberOfLikes + 1
+              : o.numberOfLikes - 1,
+          };
+        }
+        return o;
+      });
+      state.posts = newPosts;
+
+      if (action.payload === state.expandedPost.postId) {
+        const isLikedByCurrentUser = !state.expandedPost.isLikedByCurrentUser;
+        state.expandedPost.isLikedByCurrentUser = isLikedByCurrentUser;
+        isLikedByCurrentUser
+          ? state.expandedPost.numberOfLikes++
+          : state.expandedPost.numberOfLikes--;
+      }
+    },
+    toggleFollow: (state, action: PayloadAction<boolean>) => {
+      state.expandedPost.followStatus = !action.payload;
+    },
+    updateDisplayNames: (
+      state,
+      action: PayloadAction<{ prevDisplayName: string; newDisplayName: string }>
+    ) => {
+      state.posts = state.posts.map((o) =>
+        o.displayName === action.payload.prevDisplayName
+          ? { ...o, displayName: action.payload.newDisplayName }
+          : o
+      );
     },
   },
 });
 
-export const { setPosts, updatePost, appendPost } = postsSlice.actions;
+export const {
+  addReply,
+  appendPost,
+  setPosts,
+  setExpandedPost,
+  toggleLikePost,
+  toggleFollow,
+  updateDisplayNames,
+} = postsSlice.actions;
 
 export default postsSlice.reducer;

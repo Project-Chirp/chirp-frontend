@@ -12,9 +12,6 @@ import { SelectedUser } from "../../../state/slices/messagesSlice";
 
 const styles = {
   avatar: { margin: "auto" },
-  displayName: {
-    fontWeight: "bold",
-  },
   primaryTextContainer: {
     gap: 0.5,
     width: "30%",
@@ -54,10 +51,10 @@ const MessageModalListItem = ({
           disableTypography
           primary={
             <Box>
-              <Typography sx={styles.displayName} variant="body2">
+              <Typography variant="subtitle1">
                 {otherUser.displayName}
               </Typography>
-              <Typography variant="body2">{`@${otherUser.username}`}</Typography>
+              <Typography variant="subtitle2">{`@${otherUser.username}`}</Typography>
             </Box>
           }
         />

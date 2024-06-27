@@ -9,7 +9,9 @@ import { Provider } from "react-redux";
 import { store } from "./state/store";
 import axios from "axios";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 root.render(

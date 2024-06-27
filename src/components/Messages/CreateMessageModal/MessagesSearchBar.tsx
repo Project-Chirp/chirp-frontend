@@ -19,10 +19,9 @@ import useAxios from "../../../utilities/useAxios";
 const styles = {
   autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
   box: {
-    padding: 1,
-  },
-  displayName: {
-    fontWeight: "bold",
+    paddingBottom: 1,
+    paddingTop: 0,
+    paddingX: 2,
   },
   searchIcon: { paddingRight: 0 },
 };
@@ -101,10 +100,10 @@ const MessagesSearchBar = ({
                 disableTypography
                 primary={
                   <Box>
-                    <Typography sx={styles.displayName} variant="body2">
+                    <Typography variant="subtitle1">
                       {option.displayName}
                     </Typography>
-                    <Typography variant="body2">{`@${option.username}`}</Typography>
+                    <Typography variant="subtitle2">{`@${option.username}`}</Typography>
                   </Box>
                 }
               />

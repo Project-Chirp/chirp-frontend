@@ -15,12 +15,15 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setDisplayName: (state, action: PayloadAction<string>) => {
+      state.displayName = action.payload;
+    },
     setUser: (_, action: PayloadAction<User>) => {
       return { ...action.payload };
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setDisplayName, setUser } = userSlice.actions;
 
 export default userSlice.reducer;

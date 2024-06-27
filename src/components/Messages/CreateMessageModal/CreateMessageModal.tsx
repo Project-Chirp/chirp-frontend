@@ -4,7 +4,6 @@ import {
   DialogContent,
   IconButton,
   Typography,
-  Box,
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
 import MessagesModalList from "./MessagesModalList";
@@ -18,20 +17,12 @@ const styles = {
     height: "60%",
     borderRadius: 5,
   },
-  dialogContent: {
-    padding: 0,
-  },
   dialogTitle: {
-    paddingBottom: 0,
-    paddingX: 0.5,
-    paddingTop: 1,
     display: "flex",
     alignItems: "center",
+    paddingY: 1,
   },
-  titleBox: { paddingLeft: 3, width: "100%" },
-  headerTitle: {
-    fontWeight: "bold",
-  },
+  titleText: { paddingLeft: 3 },
 };
 
 type CreateMessageModalProps = {
@@ -64,9 +55,9 @@ export default function CreateMessageModal({
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
-        <Box sx={styles.titleBox}>
-          <Typography sx={styles.headerTitle}>New Message</Typography>
-        </Box>
+        <Typography variant="h3" sx={styles.titleText}>
+          New Message
+        </Typography>
       </DialogTitle>
       <MessagesSearchBar
         placeholder="Search following"
@@ -74,7 +65,7 @@ export default function CreateMessageModal({
         onSearchClose={() => setFocusSearchBar(false)}
         onSearchOpen={() => setFocusSearchBar(true)}
       />
-      <DialogContent sx={styles.dialogContent}>
+      <DialogContent>
         {!focusSearchBar && <MessagesModalList onClose={onClose} />}
       </DialogContent>
     </Dialog>

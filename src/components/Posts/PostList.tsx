@@ -6,7 +6,7 @@ import { Divider, Stack } from "@mui/material";
 import useAxios from "../../utilities/useAxios";
 
 const PostList = () => {
-  const posts = useAppSelector((state) => state.posts);
+  const { posts } = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { sendRequest } = useAxios();

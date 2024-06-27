@@ -6,11 +6,11 @@ import useAxios from "../../utilities/useAxios";
 import { Divider, Stack } from "@mui/material";
 import axios from "axios";
 
-type ProfileLikesProps = {
+type ProfilePostsProps = {
   userId: number;
 };
 
-const ProfileLikes = ({ userId }: ProfileLikesProps) => {
+const ProfilePosts = ({ userId }: ProfilePostsProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
   const { sendRequest } = useAxios();
@@ -18,7 +18,7 @@ const ProfileLikes = ({ userId }: ProfileLikesProps) => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getUserLikes",
+        "http://localhost:3001/api/profile/getUserPosts",
         {
           params: {
             visitedUserId: userId,
@@ -40,4 +40,4 @@ const ProfileLikes = ({ userId }: ProfileLikesProps) => {
   );
 };
 
-export default ProfileLikes;
+export default ProfilePosts;

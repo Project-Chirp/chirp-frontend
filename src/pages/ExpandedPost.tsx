@@ -4,13 +4,14 @@ import ComposeReply from "../components/Posts/ComposeReply";
 import ExpandedPostReplies from "../components/Posts/ExpandedPostReplies";
 import { useAppSelector } from "../state/hooks";
 import Layout from "./Layout";
+import ExpandedPostSidebar from "../components/SideBar/ExpandedPostSidebar";
 
 const styles = {
   divider: { marginBottom: 3 },
 };
 
 const ExpandedPost = () => {
-  const expandedPost = useAppSelector((state) => state.expandedPost);
+  const { expandedPost } = useAppSelector((state) => state.posts);
 
   return (
     <Layout
@@ -23,9 +24,10 @@ const ExpandedPost = () => {
             parentPostId={expandedPost.postId}
           />
           <Divider />
-          <ExpandedPostReplies post={expandedPost} />
+          <ExpandedPostReplies postId={expandedPost.postId} />
         </Box>
       }
+      rightContent={<ExpandedPostSidebar />}
     />
   );
 };
