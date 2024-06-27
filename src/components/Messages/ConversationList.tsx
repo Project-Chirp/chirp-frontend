@@ -37,9 +37,8 @@ const ConversationList = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       const result = await sendRequest({
-        url: "/messages",
-        method: "get",
-        params: { userId: user.userId },
+        endpoint: "messages",
+        method: "GET",
       });
       dispatch(setConversations(result));
     };

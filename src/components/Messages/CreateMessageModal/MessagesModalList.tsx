@@ -17,9 +17,8 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
   useEffect(() => {
     const fetchConversationList = async () => {
       const result = await sendRequest({
-        url: "/messages/getModalConversations",
-        method: "get",
-        params: { userId: user.userId },
+        endpoint: "messages/getModalConversations",
+        method: "GET",
       });
       setConversationList(result as SelectedUser[]);
     };
