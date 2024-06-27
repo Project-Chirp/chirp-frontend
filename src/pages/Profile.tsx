@@ -30,7 +30,6 @@ import FollowButton from "../components/Common/FollowButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
 import { setDisplayName } from "../state/slices/userSlice";
 import { updateDisplayNames } from "../state/slices/postsSlice";
-import axios from "axios";
 
 const styles = {
   avatar: {

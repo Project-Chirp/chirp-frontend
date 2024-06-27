@@ -114,8 +114,8 @@ const DirectMessage = () => {
   useEffect(() => {
     const fetchDirectMessage = async () => {
       const result = await sendRequest({
-        url: `/messages/${userId1}/${userId2}`,
-        method: "get",
+        endpoint: `messages/${userId1}/${userId2}`,
+        method: "GET",
       });
       setMessages(result.messages as Message[]);
       dispatch(
@@ -136,10 +136,9 @@ const DirectMessage = () => {
     e.preventDefault();
     try {
       const newMessage = (await sendRequest({
-        url: "/messages",
-        method: "post",
-        data: {
-          sentUserId: user.userId,
+        endpoint: "messages",
+        method: "POST",
+        body: {
           receivedUserId: selectedConversation.userId,
           textContent,
         },

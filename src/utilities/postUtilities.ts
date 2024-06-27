@@ -1,5 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
-import useAxios, { SendRequestProps } from "./useAxios";
+import { SendRequestProps } from "./useAxios";
 
 const toggleLikePostRequest = async (
   sendRequest: (config: SendRequestProps) => Promise<any>,

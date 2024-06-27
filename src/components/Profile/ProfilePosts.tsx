@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import useAxios from "../../utilities/useAxios";
 import { Divider, Stack } from "@mui/material";
-import axios from "axios";
 
 type ProfilePostsProps = {
   userId: number;

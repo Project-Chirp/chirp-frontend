@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import PostItem from "./PostItem";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import { Divider } from "@mui/material";

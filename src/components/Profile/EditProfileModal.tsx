@@ -13,7 +13,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import axios from "axios";
 import { useAppSelector } from "../../state/hooks";
 import { EditableProfileContents } from "../../pages/Profile";
 import useAxios from "../../utilities/useAxios";
