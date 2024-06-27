@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { useCallback, useEffect, useState } from "react";
 
-type SendRequestProps = {
+export type SendRequestProps = {
   endpoint: string;
   method?: "GET" | "POST" | "PUT" | "DELETE"; // Add more methods as needed
   headers?: { [key: string]: string };

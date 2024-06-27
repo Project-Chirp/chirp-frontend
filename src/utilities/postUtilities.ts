@@ -1,21 +1,25 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
+import useAxios, { SendRequestProps } from "./useAxios";
 
-export const toggleLikePostRequest = async (
+const toggleLikePostRequest = async (
+  sendRequest: (config: SendRequestProps) => Promise<any>,
   isLikedByCurrentUser: boolean,
   postId: number,
   userId?: number
 ) => {
   if (isLikedByCurrentUser) {
-    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
-      params: {
-        postId,
-        userId,
-      },
+    await sendRequest({
+      endpoint: "posts/unlikePost",
+      method: "DELETE",
+      body: { postId, userId },
     });
   } else {
-    await axios.post("http://localhost:3001/api/posts/likePost", {
-      postId,
-      userId,
+    await sendRequest({
+      endpoint: "posts/likePost",
+      method: "POST",
+      body: { postId, userId },
     });
   }
 };
+
+export default toggleLikePostRequest;
