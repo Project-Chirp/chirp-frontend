@@ -42,7 +42,7 @@ const styles = {
     cursor: "pointer",
     transition: "background-color 0.3s",
     "&:hover": {
-      backgroundColor: "rgba(0, 0, 0, 0.03)",
+      backgroundColor: "gray.light",
     },
   },
   cardActions: {
