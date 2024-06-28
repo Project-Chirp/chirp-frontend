@@ -11,12 +11,13 @@ const styles = {
 };
 
 type UserAvatarProps = {
+  onClick: (event: React.MouseEvent) => void;
   username?: string;
 };
 
-const UserAvatar = ({ username }: UserAvatarProps) => {
+const UserAvatar = ({ onClick, username }: UserAvatarProps) => {
   return (
-    <Link component={Routerlink} to={`/${username}`}>
+    <Link component={Routerlink} to={`/${username}`} onClick={onClick}>
       <Avatar sx={styles.avatar} />
     </Link>
   );
