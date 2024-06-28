@@ -19,10 +19,13 @@ import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, toggleLikePost } from "../../state/slices/postsSlice";
+import {
+  Post,
+  toggleLikePost,
+  setExpandedPost,
+} from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
-import { setExpandedPost } from "../../state/slices/postsSlice";
-import { useState } from "react";
+import React, { useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import formatTimestamp from "../../utilities/formatTimestamp";
@@ -36,6 +39,17 @@ type PostProps = {
 const styles = {
   card: {
     boxShadow: "none",
+    cursor: "pointer",
+    transition: "background-color 0.3s",
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.03)",
+    },
+  },
+  cardActionArea: {
+    ".MuiCardActionArea-focusHighlight": {
+      backgroundColor:
+        "transparentonClick={(event) => event.stopPropagation()}",
+    },
   },
   cardActions: {
     display: "flex",
@@ -63,48 +77,79 @@ const PostItem = ({ post }: PostProps) => {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
+
   const routeChange = () => {
     const path = `/post/${post.postId}`;
     navigate(path);
     dispatch(setExpandedPost(post));
   };
 
+  const handleModalOpen = (event: React.MouseEvent) => {
+    setOpen(true);
+    event.stopPropagation();
+  };
+
+  const handleLikeClick = (event: React.MouseEvent) => {
+    toggleLikePostRequest(post.isLikedByCurrentUser, post.postId, user.userId);
+    dispatch(toggleLikePost(post.postId));
+    event.stopPropagation();
+  };
+
+  const handleCardClick = (event: React.MouseEvent) => {
+    if (
+      event.target instanceof
+      (HTMLAnchorElement || HTMLButtonElement || HTMLImageElement)
+    ) {
+      return;
+    }
+
+    routeChange();
+  };
+
   return (
-    <Card sx={styles.card}>
-      <CardHeader
-        avatar={<UserAvatar username={post.username} />}
-        action={
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={
-          <Box>
-            <Link
-              color={theme.typography.subtitle1.color}
-              component={Routerlink}
-              to={`/${post.username}`}
-              underline="hover"
-              sx={styles.displayName}
-              variant="subtitle1"
-            >
-              {post.displayName}
-            </Link>
-            <Link
-              color={theme.typography.subtitle2.color}
-              component={Routerlink}
-              to={`/${post.username}`}
-              underline="none"
-              variant="subtitle2"
-            >
-              @{post.username}
-            </Link>
-          </Box>
-        }
-        subheader={formatTimestamp(post.timestamp)}
-        subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
-      />
-      <CardActionArea onClick={() => routeChange()}>
+    <>
+      <Card sx={styles.card} onClick={handleCardClick}>
+        <CardHeader
+          avatar={
+            <UserAvatar
+              onClick={(event) => event.stopPropagation()}
+              username={post.username}
+            />
+          }
+          action={
+            <IconButton onClick={(event) => event.stopPropagation()}>
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={
+            <Box>
+              <Link
+                color={theme.typography.subtitle1.color}
+                component={Routerlink}
+                to={`/${post.username}`}
+                underline="hover"
+                sx={styles.displayName}
+                variant="subtitle1"
+                onClick={(event) => event.stopPropagation()}
+              >
+                {post.displayName}
+              </Link>
+              <Link
+                color={theme.typography.subtitle2.color}
+                component={Routerlink}
+                to={`/${post.username}`}
+                underline="none"
+                variant="subtitle2"
+                onClick={(event) => event.stopPropagation()}
+              >
+                @{post.username}
+              </Link>
+            </Box>
+          }
+          subheader={formatTimestamp(post.timestamp)}
+          subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
+        />
+
         <CardContent>
           <Typography>{post.textContent}</Typography>
         </CardContent>
@@ -113,54 +158,51 @@ const PostItem = ({ post }: PostProps) => {
             sx={{ maxWidth: 200, margin: "auto" }}
             component="img"
             image={post.imagePath}
+            onClick={(event) => event.stopPropagation()}
           />
         )}
-      </CardActionArea>
-      <CardActions>
-        <Box sx={styles.cardActions}>
-          <Button startIcon={<RepeatOutlinedIcon />} sx={styles.defaultButton}>
-            {post.numberOfReposts}
-          </Button>
-          <Button
-            onClick={() => {
-              setOpen(true);
-            }}
-            startIcon={<AddCommentOutlinedIcon />}
-            sx={styles.defaultButton}
-          >
-            {post.numberOfReplies}
-          </Button>
-          <Button
-            onClick={() => {
-              toggleLikePostRequest(
-                post.isLikedByCurrentUser,
-                post.postId,
-                user.userId
-              );
-              dispatch(toggleLikePost(post.postId));
-            }}
-            startIcon={
-              post.isLikedByCurrentUser ? (
-                <FavoriteOutlinedIcon />
-              ) : (
-                <FavoriteBorderOutlinedIcon />
-              )
-            }
-            sx={
-              post.isLikedByCurrentUser
-                ? styles.coloredButton
-                : styles.defaultButton
-            }
-          >
-            {post.numberOfLikes}
-          </Button>
-          <IconButton>
-            <ShareOutlinedIcon />
-          </IconButton>
-        </Box>
-      </CardActions>
+
+        <CardActions>
+          <Box sx={styles.cardActions}>
+            <Button
+              startIcon={<RepeatOutlinedIcon />}
+              sx={styles.defaultButton}
+              onClick={(event) => event.stopPropagation()}
+            >
+              {post.numberOfReposts}
+            </Button>
+            <Button
+              onClick={handleModalOpen}
+              startIcon={<AddCommentOutlinedIcon />}
+              sx={styles.defaultButton}
+            >
+              {post.numberOfReplies}
+            </Button>
+            <Button
+              onClick={handleLikeClick}
+              startIcon={
+                post.isLikedByCurrentUser ? (
+                  <FavoriteOutlinedIcon />
+                ) : (
+                  <FavoriteBorderOutlinedIcon />
+                )
+              }
+              sx={
+                post.isLikedByCurrentUser
+                  ? styles.coloredButton
+                  : styles.defaultButton
+              }
+            >
+              {post.numberOfLikes}
+            </Button>
+            <IconButton onClick={(event) => event.stopPropagation()}>
+              <ShareOutlinedIcon />
+            </IconButton>
+          </Box>
+        </CardActions>
+      </Card>
       <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
-    </Card>
+    </>
   );
 };
 
