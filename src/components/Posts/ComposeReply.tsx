@@ -73,7 +73,10 @@ const ComposeReply = ({
     <form onSubmit={onSubmit}>
       <Box sx={styles.compostPostContainer}>
         <Box sx={styles.avatarIcon}>
-          <UserAvatar username={user.username} />
+          <UserAvatar
+            onClick={(event) => event.stopPropagation()}
+            username={user.username}
+          />
         </Box>
         <Box sx={styles.textFieldContainer}>
           <TextField

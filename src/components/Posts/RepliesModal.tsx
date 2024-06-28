@@ -96,7 +96,10 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
         <Box sx={styles.postContent}>
           <Box sx={styles.avatarLineContainer}>
             <Box sx={styles.avatarBox}>
-              <UserAvatar username={post.username} />
+              <UserAvatar
+                onClick={(event) => event.stopPropagation()}
+                username={post.username}
+              />
             </Box>
             <Box sx={styles.lineBox}>
               <Divider orientation="vertical" sx={styles.line} />
