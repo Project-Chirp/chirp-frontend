@@ -45,12 +45,6 @@ const styles = {
       backgroundColor: "rgba(0, 0, 0, 0.03)",
     },
   },
-  cardActionArea: {
-    ".MuiCardActionArea-focusHighlight": {
-      backgroundColor:
-        "transparentonClick={(event) => event.stopPropagation()}",
-    },
-  },
   cardActions: {
     display: "flex",
     justifyContent: "space-between",
@@ -68,6 +62,7 @@ const styles = {
   displayName: {
     paddingRight: 0.5,
   },
+  media: { maxWidth: 200, margin: "auto" },
 };
 
 const PostItem = ({ post }: PostProps) => {
@@ -95,14 +90,7 @@ const PostItem = ({ post }: PostProps) => {
     event.stopPropagation();
   };
 
-  const handleCardClick = (event: React.MouseEvent) => {
-    if (
-      event.target instanceof
-      (HTMLAnchorElement || HTMLButtonElement || HTMLImageElement)
-    ) {
-      return;
-    }
-
+  const handleCardClick = () => {
     routeChange();
   };
 
@@ -155,7 +143,7 @@ const PostItem = ({ post }: PostProps) => {
         </CardContent>
         {post.imagePath && (
           <CardMedia
-            sx={{ maxWidth: 200, margin: "auto" }}
+            sx={styles.media}
             component="img"
             image={post.imagePath}
             onClick={(event) => event.stopPropagation()}
