@@ -11,7 +11,7 @@ const styles = {
 };
 
 type UserAvatarProps = {
-  onClick: (event: React.MouseEvent) => void;
+  onClick?: (event: React.MouseEvent) => void;
   username?: string;
 };
 
