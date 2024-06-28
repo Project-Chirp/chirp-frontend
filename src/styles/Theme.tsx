@@ -122,6 +122,7 @@ const theme = createTheme({
           color: palette.gray.main,
           "&:hover": {
             color: palette.primary.main,
+            backgroundColor: palette.primary.light,
           },
         },
       },
