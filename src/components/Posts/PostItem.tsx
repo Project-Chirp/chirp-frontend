@@ -1,10 +1,12 @@
 import {
+  Alert,
   Box,
   Button,
   Card,
   CardActionArea,
   CardContent,
   Link,
+  Snackbar,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -61,7 +63,7 @@ const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
-  const [clipboardPath, setClipboardPath] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const navigate = useNavigate();
   const routeChange = () => {
@@ -73,100 +75,123 @@ const PostItem = ({ post }: PostProps) => {
   const clipboardCopy = () => {
     const path = `http://localhost:3000/post/${post.postId}`;
     navigator.clipboard.writeText(path);
+    setSnackbarOpen(true);
+  };
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
   return (
-    <Card sx={styles.card}>
-      <CardHeader
-        avatar={<UserAvatar username={post.username} />}
-        action={
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={
-          <Box>
-            <Link
-              color={theme.typography.subtitle1.color}
-              component={Routerlink}
-              to={`/${post.username}`}
-              underline="hover"
-              sx={styles.displayName}
-              variant="subtitle1"
+    <>
+      <Card sx={styles.card}>
+        <CardHeader
+          avatar={<UserAvatar username={post.username} />}
+          action={
+            <IconButton>
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={
+            <Box>
+              <Link
+                color={theme.typography.subtitle1.color}
+                component={Routerlink}
+                to={`/${post.username}`}
+                underline="hover"
+                sx={styles.displayName}
+                variant="subtitle1"
+              >
+                {post.displayName}
+              </Link>
+              <Link
+                color={theme.typography.subtitle2.color}
+                component={Routerlink}
+                to={`/${post.username}`}
+                underline="none"
+                variant="subtitle2"
+              >
+                @{post.username}
+              </Link>
+            </Box>
+          }
+          subheader={formatTimestamp(post.timestamp)}
+          subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
+        />
+        <CardActionArea onClick={() => routeChange()}>
+          <CardContent>
+            <Typography>{post.textContent}</Typography>
+          </CardContent>
+          {post.imagePath && (
+            <CardMedia
+              sx={{ maxWidth: 200, margin: "auto" }}
+              component="img"
+              image={post.imagePath}
+            />
+          )}
+        </CardActionArea>
+        <CardActions>
+          <Box sx={styles.cardActions}>
+            <Button
+              startIcon={<RepeatOutlinedIcon />}
+              sx={styles.defaultButton}
             >
-              {post.displayName}
-            </Link>
-            <Link
-              color={theme.typography.subtitle2.color}
-              component={Routerlink}
-              to={`/${post.username}`}
-              underline="none"
-              variant="subtitle2"
+              {post.numberOfReposts}
+            </Button>
+            <Button
+              onClick={() => {
+                setOpen(true);
+              }}
+              startIcon={<AddCommentOutlinedIcon />}
+              sx={styles.defaultButton}
             >
-              @{post.username}
-            </Link>
+              {post.numberOfReplies}
+            </Button>
+            <Button
+              onClick={() => {
+                toggleLikePostRequest(
+                  post.isLikedByCurrentUser,
+                  post.postId,
+                  user.userId
+                );
+                dispatch(toggleLikePost(post.postId));
+              }}
+              startIcon={
+                post.isLikedByCurrentUser ? (
+                  <FavoriteOutlinedIcon />
+                ) : (
+                  <FavoriteBorderOutlinedIcon />
+                )
+              }
+              sx={
+                post.isLikedByCurrentUser
+                  ? styles.coloredButton
+                  : styles.defaultButton
+              }
+            >
+              {post.numberOfLikes}
+            </Button>
+            <IconButton>
+              <ShareOutlinedIcon onClick={() => clipboardCopy()} />
+            </IconButton>
           </Box>
-        }
-        subheader={formatTimestamp(post.timestamp)}
-        subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
-      />
-      <CardActionArea onClick={() => routeChange()}>
-        <CardContent>
-          <Typography>{post.textContent}</Typography>
-        </CardContent>
-        {post.imagePath && (
-          <CardMedia
-            sx={{ maxWidth: 200, margin: "auto" }}
-            component="img"
-            image={post.imagePath}
-          />
-        )}
-      </CardActionArea>
-      <CardActions>
-        <Box sx={styles.cardActions}>
-          <Button startIcon={<RepeatOutlinedIcon />} sx={styles.defaultButton}>
-            {post.numberOfReposts}
-          </Button>
-          <Button
-            onClick={() => {
-              setOpen(true);
-            }}
-            startIcon={<AddCommentOutlinedIcon />}
-            sx={styles.defaultButton}
-          >
-            {post.numberOfReplies}
-          </Button>
-          <Button
-            onClick={() => {
-              toggleLikePostRequest(
-                post.isLikedByCurrentUser,
-                post.postId,
-                user.userId
-              );
-              dispatch(toggleLikePost(post.postId));
-            }}
-            startIcon={
-              post.isLikedByCurrentUser ? (
-                <FavoriteOutlinedIcon />
-              ) : (
-                <FavoriteBorderOutlinedIcon />
-              )
-            }
-            sx={
-              post.isLikedByCurrentUser
-                ? styles.coloredButton
-                : styles.defaultButton
-            }
-          >
-            {post.numberOfLikes}
-          </Button>
-          <IconButton>
-            <ShareOutlinedIcon onClick={() => clipboardCopy()} />
-          </IconButton>
-        </Box>
-      </CardActions>
-      <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
-    </Card>
+        </CardActions>
+        <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
+      </Card>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        onClose={() => handleClose()}
+      >
+        <Alert onClose={handleClose} severity="success">
+          Post URL copied to clipboard!
+        </Alert>
+      </Snackbar>
+    </>
   );
 };
 
