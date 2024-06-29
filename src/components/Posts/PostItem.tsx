@@ -187,7 +187,7 @@ const PostItem = ({ post }: PostProps) => {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         onClose={() => handleClose()}
       >
-        <Alert onClose={handleClose} severity="success">
+        <Alert onClose={() => handleClose} severity="success">
           Post URL copied to clipboard!
         </Alert>
       </Snackbar>
