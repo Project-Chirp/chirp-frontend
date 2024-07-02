@@ -83,6 +83,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const user = useAppSelector((state) => state.user);
   const urlParams = useParams();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
@@ -99,8 +100,6 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
-
-  const navigate = useNavigate();
 
   return (
     <Card sx={styles.card}>

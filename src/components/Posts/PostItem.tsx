@@ -38,6 +38,7 @@ import formatTimestamp from "../../utilities/formatTimestamp";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import axios from "axios";
+import PostMenu from "./PostMenu";
 
 type PostProps = {
   post: Post;
@@ -80,85 +81,19 @@ const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-
   const navigate = useNavigate();
+
   const routeChange = () => {
     const path = `/post/${post.postId}`;
     navigate(path);
     dispatch(setExpandedPost(post));
   };
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-    setMenuOpen(true);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    setMenuOpen(false);
-  };
-
-  const handleDelete = async () => {
-    try {
-      const result = await axios.delete(
-        `http://localhost:3001/api/posts/deletePost`,
-        {
-          data: {
-            postId: post.postId,
-          },
-        }
-      );
-      dispatch(deletePost(post.postId));
-      return result.data;
-    } catch (error) {
-      console.error("Failed to delete the post", error);
-    } finally {
-      handleMenuClose();
-    }
-  };
-
-  const handleTemporary = () => {
-    handleMenuClose();
-  };
-
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
-        action={
-          <>
-            <IconButton onClick={handleMenuOpen}>
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={menuOpen}
-              onClose={handleMenuClose}
-              PaperProps={{
-                sx: styles.menu,
-              }}
-            >
-              {user.userId === post.userId && (
-                <>
-                  <MenuItem sx={styles.menuItem} onClick={handleTemporary}>
-                    <EditIcon />
-                    <Typography>Edit Post</Typography>
-                  </MenuItem>
-                  <MenuItem onClick={handleDelete} sx={styles.menuItem}>
-                    <DeleteIcon color="error" />
-                    <Typography color="error">Delete Post</Typography>
-                  </MenuItem>
-                </>
-              )}
-              <MenuItem sx={styles.menuItem} onClick={handleTemporary}>
-                <LinkIcon />
-                <Typography>Copy Link</Typography>
-              </MenuItem>
-            </Menu>
-          </>
-        }
+        action={<PostMenu authorId={post.userId} postId={post.postId} />}
         title={
           <Box>
             <Link
