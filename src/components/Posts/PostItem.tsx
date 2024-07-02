@@ -102,22 +102,25 @@ const PostItem = ({ post }: PostProps) => {
 
   const handleDelete = async () => {
     try {
-      const result = axios.delete(
+      const result = await axios.delete(
         `http://localhost:3001/api/posts/deletePost`,
         {
           data: {
-            userId: post.userId,
             postId: post.postId,
           },
         }
       );
-
       dispatch(deletePost(post.postId));
+      return result.data;
     } catch (error) {
       console.error("Failed to delete the post", error);
     } finally {
       handleMenuClose();
     }
+  };
+
+  const handleTemporary = () => {
+    handleMenuClose();
   };
 
   return (
@@ -137,17 +140,21 @@ const PostItem = ({ post }: PostProps) => {
                 sx: styles.menu,
               }}
             >
-              <MenuItem sx={styles.menuItem}>
-                <EditIcon />
-                <Typography>Edit Post</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleDelete} sx={styles.menuItem}>
-                <DeleteIcon color="error" />
-                <Typography color="error">Delete Post</Typography>
-              </MenuItem>
-              <MenuItem sx={styles.menuItem}>
+              {user.userId === post.userId && (
+                <>
+                  <MenuItem sx={styles.menuItem} onClick={handleTemporary}>
+                    <EditIcon />
+                    <Typography>Edit Post</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleDelete} sx={styles.menuItem}>
+                    <DeleteIcon color="error" />
+                    <Typography color="error">Delete Post</Typography>
+                  </MenuItem>
+                </>
+              )}
+              <MenuItem sx={styles.menuItem} onClick={handleTemporary}>
                 <LinkIcon />
-                <Typography>Copy List</Typography>
+                <Typography>Copy Link</Typography>
               </MenuItem>
             </Menu>
           </>
