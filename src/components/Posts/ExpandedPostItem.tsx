@@ -2,23 +2,24 @@ import {
   Box,
   Button,
   Card,
+  CardActions,
   CardContent,
+  CardHeader,
+  CardMedia,
+  Divider,
+  IconButton,
+  Link,
   Stack,
   Typography,
-  Divider,
-  Link,
 } from "@mui/material";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import CardHeader from "@mui/material/CardHeader/CardHeader";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import IconButton from "@mui/material/IconButton/IconButton";
-import CardMedia from "@mui/material/CardMedia/CardMedia";
-import CardActions from "@mui/material/CardActions/CardActions";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
-import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import {
+  AddCommentOutlined,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  KeyboardBackspace,
+  RepeatOutlined,
+  ShareOutlined,
+} from "@mui/icons-material";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
@@ -88,16 +89,20 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
-      const backupFetch = await axios.get(
-        "http://localhost:3001/api/posts/fetchPost",
-        {
-          params: {
-            userId: user.userId,
-            postId: urlParams.postId,
-          },
-        }
-      );
-      dispatch(setExpandedPost(backupFetch.data as Post));
+      try {
+        const backupFetch = await axios.get(
+          "http://localhost:3001/api/posts/fetchPost",
+          {
+            params: {
+              userId: user.userId,
+              postId: urlParams.postId,
+            },
+          }
+        );
+        dispatch(setExpandedPost(backupFetch.data as Post));
+      } catch (error) {
+        console.error("Failed to fetch post", error);
+      }
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
@@ -106,7 +111,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
     <Card sx={styles.card}>
       <Box sx={styles.topHeader}>
         <IconButton onClick={() => navigate(-1)} sx={styles.backButton}>
-          <KeyboardBackspaceIcon color="secondary" />
+          <KeyboardBackspace color="secondary" />
         </IconButton>
         <Typography variant="h2">Post</Typography>
       </Box>
@@ -186,14 +191,14 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           sx={styles.cardActions}
         >
           <IconButton>
-            <RepeatOutlinedIcon />
+            <RepeatOutlined />
           </IconButton>
           <IconButton
             onClick={() => {
               setOpen(true);
             }}
           >
-            <AddCommentOutlinedIcon />
+            <AddCommentOutlined />
           </IconButton>
           <IconButton
             onClick={() => {
@@ -207,13 +212,13 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             sx={post.isLikedByCurrentUser ? styles.likedIcon : undefined}
           >
             {post.isLikedByCurrentUser ? (
-              <FavoriteOutlinedIcon />
+              <FavoriteOutlined />
             ) : (
-              <FavoriteBorderOutlinedIcon />
+              <FavoriteBorderOutlined />
             )}
           </IconButton>
           <IconButton>
-            <ShareOutlinedIcon />
+            <ShareOutlined />
           </IconButton>
         </Stack>
       </CardActions>
