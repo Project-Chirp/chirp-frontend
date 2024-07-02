@@ -117,6 +117,11 @@ export const postsSlice = createSlice({
           : o
       );
     },
+    deletePost: (state, action: PayloadAction<number>) => {
+      state.posts = state.posts.filter(
+        (post) => post.postId !== action.payload
+      );
+    },
   },
 });
 
@@ -128,6 +133,7 @@ export const {
   toggleLikePost,
   toggleFollow,
   updateDisplayNames,
+  deletePost,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
