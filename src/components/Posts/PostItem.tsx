@@ -5,6 +5,8 @@ import {
   CardActionArea,
   CardContent,
   Link,
+  Menu,
+  MenuItem,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -18,8 +20,15 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import LinkIcon from "@mui/icons-material/Link";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, toggleLikePost } from "../../state/slices/postsSlice";
+import {
+  Post,
+  deletePost,
+  toggleLikePost,
+} from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useState } from "react";
@@ -28,6 +37,7 @@ import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import formatTimestamp from "../../utilities/formatTimestamp";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
+import axios from "axios";
 
 type PostProps = {
   post: Post;
@@ -54,6 +64,15 @@ const styles = {
   displayName: {
     paddingRight: 0.5,
   },
+  menu: {
+    borderRadius: 4,
+  },
+  menuItem: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
 };
 
 const PostItem = ({ post }: PostProps) => {
@@ -61,6 +80,8 @@ const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
   const routeChange = () => {
@@ -69,14 +90,67 @@ const PostItem = ({ post }: PostProps) => {
     dispatch(setExpandedPost(post));
   };
 
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+    setMenuOpen(true);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setMenuOpen(false);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const result = axios.delete(
+        `http://localhost:3001/api/posts/deletePost`,
+        {
+          data: {
+            userId: post.userId,
+            postId: post.postId,
+          },
+        }
+      );
+
+      dispatch(deletePost(post.postId));
+    } catch (error) {
+      console.error("Failed to delete the post", error);
+    } finally {
+      handleMenuClose();
+    }
+  };
+
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
         action={
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
+          <>
+            <IconButton onClick={handleMenuOpen}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={menuOpen}
+              onClose={handleMenuClose}
+              PaperProps={{
+                sx: styles.menu,
+              }}
+            >
+              <MenuItem sx={styles.menuItem}>
+                <EditIcon />
+                <Typography>Edit Post</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleDelete} sx={styles.menuItem}>
+                <DeleteIcon color="error" />
+                <Typography color="error">Delete Post</Typography>
+              </MenuItem>
+              <MenuItem sx={styles.menuItem}>
+                <LinkIcon />
+                <Typography>Copy List</Typography>
+              </MenuItem>
+            </Menu>
+          </>
         }
         title={
           <Box>
