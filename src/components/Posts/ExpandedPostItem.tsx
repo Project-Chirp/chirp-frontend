@@ -32,6 +32,7 @@ import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
+import PostMenu from "./PostMenu";
 
 const styles = {
   actionButton: {
@@ -111,11 +112,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       </Box>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
-        action={
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        }
+        action={<PostMenu authorId={post.userId} postId={post.postId} />}
         title={
           <Link
             color={theme.typography.subtitle1.color}

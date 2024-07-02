@@ -48,6 +48,7 @@ const PostMenu = ({ authorId, postId }: PostMenuProps) => {
         {
           data: {
             postId: postId,
+            userId: userId,
           },
         }
       );
@@ -77,19 +78,21 @@ const PostMenu = ({ authorId, postId }: PostMenuProps) => {
           sx: styles.menu,
         }}
       >
-        {userId === authorId && (
-          <>
-            <MenuItem sx={styles.menuItem} onClick={handleTemporary}>
-              <EditIcon />
-              <Typography>Edit Post</Typography>
-            </MenuItem>
-            <MenuItem onClick={handleDelete} sx={styles.menuItem}>
-              <DeleteIcon color="error" />
-              <Typography color="error">Delete Post</Typography>
-            </MenuItem>
-          </>
-        )}
-        <MenuItem sx={styles.menuItem} onClick={handleTemporary}>
+        {userId === authorId && [
+          <MenuItem sx={styles.menuItem} onClick={handleTemporary} key="edit">
+            <EditIcon />
+            <Typography>Edit Post</Typography>
+          </MenuItem>,
+          <MenuItem onClick={handleDelete} sx={styles.menuItem} key="delete">
+            <DeleteIcon color="error" />
+            <Typography color="error">Delete Post</Typography>
+          </MenuItem>,
+        ]}
+        <MenuItem
+          sx={styles.menuItem}
+          onClick={handleTemporary}
+          key="copy-link"
+        >
           <LinkIcon />
           <Typography>Copy Link</Typography>
         </MenuItem>
