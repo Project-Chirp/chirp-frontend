@@ -17,6 +17,10 @@ type PostMenuProps = {
 };
 
 const styles = {
+  listItemIcon: {
+    "&.MuiListItemIcon-root": { color: "black.main" },
+  },
+  listItemText: { fontWeight: "bold" },
   menu: {
     borderRadius: 4,
   },
@@ -77,25 +81,34 @@ const PostMenu = ({ authorId, postId }: PostMenuProps) => {
       >
         {userId === authorId && [
           <MenuItem onClick={handleTemporary} key="edit">
-            <ListItemIcon>
+            <ListItemIcon sx={styles.listItemIcon}>
               <Edit />
             </ListItemIcon>
-            <ListItemText>Edit Post</ListItemText>
+            <ListItemText primaryTypographyProps={styles.listItemText}>
+              Edit Post
+            </ListItemText>
           </MenuItem>,
           <MenuItem onClick={handleDelete} key="delete">
             <ListItemIcon>
               <Delete color="error" />
             </ListItemIcon>
-            <ListItemText primaryTypographyProps={{ color: "error" }}>
+            <ListItemText
+              primaryTypographyProps={{
+                ...styles.listItemText,
+                color: "error",
+              }}
+            >
               Delete Post
             </ListItemText>
           </MenuItem>,
         ]}
         <MenuItem onClick={handleTemporary} key="copy-link">
-          <ListItemIcon>
+          <ListItemIcon sx={styles.listItemIcon}>
             <Link />
           </ListItemIcon>
-          <ListItemText>Copy Link</ListItemText>
+          <ListItemText primaryTypographyProps={styles.listItemText}>
+            Copy Link
+          </ListItemText>
         </MenuItem>
       </Menu>
     </>
