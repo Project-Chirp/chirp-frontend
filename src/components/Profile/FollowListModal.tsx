@@ -20,8 +20,6 @@ type user = {
 type FollowListModalProps = {
   openModal: boolean;
   onClose: () => void;
-  listType: "Followers | Following";
-  fetchList: () => Promise<user[]>;
 };
 
 const styles = {
@@ -39,16 +37,8 @@ const styles = {
 export default function FollowListModal({
   openModal,
   onClose,
-  listType,
-  fetchList,
 }: FollowListModalProps) {
   const [list, setList] = useState<User[]>([]);
-
-  useEffect(() => {
-    if (openModal) {
-      fetchList().then(setList).catch(console.error);
-    }
-  }, [openModal, listType, fetchList]);
 
   return (
     <Dialog
@@ -59,7 +49,7 @@ export default function FollowListModal({
       PaperProps={{ sx: styles.dialog }}
     >
       <DialogTitle sx={styles.header}>
-        {listType}
+        Hello
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
@@ -68,9 +58,9 @@ export default function FollowListModal({
       <DialogContent>
         Erm What the Sigma
         {/* Need to create the endpoint to get the user list */}
-        {/* {list.map((item) => (
+        {list.map((item) => (
           <Typography key={item.id}>{item.username}</Typography>
-        ))} */}
+        ))}
       </DialogContent>
     </Dialog>
   );
