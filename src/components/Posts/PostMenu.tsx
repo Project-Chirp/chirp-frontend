@@ -20,12 +20,6 @@ const styles = {
   menu: {
     borderRadius: 4,
   },
-  menuItem: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-  },
 };
 
 const PostMenu = ({ authorId, postId }: PostMenuProps) => {
@@ -82,13 +76,13 @@ const PostMenu = ({ authorId, postId }: PostMenuProps) => {
         }}
       >
         {userId === authorId && [
-          <MenuItem sx={styles.menuItem} onClick={handleTemporary} key="edit">
+          <MenuItem onClick={handleTemporary} key="edit">
             <ListItemIcon>
               <Edit />
             </ListItemIcon>
             <ListItemText>Edit Post</ListItemText>
           </MenuItem>,
-          <MenuItem onClick={handleDelete} sx={styles.menuItem} key="delete">
+          <MenuItem onClick={handleDelete} key="delete">
             <ListItemIcon>
               <Delete color="error" />
             </ListItemIcon>
@@ -97,11 +91,7 @@ const PostMenu = ({ authorId, postId }: PostMenuProps) => {
             </ListItemText>
           </MenuItem>,
         ]}
-        <MenuItem
-          sx={styles.menuItem}
-          onClick={handleTemporary}
-          key="copy-link"
-        >
+        <MenuItem onClick={handleTemporary} key="copy-link">
           <ListItemIcon>
             <Link />
           </ListItemIcon>
