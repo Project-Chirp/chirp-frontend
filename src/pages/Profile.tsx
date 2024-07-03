@@ -127,31 +127,15 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
 
-  // This from chatGPT, need to read and understand what is happening
-  const [listType, setListType] = useState<"Followers" | "Following">(
-    "Followers"
-  );
-  const [followList, setFollowList] = useState<() => Promise<user[]>>(
-    () => async () => []
-  );
+  // const fetchFollowers = async (): Promise<user[]> => {
+  //   const response = await axios.get(`/api/users/${username}/followers`);
+  //   return response.data;
+  // };
 
-  const fetchFollowers = async (): Promise<user[]> => {
-    const response = await axios.get(`/api/users/${username}/followers`);
-    return response.data;
-  };
-
-  const fetchFollowing = async (): Promise<user[]> => {
-    const response = await axios.get(`/api/users/${username}/following`);
-    return response.data;
-  };
-
-  const handleOpenList = (type: "Followers" | "Following") => {
-    const fetchFunction =
-      type === "Followers" ? fetchFollowers : fetchFollowing;
-    setFollowList(() => fetchFunction);
-    setListType(type);
-    setOpenModal(true);
-  };
+  // const fetchFollowing = async (): Promise<user[]> => {
+  //   const response = await axios.get(`/api/users/${username}/following`);
+  //   return response.data;
+  // };
 
   useEffect(() => {
     setLoading(true);
@@ -317,8 +301,6 @@ const Profile = () => {
                 <FollowListModal
                   openModal={openModal}
                   onClose={() => setOpenModal(false)}
-                  listType={listType}
-                  fetchList={followList}
                 />
               </Box>
             </Box>
