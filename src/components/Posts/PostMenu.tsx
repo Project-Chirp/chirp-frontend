@@ -1,10 +1,13 @@
-import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import {
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import LinkIcon from "@mui/icons-material/Link";
+import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
 
@@ -68,7 +71,7 @@ const PostMenu = ({ authorId, postId }: PostMenuProps) => {
   return (
     <>
       <IconButton onClick={handleMenuOpen}>
-        <MoreVertIcon />
+        <MoreVert />
       </IconButton>
       <Menu
         anchorEl={anchorEl}
@@ -80,12 +83,18 @@ const PostMenu = ({ authorId, postId }: PostMenuProps) => {
       >
         {userId === authorId && [
           <MenuItem sx={styles.menuItem} onClick={handleTemporary} key="edit">
-            <EditIcon />
-            <Typography>Edit Post</Typography>
+            <ListItemIcon>
+              <Edit />
+            </ListItemIcon>
+            <ListItemText>Edit Post</ListItemText>
           </MenuItem>,
           <MenuItem onClick={handleDelete} sx={styles.menuItem} key="delete">
-            <DeleteIcon color="error" />
-            <Typography color="error">Delete Post</Typography>
+            <ListItemIcon>
+              <Delete color="error" />
+            </ListItemIcon>
+            <ListItemText primaryTypographyProps={{ color: "error" }}>
+              Delete Post
+            </ListItemText>
           </MenuItem>,
         ]}
         <MenuItem
@@ -93,8 +102,10 @@ const PostMenu = ({ authorId, postId }: PostMenuProps) => {
           onClick={handleTemporary}
           key="copy-link"
         >
-          <LinkIcon />
-          <Typography>Copy Link</Typography>
+          <ListItemIcon>
+            <Link />
+          </ListItemIcon>
+          <ListItemText>Copy Link</ListItemText>
         </MenuItem>
       </Menu>
     </>
