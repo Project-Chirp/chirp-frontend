@@ -117,7 +117,9 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       </Box>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
-        action={<PostMenu authorId={post.userId} postId={post.postId} />}
+        action={
+          <PostMenu authorId={post.userId} postId={post.postId} isExpanded />
+        }
         title={
           <Link
             color={theme.typography.subtitle1.color}
