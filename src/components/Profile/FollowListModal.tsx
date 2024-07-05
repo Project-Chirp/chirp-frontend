@@ -20,6 +20,8 @@ import SearchBar from "../Common/SearchBar";
 import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
 
+export type ListType = "Followers" | "Following";
+
 type user = {
   userName: string;
   displayName: string;
@@ -29,6 +31,7 @@ type user = {
 
 type FollowListModalProps = {
   openModal: boolean;
+  listType: ListType | null;
   onClose: () => void;
 };
 
@@ -68,6 +71,7 @@ const styles = {
 
 export default function FollowListModal({
   openModal,
+  listType,
   onClose,
 }: FollowListModalProps) {
   //Dummy Data
@@ -106,7 +110,7 @@ export default function FollowListModal({
       PaperProps={{ sx: styles.dialog }}
     >
       <DialogTitle sx={styles.header}>
-        Followers
+        {listType}
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
