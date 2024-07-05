@@ -1,6 +1,5 @@
 import {
   Box,
-  Typography,
   Dialog,
   IconButton,
   DialogTitle,
@@ -12,10 +11,10 @@ import {
   ListItemAvatar,
   ListItemSecondaryAction,
   ListItemText,
+  Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { User } from "@auth0/auth0-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SearchBar from "../Common/SearchBar";
 import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
@@ -40,32 +39,30 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "8px 16px",
+    padding: 1,
     position: "relative",
   },
   closeIcon: {
     position: "absolute",
-    right: 16,
+    right: 6,
   },
   dialog: {
     borderRadius: 5,
+    boxSizing: "border-box",
   },
   searchBarContainer: {
-    padding: "8px 16px",
+    padding: 1,
   },
   listItem: {
     display: "flex",
     alignItems: "center",
-    padding: "8px 16px",
+    padding: 1,
   },
   avatar: {
-    marginRight: 16,
+    marginRight: 4,
   },
   listItemText: {
     flexGrow: 1,
-  },
-  divider: {
-    margin: "8px 0",
   },
 };
 
@@ -75,16 +72,14 @@ export default function FollowListModal({
   onClose,
 }: FollowListModalProps) {
   //Dummy Data
-  const [list, setList] = useState<User[]>([
+  const [list, setList] = useState<user[]>([
     {
-      id: "1",
       userName: "haileyhotrodhottie",
       displayName: "Hailey 🚗💄💋🦸‍♂️",
       imageURL: "https://via.placeholder.com/40",
       isFollowing: true,
     },
     {
-      id: "2",
       userName: "me_mo_ri",
       displayName: "Memori",
       imageURL: "https://via.placeholder.com/40",
@@ -93,10 +88,10 @@ export default function FollowListModal({
   ]);
 
   //Need to add proper logic for actual data
-  const handleFollowToggle = (id: string) => {
+  const handleFollowToggle = (index: number) => {
     setList((prevList) =>
-      prevList.map((user) =>
-        user.id === id ? { ...user, isFollowing: !user.isFollowing } : user
+      prevList.map((user, i) =>
+        i === index ? { ...user, isFollowing: !user.isFollowing } : user
       )
     );
   };
@@ -111,22 +106,20 @@ export default function FollowListModal({
     >
       <DialogTitle sx={styles.header}>
         {listType}
-        <IconButton onClick={onClose}>
+        <IconButton onClick={onClose} sx={styles.closeIcon}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
 
-      <Box sx={styles.divider}>
-        <hr />
-      </Box>
+      <Divider />
 
       <DialogContent>
         <Box sx={styles.searchBarContainer}>
           <SearchBar placeholder="Search Chirp" />
         </Box>
         <List>
-          {list.map((item) => (
-            <ListItem key={item.id} sx={styles.listItem}>
+          {list.map((item, index) => (
+            <ListItem key={index} sx={styles.listItem}>
               <ListItemAvatar>
                 <Avatar src={item.imageURL} sx={styles.avatar} />
               </ListItemAvatar>
@@ -138,13 +131,13 @@ export default function FollowListModal({
               <ListItemSecondaryAction>
                 {item.isFollowing ? (
                   <FollowingButton
-                    visitedUserId={parseInt(item.id)}
-                    onClick={() => handleFollowToggle(item.id)}
+                    visitedUserId={index}
+                    onClick={() => handleFollowToggle(index)}
                   />
                 ) : (
                   <FollowButton
-                    visitedUserId={parseInt(item.id)}
-                    onClick={() => handleFollowToggle(item.id)}
+                    visitedUserId={index}
+                    onClick={() => handleFollowToggle(index)}
                   />
                 )}
               </ListItemSecondaryAction>
