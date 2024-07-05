@@ -445,6 +445,8 @@ export type ProfileContent = {
   username: string;
 };
 
+type ListType = "Followers" | "Following"; // Define the union type
+
 const Profile = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -466,16 +468,12 @@ const Profile = () => {
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
+  const [listType, setListType] = useState<ListType | null>(null);
 
-  // const fetchFollowers = async (): Promise<user[]> => {
-  //   const response = await axios.get(`/api/users/${username}/followers`);
-  //   return response.data;
-  // };
-
-  // const fetchFollowing = async (): Promise<user[]> => {
-  //   const response = await axios.get(`/api/users/${username}/following`);
-  //   return response.data;
-  // };
+  const handleOpenModal = (listType: ListType) => {
+    setListType(listType);
+    setOpenModal(true);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -616,7 +614,7 @@ const Profile = () => {
                     component={Routerlink}
                     to={`/${username}`} // TODO: Create Modal to check followers
                     underline="hover"
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => handleOpenModal("Followers")}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followerCount}
@@ -628,7 +626,7 @@ const Profile = () => {
                     component={Routerlink}
                     to={`/${username}`} // TODO: Create Modal to check following
                     underline="hover"
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => handleOpenModal("Following")}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
@@ -640,6 +638,7 @@ const Profile = () => {
                 {/* Created Modal to check for followers/following */}
                 <FollowListModal
                   openModal={openModal}
+                  listType={listType}
                   onClose={() => setOpenModal(false)}
                 />
               </Box>
