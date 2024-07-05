@@ -10,10 +10,12 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
+import { useNavigate } from "react-router-dom";
 
 type PostMenuProps = {
   authorId: number;
   postId: number;
+  isExpanded?: boolean;
 };
 
 const styles = {
@@ -26,21 +28,12 @@ const styles = {
   },
 };
 
-const PostMenu = ({ authorId, postId }: PostMenuProps) => {
+const PostMenu = ({ authorId, postId, isExpanded = false }: PostMenuProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useAppDispatch();
-
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-    setMenuOpen(true);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    setMenuOpen(false);
-  };
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
@@ -53,13 +46,32 @@ const PostMenu = ({ authorId, postId }: PostMenuProps) => {
           },
         }
       );
-      dispatch(deletePost(postId));
+
+      isExpanded ? handleExpandedPostDelete() : handlePostDelete();
       return result.data;
     } catch (error) {
       console.error("Failed to delete the post", error);
     } finally {
       handleMenuClose();
     }
+  };
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+    setMenuOpen(true);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setMenuOpen(false);
+  };
+
+  const handlePostDelete = () => {
+    dispatch(deletePost(postId));
+  };
+
+  const handleExpandedPostDelete = () => {
+    navigate(-1);
   };
 
   const handleTemporary = () => {
