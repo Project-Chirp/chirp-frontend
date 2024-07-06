@@ -105,7 +105,7 @@ export type ProfileContent = {
   username: string;
 };
 
-type ListType = "Followers" | "Following"; // Define the union type
+type ListType = "Followers" | "Following";
 
 const Profile = () => {
   const theme = useTheme();
@@ -129,10 +129,27 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [listType, setListType] = useState<ListType | null>(null);
+  const [listData, setListData] = useState([]);
+
+  const fetchUserList = async (listType: ListType) => {
+    try {
+      const endpoint =
+        listType === "Followers"
+          ? "http://localhost:3001/getFollowersUserList"
+          : "http://localhost:3001/getFollowingUserList";
+      const result = await axios.get(endpoint, {
+        params: { visitedUserId: profileContents.userId },
+      });
+      setListData(result.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleOpenModal = (listType: ListType) => {
     setListType(listType);
     setOpenModal(true);
+    fetchUserList(listType);
   };
 
   useEffect(() => {
