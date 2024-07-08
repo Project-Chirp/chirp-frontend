@@ -445,6 +445,14 @@ export type ProfileContent = {
   username: string;
 };
 
+type user = {
+  userId: number;
+  userName: string;
+  displayName: string;
+  imageURL: string;
+  isFollowing: boolean;
+};
+
 type ListType = "Followers" | "Following";
 
 const Profile = () => {
@@ -469,27 +477,34 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [listType, setListType] = useState<ListType | null>(null);
-  const [listData, setListData] = useState([]);
+  const [listData, setListData] = useState<user[]>([]);
 
-  const fetchUserList = async (listType: ListType) => {
+  const handleOpenModal = async (listType: ListType) => {
+    setListType(listType);
+    setOpenModal(true);
+
     try {
       const endpoint =
         listType === "Followers"
-          ? "http://localhost:3001/getFollowersUserList"
-          : "http://localhost:3001/getFollowingUserList";
-      const result = await axios.get(endpoint, {
-        params: { visitedUserId: profileContents.userId },
+          ? "http://localhost:3001/api/follow/getFollowersUserList"
+          : "http://localhost:3001/api/follow/getFollowingUserList";
+
+      console.log(`Requesting ${endpoint} with params:`, {
+        visitedUserId: profileContents.userId,
+        currentUserId,
       });
+
+      const result = await axios.get(endpoint, {
+        params: {
+          visitedUserId: profileContents.userId,
+          currentUserId: currentUserId,
+        },
+      });
+      console.log(result);
       setListData(result.data);
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const handleOpenModal = (listType: ListType) => {
-    setListType(listType);
-    setOpenModal(true);
-    fetchUserList(listType);
   };
 
   useEffect(() => {
@@ -656,6 +671,7 @@ const Profile = () => {
                 <FollowListModal
                   openModal={openModal}
                   listType={listType}
+                  listUserData={listData}
                   onClose={() => setOpenModal(false)}
                 />
               </Box>
