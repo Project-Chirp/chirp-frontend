@@ -19,18 +19,20 @@ import SearchBar from "../Common/SearchBar";
 import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
 
-export type ListType = "Followers" | "Following";
-
-type user = {
+export type user = {
+  userId: number;
   userName: string;
   displayName: string;
   imageURL: string;
   isFollowing: boolean;
 };
 
+export type ListType = "Followers" | "Following";
+
 type FollowListModalProps = {
   openModal: boolean;
   listType: ListType | null;
+  listUserData: user[];
   onClose: () => void;
 };
 
@@ -69,17 +71,20 @@ const styles = {
 export default function FollowListModal({
   openModal,
   listType,
+  listUserData,
   onClose,
 }: FollowListModalProps) {
   //Dummy Data
   const [list, setList] = useState<user[]>([
     {
+      userId: 1,
       userName: "haileyhotrodhottie",
       displayName: "Hailey 🚗💄💋🦸‍♂️",
       imageURL: "https://via.placeholder.com/40",
       isFollowing: true,
     },
     {
+      userId: 2,
       userName: "me_mo_ri",
       displayName: "Memori",
       imageURL: "https://via.placeholder.com/40",
@@ -118,7 +123,7 @@ export default function FollowListModal({
           <SearchBar placeholder="Search Chirp" />
         </Box>
         <List>
-          {list.map((item, index) => (
+          {listUserData.map((item, index) => (
             <ListItem key={index} sx={styles.listItem}>
               <ListItemAvatar>
                 <Avatar src={item.imageURL} sx={styles.avatar} />
@@ -129,7 +134,7 @@ export default function FollowListModal({
                 sx={styles.listItemText}
               />
               <ListItemSecondaryAction>
-                {item.isFollowing ? (
+                {/* {item.isFollowing ? (
                   <FollowingButton
                     visitedUserId={index}
                     onClick={() => handleFollowToggle(index)}
@@ -139,6 +144,12 @@ export default function FollowListModal({
                     visitedUserId={index}
                     onClick={() => handleFollowToggle(index)}
                   />
+                )} */}
+
+                {item.isFollowing ? (
+                  <FollowingButton visitedUserId={item.userId} />
+                ) : (
+                  <FollowButton visitedUserId={item.userId} />
                 )}
               </ListItemSecondaryAction>
             </ListItem>
