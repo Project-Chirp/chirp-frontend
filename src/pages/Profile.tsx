@@ -484,18 +484,12 @@ const Profile = () => {
           ? "http://localhost:3001/api/follow/getFollowersUserList"
           : "http://localhost:3001/api/follow/getFollowingUserList";
 
-      console.log(`Requesting ${endpoint} with params:`, {
-        visitedUserId: profileContents.userId,
-        currentUserId,
-      });
-
       const result = await axios.get(endpoint, {
         params: {
           visitedUserId: profileContents.userId,
           currentUserId: currentUserId,
         },
       });
-      console.log(result);
       setListData(result.data);
     } catch (error) {
       console.error(error);
@@ -713,7 +707,6 @@ const Profile = () => {
           open={editProfileModalOpen}
         />
       )}
-      {/* Created Modal to check for followers/following */}
       {!networkModalLoading && openNetworkModal && (
         <FollowListModal
           loading={networkModalLoading}
