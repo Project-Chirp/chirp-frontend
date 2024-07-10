@@ -14,7 +14,7 @@ const styles = {
 };
 
 type FollowButtonProps = {
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
   visitedUserId: number;
 };
 
@@ -36,7 +36,7 @@ const FollowButton = ({ onClick, visitedUserId }: FollowButtonProps) => {
           },
         }
       );
-      onClick?.();
+      onClick?.(e);
     } catch (error) {
       console.log(error);
     }

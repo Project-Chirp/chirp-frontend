@@ -14,17 +14,17 @@ import {
   Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
 import SearchBar from "../Common/SearchBar";
 import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
 import { useAppSelector } from "../../state/hooks";
-import axios from "axios";
 import { ProfileContent } from "../../pages/Profile";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export type NetworkUsers = {
   userId: number;
-  userName: string;
+  username: string;
   displayName: string;
   imageURL: string;
   isFollowing: boolean;
@@ -33,6 +33,7 @@ export type NetworkUsers = {
 export type ListType = "Followers" | "Following";
 
 type FollowListModalProps = {
+  loading: boolean;
   openModal: boolean;
   listType: ListType | null;
   listUserData: NetworkUsers[];
@@ -56,18 +57,24 @@ const styles = {
   },
   dialog: {
     borderRadius: 5,
-    boxSizing: "border-box",
+    width: "25%",
+    height: "50%",
   },
   searchBarContainer: {
-    padding: 1,
+    paddingX: 2,
+    paddingY: 1,
   },
   listItem: {
     display: "flex",
     alignItems: "center",
-    padding: 1,
+    paddingX: 2,
+    "&:hover": {
+      backgroundColor: "gray.light",
+      cursor: "pointer",
+    },
   },
   avatar: {
-    marginRight: 4,
+    marginRight: 2,
   },
   listItemText: {
     flexGrow: 1,
@@ -75,6 +82,7 @@ const styles = {
 };
 
 export default function FollowListModal({
+  loading,
   openModal,
   listType,
   listUserData,
@@ -84,8 +92,10 @@ export default function FollowListModal({
   onClose,
 }: FollowListModalProps) {
   const currentUserId = useAppSelector((state) => state.user.userId);
+  const navigate = useNavigate();
 
-  const handleFollowToggle = async (index: number) => {
+  const handleFollowToggle = async (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
     const updatedList = [...listUserData];
     updatedList[index] = {
       ...listUserData[index],
@@ -105,6 +115,11 @@ export default function FollowListModal({
     }
   };
 
+  const handleNavigation = (username: string) => {
+    onClose();
+    navigate(`/${username}`);
+  };
+
   return (
     <Dialog
       fullWidth
@@ -121,38 +136,45 @@ export default function FollowListModal({
       </DialogTitle>
 
       <Divider />
+      <Box sx={styles.searchBarContainer}>
+        <SearchBar placeholder="Search Chirp" />
+      </Box>
 
-      <DialogContent>
-        <Box sx={styles.searchBarContainer}>
-          <SearchBar placeholder="Search Chirp" />
-        </Box>
-        <List>
-          {listUserData.map((item, index) => (
-            <ListItem key={index} sx={styles.listItem}>
-              <ListItemAvatar>
-                <Avatar src={item.imageURL} sx={styles.avatar} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={item.displayName}
-                secondary={item.userName}
-                sx={styles.listItemText}
-              />
-              <ListItemSecondaryAction>
-                {item.isFollowing ? (
-                  <FollowingButton
-                    visitedUserId={item.userId}
-                    onClick={() => handleFollowToggle(index)}
-                  />
-                ) : (
-                  <FollowButton
-                    visitedUserId={item.userId}
-                    onClick={() => handleFollowToggle(index)}
-                  />
-                )}
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-        </List>
+      <DialogContent sx={{ paddingBottom: 1 }}>
+        {!loading && (
+          <List>
+            {listUserData.map((item, index) => (
+              <ListItem
+                key={index}
+                sx={styles.listItem}
+                onClick={() => handleNavigation(item.username)}
+              >
+                <ListItemAvatar>
+                  <Avatar src={item.imageURL} sx={styles.avatar} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.displayName}
+                  secondary={item.username}
+                  sx={styles.listItemText}
+                  primaryTypographyProps={{ fontWeight: "bold" }}
+                />
+                <ListItemSecondaryAction>
+                  {item.isFollowing ? (
+                    <FollowingButton
+                      visitedUserId={item.userId}
+                      onClick={(event) => handleFollowToggle(index, event)}
+                    />
+                  ) : (
+                    <FollowButton
+                      visitedUserId={item.userId}
+                      onClick={(event) => handleFollowToggle(index, event)}
+                    />
+                  )}
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        )}
       </DialogContent>
     </Dialog>
   );

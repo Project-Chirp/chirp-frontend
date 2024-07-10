@@ -128,6 +128,7 @@ const Profile = () => {
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [networkModalLoading, setNetworkModalLoading] = useState(true);
   const [openNetworkModal, setOpenNetworkModal] = useState(false);
   const [listType, setListType] = useState<ListType | null>(null);
   const [listData, setListData] = useState<NetworkUsers[]>([]);
@@ -137,6 +138,7 @@ const Profile = () => {
     setOpenNetworkModal(true);
 
     try {
+      setNetworkModalLoading(true);
       const endpoint =
         listType === "Followers"
           ? "http://localhost:3001/api/follow/getFollowersUserList"
@@ -157,6 +159,8 @@ const Profile = () => {
       setListData(result.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setNetworkModalLoading(false);
     }
   };
 
@@ -370,8 +374,9 @@ const Profile = () => {
         />
       )}
       {/* Created Modal to check for followers/following */}
-      {!loading && openNetworkModal && (
+      {!networkModalLoading && openNetworkModal && (
         <FollowListModal
+          loading={networkModalLoading}
           openModal={openNetworkModal}
           listType={listType}
           listUserData={listData}
