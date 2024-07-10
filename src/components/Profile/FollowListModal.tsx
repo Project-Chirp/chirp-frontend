@@ -18,8 +18,10 @@ import { useState } from "react";
 import SearchBar from "../Common/SearchBar";
 import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
+import { useAppSelector } from "../../state/hooks";
+import axios from "axios";
 
-export type user = {
+export type NetworkUsers = {
   userId: number;
   userName: string;
   displayName: string;
@@ -32,7 +34,8 @@ export type ListType = "Followers" | "Following";
 type FollowListModalProps = {
   openModal: boolean;
   listType: ListType | null;
-  listUserData: user[];
+  listUserData: NetworkUsers[];
+  setListUserData: (data: NetworkUsers[]) => void;
   onClose: () => void;
 };
 
@@ -72,33 +75,16 @@ export default function FollowListModal({
   openModal,
   listType,
   listUserData,
+  setListUserData,
   onClose,
 }: FollowListModalProps) {
-  //Dummy Data
-  const [list, setList] = useState<user[]>([
-    {
-      userId: 1,
-      userName: "haileyhotrodhottie",
-      displayName: "Hailey 🚗💄💋🦸‍♂️",
-      imageURL: "https://via.placeholder.com/40",
-      isFollowing: true,
-    },
-    {
-      userId: 2,
-      userName: "me_mo_ri",
-      displayName: "Memori",
-      imageURL: "https://via.placeholder.com/40",
-      isFollowing: true,
-    },
-  ]);
-
-  //Need to add proper logic for actual data
-  const handleFollowToggle = (index: number) => {
-    setList((prevList) =>
-      prevList.map((user, i) =>
-        i === index ? { ...user, isFollowing: !user.isFollowing } : user
-      )
-    );
+  const handleFollowToggle = async (index: number) => {
+    const updatedList = [...listUserData];
+    updatedList[index] = {
+      ...listUserData[index],
+      isFollowing: !listUserData[index].isFollowing,
+    };
+    setListUserData(updatedList);
   };
 
   return (
@@ -134,22 +120,16 @@ export default function FollowListModal({
                 sx={styles.listItemText}
               />
               <ListItemSecondaryAction>
-                {/* {item.isFollowing ? (
+                {item.isFollowing ? (
                   <FollowingButton
-                    visitedUserId={index}
+                    visitedUserId={item.userId}
                     onClick={() => handleFollowToggle(index)}
                   />
                 ) : (
                   <FollowButton
-                    visitedUserId={index}
+                    visitedUserId={item.userId}
                     onClick={() => handleFollowToggle(index)}
                   />
-                )} */}
-
-                {item.isFollowing ? (
-                  <FollowingButton visitedUserId={item.userId} />
-                ) : (
-                  <FollowButton visitedUserId={item.userId} />
                 )}
               </ListItemSecondaryAction>
             </ListItem>
