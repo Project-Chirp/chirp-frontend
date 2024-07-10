@@ -81,7 +81,7 @@ const styles = {
   },
 };
 
-export default function FollowListModal({
+const FollowListModal = ({
   loading,
   openModal,
   listType,
@@ -90,7 +90,7 @@ export default function FollowListModal({
   setProfileContents,
   setListUserData,
   onClose,
-}: FollowListModalProps) {
+}: FollowListModalProps) => {
   const currentUserId = useAppSelector((state) => state.user.userId);
   const navigate = useNavigate();
 
@@ -178,4 +178,6 @@ export default function FollowListModal({
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default FollowListModal;
