@@ -20,6 +20,7 @@ import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
 import { useAppSelector } from "../../state/hooks";
 import axios from "axios";
+import { ProfileContent } from "../../pages/Profile";
 
 export type NetworkUsers = {
   userId: number;
@@ -35,6 +36,8 @@ type FollowListModalProps = {
   openModal: boolean;
   listType: ListType | null;
   listUserData: NetworkUsers[];
+  profileContents: ProfileContent;
+  setProfileContents: (data: ProfileContent) => void;
   setListUserData: (data: NetworkUsers[]) => void;
   onClose: () => void;
 };
@@ -75,9 +78,13 @@ export default function FollowListModal({
   openModal,
   listType,
   listUserData,
+  profileContents,
+  setProfileContents,
   setListUserData,
   onClose,
 }: FollowListModalProps) {
+  const currentUserId = useAppSelector((state) => state.user.userId);
+
   const handleFollowToggle = async (index: number) => {
     const updatedList = [...listUserData];
     updatedList[index] = {
@@ -85,6 +92,17 @@ export default function FollowListModal({
       isFollowing: !listUserData[index].isFollowing,
     };
     setListUserData(updatedList);
+    if (currentUserId === profileContents.userId) {
+      const isFollowing: boolean = updatedList[index].isFollowing;
+      const newFollowingCount = isFollowing
+        ? ++profileContents.followingCount
+        : --profileContents.followingCount;
+
+      setProfileContents({
+        ...profileContents,
+        followingCount: newFollowingCount,
+      });
+    }
   };
 
   return (

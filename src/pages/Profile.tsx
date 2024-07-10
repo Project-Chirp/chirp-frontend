@@ -375,6 +375,8 @@ const Profile = () => {
           openModal={openNetworkModal}
           listType={listType}
           listUserData={listData}
+          profileContents={profileContents}
+          setProfileContents={() => setProfileContents}
           setListUserData={setListData}
           onClose={() => setOpenNetworkModal(false)}
         />
