@@ -30,7 +30,10 @@ import FollowButton from "../components/Common/FollowButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
 import { setDisplayName } from "../state/slices/userSlice";
 import { updateDisplayNames } from "../state/slices/postsSlice";
-import FollowListModal from "../components/Profile/FollowListModal";
+import FollowListModal, {
+  ListType,
+  NetworkUsers,
+} from "../components/Profile/FollowListModal";
 
 const styles = {
   avatar: {
@@ -105,16 +108,6 @@ export type ProfileContent = {
   username: string;
 };
 
-type user = {
-  userId: number;
-  userName: string;
-  displayName: string;
-  imageURL: string;
-  isFollowing: boolean;
-};
-
-type ListType = "Followers" | "Following";
-
 const Profile = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -135,15 +128,17 @@ const Profile = () => {
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
+  const [networkModalLoading, setNetworkModalLoading] = useState(true);
+  const [openNetworkModal, setOpenNetworkModal] = useState(false);
   const [listType, setListType] = useState<ListType | null>(null);
-  const [listData, setListData] = useState<user[]>([]);
+  const [listData, setListData] = useState<NetworkUsers[]>([]);
 
   const handleOpenModal = async (listType: ListType) => {
     setListType(listType);
-    setOpenModal(true);
+    setOpenNetworkModal(true);
 
     try {
+      setNetworkModalLoading(true);
       const endpoint =
         listType === "Followers"
           ? "http://localhost:3001/api/follow/getFollowersUserList"
@@ -164,6 +159,8 @@ const Profile = () => {
       setListData(result.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setNetworkModalLoading(false);
     }
   };
 
@@ -326,14 +323,6 @@ const Profile = () => {
                     <Typography component="span"> Following</Typography>
                   </Link>
                 </Box>
-
-                {/* Created Modal to check for followers/following */}
-                <FollowListModal
-                  openModal={openModal}
-                  listType={listType}
-                  listUserData={listData}
-                  onClose={() => setOpenModal(false)}
-                />
               </Box>
             </Box>
             <Tabs
@@ -382,6 +371,19 @@ const Profile = () => {
             setProfileContents({ ...profileContents, ...editedProfile });
           }}
           open={editProfileModalOpen}
+        />
+      )}
+      {/* Created Modal to check for followers/following */}
+      {!networkModalLoading && openNetworkModal && (
+        <FollowListModal
+          loading={networkModalLoading}
+          openModal={openNetworkModal}
+          listType={listType}
+          listUserData={listData}
+          profileContents={profileContents}
+          setProfileContents={() => setProfileContents}
+          setListUserData={setListData}
+          onClose={() => setOpenNetworkModal(false)}
         />
       )}
     </>

@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useAppSelector } from "../../state/hooks";
 import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const styles = {
   followingButton: {
@@ -22,7 +22,7 @@ const styles = {
 };
 
 type FollowingButtonProps = {
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
   visitedUserId: number;
 };
 
@@ -46,7 +46,7 @@ const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
           },
         }
       );
-      onClick?.();
+      onClick?.(e);
     } catch (error) {
       console.log(error);
     }
