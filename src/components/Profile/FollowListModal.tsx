@@ -120,6 +120,10 @@ const FollowListModal = ({
     navigate(`/${username}`);
   };
 
+  const modifiedListUserData = listUserData.sort((a, b) =>
+    b.userId === currentUserId ? 1 : a.userId === currentUserId ? -1 : 0
+  );
+
   return (
     <Dialog
       fullWidth
@@ -143,7 +147,7 @@ const FollowListModal = ({
       <DialogContent sx={{ paddingBottom: 1 }}>
         {!loading && (
           <List>
-            {listUserData.map((item, index) => (
+            {modifiedListUserData.map((item, index) => (
               <ListItem
                 key={index}
                 sx={styles.listItem}
@@ -158,19 +162,21 @@ const FollowListModal = ({
                   sx={styles.listItemText}
                   primaryTypographyProps={{ fontWeight: "bold" }}
                 />
-                <ListItemSecondaryAction>
-                  {item.isFollowing ? (
-                    <FollowingButton
-                      visitedUserId={item.userId}
-                      onClick={(event) => handleFollowToggle(index, event)}
-                    />
-                  ) : (
-                    <FollowButton
-                      visitedUserId={item.userId}
-                      onClick={(event) => handleFollowToggle(index, event)}
-                    />
-                  )}
-                </ListItemSecondaryAction>
+                {item.userId !== currentUserId && (
+                  <ListItemSecondaryAction>
+                    {item.isFollowing ? (
+                      <FollowingButton
+                        visitedUserId={item.userId}
+                        onClick={(event) => handleFollowToggle(index, event)}
+                      />
+                    ) : (
+                      <FollowButton
+                        visitedUserId={item.userId}
+                        onClick={(event) => handleFollowToggle(index, event)}
+                      />
+                    )}
+                  </ListItemSecondaryAction>
+                )}
               </ListItem>
             ))}
           </List>
