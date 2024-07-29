@@ -12,13 +12,14 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   Divider,
+  Typography,
+  ListItemButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchBar from "../Common/SearchBar";
 import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
 import { useAppSelector } from "../../state/hooks";
-import { ProfileContent } from "../../pages/Profile";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -37,24 +38,17 @@ type FollowListModalProps = {
   openModal: boolean;
   listType: ListType | null;
   listUserData: NetworkUsers[];
-  profileContents: ProfileContent;
-  setProfileContents: (data: ProfileContent) => void;
   setListUserData: (data: NetworkUsers[]) => void;
   onClose: () => void;
+  onFollowed: (isFollowing: boolean) => void;
 };
 
 const styles = {
   header: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    padding: 1,
-    position: "relative",
   },
-  closeIcon: {
-    position: "absolute",
-    right: 6,
-  },
+  titleBox: { paddingLeft: 3, width: "100%" },
   dialog: {
     borderRadius: 5,
     width: "25%",
@@ -62,22 +56,21 @@ const styles = {
   },
   searchBarContainer: {
     paddingX: 2,
-    paddingY: 1,
+    paddingY: 2,
   },
   listItem: {
     display: "flex",
     alignItems: "center",
     paddingX: 2,
-    "&:hover": {
-      backgroundColor: "gray.light",
-      cursor: "pointer",
-    },
+  },
+  listItemText: {
+    fontWeight: "bold",
+  },
+  dialogContent: {
+    paddingBottom: 1,
   },
   avatar: {
     marginRight: 2,
-  },
-  listItemText: {
-    flexGrow: 1,
   },
 };
 
@@ -86,41 +79,26 @@ const FollowListModal = ({
   openModal,
   listType,
   listUserData,
-  profileContents,
-  setProfileContents,
   setListUserData,
   onClose,
+  onFollowed,
 }: FollowListModalProps) => {
   const currentUserId = useAppSelector((state) => state.user.userId);
   const navigate = useNavigate();
 
-  const handleFollowToggle = async (index: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    const updatedList = [...listUserData];
-    updatedList[index] = {
-      ...listUserData[index],
-      isFollowing: !listUserData[index].isFollowing,
-    };
+  const handleFollowToggle = async (userId: number) => {
+    const updatedList = listUserData.map((o) => {
+      if (userId === o.userId) {
+        onFollowed(o.isFollowing);
+        return { ...o, isFollowing: !o.isFollowing };
+      }
+      return o;
+    });
+
     setListUserData(updatedList);
-    if (currentUserId === profileContents.userId) {
-      const isFollowing: boolean = updatedList[index].isFollowing;
-      const newFollowingCount = isFollowing
-        ? ++profileContents.followingCount
-        : --profileContents.followingCount;
-
-      setProfileContents({
-        ...profileContents,
-        followingCount: newFollowingCount,
-      });
-    }
   };
 
-  const handleNavigation = (username: string) => {
-    onClose();
-    navigate(`/${username}`);
-  };
-
-  const modifiedListUserData = listUserData.sort((a, b) =>
+  const sortedListUserData = listUserData.sort((a, b) =>
     b.userId === currentUserId ? 1 : a.userId === currentUserId ? -1 : 0
   );
 
@@ -133,50 +111,55 @@ const FollowListModal = ({
       PaperProps={{ sx: styles.dialog }}
     >
       <DialogTitle sx={styles.header}>
-        {listType}
-        <IconButton onClick={onClose} sx={styles.closeIcon}>
+        <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
+        <Box sx={styles.titleBox}>
+          <Typography variant="h3">{listType}</Typography>
+        </Box>
       </DialogTitle>
 
       <Divider />
       <Box sx={styles.searchBarContainer}>
-        <SearchBar placeholder="Search Chirp" />
+        <SearchBar placeholder="Search" />
       </Box>
 
-      <DialogContent sx={{ paddingBottom: 1 }}>
+      <DialogContent sx={styles.dialogContent}>
         {!loading && (
           <List>
-            {modifiedListUserData.map((item, index) => (
-              <ListItem
-                key={index}
-                sx={styles.listItem}
-                onClick={() => handleNavigation(item.username)}
-              >
-                <ListItemAvatar>
-                  <Avatar src={item.imageURL} sx={styles.avatar} />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={item.displayName}
-                  secondary={item.username}
-                  sx={styles.listItemText}
-                  primaryTypographyProps={{ fontWeight: "bold" }}
-                />
-                {item.userId !== currentUserId && (
-                  <ListItemSecondaryAction>
-                    {item.isFollowing ? (
-                      <FollowingButton
-                        visitedUserId={item.userId}
-                        onClick={(event) => handleFollowToggle(index, event)}
-                      />
-                    ) : (
-                      <FollowButton
-                        visitedUserId={item.userId}
-                        onClick={(event) => handleFollowToggle(index, event)}
-                      />
-                    )}
-                  </ListItemSecondaryAction>
-                )}
+            {sortedListUserData.map((o) => (
+              <ListItem key={o.userId} sx={styles.listItem}>
+                <ListItemButton
+                  // sx={styles.listItemButton}
+                  onClick={() => {
+                    onClose();
+                    navigate(`/${o.username}`);
+                  }}
+                >
+                  <ListItemAvatar>
+                    <Avatar src={o.imageURL} sx={styles.avatar} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={o.displayName}
+                    secondary={o.username}
+                    primaryTypographyProps={styles.listItemText}
+                  />
+                  {o.userId !== currentUserId && (
+                    <ListItemSecondaryAction>
+                      {o.isFollowing ? (
+                        <FollowingButton
+                          visitedUserId={o.userId}
+                          onClick={() => handleFollowToggle(o.userId)}
+                        />
+                      ) : (
+                        <FollowButton
+                          visitedUserId={o.userId}
+                          onClick={() => handleFollowToggle(o.userId)}
+                        />
+                      )}
+                    </ListItemSecondaryAction>
+                  )}
+                </ListItemButton>
               </ListItem>
             ))}
           </List>
