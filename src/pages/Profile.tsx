@@ -128,33 +128,57 @@ const Profile = () => {
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [networkModalLoading, setNetworkModalLoading] = useState(true);
-  const [openNetworkModal, setOpenNetworkModal] = useState(false);
+  const [followListModalLoading, setFollowListModalLoading] = useState(true);
+  const [followListModelOpen, setFollowListModelOpen] = useState(false);
   const [listType, setListType] = useState<ListType | null>(null);
-  const [listData, setListData] = useState<NetworkUsers[]>([]);
+  const [followerListData, setFollowerListData] = useState<NetworkUsers[]>([]);
 
-  const handleOpenModal = async (listType: ListType) => {
-    setListType(listType);
-    setOpenNetworkModal(true);
+  const onFollowed = (isFollowing: boolean) => {
+    setProfileContents((prevProfileContents) => ({
+      ...prevProfileContents,
+      followingCount: isFollowing
+        ? --prevProfileContents.followingCount
+        : ++prevProfileContents.followingCount,
+    }));
+  };
 
+  const handleOpenFollowersModal = async () => {
+    setListType("Followers");
+    setFollowListModelOpen(true);
     try {
-      setNetworkModalLoading(true);
-      const endpoint =
-        listType === "Followers"
-          ? "http://localhost:3001/api/follow/getFollowersUserList"
-          : "http://localhost:3001/api/follow/getFollowingUserList";
-
+      setFollowListModalLoading(true);
+      const endpoint = "http://localhost:3001/api/follow/getFollowersUserList";
       const result = await axios.get(endpoint, {
         params: {
           visitedUserId: profileContents.userId,
           currentUserId: currentUserId,
         },
       });
-      setListData(result.data);
+      setFollowerListData(result.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
-      setNetworkModalLoading(false);
+      setFollowListModalLoading(false);
+    }
+  };
+
+  const handleOpenFollowingModal = async () => {
+    setListType("Following");
+    setFollowListModelOpen(true);
+    try {
+      setFollowListModalLoading(true);
+      const endpoint = "http://localhost:3001/api/follow/getFollowingUserList";
+      const result = await axios.get(endpoint, {
+        params: {
+          visitedUserId: profileContents.userId,
+          currentUserId: currentUserId,
+        },
+      });
+      setFollowerListData(result.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFollowListModalLoading(false);
     }
   };
 
@@ -290,14 +314,13 @@ const Profile = () => {
                     </Box>
                   )}
                 </Box>
-
                 <Box sx={styles.followerContainer}>
                   <Link
                     color={theme.palette.black.main}
                     component={Routerlink}
-                    to={`/${username}`} // TODO: Create Modal to check followers
+                    to={`/${username}`}
                     underline="hover"
-                    onClick={() => handleOpenModal("Followers")}
+                    onClick={() => handleOpenFollowersModal()}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followerCount}
@@ -307,9 +330,9 @@ const Profile = () => {
                   <Link
                     color={theme.palette.black.main}
                     component={Routerlink}
-                    to={`/${username}`} // TODO: Create Modal to check following
+                    to={`/${username}`}
                     underline="hover"
-                    onClick={() => handleOpenModal("Following")}
+                    onClick={() => handleOpenFollowingModal()}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
@@ -367,16 +390,15 @@ const Profile = () => {
           open={editProfileModalOpen}
         />
       )}
-      {!networkModalLoading && openNetworkModal && (
+      {!followListModalLoading && followListModelOpen && (
         <FollowListModal
-          loading={networkModalLoading}
-          openModal={openNetworkModal}
+          loading={followListModalLoading}
+          openModal={followListModelOpen}
           listType={listType}
-          listUserData={listData}
-          profileContents={profileContents}
-          setProfileContents={() => setProfileContents}
-          setListUserData={setListData}
-          onClose={() => setOpenNetworkModal(false)}
+          listUserData={followerListData}
+          setListUserData={setFollowerListData}
+          onClose={() => setFollowListModelOpen(false)}
+          onFollowed={(isFollowing) => onFollowed(isFollowing)}
         />
       )}
     </>
