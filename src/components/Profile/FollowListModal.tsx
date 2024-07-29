@@ -130,7 +130,6 @@ const FollowListModal = ({
             {sortedListUserData.map((o) => (
               <ListItem key={o.userId} sx={styles.listItem}>
                 <ListItemButton
-                  // sx={styles.listItemButton}
                   onClick={() => {
                     onClose();
                     navigate(`/${o.username}`);
