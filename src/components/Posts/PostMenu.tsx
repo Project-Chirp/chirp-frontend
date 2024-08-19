@@ -11,6 +11,7 @@ import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
+import PostDeleteModal from "./PostDeleteModal";
 
 type PostMenuProps = {
   authorId: number;
@@ -39,38 +40,33 @@ const PostMenu = ({
 }: PostMenuProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const menuRef = useRef<HTMLButtonElement>(null);
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleDelete = async () => {
+    setDeleteModal(true);
     try {
-      const result = await axios.delete(
-        `http://localhost:3001/api/posts/deletePost`,
-        {
-          data: {
-            postId: postId,
-            userId: userId,
-          },
-        }
-      );
-
-      if (isExpandedPost) {
-        dispatch(deletePost(postId));
-      } else {
-        navigate(-1);
-      }
+      // const result = await axios.delete(
+      //   `http://localhost:3001/api/posts/deletePost`,
+      //   {
+      //     data: {
+      //       postId: postId,
+      //       userId: userId,
+      //     },
+      //   }
+      // );
+      // if (isExpandedPost) {
+      //   dispatch(deletePost(postId));
+      // } else {
+      //   navigate(-1);
+      // }
     } catch (error) {
       console.error("Failed to delete the post", error);
     } finally {
-      handleMenuClose();
+      setMenuOpen(false);
     }
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    setMenuOpen(false);
   };
 
   return (
@@ -81,14 +77,14 @@ const PostMenu = ({
       <Menu
         anchorEl={menuRef.current}
         open={menuOpen}
-        onClose={handleMenuClose}
+        onClose={() => setMenuOpen(false)}
         PaperProps={{
           sx: styles.menu,
         }}
         MenuListProps={{ sx: { padding: 0 } }}
       >
         {userId === authorId && (
-          <MenuItem sx={styles.menuItem} onClick={handleMenuClose}>
+          <MenuItem sx={styles.menuItem} onClick={() => setMenuOpen(false)}>
             <ListItemIcon>
               <Edit sx={styles.icon} />
             </ListItemIcon>
@@ -112,7 +108,7 @@ const PostMenu = ({
             </ListItemText>
           </MenuItem>
         )}
-        <MenuItem sx={styles.menuItem} onClick={handleMenuClose}>
+        <MenuItem sx={styles.menuItem} onClick={() => setMenuOpen(false)}>
           <ListItemIcon>
             <Link sx={styles.icon} />
           </ListItemIcon>
@@ -121,6 +117,12 @@ const PostMenu = ({
           </ListItemText>
         </MenuItem>
       </Menu>
+      <PostDeleteModal
+        onClose={() => setDeleteModal(false)}
+        open={deleteModal}
+        postId={postId}
+        isExpandedPost={isExpandedPost}
+      />
     </>
   );
 };
