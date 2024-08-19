@@ -1,39 +1,36 @@
-import { useEffect } from "react";
 import PostItem from "../Posts/PostItem";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useAppSelector } from "../../state/hooks";
+import { Box, Divider, Stack } from "@mui/material";
+import InfiniteScrollList from "../Common/InfiniteScrollList";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import { Divider, Stack } from "@mui/material";
+import { PayloadAction } from "@reduxjs/toolkit";
 
 type ProfileLikesProps = {
   userId: number;
 };
 
 const ProfileLikes = ({ userId }: ProfileLikesProps) => {
-  const { posts } = useAppSelector((state) => state.posts);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getUserLikes",
-        {
-          params: {
-            visitedUserId: userId,
-          },
-        }
-      );
-      dispatch(setPosts(result.data as Post[]));
-    };
-    fetchPosts();
-  }, [dispatch, userId]);
+  const posts = useAppSelector((state) => state.posts.posts);
 
   return (
     <Stack divider={<Divider />}>
-      {posts.map((o, index) => (
-        <PostItem key={index} post={o} />
-      ))}
-      <Divider />
+      <InfiniteScrollList
+        dataLength={posts.length}
+        url="http://localhost:3001/api/profile/getUserLikes"
+        fetchParams={{ userId }}
+        queryKey="likes"
+        setData={(newPosts: Post[]): PayloadAction<Post[]> => {
+          return setPosts(newPosts);
+        }}
+        selectData={(state) => state.posts.posts}
+      >
+        {posts.map((o) => (
+          <Box key={o.postId}>
+            <PostItem post={o} />
+            <Divider />
+          </Box>
+        ))}
+      </InfiniteScrollList>
     </Stack>
   );
 };

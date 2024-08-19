@@ -14,14 +14,24 @@ export type SelectedUser = {
   username: string;
 };
 
+export type Message = {
+  messageId: number;
+  timestamp: string;
+  textContent: string;
+  sentUserId: number;
+  receivedUserId: number;
+};
+
 type ConversationDetails = {
   selectedConversation: SelectedUser;
   conversations: Conversation[];
+  messages: Message[];
 };
 
 const initialState: ConversationDetails = {
   selectedConversation: { displayName: "", username: "", userId: 0 },
   conversations: [],
+  messages: [],
 };
 
 export const messagesSlice = createSlice({
@@ -46,6 +56,9 @@ export const messagesSlice = createSlice({
     appendConversation: (state, action: PayloadAction<Conversation>) => {
       state.conversations.unshift({ ...action.payload });
     },
+    setMessages: (state, action: PayloadAction<Message[]>) => {
+      state.messages = action.payload;
+    },
   },
 });
 
@@ -54,6 +67,7 @@ export const {
   setSelectedConversation,
   updateConversation,
   appendConversation,
+  setMessages,
 } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Divider,
   InputAdornment,
   List,
@@ -10,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import { useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
@@ -20,7 +21,9 @@ import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ConversationList from "../components/Messages/ConversationList";
 import {
+  Message,
   appendConversation,
+  setMessages,
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
@@ -29,6 +32,8 @@ import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import { EmojiClickData } from "emoji-picker-react";
+import InfiniteScrollList from "../components/Common/InfiniteScrollList";
+import { PayloadAction } from "@reduxjs/toolkit";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -58,12 +63,21 @@ const styles = {
     paddingRight: 2,
   },
   headerContent: { alignItems: "center", display: "flex", gap: 2, padding: 1 },
+  infiniteScroll: {
+    display: "flex",
+    flexDirection: "column-reverse",
+  } as CSSProperties,
   message: {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
   },
-  messageList: { flex: 1, overflowY: "scroll" },
+  messageList: {
+    overflow: "auto",
+    display: "flex",
+    flex: 1,
+    flexDirection: "column-reverse",
+  },
   messageText: {
     padding: 1,
     borderRadius: 10,
@@ -88,47 +102,39 @@ const styles = {
   timestamp: { marginTop: 0.5 },
 };
 
-export type Message = {
-  messageId: number;
-  timestamp: string;
-  textContent: string;
-  sentUserId: number;
-  receivedUserId: number;
-};
-
 const DirectMessage = () => {
-  const { userId1, userId2 } = useParams();
+  const { currentUserId, otherUserId } = useParams();
   const [textContent, setTextContent] = useState("");
-  const [messages, setMessages] = useState<Message[]>([]);
   const user = useAppSelector((state) => state.user);
-  const { selectedConversation, conversations } = useAppSelector(
+  const { selectedConversation, conversations, messages } = useAppSelector(
     (state) => state.messages
   );
   const messageRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const userExists = conversations.find(
-    (o) => o.otherUserId === Number(userId2)
+    (o) => o.otherUserId === Number(otherUserId)
   );
 
-  useEffect(() => {
-    const fetchDirectMessage = async () => {
-      const result = await axios.get(
-        `http://localhost:3001/api/messages/${userId1}/${userId2}`
+  const fetchUser = async () => {
+    try {
+      const otherUserData = await axios.get(
+        `http://localhost:3001/api/messages/${otherUserId}`
       );
-      setMessages(result.data.messages as Message[]);
+
       dispatch(
         setSelectedConversation({
-          ...result.data.otherUser,
-          userId: Number(userId2),
+          ...otherUserData.data,
+          userId: Number(otherUserId),
         })
       );
-    };
-    fetchDirectMessage();
-  }, [dispatch, userId1, userId2]);
+    } catch (error) {
+      console.log("error fetching user data:", error);
+    }
+  };
 
   useEffect(() => {
-    messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
-  }, [messages]);
+    fetchUser();
+  }, [otherUserId]);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -141,7 +147,7 @@ const DirectMessage = () => {
         })
       ).data as Message;
       setTextContent("");
-      setMessages([...messages, newMessage]);
+      setMessages([newMessage, ...messages]);
       if (userExists) {
         dispatch(
           setSelectedConversation({
@@ -155,7 +161,7 @@ const DirectMessage = () => {
             username: selectedConversation.username,
             textContent: "",
             timestamp: new Date().toString(),
-            otherUserId: Number(userId2),
+            otherUserId: Number(otherUserId),
           })
         );
       }
@@ -168,6 +174,7 @@ const DirectMessage = () => {
           username: selectedConversation.username,
         })
       );
+      messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
     } catch (err) {
       console.log(err);
     }
@@ -204,35 +211,55 @@ const DirectMessage = () => {
 
           <Divider />
           <Box sx={styles.chatContainer}>
-            <List component="div" ref={messageRef} sx={styles.messageList}>
-              {messages.map((o) => (
-                <ListItem component="div" key={o.messageId}>
-                  <ListItemText
-                    sx={
-                      o.sentUserId === user.userId
-                        ? styles.sentMessage
-                        : styles.message
-                    }
-                    disableTypography
-                    primary={
-                      <Box
-                        sx={
-                          o.sentUserId === user.userId
-                            ? styles.sentMessageText
-                            : styles.messageText
-                        }
-                      >
-                        <Typography>{o.textContent}</Typography>
-                      </Box>
-                    }
-                    secondary={
-                      <Typography sx={styles.timestamp} variant="body2">
-                        {formatTimestamp(o.timestamp)}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              ))}
+            <List
+              component="div"
+              ref={messageRef}
+              sx={styles.messageList}
+              id={"scrollable"}
+            >
+              <InfiniteScrollList
+                dataLength={messages.length}
+                inverse={true}
+                queryKey="messages"
+                scrollableTarget={"scrollable"}
+                style={styles.infiniteScroll}
+                url={`http://localhost:3001/api/messages/${currentUserId}/${otherUserId}`}
+                setData={(newMessage: Message[]): PayloadAction<Message[]> => {
+                  return setMessages(newMessage);
+                }}
+                selectData={(state) => state.messages.messages}
+              >
+                {messages.map((o, index) => (
+                  <ListItem component="div" key={index}>
+                    <ListItemText
+                      sx={
+                        o.sentUserId === user.userId
+                          ? styles.sentMessage
+                          : styles.message
+                      }
+                      disableTypography
+                      primary={
+                        <Box
+                          sx={
+                            o.sentUserId === user.userId
+                              ? styles.sentMessageText
+                              : styles.messageText
+                          }
+                        >
+                          <Typography variant="body1">
+                            {o.textContent}
+                          </Typography>
+                        </Box>
+                      }
+                      secondary={
+                        <Typography sx={styles.timestamp} variant="caption">
+                          {formatTimestamp(o.timestamp)}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                ))}
+              </InfiniteScrollList>
             </List>
             <Divider />
             <form onSubmit={onSubmit}>
@@ -281,6 +308,7 @@ const DirectMessage = () => {
           </Box>
         </Box>
       </Box>
+      <Divider orientation="vertical" />
     </Stack>
   );
 };

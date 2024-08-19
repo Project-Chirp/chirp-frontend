@@ -29,7 +29,7 @@ const ConversationList = () => {
     (state) => state.messages
   );
   const [messageModal, showMessageModal] = useState(false);
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -37,13 +37,13 @@ const ConversationList = () => {
     const fetchMessages = async () => {
       const result = await axios.get("http://localhost:3001/api/messages", {
         params: {
-          userId: user.userId,
+          userId: userId,
         },
       });
       dispatch(setConversations(result.data));
     };
     fetchMessages();
-  }, [dispatch, user]);
+  }, [dispatch, userId]);
 
   return (
     <Box>
@@ -70,7 +70,7 @@ const ConversationList = () => {
                   userId: o.otherUserId,
                 })
               );
-              navigate(`/messages/${user.userId}/${o.otherUserId}`);
+              navigate(`/messages/${userId}/${o.otherUserId}`);
             }}
             selected={selectedConversation.userId === o.otherUserId}
           />

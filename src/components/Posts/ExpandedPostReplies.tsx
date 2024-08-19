@@ -1,48 +1,40 @@
-import { useEffect } from "react";
 import PostItem from "./PostItem";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useAppSelector } from "../../state/hooks";
+import { Box, Divider, Stack } from "@mui/material";
+import InfiniteScrollList from "../Common/InfiniteScrollList";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import { Divider } from "@mui/material";
+import { PayloadAction } from "@reduxjs/toolkit";
 
 type ExpandedPostRepliesProps = {
   postId: number;
 };
 
 const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
-  const { posts } = useAppSelector((state) => state.posts);
-  const user = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const resultReplies = await axios.get(
-          "http://localhost:3001/api/posts/fetchReplies",
-          {
-            params: {
-              userId: user.userId,
-              postId: postId,
-            },
-          }
-        );
-        dispatch(setPosts(resultReplies.data as Post[]));
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
-    fetchPosts();
-  }, [dispatch, user, postId]);
+  const posts = useAppSelector((state) => state.posts.posts);
+  const userId = useAppSelector((state) => state.user.userId);
 
   return (
-    <>
-      {posts
-        .filter((o) => o.parentPostId === postId)
-        .map((o) => (
-          <PostItem key={o.postId} post={o} />
-        ))}
-      <Divider />
-    </>
+    <Stack divider={<Divider />}>
+      <InfiniteScrollList
+        dataLength={posts.length}
+        url="http://localhost:3001/api/posts/fetchReplies"
+        fetchParams={{ userId, postId }}
+        queryKey="expandedposts"
+        setData={(newPosts: Post[]): PayloadAction<Post[]> => {
+          return setPosts(newPosts);
+        }}
+        selectData={(state) => state.posts.posts}
+      >
+        {posts
+          .filter((o) => o.parentPostId === postId)
+          .map((o) => (
+            <Box key={o.postId}>
+              <PostItem post={o} />
+              <Divider />
+            </Box>
+          ))}
+      </InfiniteScrollList>
+    </Stack>
   );
 };
 

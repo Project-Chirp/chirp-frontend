@@ -1,38 +1,35 @@
-import { useEffect } from "react";
 import PostItem from "./PostItem";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useAppSelector } from "../../state/hooks";
+import { Box, Divider, Stack } from "@mui/material";
+import InfiniteScrollList from "../Common/InfiniteScrollList";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import { Divider, Stack } from "@mui/material";
+import { PayloadAction } from "@reduxjs/toolkit";
 
 const PostList = () => {
-  const { posts } = useAppSelector((state) => state.posts);
-  const user = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const resultPosts = await axios.get("http://localhost:3001/api/posts", {
-          params: {
-            userId: user.userId,
-          },
-        });
-        dispatch(setPosts(resultPosts.data as Post[]));
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
-    fetchPosts();
-  }, [dispatch, user]);
+  const posts = useAppSelector((state) => state.posts.posts);
+  const userId = useAppSelector((state) => state.user.userId);
 
   return (
     <Stack divider={<Divider />}>
-      {posts
-        .filter((o) => o.parentPostId == null)
-        .map((o) => (
-          <PostItem key={o.postId} post={o} />
-        ))}
+      <InfiniteScrollList
+        dataLength={posts.length}
+        url="http://localhost:3001/api/posts"
+        fetchParams={{ userId }}
+        queryKey="timeline"
+        setData={(newPosts: Post[]): PayloadAction<Post[]> => {
+          return setPosts(newPosts);
+        }}
+        selectData={(state) => state.posts.posts}
+      >
+        {posts
+          .filter((o) => o.parentPostId == null)
+          .map((o, index) => (
+            <Box key={index}>
+              <PostItem post={o} />
+              <Divider />
+            </Box>
+          ))}
+      </InfiniteScrollList>
     </Stack>
   );
 };
