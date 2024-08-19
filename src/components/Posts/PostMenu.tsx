@@ -42,32 +42,6 @@ const PostMenu = ({
   const menuRef = useRef<HTMLButtonElement>(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const handleDelete = async () => {
-    setDeleteModal(true);
-    try {
-      // const result = await axios.delete(
-      //   `http://localhost:3001/api/posts/deletePost`,
-      //   {
-      //     data: {
-      //       postId: postId,
-      //       userId: userId,
-      //     },
-      //   }
-      // );
-      // if (isExpandedPost) {
-      //   dispatch(deletePost(postId));
-      // } else {
-      //   navigate(-1);
-      // }
-    } catch (error) {
-      console.error("Failed to delete the post", error);
-    } finally {
-      setMenuOpen(false);
-    }
-  };
 
   return (
     <>
@@ -94,7 +68,7 @@ const PostMenu = ({
           </MenuItem>
         )}
         {userId === authorId && (
-          <MenuItem sx={styles.menuItem} onClick={handleDelete}>
+          <MenuItem sx={styles.menuItem} onClick={() => setDeleteModal(true)}>
             <ListItemIcon>
               <Delete color="error" />
             </ListItemIcon>
