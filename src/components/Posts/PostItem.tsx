@@ -56,15 +56,6 @@ const styles = {
   displayName: {
     paddingRight: 0.5,
   },
-  menu: {
-    borderRadius: 4,
-  },
-  menuItem: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-  },
 };
 
 const PostItem = ({ post }: PostProps) => {
