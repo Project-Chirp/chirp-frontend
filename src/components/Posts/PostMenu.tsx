@@ -5,7 +5,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import axios from "axios";
@@ -15,21 +15,30 @@ import { useNavigate } from "react-router-dom";
 type PostMenuProps = {
   authorId: number;
   postId: number;
-  isExpanded?: boolean;
+  isExpandedPost?: boolean;
 };
 
 const styles = {
-  listItemIcon: {
-    "&.MuiListItemIcon-root": { color: "black.main" },
+  icon: {
+    color: "black.main",
   },
   listItemText: { fontWeight: "bold" },
   menu: {
     borderRadius: 4,
   },
+  menuItem: {
+    paddingX: 1.5,
+    paddingY: 1,
+  },
 };
 
-const PostMenu = ({ authorId, postId, isExpanded = false }: PostMenuProps) => {
+const PostMenu = ({
+  authorId,
+  postId,
+  isExpandedPost = false,
+}: PostMenuProps) => {
   const userId = useAppSelector((state) => state.user.userId);
+  const menuRef = useRef<HTMLButtonElement>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -47,8 +56,11 @@ const PostMenu = ({ authorId, postId, isExpanded = false }: PostMenuProps) => {
         }
       );
 
-      isExpanded ? handleExpandedPostDelete() : handlePostDelete();
-      return result.data;
+      if (isExpandedPost) {
+        dispatch(deletePost(postId));
+      } else {
+        navigate(-1);
+      }
     } catch (error) {
       console.error("Failed to delete the post", error);
     } finally {
@@ -56,69 +68,55 @@ const PostMenu = ({ authorId, postId, isExpanded = false }: PostMenuProps) => {
     }
   };
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-    setMenuOpen(true);
-  };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
     setMenuOpen(false);
   };
 
-  const handlePostDelete = () => {
-    dispatch(deletePost(postId));
-  };
-
-  const handleExpandedPostDelete = () => {
-    navigate(-1);
-  };
-
-  const handleTemporary = () => {
-    handleMenuClose();
-  };
-
   return (
     <>
-      <IconButton onClick={handleMenuOpen}>
+      <IconButton ref={menuRef} onClick={() => setMenuOpen(true)}>
         <MoreVert />
       </IconButton>
       <Menu
-        anchorEl={anchorEl}
+        anchorEl={menuRef.current}
         open={menuOpen}
         onClose={handleMenuClose}
         PaperProps={{
           sx: styles.menu,
         }}
+        MenuListProps={{ sx: { padding: 0 } }}
       >
-        {userId === authorId && [
-          <MenuItem onClick={handleTemporary} key="edit">
-            <ListItemIcon sx={styles.listItemIcon}>
-              <Edit />
+        {userId === authorId && (
+          <MenuItem sx={styles.menuItem} onClick={handleMenuClose}>
+            <ListItemIcon>
+              <Edit sx={styles.icon} />
             </ListItemIcon>
-            <ListItemText primaryTypographyProps={styles.listItemText}>
+            <ListItemText primaryTypographyProps={{ variant: "subtitle1" }}>
               Edit Post
             </ListItemText>
-          </MenuItem>,
-          <MenuItem onClick={handleDelete} key="delete">
+          </MenuItem>
+        )}
+        {userId === authorId && (
+          <MenuItem sx={styles.menuItem} onClick={handleDelete}>
             <ListItemIcon>
               <Delete color="error" />
             </ListItemIcon>
             <ListItemText
               primaryTypographyProps={{
-                ...styles.listItemText,
+                variant: "subtitle1",
                 color: "error",
               }}
             >
               Delete Post
             </ListItemText>
-          </MenuItem>,
-        ]}
-        <MenuItem onClick={handleTemporary} key="copy-link">
-          <ListItemIcon sx={styles.listItemIcon}>
-            <Link />
+          </MenuItem>
+        )}
+        <MenuItem sx={styles.menuItem} onClick={handleMenuClose}>
+          <ListItemIcon>
+            <Link sx={styles.icon} />
           </ListItemIcon>
-          <ListItemText primaryTypographyProps={styles.listItemText}>
+          <ListItemText primaryTypographyProps={{ variant: "subtitle1" }}>
             Copy Link
           </ListItemText>
         </MenuItem>
