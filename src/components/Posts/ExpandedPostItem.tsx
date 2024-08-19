@@ -118,7 +118,11 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
         action={
-          <PostMenu authorId={post.userId} postId={post.postId} isExpanded />
+          <PostMenu
+            authorId={post.userId}
+            postId={post.postId}
+            isExpandedPost
+          />
         }
         title={
           <Link
