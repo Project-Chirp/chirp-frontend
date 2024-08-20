@@ -12,6 +12,7 @@ import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import PostDeleteModal from "./PostDeleteModal";
+import EditPostModal from "./EditPostModal";
 
 type PostMenuProps = {
   authorId: number;
@@ -41,6 +42,7 @@ const PostMenu = ({
   const userId = useAppSelector((state) => state.user.userId);
   const menuRef = useRef<HTMLButtonElement>(null);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -58,7 +60,7 @@ const PostMenu = ({
         MenuListProps={{ sx: { padding: 0 } }}
       >
         {userId === authorId && (
-          <MenuItem sx={styles.menuItem} onClick={() => setMenuOpen(false)}>
+          <MenuItem sx={styles.menuItem} onClick={() => setEditModal(true)}>
             <ListItemIcon>
               <Edit sx={styles.icon} />
             </ListItemIcon>
@@ -96,6 +98,12 @@ const PostMenu = ({
         open={deleteModal}
         postId={postId}
         isExpandedPost={isExpandedPost}
+      />
+      <EditPostModal
+        onClose={() => setEditModal(false)}
+        open={editModal}
+        // postId={postId}
+        // isExpandedPost={isExpandedPost}
       />
     </>
   );
