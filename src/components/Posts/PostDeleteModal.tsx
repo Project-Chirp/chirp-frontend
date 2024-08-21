@@ -1,18 +1,60 @@
-import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  IconButton,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
+import CloseIcon from "@mui/icons-material/Close";
 
 const styles = {
+  actions: {
+    justifyContent: "space-between",
+    paddingTop: 0,
+  },
   dialog: {
     height: "auto",
-    width: "35%",
+    width: "20%",
     borderRadius: 5,
-    padding: 1,
   },
   title: {
-    padding: 1,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flex: 1,
+    paddingX: 2,
+    paddingY: 1,
+  },
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 2,
+    gap: 1,
+  },
+  contentTextBold: { color: "black.main", textAlign: "center" },
+  deleteButton: {
+    width: "50%",
+    ":hover": {
+      backgroundColor: "error.main",
+      color: "white.main",
+    },
+  },
+  cancelButton: {
+    width: "50%",
+    ":hover": {
+      backgroundColor: "primary.main",
+      color: "white.main",
+    },
   },
 };
 
@@ -55,14 +97,29 @@ const PostDeleteModal = ({
   return (
     <Dialog onClose={onClose} open={open} PaperProps={{ sx: styles.dialog }}>
       <DialogTitle sx={styles.title} variant="h6">
-        Are you sure you want to delete this post?
+        Delete Post?
+        <IconButton onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
       </DialogTitle>
-      <DialogActions>
-        <Button onClick={handleDelete} variant="outlined" color="error">
-          Delete
-        </Button>
-        <Button variant="outlined" onClick={onClose}>
+      <Divider />
+      <DialogContent sx={styles.content}>
+        <DialogContentText variant="subtitle1" sx={styles.contentTextBold}>
+          Are you sure you want to delete this post?
+        </DialogContentText>
+        <DialogContentText>You cannot undo this action.</DialogContentText>
+      </DialogContent>
+      <DialogActions sx={styles.actions}>
+        <Button variant="outlined" onClick={onClose} sx={styles.cancelButton}>
           Cancel
+        </Button>
+        <Button
+          onClick={handleDelete}
+          variant="outlined"
+          color="error"
+          sx={styles.deleteButton}
+        >
+          Delete
         </Button>
       </DialogActions>
     </Dialog>
