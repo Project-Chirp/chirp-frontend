@@ -42,6 +42,7 @@ const styles = {
     gap: 1,
   },
   contentTextBold: { color: "black.main", textAlign: "center" },
+  contextSubtext: { textAlign: "center" },
   deleteButton: {
     width: "50%",
     ":hover": {
@@ -98,16 +99,15 @@ const PostDeleteModal = ({
     <Dialog onClose={onClose} open={open} PaperProps={{ sx: styles.dialog }}>
       <DialogTitle sx={styles.title} variant="h6">
         Delete Post?
-        <IconButton onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
       </DialogTitle>
-      <Divider />
       <DialogContent sx={styles.content}>
         <DialogContentText variant="subtitle1" sx={styles.contentTextBold}>
           Are you sure you want to delete this post?
         </DialogContentText>
-        <DialogContentText>You cannot undo this action.</DialogContentText>
+        <DialogContentText sx={styles.contextSubtext}>
+          This post will be lost forever as you will not be able to undo this
+          action.
+        </DialogContentText>
       </DialogContent>
       <DialogActions sx={styles.actions}>
         <Button variant="outlined" onClick={onClose} sx={styles.cancelButton}>
