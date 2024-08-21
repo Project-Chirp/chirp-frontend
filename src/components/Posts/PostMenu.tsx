@@ -68,7 +68,13 @@ const PostMenu = ({
           </MenuItem>
         )}
         {userId === authorId && (
-          <MenuItem sx={styles.menuItem} onClick={() => setDeleteModal(true)}>
+          <MenuItem
+            sx={styles.menuItem}
+            onClick={() => {
+              setMenuOpen(false);
+              setDeleteModal(true);
+            }}
+          >
             <ListItemIcon>
               <Delete color="error" />
             </ListItemIcon>
