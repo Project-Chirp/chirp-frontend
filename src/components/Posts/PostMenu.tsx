@@ -5,13 +5,10 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useRef, useState } from "react";
+import { useAppSelector } from "../../state/hooks";
 import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
-import axios from "axios";
-import { deletePost } from "../../state/slices/postsSlice";
-import { useNavigate } from "react-router-dom";
-import PostDeleteModal from "./PostDeleteModal";
+import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
 
 type PostMenuProps = {
   authorId: number;
@@ -23,7 +20,6 @@ const styles = {
   icon: {
     color: "black.main",
   },
-  listItemText: { fontWeight: "bold" },
   menu: {
     borderRadius: 4,
   },
@@ -31,6 +27,7 @@ const styles = {
     paddingX: 1.5,
     paddingY: 1,
   },
+  menuList: { padding: 0 },
 };
 
 const PostMenu = ({
@@ -40,7 +37,8 @@ const PostMenu = ({
 }: PostMenuProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const menuRef = useRef<HTMLButtonElement>(null);
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
+    useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -55,7 +53,7 @@ const PostMenu = ({
         PaperProps={{
           sx: styles.menu,
         }}
-        MenuListProps={{ sx: { padding: 0 } }}
+        MenuListProps={{ sx: styles.menuList }}
       >
         {userId === authorId && (
           <MenuItem sx={styles.menuItem} onClick={() => setMenuOpen(false)}>
@@ -72,7 +70,7 @@ const PostMenu = ({
             sx={styles.menuItem}
             onClick={() => {
               setMenuOpen(false);
-              setDeleteModal(true);
+              setDeleteConfirmationModalOpen(true);
             }}
           >
             <ListItemIcon>
@@ -97,9 +95,9 @@ const PostMenu = ({
           </ListItemText>
         </MenuItem>
       </Menu>
-      <PostDeleteModal
-        onClose={() => setDeleteModal(false)}
-        open={deleteModal}
+      <PostDeleteConfirmationModal
+        onClose={() => setDeleteConfirmationModalOpen(false)}
+        open={deleteConfirmationModalOpen}
         postId={postId}
         isExpandedPost={isExpandedPost}
       />

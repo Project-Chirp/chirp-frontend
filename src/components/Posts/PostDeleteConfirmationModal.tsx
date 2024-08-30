@@ -5,53 +5,38 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Divider,
-  IconButton,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
-import CloseIcon from "@mui/icons-material/Close";
 
 const styles = {
   actions: {
-    justifyContent: "space-between",
-    paddingTop: 0,
+    display: "flex",
   },
   dialog: {
-    height: "auto",
     width: "20%",
     borderRadius: 5,
   },
   title: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flex: 1,
-    paddingX: 2,
-    paddingY: 1,
+    padding: 2,
+    textAlign: "center",
   },
   content: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
     padding: 2,
-    gap: 1,
   },
   contentTextBold: { color: "black.main", textAlign: "center" },
   contextSubtext: { textAlign: "center" },
   deleteButton: {
-    width: "50%",
+    flex: 1,
     ":hover": {
       backgroundColor: "error.main",
       color: "white.main",
     },
   },
   cancelButton: {
-    width: "50%",
+    flex: 1,
     ":hover": {
       backgroundColor: "primary.main",
       color: "white.main",
@@ -84,6 +69,7 @@ const PostDeleteModal = ({
           userId: userId,
         },
       });
+
       if (isExpandedPost) {
         navigate(-1);
       } else {
@@ -97,13 +83,10 @@ const PostDeleteModal = ({
   };
   return (
     <Dialog onClose={onClose} open={open} PaperProps={{ sx: styles.dialog }}>
-      <DialogTitle sx={styles.title} variant="h6">
-        Delete Post?
+      <DialogTitle sx={styles.title} variant="subtitle1">
+        Are you sure you want to delete this post?
       </DialogTitle>
       <DialogContent sx={styles.content}>
-        <DialogContentText variant="subtitle1" sx={styles.contentTextBold}>
-          Are you sure you want to delete this post?
-        </DialogContentText>
         <DialogContentText sx={styles.contextSubtext}>
           This post will be lost forever as you will not be able to undo this
           action.
