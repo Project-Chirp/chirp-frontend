@@ -1,39 +1,69 @@
-import { Dialog, DialogTitle, DialogActions, Button } from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  Button,
+  DialogContent,
+  IconButton,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import React from "react";
 
 type EditPostModalProps = {
+  children?: React.ReactNode;
   onClose: () => void;
-  open: boolean;
-  //   postId: number;
-  //   isExpandedPost?: boolean;
+  openModal: boolean;
 };
+
+// displayName: string;
+// followStatus: boolean;
+// imagePath?: string;
+// isLikedByCurrentUser: boolean;
+// isQuotePost?: boolean;
+// isRepost?: boolean;
+// parentPostId?: number;
+// postId: number;
+// textContent: string;
+// userId: number;
+// username: string;
 
 const styles = {
   dialog: {
-    height: "auto",
-    width: "35%",
-    borderRadius: 5,
-    padding: 1,
+    ".MuiDialog-scrollPaper": { alignItems: "flex-start" },
   },
-  title: {
-    padding: 1,
+  dialogContent: { overflow: "visible" },
+  dialogTitle: {
+    paddingBottom: 0,
+    paddingLeft: 0.5,
+    paddingRight: 0.5,
+    paddingTop: 0,
+  },
+  paperProps: {
+    overflow: "visible",
+    borderRadius: 20,
   },
 };
 
-const EditPostModal = ({ onClose, open }: EditPostModalProps) => {
-  const handleUpdate = async () => {};
+const EditPostModal = ({
+  onClose,
+  openModal,
+  children,
+}: EditPostModalProps) => {
   return (
-    <Dialog onClose={onClose} open={open} PaperProps={{ sx: styles.dialog }}>
-      <DialogTitle sx={styles.title} variant="h6">
-        Are you sure you want to edit this post?
+    <Dialog
+      fullWidth
+      onClose={onClose}
+      open={openModal}
+      scroll="paper"
+      sx={styles.dialog}
+      PaperProps={{ style: styles.paperProps }}
+    >
+      <DialogTitle>
+        <IconButton onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
       </DialogTitle>
-      <DialogActions>
-        <Button onClick={handleUpdate} variant="outlined" color="error">
-          Edit
-        </Button>
-        <Button variant="outlined" onClick={onClose}>
-          Cancel
-        </Button>
-      </DialogActions>
+      <DialogContent sx={styles.dialogContent}>{children}</DialogContent>
     </Dialog>
   );
 };

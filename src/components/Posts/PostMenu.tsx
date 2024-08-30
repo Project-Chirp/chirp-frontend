@@ -9,10 +9,12 @@ import React, { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import axios from "axios";
-import { deletePost } from "../../state/slices/postsSlice";
+import { deletePost, Post } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import PostDeleteModal from "./PostDeleteModal";
 import EditPostModal from "./EditPostModal";
+import ComposePost from "./ComposePost";
+import EditPost from "./EditPost";
 
 type PostMenuProps = {
   authorId: number;
@@ -99,12 +101,10 @@ const PostMenu = ({
         postId={postId}
         isExpandedPost={isExpandedPost}
       />
-      <EditPostModal
-        onClose={() => setEditModal(false)}
-        open={editModal}
-        // postId={postId}
-        // isExpandedPost={isExpandedPost}
-      />
+      {/* TODO: Make this work if the post belongs to the currentUserId -- DONE */}
+      <EditPostModal onClose={() => setEditModal(false)} openModal={editModal}>
+        <EditPost onClose={() => setEditModal(false)} />
+      </EditPostModal>
     </>
   );
 };
