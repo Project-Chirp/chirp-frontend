@@ -12,9 +12,6 @@ import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
 
 const styles = {
-  actions: {
-    display: "flex",
-  },
   dialog: {
     width: "20%",
     borderRadius: 5,
@@ -25,9 +22,8 @@ const styles = {
   },
   content: {
     padding: 2,
+    textAlign: "center",
   },
-  contentTextBold: { color: "black.main", textAlign: "center" },
-  contextSubtext: { textAlign: "center" },
   deleteButton: {
     flex: 1,
     ":hover": {
@@ -69,7 +65,6 @@ const PostDeleteModal = ({
           userId: userId,
         },
       });
-
       if (isExpandedPost) {
         navigate(-1);
       } else {
@@ -81,18 +76,19 @@ const PostDeleteModal = ({
       onClose();
     }
   };
+
   return (
     <Dialog onClose={onClose} open={open} PaperProps={{ sx: styles.dialog }}>
       <DialogTitle sx={styles.title} variant="subtitle1">
         Are you sure you want to delete this post?
       </DialogTitle>
       <DialogContent sx={styles.content}>
-        <DialogContentText sx={styles.contextSubtext}>
+        <DialogContentText>
           This post will be lost forever as you will not be able to undo this
           action.
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={styles.actions}>
+      <DialogActions>
         <Button variant="outlined" onClick={onClose} sx={styles.cancelButton}>
           Cancel
         </Button>
