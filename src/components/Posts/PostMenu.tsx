@@ -13,12 +13,12 @@ import { deletePost, Post } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import PostDeleteModal from "./PostDeleteModal";
 import EditPostModal from "./EditPostModal";
-import ComposePost from "./ComposePost";
-import EditPost from "./EditPost";
 
 type PostMenuProps = {
   authorId: number;
   postId: number;
+  postTextContent: string;
+  postTimeStamp: string;
   isExpandedPost?: boolean;
 };
 
@@ -39,6 +39,8 @@ const styles = {
 const PostMenu = ({
   authorId,
   postId,
+  postTextContent,
+  postTimeStamp,
   isExpandedPost = false,
 }: PostMenuProps) => {
   const userId = useAppSelector((state) => state.user.userId);
@@ -101,10 +103,13 @@ const PostMenu = ({
         postId={postId}
         isExpandedPost={isExpandedPost}
       />
-      {/* TODO: Make this work if the post belongs to the currentUserId -- DONE */}
-      <EditPostModal onClose={() => setEditModal(false)} openModal={editModal}>
-        <EditPost onClose={() => setEditModal(false)} />
-      </EditPostModal>
+      <EditPostModal
+        onClose={() => setEditModal(false)}
+        openModal={editModal}
+        postId={postId}
+        originalPostTextContent={postTextContent}
+        originalPostTimeStamp={postTimeStamp}
+      ></EditPostModal>
     </>
   );
 };
