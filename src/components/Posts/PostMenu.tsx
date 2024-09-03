@@ -20,6 +20,7 @@ type PostMenuProps = {
   postTextContent: string;
   postTimeStamp: string;
   isExpandedPost?: boolean;
+  prevEditedPostTimestamp: string;
 };
 
 const styles = {
@@ -42,6 +43,7 @@ const PostMenu = ({
   postTextContent,
   postTimeStamp,
   isExpandedPost = false,
+  prevEditedPostTimestamp,
 }: PostMenuProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const menuRef = useRef<HTMLButtonElement>(null);
@@ -109,6 +111,7 @@ const PostMenu = ({
         postId={postId}
         originalPostTextContent={postTextContent}
         originalPostTimeStamp={postTimeStamp}
+        prevEditedPostTimestamp={prevEditedPostTimestamp}
       ></EditPostModal>
     </>
   );

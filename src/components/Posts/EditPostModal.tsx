@@ -12,13 +12,14 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { EmojiClickData } from "emoji-picker-react";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 import UserAvatar from "../Common/UserAvatar";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import formatTimestamp from "../../utilities/formatTimestamp";
 import axios from "axios";
+import { updatePost } from "../../state/slices/postsSlice";
 
 type EditPostModalProps = {
   onClose: () => void;
@@ -26,19 +27,8 @@ type EditPostModalProps = {
   postId: number;
   originalPostTextContent: string;
   originalPostTimeStamp: string;
+  prevEditedPostTimestamp: string;
 };
-
-// displayName: string;
-// followStatus: boolean;
-// imagePath?: string;
-// isLikedByCurrentUser: boolean;
-// isQuotePost?: boolean;
-// isRepost?: boolean;
-// parentPostId?: number;
-// postId: number;
-// textContent: string;
-// userId: number;
-// username: string;
 
 const styles = {
   dialog: {
@@ -50,6 +40,11 @@ const styles = {
     paddingLeft: 0.5,
     paddingRight: 0.5,
     paddingTop: 0,
+    display: "flex",
+    alignItems: "center",
+  },
+  titleText: {
+    paddingLeft: 1,
   },
   paperProps: {
     overflow: "visible",
@@ -85,9 +80,14 @@ const EditPostModal = ({
   postId,
   originalPostTextContent,
   originalPostTimeStamp,
+  prevEditedPostTimestamp,
 }: EditPostModalProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const existingPost = useAppSelector((state) =>
+    state.posts.posts.find((post) => post.postId === postId)
+  );
 
   useEffect(() => {
     setPostTextContent(originalPostTextContent);
@@ -108,6 +108,16 @@ const EditPostModal = ({
           },
         }
       );
+
+      if (existingPost) {
+        dispatch(
+          updatePost({
+            ...existingPost,
+            textContent: postTextContent,
+            editedTimestamp: new Date().toISOString(),
+          })
+        );
+      }
       onClose?.();
     } catch (error) {
       console.log(error);
@@ -123,10 +133,13 @@ const EditPostModal = ({
       sx={styles.dialog}
       PaperProps={{ style: styles.paperProps }}
     >
-      <DialogTitle>
+      <DialogTitle sx={styles.dialogTitle}>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
+        <Typography sx={styles.titleText} variant="subtitle1">
+          Edit Post
+        </Typography>
       </DialogTitle>
       <DialogContent sx={styles.dialogContent}>
         <Box sx={styles.editPostContainer}>
@@ -137,8 +150,11 @@ const EditPostModal = ({
             <Box sx={styles.userInfo}>
               <Typography variant="subtitle1">{user.username}</Typography>
               <Typography variant="subtitle2">{`@${user.displayName}`}</Typography>
-              {/* TODO: Figure out how to print the timestamp */}
-              {/* <Typography>{formatTimestamp(originalPostTimeStamp)}</Typography> */}
+              <Typography>
+                {prevEditedPostTimestamp
+                  ? formatTimestamp(prevEditedPostTimestamp, true)
+                  : formatTimestamp(originalPostTimeStamp)}
+              </Typography>
             </Box>
           </Box>
           <Box sx={styles.textFieldContainer}>
@@ -170,15 +186,7 @@ const EditPostModal = ({
                 variant="contained"
                 onClick={handleEdit}
               >
-                Done
-              </Button>
-              <Button
-                size="small"
-                type="submit"
-                variant="contained"
-                onClick={onClose}
-              >
-                Cancel
+                Update
               </Button>
             </Box>
           </Box>

@@ -121,7 +121,10 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           <PostMenu
             authorId={post.userId}
             postId={post.postId}
+            postTextContent={post.textContent}
+            postTimeStamp={post.timestamp}
             isExpandedPost
+            prevEditedPostTimestamp={post.editedTimestamp}
           />
         }
         title={
@@ -159,7 +162,9 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       )}
       <Box sx={styles.timestampBox}>
         <Typography component="span" variant="subtitle2">
-          {formatTimestamp(post.timestamp)}
+          {post.editedTimestamp
+            ? formatTimestamp(post.editedTimestamp, true)
+            : formatTimestamp(post.timestamp)}
         </Typography>
       </Box>
       <Divider variant="middle" />

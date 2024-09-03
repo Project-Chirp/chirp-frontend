@@ -81,6 +81,7 @@ const PostItem = ({ post }: PostProps) => {
             postId={post.postId}
             postTextContent={post.textContent}
             postTimeStamp={post.timestamp}
+            prevEditedPostTimestamp={post.editedTimestamp}
           />
         }
         title={
@@ -106,7 +107,11 @@ const PostItem = ({ post }: PostProps) => {
             </Link>
           </Box>
         }
-        subheader={formatTimestamp(post.timestamp)}
+        subheader={
+          post.editedTimestamp
+            ? formatTimestamp(post.editedTimestamp, true)
+            : formatTimestamp(post.timestamp)
+        }
         subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
       />
       <CardActionArea onClick={() => routeChange()}>
