@@ -2,9 +2,7 @@ import { Box } from "@mui/material";
 import SuggestedUserItem from "./SuggestedUsers";
 import SidebarFooter from "./SidebarFooter";
 import Advertisement from "./Advertisement";
-import SearchBar from "../Common/SearchBar";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import SearchBarDropdown from "../Common/SearchBarDropdown";
 
 const styles = {
   rightContent: {
@@ -22,7 +20,7 @@ const SideBar = () => {
   return (
     <Box sx={styles.rightContent}>
       <Box sx={styles.searchBarContainer}>
-        <SearchBar placeholder="Search Chirp" />
+        <SearchBarDropdown placeholder="Search Chirp" />
       </Box>
       <SuggestedUserItem />
       <Advertisement />
