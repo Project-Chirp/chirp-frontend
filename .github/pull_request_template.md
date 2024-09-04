@@ -17,7 +17,7 @@ or design documents. -->
 request. Provide details on the approach taken to address the problem
 and any notable implementation details. -->
 
-<!--> Optional Sections -->
+<!-- Optional Sections -->
 
 ## Screenshots
 
