@@ -104,8 +104,8 @@ export const postsSlice = createSlice({
           : state.expandedPost.numberOfLikes--;
       }
     },
-    toggleFollow: (state, action: PayloadAction<boolean>) => {
-      state.expandedPost.followStatus = !action.payload;
+    toggleFollow: (state) => {
+      state.expandedPost.followStatus = !state.expandedPost.followStatus;
     },
     updateDisplayNames: (
       state,

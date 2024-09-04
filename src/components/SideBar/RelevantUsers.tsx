@@ -71,12 +71,12 @@ const RelevantUsers = () => {
         {/* TODO: Remove this if the post is by the current user */}
         {relevantUser.followStatus ? (
           <FollowingButton
-            onClick={() => dispatch(toggleFollow(false))}
+            onClick={() => dispatch(toggleFollow())}
             visitedUserId={relevantUser.userId}
           />
         ) : (
           <FollowButton
-            onClick={() => dispatch(toggleFollow(true))}
+            onClick={() => dispatch(toggleFollow())}
             visitedUserId={relevantUser.userId}
           />
         )}
