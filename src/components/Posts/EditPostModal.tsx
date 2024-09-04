@@ -70,7 +70,10 @@ const styles = {
   },
   userInfo: {
     display: "flex",
-    paddingTop: 1,
+    flexDirection: "column",
+  },
+  infoText: {
+    display: "flex",
   },
 };
 
@@ -148,9 +151,11 @@ const EditPostModal = ({
               <UserAvatar username={user.username} />
             </Box>
             <Box sx={styles.userInfo}>
-              <Typography variant="subtitle1">{user.username}</Typography>
-              <Typography variant="subtitle2">{`@${user.displayName}`}</Typography>
-              <Typography>
+              <Box sx={styles.infoText}>
+                <Typography variant="subtitle1">{user.username}</Typography>
+                <Typography variant="subtitle2">{`@${user.displayName}`}</Typography>
+              </Box>
+              <Typography variant="subtitle2">
                 {prevEditedPostTimestamp
                   ? formatTimestamp(prevEditedPostTimestamp, true)
                   : formatTimestamp(originalPostTimeStamp)}
