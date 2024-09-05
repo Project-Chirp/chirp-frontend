@@ -110,11 +110,12 @@ const PostItem = ({ post }: PostProps) => {
               placement="bottom"
               arrow
             >
-              <Typography>{formatTimestamp(post.timestamp)}</Typography>
+              <Typography variant="subtitle2">
+                {formatTimestamp(post.timestamp)}
+              </Typography>
             </Tooltip>
           </Box>
         }
-        subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent>
