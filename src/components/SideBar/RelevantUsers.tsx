@@ -33,6 +33,7 @@ const styles = {
 const RelevantUsers = () => {
   const theme = useTheme();
   const relevantUser = useAppSelector((state) => state.posts.expandedPost);
+  const currentUserId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -68,18 +69,19 @@ const RelevantUsers = () => {
           }
           sx={styles.listItemText}
         />
-        {/* TODO: Remove this if the post is by the current user */}
-        {relevantUser.followStatus ? (
-          <FollowingButton
-            onClick={() => dispatch(toggleFollow())}
-            visitedUserId={relevantUser.userId}
-          />
-        ) : (
-          <FollowButton
-            onClick={() => dispatch(toggleFollow())}
-            visitedUserId={relevantUser.userId}
-          />
-        )}
+        {relevantUser.userId !== 0 &&
+          relevantUser.userId !== currentUserId &&
+          (relevantUser.followStatus ? (
+            <FollowingButton
+              onClick={() => dispatch(toggleFollow())}
+              visitedUserId={relevantUser.userId}
+            />
+          ) : (
+            <FollowButton
+              onClick={() => dispatch(toggleFollow())}
+              visitedUserId={relevantUser.userId}
+            />
+          ))}
       </ListItemButton>
     </Box>
   );
