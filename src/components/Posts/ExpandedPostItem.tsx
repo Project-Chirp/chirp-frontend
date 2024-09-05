@@ -10,6 +10,7 @@ import {
   IconButton,
   Link,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import {
@@ -158,9 +159,15 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
-        <Typography component="span" variant="subtitle2">
-          {formatTimestamp(post.timestamp)}
-        </Typography>
+        <Tooltip
+          title={formatTimestamp(post.timestamp, true)}
+          placement="top"
+          arrow
+        >
+          <Typography component="span" variant="subtitle2">
+            {formatTimestamp(post.timestamp)}
+          </Typography>
+        </Tooltip>
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionsContainer}>

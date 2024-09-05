@@ -9,6 +9,7 @@ import {
   CardMedia,
   IconButton,
   Link,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -56,6 +57,9 @@ const styles = {
   displayName: {
     paddingRight: 0.5,
   },
+  toolTipContainer: {
+    display: "inline-block",
+  },
 };
 
 const PostItem = ({ post }: PostProps) => {
@@ -99,7 +103,17 @@ const PostItem = ({ post }: PostProps) => {
             </Link>
           </Box>
         }
-        subheader={formatTimestamp(post.timestamp)}
+        subheader={
+          <Box sx={styles.toolTipContainer}>
+            <Tooltip
+              title={formatTimestamp(post.timestamp, true)}
+              placement="bottom"
+              arrow
+            >
+              <Typography>{formatTimestamp(post.timestamp)}</Typography>
+            </Tooltip>
+          </Box>
+        }
         subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
       />
       <CardActionArea onClick={() => routeChange()}>
