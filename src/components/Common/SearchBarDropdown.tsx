@@ -131,7 +131,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
         forcePopupIcon={false}
         id="search"
         inputValue={keywords}
-        ListboxProps={{ sx: styles.listBox }}
+        ListboxProps={{ style: styles.listBox }}
         loading={!keywords && loading}
         loadingText="Start typing to search..."
         onChange={(_, value) => {
@@ -155,32 +155,30 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
             {...params}
             fullWidth
             hiddenLabel
-            slotProps={{
-              input: {
-                ...params.InputProps,
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IconButton
-                      disabled
-                      sx={
-                        focusSearchBar
-                          ? styles.searchIconFocused
-                          : styles.searchIcon
-                      }
-                    >
-                      <SearchRoundedIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-                endAdornment: keywords && (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setKeywords("")}>
-                      <ClearIcon fontSize="small" />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-                inputRef: inputRef,
-              },
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton
+                    disabled
+                    sx={
+                      focusSearchBar
+                        ? styles.searchIconFocused
+                        : styles.searchIcon
+                    }
+                  >
+                    <SearchRoundedIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              endAdornment: keywords && (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setKeywords("")}>
+                    <ClearIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              inputRef: inputRef,
             }}
             placeholder={placeholder}
             size="small"
