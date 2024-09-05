@@ -45,6 +45,7 @@ const styles = {
     justifyContent: "space-between",
     width: "100%",
   },
+  cardMedia: { maxWidth: 200, margin: "auto" },
   coloredButton: {
     color: "primary.main",
   },
@@ -123,7 +124,7 @@ const PostItem = ({ post }: PostProps) => {
         </CardContent>
         {post.imagePath && (
           <CardMedia
-            sx={{ maxWidth: 200, margin: "auto" }}
+            sx={styles.cardMedia}
             component="img"
             image={post.imagePath}
           />
