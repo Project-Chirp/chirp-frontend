@@ -161,7 +161,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       <Box sx={styles.timestampBox}>
         <Tooltip
           title={formatTimestamp(post.timestamp, true)}
-          placement="top"
+          placement="bottom"
           arrow
         >
           <Typography component="span" variant="subtitle2">
