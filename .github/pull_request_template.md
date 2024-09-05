@@ -5,11 +5,15 @@ addresses, connecting the code's context with the problem it
 solves. Please see https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
 for keywords to link an issue -->
 
+Linked issue here
+
 ## Summary
 
 <!-- Provide a concise summary "Why are the changes needed"?
 Include any relevant links, such as Jira tickets, Slack discussions,
 or design documents. -->
+
+Your summary here
 
 ## Changes Made
 
@@ -17,7 +21,9 @@ or design documents. -->
 request. Provide details on the approach taken to address the problem
 and any notable implementation details. -->
 
-<!--> Optional Sections -->
+Your changes made here
+
+<!-- Optional Sections -->
 
 ## Screenshots
 
