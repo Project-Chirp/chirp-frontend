@@ -104,8 +104,8 @@ export const postsSlice = createSlice({
           : state.expandedPost.numberOfLikes--;
       }
     },
-    toggleFollow: (state, action: PayloadAction<boolean>) => {
-      state.expandedPost.followStatus = !action.payload;
+    toggleFollow: (state) => {
+      state.expandedPost.followStatus = !state.expandedPost.followStatus;
     },
     updateDisplayNames: (
       state,
@@ -115,6 +115,11 @@ export const postsSlice = createSlice({
         o.displayName === action.payload.prevDisplayName
           ? { ...o, displayName: action.payload.newDisplayName }
           : o
+      );
+    },
+    deletePost: (state, action: PayloadAction<number>) => {
+      state.posts = state.posts.filter(
+        (post) => post.postId !== action.payload
       );
     },
   },
@@ -128,6 +133,7 @@ export const {
   toggleLikePost,
   toggleFollow,
   updateDisplayNames,
+  deletePost,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
