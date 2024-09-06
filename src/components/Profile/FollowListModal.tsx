@@ -5,11 +5,9 @@ import {
   DialogTitle,
   DialogContent,
   Avatar,
-  Button,
   List,
   ListItem,
   ListItemAvatar,
-  ListItemSecondaryAction,
   ListItemText,
   Divider,
   Typography,
@@ -20,8 +18,8 @@ import SearchBar from "../Common/SearchBar";
 import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
 import { useAppSelector } from "../../state/hooks";
-import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Link as Routerlink } from "react-router-dom";
 
 export type NetworkUsers = {
   userId: number;
@@ -44,34 +42,29 @@ type FollowListModalProps = {
 };
 
 const styles = {
-  header: {
-    display: "flex",
-    alignItems: "center",
+  avatar: {
+    marginRight: 2,
   },
-  titleBox: { paddingLeft: 3, width: "100%" },
   dialog: {
     borderRadius: 5,
     width: "25%",
     height: "50%",
   },
-  searchBarContainer: {
-    paddingX: 2,
-    paddingY: 2,
-  },
-  listItem: {
+  displayName: { ":hover": { textDecoration: "underline" } },
+  header: {
     display: "flex",
     alignItems: "center",
-    paddingX: 2,
   },
-  listItemText: {
+  headerTitle: {
     fontWeight: "bold",
   },
-  dialogContent: {
+  list: { height: "100%", paddingBottom: 0, boxSizing: "border-box" },
+  searchBarContainer: {
     paddingBottom: 1,
+    paddingTop: 2,
+    paddingX: 2,
   },
-  avatar: {
-    marginRight: 2,
-  },
+  titleBox: { paddingLeft: 3 },
 };
 
 const FollowListModal = ({
@@ -107,44 +100,31 @@ const FollowListModal = ({
       fullWidth
       onClose={onClose}
       open={openModal}
-      scroll="paper"
       PaperProps={{ sx: styles.dialog }}
+      scroll="paper"
     >
       <DialogTitle sx={styles.header}>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
         <Box sx={styles.titleBox}>
-          <Typography variant="h3">{listType}</Typography>
+          <Typography sx={styles.headerTitle}>{listType}</Typography>
         </Box>
       </DialogTitle>
-
       <Divider />
       <Box sx={styles.searchBarContainer}>
         <SearchBar placeholder="Search" />
       </Box>
-
-      <DialogContent sx={styles.dialogContent}>
+      <DialogContent>
         {!loading && (
-          <List>
+          <List sx={styles.list}>
             {sortedListUserData.map((o) => (
-              <ListItem key={o.userId} sx={styles.listItem}>
-                <ListItemButton
-                  onClick={() => {
-                    onClose();
-                    navigate(`/${o.username}`);
-                  }}
-                >
-                  <ListItemAvatar>
-                    <Avatar src={o.imageURL} sx={styles.avatar} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={o.displayName}
-                    secondary={o.username}
-                    primaryTypographyProps={styles.listItemText}
-                  />
-                  {o.userId !== currentUserId && (
-                    <ListItemSecondaryAction>
+              <ListItem
+                disablePadding
+                key={o.userId}
+                secondaryAction={
+                  o.userId !== currentUserId && (
+                    <>
                       {o.isFollowing ? (
                         <FollowingButton
                           visitedUserId={o.userId}
@@ -156,8 +136,27 @@ const FollowListModal = ({
                           onClick={() => handleFollowToggle(o.userId)}
                         />
                       )}
-                    </ListItemSecondaryAction>
-                  )}
+                    </>
+                  )
+                }
+              >
+                <ListItemButton
+                  component={Routerlink}
+                  onClick={() => onClose()}
+                  to={`/${o.username}`}
+                >
+                  <ListItemAvatar>
+                    <Avatar src={o.imageURL} sx={styles.avatar} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={o.displayName}
+                    primaryTypographyProps={{
+                      variant: "subtitle1",
+                      sx: styles.displayName,
+                    }}
+                    secondary={`@${o.username}`}
+                    secondaryTypographyProps={{ variant: "subtitle2" }}
+                  />
                 </ListItemButton>
               </ListItem>
             ))}
