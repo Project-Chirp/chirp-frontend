@@ -47,7 +47,8 @@ const PostMenu = ({
 }: PostMenuProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const menuRef = useRef<HTMLButtonElement>(null);
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
+    useState(false);
   const [editModal, setEditModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -76,7 +77,13 @@ const PostMenu = ({
           </MenuItem>
         )}
         {userId === authorId && (
-          <MenuItem sx={styles.menuItem} onClick={() => setDeleteModal(true)}>
+          <MenuItem
+            sx={styles.menuItem}
+            onClick={() => {
+              setMenuOpen(false);
+              setDeleteConfirmationModalOpen(true);
+            }}
+          >
             <ListItemIcon>
               <Delete color="error" />
             </ListItemIcon>
@@ -100,8 +107,8 @@ const PostMenu = ({
         </MenuItem>
       </Menu>
       <PostDeleteModal
-        onClose={() => setDeleteModal(false)}
-        open={deleteModal}
+        onClose={() => setDeleteConfirmationModalOpen(false)}
+        open={deleteConfirmationModalOpen}
         postId={postId}
         isExpandedPost={isExpandedPost}
       />
