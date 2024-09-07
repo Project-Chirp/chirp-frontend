@@ -1,4 +1,11 @@
-import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,13 +13,30 @@ import { deletePost } from "../../state/slices/postsSlice";
 
 const styles = {
   dialog: {
-    height: "auto",
-    width: "35%",
+    width: "20%",
     borderRadius: 5,
-    padding: 1,
   },
   title: {
-    padding: 1,
+    padding: 2,
+    textAlign: "center",
+  },
+  content: {
+    padding: 2,
+    textAlign: "center",
+  },
+  deleteButton: {
+    flex: 1,
+    ":hover": {
+      backgroundColor: "error.main",
+      color: "white.main",
+    },
+  },
+  cancelButton: {
+    flex: 1,
+    ":hover": {
+      backgroundColor: "primary.main",
+      color: "white.main",
+    },
   },
 };
 
@@ -52,17 +76,29 @@ const PostDeleteModal = ({
       onClose();
     }
   };
+
   return (
     <Dialog onClose={onClose} open={open} PaperProps={{ sx: styles.dialog }}>
-      <DialogTitle sx={styles.title} variant="h6">
+      <DialogTitle sx={styles.title} variant="subtitle1">
         Are you sure you want to delete this post?
       </DialogTitle>
+      <DialogContent sx={styles.content}>
+        <DialogContentText>
+          This post will be lost forever as you will not be able to undo this
+          action.
+        </DialogContentText>
+      </DialogContent>
       <DialogActions>
-        <Button onClick={handleDelete} variant="outlined" color="error">
-          Delete
-        </Button>
-        <Button variant="outlined" onClick={onClose}>
+        <Button variant="outlined" onClick={onClose} sx={styles.cancelButton}>
           Cancel
+        </Button>
+        <Button
+          onClick={handleDelete}
+          variant="outlined"
+          color="error"
+          sx={styles.deleteButton}
+        >
+          Delete
         </Button>
       </DialogActions>
     </Dialog>

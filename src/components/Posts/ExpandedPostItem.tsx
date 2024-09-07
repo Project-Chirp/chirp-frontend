@@ -48,7 +48,6 @@ const styles = {
     paddingY: 1,
   },
   actionCount: { fontWeight: "bold", paddingRight: 0.5 },
-  backButton: { "&:hover": { backgroundColor: "transparent" } },
   card: {
     padding: 0,
     boxShadow: "none",
@@ -71,7 +70,8 @@ const styles = {
   topHeader: {
     alignItems: "center",
     display: "flex",
-    paddingTop: 1,
+    gap: 2,
+    padding: 1,
   },
 };
 
@@ -110,10 +110,10 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   return (
     <Card sx={styles.card}>
       <Box sx={styles.topHeader}>
-        <IconButton onClick={() => navigate(-1)} sx={styles.backButton}>
+        <IconButton onClick={() => navigate(-1)}>
           <KeyboardBackspace color="secondary" />
         </IconButton>
-        <Typography variant="h2">Post</Typography>
+        <Typography variant="h3">Post</Typography>
       </Box>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}

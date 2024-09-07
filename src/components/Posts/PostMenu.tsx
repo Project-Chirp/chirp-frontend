@@ -5,14 +5,11 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useRef, useState } from "react";
+import { useAppSelector } from "../../state/hooks";
 import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
-import axios from "axios";
-import { deletePost, Post } from "../../state/slices/postsSlice";
-import { useNavigate } from "react-router-dom";
-import PostDeleteModal from "./PostDeleteModal";
 import EditPostModal from "./EditPostModal";
+import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
 
 type PostMenuProps = {
   authorId: number;
@@ -27,7 +24,6 @@ const styles = {
   icon: {
     color: "black.main",
   },
-  listItemText: { fontWeight: "bold" },
   menu: {
     borderRadius: 4,
   },
@@ -35,6 +31,7 @@ const styles = {
     paddingX: 1.5,
     paddingY: 1,
   },
+  menuList: { padding: 0 },
 };
 
 const PostMenu = ({
@@ -64,7 +61,7 @@ const PostMenu = ({
         PaperProps={{
           sx: styles.menu,
         }}
-        MenuListProps={{ sx: { padding: 0 } }}
+        MenuListProps={{ sx: styles.menuList }}
       >
         {userId === authorId && (
           <MenuItem sx={styles.menuItem} onClick={() => setEditModal(true)}>
@@ -106,7 +103,7 @@ const PostMenu = ({
           </ListItemText>
         </MenuItem>
       </Menu>
-      <PostDeleteModal
+      <PostDeleteConfirmationModal
         onClose={() => setDeleteConfirmationModalOpen(false)}
         open={deleteConfirmationModalOpen}
         postId={postId}
