@@ -4,22 +4,22 @@ import {
   IconButton,
   DialogTitle,
   DialogContent,
-  Avatar,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
   Divider,
   Typography,
-  ListItemButton,
+  Link,
+  useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchBar from "../Common/SearchBar";
 import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
 import { useAppSelector } from "../../state/hooks";
-import { useNavigate } from "react-router-dom";
 import { Link as Routerlink } from "react-router-dom";
+import UserAvatar from "../Common/UserAvatar";
 
 export type NetworkUsers = {
   userId: number;
@@ -42,15 +42,11 @@ type FollowListModalProps = {
 };
 
 const styles = {
-  avatar: {
-    marginRight: 2,
-  },
   dialog: {
     borderRadius: 5,
     width: "25%",
     height: "50%",
   },
-  displayName: { ":hover": { textDecoration: "underline" } },
   header: {
     display: "flex",
     alignItems: "center",
@@ -58,7 +54,11 @@ const styles = {
   headerTitle: {
     fontWeight: "bold",
   },
-  list: { height: "100%", paddingBottom: 0, boxSizing: "border-box" },
+  list: {
+    boxSizing: "border-box",
+    height: "100%",
+    paddingBottom: 0,
+  },
   searchBarContainer: {
     paddingBottom: 1,
     paddingTop: 2,
@@ -77,7 +77,7 @@ const FollowListModal = ({
   onFollowed,
 }: FollowListModalProps) => {
   const currentUserId = useAppSelector((state) => state.user.userId);
-  const navigate = useNavigate();
+  const theme = useTheme();
 
   const handleFollowToggle = async (userId: number) => {
     const updatedList = listUserData.map((o) => {
@@ -119,45 +119,45 @@ const FollowListModal = ({
         {!loading && (
           <List sx={styles.list}>
             {sortedListUserData.map((o) => (
-              <ListItem
-                disablePadding
-                key={o.userId}
-                secondaryAction={
-                  o.userId !== currentUserId && (
-                    <>
-                      {o.isFollowing ? (
-                        <FollowingButton
-                          visitedUserId={o.userId}
-                          onClick={() => handleFollowToggle(o.userId)}
-                        />
-                      ) : (
-                        <FollowButton
-                          visitedUserId={o.userId}
-                          onClick={() => handleFollowToggle(o.userId)}
-                        />
-                      )}
-                    </>
-                  )
-                }
-              >
-                <ListItemButton
-                  component={Routerlink}
-                  onClick={() => onClose()}
-                  to={`/${o.username}`}
-                >
-                  <ListItemAvatar>
-                    <Avatar src={o.imageURL} sx={styles.avatar} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={o.displayName}
-                    primaryTypographyProps={{
-                      variant: "subtitle1",
-                      sx: styles.displayName,
-                    }}
-                    secondary={`@${o.username}`}
-                    secondaryTypographyProps={{ variant: "subtitle2" }}
+              <ListItem key={o.userId}>
+                <ListItemAvatar>
+                  <UserAvatar username={o.username} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Link
+                      color={theme.typography.subtitle1.color}
+                      component={Routerlink}
+                      to={`/${o.username}`}
+                      underline="hover"
+                      variant="subtitle1"
+                    >
+                      {o.displayName}
+                    </Link>
+                  }
+                  secondary={
+                    <Link
+                      color={theme.typography.subtitle2.color}
+                      component={Routerlink}
+                      to={`/${o.username}`}
+                      underline="none"
+                      variant="subtitle2"
+                    >
+                      @{o.username}
+                    </Link>
+                  }
+                />
+                {o.isFollowing ? (
+                  <FollowingButton
+                    visitedUserId={o.userId}
+                    onClick={() => handleFollowToggle(o.userId)}
                   />
-                </ListItemButton>
+                ) : (
+                  <FollowButton
+                    visitedUserId={o.userId}
+                    onClick={() => handleFollowToggle(o.userId)}
+                  />
+                )}
               </ListItem>
             ))}
           </List>
