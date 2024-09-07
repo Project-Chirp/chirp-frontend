@@ -1,26 +1,8 @@
-const formatTimestamp = (entry: string, isToolTip?: boolean) => {
+const formatTimestamp = (entry: string) => {
   const date = new Date(entry);
   const currentDate = new Date();
   const millisecondsInADay = 24 * 60 * 60 * 1000;
   const timeDifference = currentDate.getTime() - date.getTime();
-
-  if (isToolTip) {
-    // Full timestamp for the tooltip (e.g., "8:59PM, Sep 4, 2024")
-    const toolTipTimestamp =
-      date.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      }) +
-      ", " +
-      date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      });
-
-    return toolTipTimestamp;
-  }
 
   if (timeDifference < millisecondsInADay) {
     const hourDiff = timeDifference / (60 * 60 * 1000);

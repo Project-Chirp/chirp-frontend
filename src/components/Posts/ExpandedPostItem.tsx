@@ -35,6 +35,7 @@ import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
 import PostMenu from "./PostMenu";
+import formatToolTipTimestamp from "../../utilities/formatToolTipTimestamp";
 
 const styles = {
   actionButton: {
@@ -160,7 +161,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       )}
       <Box sx={styles.timestampBox}>
         <Tooltip
-          title={formatTimestamp(post.timestamp, true)}
+          title={formatToolTipTimestamp(post.timestamp)}
           placement="bottom"
           arrow
         >
