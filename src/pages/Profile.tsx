@@ -317,8 +317,7 @@ const Profile = () => {
                 <Box sx={styles.followerContainer}>
                   <Link
                     color={theme.palette.black.main}
-                    component={Routerlink}
-                    to={`/${username}`}
+                    component="button"
                     underline="hover"
                     onClick={() => handleOpenFollowersModal()}
                   >
@@ -329,8 +328,7 @@ const Profile = () => {
                   </Link>
                   <Link
                     color={theme.palette.black.main}
-                    component={Routerlink}
-                    to={`/${username}`}
+                    component="button"
                     underline="hover"
                     onClick={() => handleOpenFollowingModal()}
                   >
