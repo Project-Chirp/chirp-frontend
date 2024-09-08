@@ -60,7 +60,7 @@ const styles = {
   displayName: {
     paddingRight: 0.5,
   },
-  toolTipContainer: {
+  toolTipText: {
     display: "inline-block",
   },
 };
@@ -106,11 +106,8 @@ const PostItem = ({ post }: PostProps) => {
             </Link>
           </Box>
         }
-        subheader={
-          <Box sx={styles.toolTipContainer}>
-            <ToolTipTimestamp ToolTipTimestamp={post.timestamp} />
-          </Box>
-        }
+        subheader={<ToolTipTimestamp ToolTipTimestamp={post.timestamp} />}
+        subheaderTypographyProps={{ sx: styles.toolTipText }}
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent>
