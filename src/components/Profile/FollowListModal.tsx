@@ -4,7 +4,6 @@ import {
   IconButton,
   DialogTitle,
   DialogContent,
-  Avatar,
   List,
   ListItem,
   ListItemAvatar,
@@ -12,14 +11,16 @@ import {
   Divider,
   Typography,
   ListItemButton,
+  Link,
+  useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchBar from "../Common/SearchBar";
 import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
 import { useAppSelector } from "../../state/hooks";
-import { useNavigate } from "react-router-dom";
-import { Link as Routerlink } from "react-router-dom";
+import { Link as Routerlink, useNavigate } from "react-router-dom";
+import UserAvatar from "../Common/UserAvatar";
 
 export type NetworkUsers = {
   userId: number;
@@ -42,23 +43,20 @@ type FollowListModalProps = {
 };
 
 const styles = {
-  avatar: {
-    marginRight: 2,
-  },
   dialog: {
     borderRadius: 5,
     width: "25%",
     height: "50%",
   },
-  displayName: { ":hover": { textDecoration: "underline" } },
   header: {
     display: "flex",
     alignItems: "center",
   },
-  headerTitle: {
-    fontWeight: "bold",
+  list: {
+    boxSizing: "border-box",
+    height: "100%",
+    paddingBottom: 0,
   },
-  list: { height: "100%", paddingBottom: 0, boxSizing: "border-box" },
   searchBarContainer: {
     paddingBottom: 1,
     paddingTop: 2,
@@ -78,6 +76,7 @@ const FollowListModal = ({
 }: FollowListModalProps) => {
   const currentUserId = useAppSelector((state) => state.user.userId);
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const handleFollowToggle = async (userId: number) => {
     const updatedList = listUserData.map((o) => {
@@ -87,7 +86,6 @@ const FollowListModal = ({
       }
       return o;
     });
-
     setListUserData(updatedList);
   };
 
@@ -97,7 +95,6 @@ const FollowListModal = ({
 
   return (
     <Dialog
-      fullWidth
       onClose={onClose}
       open={openModal}
       PaperProps={{ sx: styles.dialog }}
@@ -108,7 +105,7 @@ const FollowListModal = ({
           <CloseIcon />
         </IconButton>
         <Box sx={styles.titleBox}>
-          <Typography sx={styles.headerTitle}>{listType}</Typography>
+          <Typography variant="subtitle1">{listType}</Typography>
         </Box>
       </DialogTitle>
       <Divider />
@@ -119,44 +116,58 @@ const FollowListModal = ({
         {!loading && (
           <List sx={styles.list}>
             {sortedListUserData.map((o) => (
-              <ListItem
-                disablePadding
-                key={o.userId}
-                secondaryAction={
-                  o.userId !== currentUserId && (
-                    <>
-                      {o.isFollowing ? (
-                        <FollowingButton
-                          visitedUserId={o.userId}
-                          onClick={() => handleFollowToggle(o.userId)}
-                        />
-                      ) : (
-                        <FollowButton
-                          visitedUserId={o.userId}
-                          onClick={() => handleFollowToggle(o.userId)}
-                        />
-                      )}
-                    </>
-                  )
-                }
-              >
+              <ListItem key={o.userId} disablePadding>
                 <ListItemButton
-                  component={Routerlink}
-                  onClick={() => onClose()}
-                  to={`/${o.username}`}
+                  onClick={() => {
+                    navigate(`/${o.username}`);
+                    onClose();
+                  }}
                 >
                   <ListItemAvatar>
-                    <Avatar src={o.imageURL} sx={styles.avatar} />
+                    <UserAvatar username={o.username} />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={o.displayName}
-                    primaryTypographyProps={{
-                      variant: "subtitle1",
-                      sx: styles.displayName,
-                    }}
-                    secondary={`@${o.username}`}
-                    secondaryTypographyProps={{ variant: "subtitle2" }}
+                    primary={
+                      <Link
+                        color={theme.typography.subtitle1.color}
+                        component={Routerlink}
+                        to={`/${o.username}`}
+                        underline="hover"
+                        variant="subtitle1"
+                      >
+                        {o.displayName}
+                      </Link>
+                    }
+                    secondary={
+                      <Link
+                        color={theme.typography.subtitle2.color}
+                        component={Routerlink}
+                        to={`/${o.username}`}
+                        underline="none"
+                        variant="subtitle2"
+                      >
+                        {`@${o.displayName}`}
+                      </Link>
+                    }
                   />
+                  {o.userId !== currentUserId &&
+                    (o.isFollowing ? (
+                      <FollowingButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleFollowToggle(o.userId);
+                        }}
+                        visitedUserId={o.userId}
+                      />
+                    ) : (
+                      <FollowButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleFollowToggle(o.userId);
+                        }}
+                        visitedUserId={o.userId}
+                      />
+                    ))}
                 </ListItemButton>
               </ListItem>
             ))}
