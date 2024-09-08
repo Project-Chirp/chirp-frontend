@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Link } from "@mui/material";
+import { Avatar } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
@@ -95,11 +95,7 @@ const AccountMenu = () => {
         sx={styles.popover}
       >
         <ArrowDropDownIcon fontSize="large" sx={styles.arrow} />
-        <Button
-          sx={styles.popoverButton}
-          component={Link}
-          onClick={() => logout()}
-        >
+        <Button sx={styles.popoverButton} onClick={() => logout()}>
           <LogoutIcon sx={styles.logOutIcon}></LogoutIcon>
           Log Out
         </Button>
