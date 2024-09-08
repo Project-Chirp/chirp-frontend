@@ -29,6 +29,7 @@ import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import { EmojiClickData } from "emoji-picker-react";
+import ToolTipTimestamp from "../utilities/ToolTipTimestamp";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -226,9 +227,9 @@ const DirectMessage = () => {
                       </Box>
                     }
                     secondary={
-                      <Typography sx={styles.timestamp} variant="body2">
-                        {formatTimestamp(o.timestamp)}
-                      </Typography>
+                      <Box>
+                        <ToolTipTimestamp ToolTipTimestamp={o.timestamp} />
+                      </Box>
                     }
                   />
                 </ListItem>

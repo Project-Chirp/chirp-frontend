@@ -32,6 +32,7 @@ import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
 import formatToolTipTimestamp from "../../utilities/formatToolTipTimestamp";
+import ToolTipTimestamp from "../../utilities/ToolTipTimestamp";
 
 type PostProps = {
   post: Post;
@@ -107,15 +108,7 @@ const PostItem = ({ post }: PostProps) => {
         }
         subheader={
           <Box sx={styles.toolTipContainer}>
-            <Tooltip
-              title={formatToolTipTimestamp(post.timestamp)}
-              placement="bottom"
-              arrow
-            >
-              <Typography variant="subtitle2">
-                {formatTimestamp(post.timestamp)}
-              </Typography>
-            </Tooltip>
+            <ToolTipTimestamp ToolTipTimestamp={post.timestamp} />
           </Box>
         }
       />

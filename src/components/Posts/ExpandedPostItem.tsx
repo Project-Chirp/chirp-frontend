@@ -36,6 +36,7 @@ import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
 import PostMenu from "./PostMenu";
 import formatToolTipTimestamp from "../../utilities/formatToolTipTimestamp";
+import ToolTipTimestamp from "../../utilities/ToolTipTimestamp";
 
 const styles = {
   actionButton: {
@@ -160,15 +161,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
-        <Tooltip
-          title={formatToolTipTimestamp(post.timestamp)}
-          placement="bottom"
-          arrow
-        >
-          <Typography component="span" variant="subtitle2">
-            {formatTimestamp(post.timestamp)}
-          </Typography>
-        </Tooltip>
+        <ToolTipTimestamp ToolTipTimestamp={post.timestamp} />
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionsContainer}>
