@@ -2,8 +2,8 @@ import { Tooltip, Typography } from "@mui/material";
 import formatTimestamp from "./formatTimestamp";
 import formatToolTipTimestamp from "./formatToolTipTimestamp";
 
-type ToolTipTimestampProps = {
-  ToolTipTimestamp: string;
+type TooltipTimestampProps = {
+  TooltipTimestamp: string;
 };
 
 const styles = {
@@ -15,7 +15,7 @@ const styles = {
   },
 };
 
-const ToolTipTimestamp = ({ ToolTipTimestamp }: ToolTipTimestampProps) => {
+const TooltipTimestamp = ({ TooltipTimestamp }: TooltipTimestampProps) => {
   return (
     <Tooltip
       arrow
@@ -26,13 +26,13 @@ const ToolTipTimestamp = ({ ToolTipTimestamp }: ToolTipTimestampProps) => {
           modifiers: [{ name: "offset", options: { offset: [0, -5] } }],
         },
       }}
-      title={formatToolTipTimestamp(ToolTipTimestamp)}
+      title={formatToolTipTimestamp(TooltipTimestamp)}
     >
       <Typography variant="subtitle2" sx={styles.toolTipText}>
-        {formatTimestamp(ToolTipTimestamp)}
+        {formatTimestamp(TooltipTimestamp)}
       </Typography>
     </Tooltip>
   );
 };
 
-export default ToolTipTimestamp;
+export default TooltipTimestamp;

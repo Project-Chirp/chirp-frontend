@@ -9,7 +9,6 @@ import {
   CardMedia,
   IconButton,
   Link,
-  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -27,12 +26,10 @@ import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
-import formatToolTipTimestamp from "../../utilities/formatToolTipTimestamp";
-import ToolTipTimestamp from "../../utilities/ToolTipTimestamp";
+import TooltipTimestamp from "../../utilities/ToolTipTimestamp";
 
 type PostProps = {
   post: Post;
@@ -106,7 +103,7 @@ const PostItem = ({ post }: PostProps) => {
             </Link>
           </Box>
         }
-        subheader={<ToolTipTimestamp ToolTipTimestamp={post.timestamp} />}
+        subheader={<TooltipTimestamp TooltipTimestamp={post.timestamp} />}
         subheaderTypographyProps={{ sx: styles.toolTipText }}
       />
       <CardActionArea onClick={() => routeChange()}>

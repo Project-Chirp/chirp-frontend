@@ -25,11 +25,10 @@ import {
   updateConversation,
 } from "../state/slices/messagesSlice";
 import NavBar from "../components/NavBar/NavBar";
-import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import { EmojiClickData } from "emoji-picker-react";
-import ToolTipTimestamp from "../utilities/ToolTipTimestamp";
+import TooltipTimestamp from "../utilities/ToolTipTimestamp";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -228,7 +227,7 @@ const DirectMessage = () => {
                     }
                     secondary={
                       <Box>
-                        <ToolTipTimestamp ToolTipTimestamp={o.timestamp} />
+                        <TooltipTimestamp TooltipTimestamp={o.timestamp} />
                       </Box>
                     }
                   />
