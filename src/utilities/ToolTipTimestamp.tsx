@@ -8,22 +8,25 @@ type ToolTipTimestampProps = {
 
 const styles = {
   toolTipText: {
-    cursor: "pointer",
     "&:hover": {
+      cursor: "pointer",
       textDecoration: "underline",
     },
   },
 };
+
 const ToolTipTimestamp = ({ ToolTipTimestamp }: ToolTipTimestampProps) => {
   return (
     <Tooltip
-      title={formatToolTipTimestamp(ToolTipTimestamp)}
+      arrow
+      disableInteractive
       placement="bottom"
       slotProps={{
         popper: {
-          modifiers: [{ name: "offset", options: { offset: [5, -15] } }],
+          modifiers: [{ name: "offset", options: { offset: [0, -5] } }],
         },
       }}
+      title={formatToolTipTimestamp(ToolTipTimestamp)}
     >
       <Typography variant="subtitle2" sx={styles.toolTipText}>
         {formatTimestamp(ToolTipTimestamp)}
