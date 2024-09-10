@@ -28,7 +28,7 @@ import NavBar from "../components/NavBar/NavBar";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import { EmojiClickData } from "emoji-picker-react";
-import TooltipTimestamp from "../utilities/ToolTipTimestamp";
+import TooltipTimestamp from "../components/Common/ToolTipTimestamp";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -226,7 +226,10 @@ const DirectMessage = () => {
                       </Box>
                     }
                     secondary={
-                      <TooltipTimestamp TooltipTimestamp={o.timestamp} />
+                      <TooltipTimestamp
+                        timestamp={o.timestamp}
+                        variant="body2"
+                      />
                     }
                   />
                 </ListItem>

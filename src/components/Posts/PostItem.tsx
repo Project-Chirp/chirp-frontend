@@ -29,7 +29,7 @@ import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
-import TooltipTimestamp from "../../utilities/ToolTipTimestamp";
+import TooltipTimestamp from "../Common/ToolTipTimestamp";
 
 type PostProps = {
   post: Post;
@@ -103,7 +103,7 @@ const PostItem = ({ post }: PostProps) => {
             </Link>
           </Box>
         }
-        subheader={<TooltipTimestamp TooltipTimestamp={post.timestamp} />}
+        subheader={<TooltipTimestamp timestamp={post.timestamp} />}
         subheaderTypographyProps={{ sx: styles.toolTipText }}
       />
       <CardActionArea onClick={() => routeChange()}>
