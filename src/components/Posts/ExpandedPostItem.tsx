@@ -158,7 +158,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
-        <TooltipTimestamp TooltipTimestamp={post.timestamp} />
+        <TooltipTimestamp timestamp={post.timestamp} />
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionsContainer}>
