@@ -50,7 +50,7 @@ const styles = {
   },
 };
 
-const SearchBar = ({ placeholder }: SearchBarProps) => {
+const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
   const debouncedFetch = useMemo(
     () => debounce((keywords: string) => fetchUsers(keywords), 100),
     []
@@ -197,4 +197,4 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
   );
 };
 
-export default SearchBar;
+export default SearchBarDropDown;
