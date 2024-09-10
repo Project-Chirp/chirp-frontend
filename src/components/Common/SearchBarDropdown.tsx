@@ -98,8 +98,12 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
 
   const handleInputChange = (newInputValue: string) => {
     setKeywords(newInputValue);
+
     if (newInputValue.trim() === "") {
       setSearchOptions([]);
+      setFocusSearchBar(false);
+    } else {
+      setFocusSearchBar(true);
     }
   };
 
@@ -107,6 +111,10 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
     setKeywords("");
     inputRef.current?.blur();
     navigate(`/${selectedUsername}`);
+  };
+
+  const handleOpen = () => {
+    if (keywords.length > 0) setFocusSearchBar(true);
   };
 
   useEffect(() => {
@@ -132,7 +140,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
         loading={loading}
         onBlur={() => setFocusSearchBar(false)}
         onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
-        onFocus={() => setFocusSearchBar(true)}
+        onOpen={handleOpen}
         open={focusSearchBar}
         openOnFocus
         options={searchOptions}
