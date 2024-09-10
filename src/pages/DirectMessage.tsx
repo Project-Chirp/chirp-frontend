@@ -226,9 +226,7 @@ const DirectMessage = () => {
                       </Box>
                     }
                     secondary={
-                      <Box>
-                        <TooltipTimestamp TooltipTimestamp={o.timestamp} />
-                      </Box>
+                      <TooltipTimestamp TooltipTimestamp={o.timestamp} />
                     }
                   />
                 </ListItem>
