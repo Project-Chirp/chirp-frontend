@@ -1,7 +1,6 @@
 import {
   Dialog,
   DialogTitle,
-  DialogActions,
   Button,
   DialogContent,
   IconButton,
@@ -11,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { EmojiClickData } from "emoji-picker-react";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
@@ -31,49 +30,38 @@ type EditPostModalProps = {
 };
 
 const styles = {
+  avatar: { paddingRight: 1.5 },
   dialog: {
     ".MuiDialog-scrollPaper": { alignItems: "flex-start" },
   },
-  dialogContent: { overflow: "visible" },
+  dialogContentContainer: {
+    padding: 2,
+  },
   dialogTitle: {
-    paddingBottom: 0,
-    paddingLeft: 0.5,
-    paddingRight: 0.5,
-    paddingTop: 0,
     display: "flex",
     alignItems: "center",
   },
-  titleText: {
-    paddingLeft: 1,
+  editPostHeader: {
+    display: "flex",
   },
   paperProps: {
     overflow: "visible",
     borderRadius: 20,
   },
-  avatarIcon: { paddingRight: 1.5 },
-  editPostContainer: {
-    paddingBottom: 2,
-    paddingLeft: 2,
-    paddingRight: 2,
-    paddingTop: 1,
-  },
-  editPostHeader: {
-    display: "flex",
-  },
-  textFieldContainer: { width: "100%", paddingTop: 2 },
-  textField: { paddingBottom: 2 },
   postActions: {
     display: "flex",
     justifyContent: "space-between",
     marginTop: 1,
-    position: "relative",
   },
-  userInfo: {
-    display: "flex",
-    flexDirection: "column",
+  textFieldContainer: { width: "100%", paddingTop: 2 },
+  textField: { paddingBottom: 2 },
+  titleText: {
+    fontWeight: "bold",
+    paddingLeft: 3,
   },
-  infoText: {
+  userInfoText: {
     display: "flex",
+    gap: 0.5,
   },
 };
 
@@ -132,30 +120,28 @@ const EditPostModal = ({
       fullWidth
       onClose={onClose}
       open={openModal}
+      PaperProps={{ style: styles.paperProps }}
       scroll="paper"
       sx={styles.dialog}
-      PaperProps={{ style: styles.paperProps }}
     >
       <DialogTitle sx={styles.dialogTitle}>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
-        <Typography sx={styles.titleText} variant="subtitle1">
-          Edit Post
-        </Typography>
+        <Typography sx={styles.titleText}>Edit Post</Typography>
       </DialogTitle>
-      <DialogContent sx={styles.dialogContent}>
-        <Box sx={styles.editPostContainer}>
+      <DialogContent>
+        <Box sx={styles.dialogContentContainer}>
           <Box sx={styles.editPostHeader}>
-            <Box sx={styles.avatarIcon}>
+            <Box sx={styles.avatar}>
               <UserAvatar username={user.username} />
             </Box>
-            <Box sx={styles.userInfo}>
-              <Box sx={styles.infoText}>
+            <Box>
+              <Box sx={styles.userInfoText}>
                 <Typography variant="subtitle1">{user.username}</Typography>
                 <Typography variant="subtitle2">{`@${user.displayName}`}</Typography>
               </Box>
-              <Typography variant="subtitle2">
+              <Typography variant="body2">
                 {prevEditedPostTimestamp
                   ? formatTimestamp(prevEditedPostTimestamp, true)
                   : formatTimestamp(originalPostTimeStamp)}

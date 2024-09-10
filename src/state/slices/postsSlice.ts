@@ -76,6 +76,11 @@ export const postsSlice = createSlice({
         numberOfReposts: 0,
       });
     },
+    deletePost: (state, action: PayloadAction<number>) => {
+      state.posts = state.posts.filter(
+        (post) => post.postId !== action.payload
+      );
+    },
     setPosts: (state, action: PayloadAction<Post[]>) => {
       state.posts = action.payload;
     },
@@ -119,11 +124,6 @@ export const postsSlice = createSlice({
           : o
       );
     },
-    deletePost: (state, action: PayloadAction<number>) => {
-      state.posts = state.posts.filter(
-        (post) => post.postId !== action.payload
-      );
-    },
     updatePost: (state, action: PayloadAction<Post>) => {
       state.posts = state.posts.map((o) => {
         if (o.postId === action.payload.postId) {
@@ -138,12 +138,12 @@ export const postsSlice = createSlice({
 export const {
   addReply,
   appendPost,
+  deletePost,
   setPosts,
   setExpandedPost,
   toggleLikePost,
   toggleFollow,
   updateDisplayNames,
-  deletePost,
   updatePost,
 } = postsSlice.actions;
 
