@@ -173,7 +173,7 @@ const PostItem = ({ post }: PostProps) => {
             >
               {post.numberOfLikes}
             </Button>
-            <IconButton>
+            <IconButton onClick={() => clipboardCopy()}>
               <ShareOutlined />
             </IconButton>
           </Box>

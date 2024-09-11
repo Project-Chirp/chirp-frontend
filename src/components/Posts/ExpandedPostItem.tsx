@@ -6,9 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Divider,
   IconButton,
-  Link,
   Stack,
   Typography,
   Divider,
@@ -250,7 +248,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
                 <FavoriteBorderOutlined />
               )}
             </IconButton>
-            <IconButton>
+            <IconButton onClick={() => clipboardCopy()}>
               <ShareOutlined />
             </IconButton>
           </Stack>
