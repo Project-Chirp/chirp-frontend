@@ -25,7 +25,6 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { toggleLikePost } from "../../state/slices/postsSlice";
 import { setExpandedPost } from "../../state/slices/postsSlice";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
@@ -34,6 +33,7 @@ import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
 import PostMenu from "./PostMenu";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
 
 const styles = {
   actionButton: {
@@ -161,11 +161,15 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
+<<<<<<< HEAD
         <Typography component="span" variant="subtitle2">
           {post.editedTimestamp
             ? formatTimestamp(post.editedTimestamp, true)
             : formatTimestamp(post.timestamp)}
         </Typography>
+=======
+        <TooltipTimestamp timestamp={post.timestamp} />
+>>>>>>> main
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionsContainer}>

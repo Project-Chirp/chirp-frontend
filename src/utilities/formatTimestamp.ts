@@ -3,9 +3,13 @@ const formatTimestamp = (entry: string, isEdited?: boolean) => {
   const currentDate = new Date();
   const millisecondsInADay = 24 * 60 * 60 * 1000;
   const timeDifference = currentDate.getTime() - date.getTime();
+<<<<<<< HEAD
   const prefix = "Edited";
   let suffix = "";
   let response = "";
+=======
+
+>>>>>>> main
   if (timeDifference < millisecondsInADay) {
     const hourDiff = timeDifference / (60 * 60 * 1000);
     if (hourDiff < 1) {
