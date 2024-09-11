@@ -2,7 +2,7 @@ const formatTooltipTimestamp = (entry: string) => {
   const date = new Date(entry);
 
   // Full timestamp for the tooltip (e.g., "8:59PM, Sep 4, 2024")
-  const toolTipTimestamp =
+  const tooltipTimestamp =
     date.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
@@ -15,7 +15,7 @@ const formatTooltipTimestamp = (entry: string) => {
       year: "numeric",
     });
 
-  return toolTipTimestamp;
+  return tooltipTimestamp;
 };
 
 export default formatTooltipTimestamp;
