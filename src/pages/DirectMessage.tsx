@@ -28,7 +28,7 @@ import NavBar from "../components/NavBar/NavBar";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import { EmojiClickData } from "emoji-picker-react";
-import TooltipTimestamp from "../components/Common/ToolTipTimestamp";
+import TooltipTimestamp from "../components/Common/TooltipTimestamp";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },

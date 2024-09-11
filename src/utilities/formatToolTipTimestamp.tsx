@@ -1,4 +1,4 @@
-const formatToolTipTimestamp = (entry: string) => {
+const formatTooltipTimestamp = (entry: string) => {
   const date = new Date(entry);
 
   // Full timestamp for the tooltip (e.g., "8:59PM, Sep 4, 2024")
@@ -18,4 +18,4 @@ const formatToolTipTimestamp = (entry: string) => {
   return toolTipTimestamp;
 };
 
-export default formatToolTipTimestamp;
+export default formatTooltipTimestamp;
