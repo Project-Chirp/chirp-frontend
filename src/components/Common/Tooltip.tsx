@@ -1,14 +1,14 @@
 import { Tooltip, Typography, TypographyVariant } from "@mui/material";
 import formatTimestamp from "../../utilities/formatTimestamp";
-import formatToolTipTimestamp from "../../utilities/formatToolTipTimestamp";
+import formatTooltipTimestamp from "../../utilities/formatTooltipTimestamp";
 
-type toolTipTimestampProps = {
+type TooltipTimestampProps = {
   timestamp: string;
   variant?: TypographyVariant;
 };
 
 const styles = {
-  toolTipText: {
+  tooltipText: {
     "&:hover": {
       cursor: "pointer",
       textDecoration: "underline",
@@ -19,7 +19,7 @@ const styles = {
 const TooltipTimestamp = ({
   timestamp,
   variant = "subtitle2",
-}: toolTipTimestampProps) => {
+}: TooltipTimestampProps) => {
   return (
     <Tooltip
       arrow
@@ -30,9 +30,9 @@ const TooltipTimestamp = ({
           modifiers: [{ name: "offset", options: { offset: [0, -5] } }],
         },
       }}
-      title={formatToolTipTimestamp(timestamp)}
+      title={formatTooltipTimestamp(timestamp)}
     >
-      <Typography variant={variant} sx={styles.toolTipText}>
+      <Typography variant={variant} sx={styles.tooltipText}>
         {formatTimestamp(timestamp)}
       </Typography>
     </Tooltip>

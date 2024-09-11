@@ -29,7 +29,7 @@ import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
-import TooltipTimestamp from "../Common/ToolTipTimestamp";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
 
 type PostProps = {
   post: Post;
