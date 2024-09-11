@@ -67,7 +67,7 @@ const styles = {
 
 const EditPostModal = ({
   onClose,
-  openModal,
+  open,
   postId,
   originalPostTextContent,
   originalPostTimeStamp,
@@ -119,7 +119,7 @@ const EditPostModal = ({
     <Dialog
       fullWidth
       onClose={onClose}
-      open={openModal}
+      open={open}
       PaperProps={{ style: styles.paperProps }}
       scroll="paper"
       sx={styles.dialog}
