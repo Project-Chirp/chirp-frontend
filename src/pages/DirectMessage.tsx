@@ -201,7 +201,6 @@ const DirectMessage = () => {
               <InfoOutlinedIcon />
             </IconButton>
           </Box>
-
           <Divider />
           <Box sx={styles.chatContainer}>
             <List component="div" ref={messageRef} sx={styles.messageList}>
@@ -226,10 +225,12 @@ const DirectMessage = () => {
                       </Box>
                     }
                     secondary={
-                      <TooltipTimestamp
-                        timestamp={o.timestamp}
-                        variant="body2"
-                      />
+                      <Box sx={styles.timestamp}>
+                        <TooltipTimestamp
+                          timestamp={o.timestamp}
+                          variant="body2"
+                        />
+                      </Box>
                     }
                   />
                 </ListItem>
