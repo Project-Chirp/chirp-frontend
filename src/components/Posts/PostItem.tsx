@@ -73,18 +73,19 @@ const PostItem = ({ post }: PostProps) => {
   const navigate = useNavigate();
 
   const routeChange = () => {
-    const path = `/post/${post.postId}`;
-    navigate(path);
+    navigate(`/post/${post.postId}`);
     dispatch(setExpandedPost(post));
   };
 
-  const clipboardCopy = () => {
-    const path = `http://localhost:3000/post/${post.postId}`;
-    navigator.clipboard.writeText(path);
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
     setSnackbarOpen(true);
   };
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
     if (reason === "clickaway") {
       return;
     }
@@ -173,7 +174,7 @@ const PostItem = ({ post }: PostProps) => {
             >
               {post.numberOfLikes}
             </Button>
-            <IconButton onClick={() => clipboardCopy()}>
+            <IconButton onClick={() => copyToClipboard()}>
               <ShareOutlined />
             </IconButton>
           </Box>
@@ -181,12 +182,12 @@ const PostItem = ({ post }: PostProps) => {
         <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
       </Card>
       <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={4000}
+        onClose={handleClose}
         open={snackbarOpen}
-        autoHideDuration={2000}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        onClose={() => handleClose()}
       >
-        <Alert onClose={() => handleClose} severity="success">
+        <Alert onClose={handleClose} severity="success">
           Post URL copied to clipboard!
         </Alert>
       </Snackbar>

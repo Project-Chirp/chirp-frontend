@@ -87,8 +87,8 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const user = useAppSelector((state) => state.user);
   const urlParams = useParams();
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
@@ -110,13 +110,15 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
 
-  const clipboardCopy = () => {
-    const path = `http://localhost:3000/post/${post.postId}`;
-    navigator.clipboard.writeText(path);
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
     setSnackbarOpen(true);
   };
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
     if (reason === "clickaway") {
       return;
     }
@@ -125,16 +127,6 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
 
   return (
     <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={2000}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        onClose={() => handleClose()}
-      >
-        <Alert onClose={() => handleClose} severity="success">
-          Post URL copied to clipboard!
-        </Alert>
-      </Snackbar>
       <Card sx={styles.card}>
         <Box sx={styles.topHeader}>
           <IconButton onClick={() => navigate(-1)}>
@@ -248,13 +240,23 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
                 <FavoriteBorderOutlined />
               )}
             </IconButton>
-            <IconButton onClick={() => clipboardCopy()}>
+            <IconButton onClick={() => copyToClipboard()}>
               <ShareOutlined />
             </IconButton>
           </Stack>
         </CardActions>
         <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
       </Card>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={4000}
+        onClose={handleClose}
+        open={snackbarOpen}
+      >
+        <Alert onClose={handleClose} severity="success">
+          Post URL copied to clipboard!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
