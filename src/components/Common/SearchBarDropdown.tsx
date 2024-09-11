@@ -17,7 +17,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type SearchBarProps = {
   placeholder: string;
@@ -62,10 +62,13 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
   const [searchOptions, setSearchOptions] = useState<SelectedUser[]>([]);
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const fetchUsers = async (keywords: string) => {
     setLoading(true);
-    if (keywords.length === 0) return {};
+    if (keywords.length === 0) {
+      return;
+    }
 
     try {
       const token = await getAccessTokenSilently();
@@ -83,12 +86,9 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
 
       setSearchOptions(result.data as SelectedUser[]);
 
-      // TODO: Refactor this setSearchOptions instead of just trimming a successful search
       if (keywords.trim() === "") {
         setSearchOptions([]);
       }
-
-      return result.data;
     } catch (error) {
       console.error("Failed to fetch users:", error);
     } finally {
@@ -101,33 +101,28 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
 
     if (newInputValue.trim() === "") {
       setSearchOptions([]);
-      setFocusSearchBar(false);
-    } else {
-      setFocusSearchBar(true);
     }
   };
 
   const onSelect = (selectedUsername: string) => {
-    setKeywords("");
     inputRef.current?.blur();
     navigate(`/${selectedUsername}`);
-  };
-
-  const handleOpen = () => {
-    if (keywords.length > 0) setFocusSearchBar(true);
   };
 
   useEffect(() => {
     debouncedFetch(keywords);
   }, [keywords]);
 
+  useEffect(() => {
+    setKeywords("");
+    setSearchOptions([]);
+  }, [location]);
+
   return (
     <Box sx={styles.box}>
       <Autocomplete
         disablePortal
-        forcePopupIcon={false}
         fullWidth
-        filterOptions={(x) => x}
         freeSolo
         getOptionLabel={(option) =>
           typeof option === "string"
@@ -138,9 +133,15 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
         inputValue={keywords}
         ListboxProps={{ sx: styles.listBox }}
         loading={loading}
+        loadingText="Start typing to search..."
+        onChange={(_, value) => {
+          if (value && typeof value !== "string") {
+            onSelect(value.username);
+          }
+        }}
         onBlur={() => setFocusSearchBar(false)}
         onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
-        onOpen={handleOpen}
+        onFocus={() => setFocusSearchBar(true)}
         open={focusSearchBar}
         openOnFocus
         options={searchOptions}
@@ -171,34 +172,29 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
             size="small"
           />
         )}
-        renderOption={(params, option) => (
-          <Box key={option.userId}>
+        renderOption={(props, option) => {
+          return (
             <ListItemButton
-              {...params}
               component="li"
-              key={option.userId}
+              {...props}
               onClick={() => onSelect(option.username)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") onSelect(option.username);
-              }}
             >
               <ListItemAvatar>
                 <Avatar />
               </ListItemAvatar>
               <ListItemText
-                disableTypography
                 primary={
-                  <Box>
-                    <Typography variant="subtitle1">
-                      {option.displayName}
-                    </Typography>
-                    <Typography variant="subtitle2">{`@${option.username}`}</Typography>
-                  </Box>
+                  <Typography variant="subtitle1">
+                    {option.displayName}
+                  </Typography>
+                }
+                secondary={
+                  <Typography variant="subtitle2">{`@${option.username}`}</Typography>
                 }
               />
             </ListItemButton>
-          </Box>
-        )}
+          );
+        }}
         sx={styles.autocomplete}
       />
     </Box>
