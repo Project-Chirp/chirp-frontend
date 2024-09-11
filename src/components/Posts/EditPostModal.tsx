@@ -22,7 +22,7 @@ import { updatePost } from "../../state/slices/postsSlice";
 
 type EditPostModalProps = {
   onClose: () => void;
-  openModal: boolean;
+  open: boolean;
   postId: number;
   originalPostTextContent: string;
   originalPostTimeStamp: string;

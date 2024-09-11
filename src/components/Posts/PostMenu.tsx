@@ -111,7 +111,7 @@ const PostMenu = ({
       />
       <EditPostModal
         onClose={() => setEditModal(false)}
-        openModal={editModal}
+        open={editModal}
         postId={postId}
         originalPostTextContent={postTextContent}
         originalPostTimeStamp={postTimeStamp}
