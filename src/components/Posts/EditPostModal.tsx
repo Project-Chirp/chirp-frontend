@@ -25,7 +25,7 @@ type EditPostModalProps = {
   open: boolean;
   postId: number;
   originalPostTextContent: string;
-  originalPostTimeStamp: string;
+  originalPostTimestamp: string;
   prevEditedPostTimestamp: string;
 };
 
@@ -70,7 +70,7 @@ const EditPostModal = ({
   open,
   postId,
   originalPostTextContent,
-  originalPostTimeStamp,
+  originalPostTimestamp,
   prevEditedPostTimestamp,
 }: EditPostModalProps) => {
   const [postTextContent, setPostTextContent] = useState("");
@@ -86,19 +86,11 @@ const EditPostModal = ({
 
   const handleEdit = async () => {
     try {
-      await axios.put(
-        "http://localhost:3001/api/posts/updatePost",
-        {
-          postId: postId,
-          textContent: postTextContent,
-          editedTimestamp: new Date(),
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await axios.put("http://localhost:3001/api/posts/updatePost", {
+        postId: postId,
+        textContent: postTextContent,
+        editedTimestamp: new Date(),
+      });
 
       if (existingPost) {
         dispatch(
@@ -144,7 +136,7 @@ const EditPostModal = ({
               <Typography variant="body2">
                 {prevEditedPostTimestamp
                   ? formatTimestamp(prevEditedPostTimestamp, true)
-                  : formatTimestamp(originalPostTimeStamp)}
+                  : formatTimestamp(originalPostTimestamp)}
               </Typography>
             </Box>
           </Box>

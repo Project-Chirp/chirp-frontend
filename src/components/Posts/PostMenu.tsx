@@ -14,10 +14,10 @@ import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
 type PostMenuProps = {
   authorId: number;
   postId: number;
-  postTextContent: string;
-  postTimeStamp: string;
+  textContent: string;
+  timestamp: string;
   isExpandedPost?: boolean;
-  prevEditedPostTimestamp: string;
+  editedTimestamp: string;
 };
 
 const styles = {
@@ -37,16 +37,16 @@ const styles = {
 const PostMenu = ({
   authorId,
   postId,
-  postTextContent,
-  postTimeStamp,
+  textContent,
+  timestamp,
   isExpandedPost = false,
-  prevEditedPostTimestamp,
+  editedTimestamp,
 }: PostMenuProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const menuRef = useRef<HTMLButtonElement>(null);
   const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
     useState(false);
-  const [editModal, setEditModal] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -64,7 +64,13 @@ const PostMenu = ({
         MenuListProps={{ sx: styles.menuList }}
       >
         {userId === authorId && (
-          <MenuItem sx={styles.menuItem} onClick={() => setEditModal(true)}>
+          <MenuItem
+            sx={styles.menuItem}
+            onClick={() => {
+              setMenuOpen(false);
+              setEditModalOpen(true);
+            }}
+          >
             <ListItemIcon>
               <Edit sx={styles.icon} />
             </ListItemIcon>
@@ -110,12 +116,12 @@ const PostMenu = ({
         isExpandedPost={isExpandedPost}
       />
       <EditPostModal
-        onClose={() => setEditModal(false)}
-        open={editModal}
+        onClose={() => setEditModalOpen(false)}
+        open={editModalOpen}
         postId={postId}
-        originalPostTextContent={postTextContent}
-        originalPostTimeStamp={postTimeStamp}
-        prevEditedPostTimestamp={prevEditedPostTimestamp}
+        originalPostTextContent={textContent}
+        originalPostTimestamp={timestamp}
+        prevEditedPostTimestamp={editedTimestamp}
       ></EditPostModal>
     </>
   );

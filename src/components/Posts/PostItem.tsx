@@ -113,11 +113,13 @@ const PostItem = ({ post }: PostProps) => {
           </Box>
         }
         subheader={
-          post.editedTimestamp
-            ? formatTimestamp(post.editedTimestamp, true)
-            : formatTimestamp(post.timestamp)
+          post.editedTimestamp ? (
+            formatTimestamp(post.editedTimestamp, true)
+          ) : (
+            <TooltipTimestamp timestamp={post.timestamp} />
+          )
         }
-        subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
+        subheaderTypographyProps={{ sx: styles.tooltipText }}
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent>
