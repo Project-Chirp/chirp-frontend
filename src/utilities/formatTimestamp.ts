@@ -3,6 +3,7 @@ const formatTimestamp = (entry: string) => {
   const currentDate = new Date();
   const millisecondsInADay = 24 * 60 * 60 * 1000;
   const timeDifference = currentDate.getTime() - date.getTime();
+
   if (timeDifference < millisecondsInADay) {
     const hourDiff = timeDifference / (60 * 60 * 1000);
     if (hourDiff < 1) {

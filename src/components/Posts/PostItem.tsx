@@ -4,22 +4,23 @@ import {
   Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
+  CardHeader,
+  CardMedia,
+  IconButton,
   Link,
   Snackbar,
   Typography,
   useTheme,
 } from "@mui/material";
-import CardHeader from "@mui/material/CardHeader/CardHeader";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import IconButton from "@mui/material/IconButton/IconButton";
-import CardMedia from "@mui/material/CardMedia/CardMedia";
-import CardActions from "@mui/material/CardActions/CardActions";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
-import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import {
+  AddCommentOutlined,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  RepeatOutlined,
+  ShareOutlined,
+} from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, toggleLikePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
@@ -27,9 +28,10 @@ import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
+import PostMenu from "./PostMenu";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
 
 type PostProps = {
   post: Post;
@@ -44,6 +46,7 @@ const styles = {
     justifyContent: "space-between",
     width: "100%",
   },
+  cardMedia: { maxWidth: 200, margin: "auto" },
   coloredButton: {
     color: "primary.main",
   },
@@ -56,6 +59,9 @@ const styles = {
   displayName: {
     paddingRight: 0.5,
   },
+  tooltipText: {
+    display: "inline-block",
+  },
 };
 
 const PostItem = ({ post }: PostProps) => {
@@ -64,8 +70,8 @@ const PostItem = ({ post }: PostProps) => {
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
   const navigate = useNavigate();
+
   const routeChange = () => {
     const path = `/post/${post.postId}`;
     navigate(path);
@@ -90,11 +96,7 @@ const PostItem = ({ post }: PostProps) => {
       <Card sx={styles.card}>
         <CardHeader
           avatar={<UserAvatar username={post.username} />}
-          action={
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-          }
+          action={<PostMenu authorId={post.userId} postId={post.postId} />}
           title={
             <Box>
               <Link
@@ -118,8 +120,8 @@ const PostItem = ({ post }: PostProps) => {
               </Link>
             </Box>
           }
-          subheader={formatTimestamp(post.timestamp)}
-          subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
+          subheader={<TooltipTimestamp timestamp={post.timestamp} />}
+          subheaderTypographyProps={{ sx: styles.tooltipText }}
         />
         <CardActionArea onClick={() => routeChange()}>
           <CardContent>
@@ -127,7 +129,7 @@ const PostItem = ({ post }: PostProps) => {
           </CardContent>
           {post.imagePath && (
             <CardMedia
-              sx={{ maxWidth: 200, margin: "auto" }}
+              sx={styles.cardMedia}
               component="img"
               image={post.imagePath}
             />
@@ -135,17 +137,14 @@ const PostItem = ({ post }: PostProps) => {
         </CardActionArea>
         <CardActions>
           <Box sx={styles.cardActions}>
-            <Button
-              startIcon={<RepeatOutlinedIcon />}
-              sx={styles.defaultButton}
-            >
+            <Button startIcon={<RepeatOutlined />} sx={styles.defaultButton}>
               {post.numberOfReposts}
             </Button>
             <Button
               onClick={() => {
                 setOpen(true);
               }}
-              startIcon={<AddCommentOutlinedIcon />}
+              startIcon={<AddCommentOutlined />}
               sx={styles.defaultButton}
             >
               {post.numberOfReplies}
@@ -161,9 +160,9 @@ const PostItem = ({ post }: PostProps) => {
               }}
               startIcon={
                 post.isLikedByCurrentUser ? (
-                  <FavoriteOutlinedIcon />
+                  <FavoriteOutlined />
                 ) : (
-                  <FavoriteBorderOutlinedIcon />
+                  <FavoriteBorderOutlined />
                 )
               }
               sx={
@@ -175,7 +174,7 @@ const PostItem = ({ post }: PostProps) => {
               {post.numberOfLikes}
             </Button>
             <IconButton>
-              <ShareOutlinedIcon onClick={() => clipboardCopy()} />
+              <ShareOutlined />
             </IconButton>
           </Box>
         </CardActions>
