@@ -73,16 +73,14 @@ const EditPostModal = ({
   originalPostTimestamp,
   prevEditedPostTimestamp,
 }: EditPostModalProps) => {
-  const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const existingPost = useAppSelector((state) =>
     state.posts.posts.find((post) => post.postId === postId)
   );
-
-  useEffect(() => {
-    setPostTextContent(originalPostTextContent);
-  }, [originalPostTextContent]);
+  const [postTextContent, setPostTextContent] = useState<string>(
+    existingPost?.textContent || ""
+  );
 
   const handleEdit = async () => {
     try {
@@ -134,9 +132,12 @@ const EditPostModal = ({
                 <Typography variant="subtitle2">{`@${user.displayName}`}</Typography>
               </Box>
               <Typography variant="body2">
-                {prevEditedPostTimestamp
-                  ? formatTimestamp(prevEditedPostTimestamp, true)
-                  : formatTimestamp(originalPostTimestamp)}
+                {
+                  prevEditedPostTimestamp
+                    ? formatTimestamp(prevEditedPostTimestamp, true)
+                    : formatTimestamp(originalPostTimestamp)
+                  // formatTimestamp(existingPost?.timestamp || "")
+                }
               </Typography>
             </Box>
           </Box>

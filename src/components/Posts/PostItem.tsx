@@ -84,9 +84,9 @@ const PostItem = ({ post }: PostProps) => {
           <PostMenu
             authorId={post.userId}
             postId={post.postId}
-            postTextContent={post.textContent}
-            postTimeStamp={post.timestamp}
-            prevEditedPostTimestamp={post.editedTimestamp}
+            textContent={post.textContent}
+            timestamp={post.timestamp}
+            editedTimestamp={post.editedTimestamp}
           />
         }
         title={
