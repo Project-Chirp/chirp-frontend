@@ -122,10 +122,10 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           <PostMenu
             authorId={post.userId}
             postId={post.postId}
-            postTextContent={post.textContent}
-            postTimeStamp={post.timestamp}
+            textContent={post.textContent}
+            timestamp={post.timestamp}
             isExpandedPost
-            prevEditedPostTimestamp={post.editedTimestamp}
+            editedTimestamp={post.editedTimestamp}
           />
         }
         title={
