@@ -84,10 +84,9 @@ const EditPostModal = ({
 
   const handleEdit = async () => {
     try {
-      await axios.put("http://localhost:3001/api/posts/updatePost", {
+      await axios.put("http://localhost:3001/api/posts/editPost", {
         postId: postId,
         textContent: postTextContent,
-        editedTimestamp: new Date(),
       });
 
       if (existingPost) {
@@ -95,7 +94,6 @@ const EditPostModal = ({
           updatePost({
             ...existingPost,
             textContent: postTextContent,
-            editedTimestamp: new Date().toISOString(),
           })
         );
       }
