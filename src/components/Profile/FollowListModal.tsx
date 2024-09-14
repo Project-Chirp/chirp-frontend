@@ -34,7 +34,7 @@ export type ListType = "Followers" | "Following";
 
 type FollowListModalProps = {
   loading: boolean;
-  openModal: boolean;
+  open: boolean;
   listType: ListType | null;
   listUserData: NetworkUsers[];
   setListUserData: (data: NetworkUsers[]) => void;
@@ -67,7 +67,7 @@ const styles = {
 
 const FollowListModal = ({
   loading,
-  openModal,
+  open,
   listType,
   listUserData,
   setListUserData,
@@ -96,7 +96,7 @@ const FollowListModal = ({
   return (
     <Dialog
       onClose={onClose}
-      open={openModal}
+      open={open}
       PaperProps={{ sx: styles.dialog }}
       scroll="paper"
     >

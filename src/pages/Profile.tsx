@@ -128,7 +128,7 @@ const Profile = () => {
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [followListModalLoading, setFollowListModalLoading] = useState(true);
-  const [followListModelOpen, setFollowListModelOpen] = useState(false);
+  const [followListModel, setFollowListModel] = useState(false);
   const [listType, setListType] = useState<ListType | null>(null);
   const [followerListData, setFollowerListData] = useState<NetworkUsers[]>([]);
 
@@ -143,7 +143,7 @@ const Profile = () => {
 
   const handleOpenFollowersModal = async () => {
     setListType("Followers");
-    setFollowListModelOpen(true);
+    setFollowListModel(true);
     try {
       setFollowListModalLoading(true);
       const endpoint = "http://localhost:3001/api/follow/getFollowersList";
@@ -163,7 +163,7 @@ const Profile = () => {
 
   const handleOpenFollowingModal = async () => {
     setListType("Following");
-    setFollowListModelOpen(true);
+    setFollowListModel(true);
     try {
       setFollowListModalLoading(true);
       const endpoint = "http://localhost:3001/api/follow/getFollowingList";
@@ -387,14 +387,14 @@ const Profile = () => {
           open={editProfileModalOpen}
         />
       )}
-      {!followListModalLoading && followListModelOpen && (
+      {!followListModalLoading && followListModel && (
         <FollowListModal
           loading={followListModalLoading}
-          openModal={followListModelOpen}
+          open={followListModel}
           listType={listType}
           listUserData={followerListData}
           setListUserData={setFollowerListData}
-          onClose={() => setFollowListModelOpen(false)}
+          onClose={() => setFollowListModel(false)}
           onFollowed={(isFollowing) => onFollowed(isFollowing)}
         />
       )}
