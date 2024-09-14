@@ -29,6 +29,10 @@ import FollowButton from "../components/Common/FollowButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
 import { setDisplayName } from "../state/slices/userSlice";
 import { updateDisplayNames } from "../state/slices/postsSlice";
+import FollowListModal, {
+  ListType,
+  NetworkUsers,
+} from "../components/Profile/FollowListModal";
 
 const styles = {
   avatar: {
@@ -123,6 +127,59 @@ const Profile = () => {
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [followListModalLoading, setFollowListModalLoading] = useState(true);
+  const [followListModel, setFollowListModel] = useState(false);
+  const [listType, setListType] = useState<ListType | null>(null);
+  const [followerListData, setFollowerListData] = useState<NetworkUsers[]>([]);
+
+  const onFollowed = (isFollowing: boolean) => {
+    setProfileContents((prevProfileContents) => ({
+      ...prevProfileContents,
+      followingCount: isFollowing
+        ? --prevProfileContents.followingCount
+        : ++prevProfileContents.followingCount,
+    }));
+  };
+
+  const handleOpenFollowersModal = async () => {
+    setListType("Followers");
+    setFollowListModel(true);
+    try {
+      setFollowListModalLoading(true);
+      const endpoint = "http://localhost:3001/api/follow/getFollowersList";
+      const result = await axios.get(endpoint, {
+        params: {
+          visitedUserId: profileContents.userId,
+          currentUserId: currentUserId,
+        },
+      });
+      setFollowerListData(result.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFollowListModalLoading(false);
+    }
+  };
+
+  const handleOpenFollowingModal = async () => {
+    setListType("Following");
+    setFollowListModel(true);
+    try {
+      setFollowListModalLoading(true);
+      const endpoint = "http://localhost:3001/api/follow/getFollowingList";
+      const result = await axios.get(endpoint, {
+        params: {
+          visitedUserId: profileContents.userId,
+          currentUserId: currentUserId,
+        },
+      });
+      setFollowerListData(result.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFollowListModalLoading(false);
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -327,6 +384,17 @@ const Profile = () => {
             setProfileContents({ ...profileContents, ...editedProfile });
           }}
           open={editProfileModalOpen}
+        />
+      )}
+      {!followListModalLoading && followListModel && (
+        <FollowListModal
+          loading={followListModalLoading}
+          open={followListModel}
+          listType={listType}
+          listUserData={followerListData}
+          setListUserData={setFollowerListData}
+          onClose={() => setFollowListModel(false)}
+          onFollowed={(isFollowing) => onFollowed(isFollowing)}
         />
       )}
     </>
