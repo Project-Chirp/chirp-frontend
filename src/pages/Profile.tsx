@@ -30,7 +30,6 @@ import EditProfileModal from "../components/Profile/EditProfileModal";
 import { setDisplayName } from "../state/slices/userSlice";
 import { updateDisplayNames } from "../state/slices/postsSlice";
 import FollowListModal, {
-  ListType,
   NetworkUsers,
 } from "../components/Profile/FollowListModal";
 
@@ -128,9 +127,10 @@ const Profile = () => {
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [followListModalLoading, setFollowListModalLoading] = useState(true);
-  const [followListModel, setFollowListModel] = useState(false);
-  const [listType, setListType] = useState<ListType | null>(null);
+  const [followListModalOpen, setFollowListModalOpen] = useState(false);
   const [followerListData, setFollowerListData] = useState<NetworkUsers[]>([]);
+  const [isFollowersModal, setIsFollowersModal] = useState(false);
+  const [isFollowingModal, setIsFollowingModal] = useState(false);
 
   const onFollowed = (isFollowing: boolean) => {
     setProfileContents((prevProfileContents) => ({
@@ -142,8 +142,7 @@ const Profile = () => {
   };
 
   const handleOpenFollowersModal = async () => {
-    setListType("Followers");
-    setFollowListModel(true);
+    setFollowListModalOpen(true);
     try {
       setFollowListModalLoading(true);
       const endpoint = "http://localhost:3001/api/follow/getFollowersList";
@@ -162,8 +161,7 @@ const Profile = () => {
   };
 
   const handleOpenFollowingModal = async () => {
-    setListType("Following");
-    setFollowListModel(true);
+    setFollowListModalOpen(true);
     try {
       setFollowListModalLoading(true);
       const endpoint = "http://localhost:3001/api/follow/getFollowingList";
@@ -318,7 +316,10 @@ const Profile = () => {
                     color={theme.palette.black.main}
                     component="button"
                     underline="hover"
-                    onClick={() => handleOpenFollowersModal()}
+                    onClick={() => {
+                      setIsFollowersModal(true);
+                      handleOpenFollowersModal();
+                    }}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followerCount}
@@ -329,7 +330,10 @@ const Profile = () => {
                     color={theme.palette.black.main}
                     component="button"
                     underline="hover"
-                    onClick={() => handleOpenFollowingModal()}
+                    onClick={() => {
+                      setIsFollowingModal(true);
+                      handleOpenFollowingModal();
+                    }}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
@@ -387,14 +391,25 @@ const Profile = () => {
           open={editProfileModalOpen}
         />
       )}
-      {!followListModalLoading && followListModel && (
+      {followListModalOpen && isFollowersModal && (
         <FollowListModal
           loading={followListModalLoading}
-          open={followListModel}
-          listType={listType}
+          open={followListModalOpen}
+          title="Followers"
           listUserData={followerListData}
           setListUserData={setFollowerListData}
-          onClose={() => setFollowListModel(false)}
+          onClose={() => setFollowListModalOpen(false)}
+          onFollowed={(isFollowing) => onFollowed(isFollowing)}
+        />
+      )}
+      {followListModalOpen && isFollowingModal && (
+        <FollowListModal
+          loading={followListModalLoading}
+          open={followListModalOpen}
+          title="Following"
+          listUserData={followerListData}
+          setListUserData={setFollowerListData}
+          onClose={() => setFollowListModalOpen(false)}
           onFollowed={(isFollowing) => onFollowed(isFollowing)}
         />
       )}

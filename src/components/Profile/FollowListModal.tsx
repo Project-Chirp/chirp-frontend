@@ -30,12 +30,10 @@ export type NetworkUsers = {
   isFollowing: boolean;
 };
 
-export type ListType = "Followers" | "Following";
-
 type FollowListModalProps = {
   loading: boolean;
   open: boolean;
-  listType: ListType | null;
+  title: string;
   listUserData: NetworkUsers[];
   setListUserData: (data: NetworkUsers[]) => void;
   onClose: () => void;
@@ -68,7 +66,7 @@ const styles = {
 const FollowListModal = ({
   loading,
   open,
-  listType,
+  title,
   listUserData,
   setListUserData,
   onClose,
@@ -105,7 +103,7 @@ const FollowListModal = ({
           <CloseIcon />
         </IconButton>
         <Box sx={styles.titleBox}>
-          <Typography variant="subtitle1">{listType}</Typography>
+          <Typography variant="subtitle1">{title}</Typography>
         </Box>
       </DialogTitle>
       <Divider />
