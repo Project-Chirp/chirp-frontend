@@ -132,7 +132,18 @@ const Profile = () => {
   const [isFollowersModal, setIsFollowersModal] = useState(false);
   const [isFollowingModal, setIsFollowingModal] = useState(false);
 
-  const onFollowed = (isFollowing: boolean) => {
+  const onFollowed = (
+    // userId: number,
+    isFollowing: boolean
+  ) => {
+    // const updatedList = followerListData.map((o) => {
+    //   if (userId === o.userId) {
+    //     return { ...o, isFollowing: !o.isFollowing };
+    //   }
+    //   return o;
+    // });
+    // setFollowerListData(updatedList);
+
     setProfileContents((prevProfileContents) => ({
       ...prevProfileContents,
       followingCount: isFollowing

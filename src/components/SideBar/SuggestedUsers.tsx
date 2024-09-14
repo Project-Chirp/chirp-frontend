@@ -97,10 +97,7 @@ const SuggestedUsers = () => {
               sx={styles.listItemText}
             />
             {/* TODO: Update to render Following Button as well */}
-            <FollowButton
-              onClick={(e) => e.stopPropagation()}
-              visitedUserId={NaN}
-            />
+            <FollowButton visitedUserId={NaN} />
           </ListItemButton>
         ))}
       </List>

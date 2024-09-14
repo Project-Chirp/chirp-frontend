@@ -151,16 +151,14 @@ const FollowListModal = ({
                   {o.userId !== currentUserId &&
                     (o.isFollowing ? (
                       <FollowingButton
-                        onClick={(e) => {
-                          e.stopPropagation();
+                        onClick={() => {
                           handleFollowToggle(o.userId);
                         }}
                         visitedUserId={o.userId}
                       />
                     ) : (
                       <FollowButton
-                        onClick={(e) => {
-                          e.stopPropagation();
+                        onClick={() => {
                           handleFollowToggle(o.userId);
                         }}
                         visitedUserId={o.userId}
