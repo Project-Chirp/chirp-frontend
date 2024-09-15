@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useAppSelector } from "../../state/hooks";
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const styles = {
   followingButton: {

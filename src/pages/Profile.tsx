@@ -127,12 +127,11 @@ const Profile = () => {
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [followListModalLoading, setFollowListModalLoading] = useState(true);
-  const [followListModalOpen, setFollowListModalOpen] = useState(false);
+  const [followerListModalOpen, setFollowerListModalOpen] = useState(false);
+  const [followingListModalOpen, setFollowingListModalOpen] = useState(false);
   const [followListModalData, setFollowListModalData] = useState<
     NetworkUsers[]
   >([]);
-  const [isFollowersModal, setIsFollowersModal] = useState(false);
-  const [isFollowingModal, setIsFollowingModal] = useState(false);
 
   const handleFollowToggle = (userId: number, isFollowing: boolean) => {
     const updatedList = followListModalData.map((o) => {
@@ -151,7 +150,7 @@ const Profile = () => {
   };
 
   const handleOpenFollowersModal = async () => {
-    setFollowListModalOpen(true);
+    setFollowerListModalOpen(true);
     try {
       setFollowListModalLoading(true);
       const endpoint = "http://localhost:3001/api/follow/getFollowerList";
@@ -170,7 +169,7 @@ const Profile = () => {
   };
 
   const handleOpenFollowingModal = async () => {
-    setFollowListModalOpen(true);
+    setFollowingListModalOpen(true);
     try {
       setFollowListModalLoading(true);
       const endpoint = "http://localhost:3001/api/follow/getFollowingList";
@@ -326,7 +325,6 @@ const Profile = () => {
                     component="button"
                     underline="hover"
                     onClick={() => {
-                      setIsFollowersModal(true);
                       handleOpenFollowersModal();
                     }}
                   >
@@ -340,7 +338,6 @@ const Profile = () => {
                     component="button"
                     underline="hover"
                     onClick={() => {
-                      setIsFollowingModal(true);
                       handleOpenFollowingModal();
                     }}
                   >
@@ -400,27 +397,27 @@ const Profile = () => {
           open={editProfileModalOpen}
         />
       )}
-      {followListModalOpen && isFollowersModal && (
+      {followerListModalOpen && (
         <FollowListModal
           list={followListModalData}
           loading={followListModalLoading}
-          onClose={() => setFollowListModalOpen(false)}
+          onClose={() => setFollowerListModalOpen(false)}
           onToggleFollow={(userId, isFollowing) =>
             handleFollowToggle(userId, isFollowing)
           }
-          open={followListModalOpen}
+          open={followerListModalOpen}
           title="Followers"
         />
       )}
-      {followListModalOpen && isFollowingModal && (
+      {followingListModalOpen && (
         <FollowListModal
           list={followListModalData}
           loading={followListModalLoading}
-          onClose={() => setFollowListModalOpen(false)}
+          onClose={() => setFollowingListModalOpen(false)}
           onToggleFollow={(userId, isFollowing) =>
             handleFollowToggle(userId, isFollowing)
           }
-          open={followListModalOpen}
+          open={followingListModalOpen}
           title="Following"
         />
       )}

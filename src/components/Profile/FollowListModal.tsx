@@ -21,6 +21,7 @@ import FollowButton from "../Common/FollowButton";
 import { useAppSelector } from "../../state/hooks";
 import { Link as Routerlink, useNavigate } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
+import PageLoader from "../../pages/PageLoader";
 
 export type NetworkUsers = {
   userId: number;
@@ -98,6 +99,7 @@ const FollowListModal = ({
         <SearchBar placeholder="Search" />
       </Box>
       <DialogContent>
+        {loading && <PageLoader />}
         {!loading && (
           <List sx={styles.list}>
             {sortedList.map((o) => (
