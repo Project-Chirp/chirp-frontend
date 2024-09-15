@@ -114,7 +114,10 @@ const PostItem = ({ post }: PostProps) => {
         }
         subheader={
           post.editedTimestamp ? (
-            formatTimestamp(post.editedTimestamp, true)
+            <TooltipTimestamp
+              timestamp={post.editedTimestamp}
+              isEdited={true}
+            />
           ) : (
             <TooltipTimestamp timestamp={post.timestamp} />
           )
