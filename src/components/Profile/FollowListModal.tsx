@@ -31,12 +31,12 @@ export type NetworkUsers = {
 };
 
 type FollowListModalProps = {
+  list: NetworkUsers[];
   loading: boolean;
+  onClose: () => void;
+  onToggleFollow: (userId: number, isFollowing: boolean) => void;
   open: boolean;
   title: string;
-  listUserData: NetworkUsers[];
-  onClose: () => void;
-  handleFollowToggle: (userId: number, isFollowing: boolean) => void;
 };
 
 const styles = {
@@ -63,18 +63,18 @@ const styles = {
 };
 
 const FollowListModal = ({
+  list,
   loading,
+  onClose,
+  onToggleFollow,
   open,
   title,
-  listUserData,
-  onClose,
-  handleFollowToggle,
 }: FollowListModalProps) => {
   const currentUserId = useAppSelector((state) => state.user.userId);
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const sortedListUserData = listUserData.sort((a, b) =>
+  const sortedList = list.sort((a, b) =>
     b.userId === currentUserId ? 1 : a.userId === currentUserId ? -1 : 0
   );
 
@@ -100,7 +100,7 @@ const FollowListModal = ({
       <DialogContent>
         {!loading && (
           <List sx={styles.list}>
-            {sortedListUserData.map((o) => (
+            {sortedList.map((o) => (
               <ListItem key={o.userId} disablePadding>
                 <ListItemButton
                   onClick={() => {
@@ -139,14 +139,14 @@ const FollowListModal = ({
                     (o.isFollowing ? (
                       <FollowingButton
                         onClick={() => {
-                          handleFollowToggle(o.userId, o.isFollowing);
+                          onToggleFollow(o.userId, o.isFollowing);
                         }}
                         visitedUserId={o.userId}
                       />
                     ) : (
                       <FollowButton
                         onClick={() => {
-                          handleFollowToggle(o.userId, o.isFollowing);
+                          onToggleFollow(o.userId, o.isFollowing);
                         }}
                         visitedUserId={o.userId}
                       />

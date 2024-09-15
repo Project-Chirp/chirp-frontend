@@ -128,26 +128,26 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [followListModalLoading, setFollowListModalLoading] = useState(true);
   const [followListModalOpen, setFollowListModalOpen] = useState(false);
-  const [followListModalUserData, setFollowListModalUserData] = useState<
+  const [followListModalData, setFollowListModalData] = useState<
     NetworkUsers[]
   >([]);
   const [isFollowersModal, setIsFollowersModal] = useState(false);
   const [isFollowingModal, setIsFollowingModal] = useState(false);
 
   const handleFollowToggle = (userId: number, isFollowing: boolean) => {
-    const updatedList = followListModalUserData.map((o) => {
+    const updatedList = followListModalData.map((o) => {
       if (userId === o.userId) {
-        setProfileContents((prevProfileContents) => ({
-          ...prevProfileContents,
-          followingCount: isFollowing
-            ? --prevProfileContents.followingCount
-            : ++prevProfileContents.followingCount,
-        }));
         return { ...o, isFollowing: !o.isFollowing };
       }
       return o;
     });
-    setFollowListModalUserData(updatedList);
+    setFollowListModalData(updatedList);
+    setProfileContents((prevProfileContents) => ({
+      ...prevProfileContents,
+      followingCount: isFollowing
+        ? --prevProfileContents.followingCount
+        : ++prevProfileContents.followingCount,
+    }));
   };
 
   const handleOpenFollowersModal = async () => {
@@ -161,8 +161,7 @@ const Profile = () => {
           currentUserId: currentUserId,
         },
       });
-
-      setFollowListModalUserData(result.data);
+      setFollowListModalData(result.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -181,7 +180,7 @@ const Profile = () => {
           currentUserId: currentUserId,
         },
       });
-      setFollowListModalUserData(result.data);
+      setFollowListModalData(result.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -403,26 +402,26 @@ const Profile = () => {
       )}
       {followListModalOpen && isFollowersModal && (
         <FollowListModal
+          list={followListModalData}
           loading={followListModalLoading}
-          open={followListModalOpen}
-          title="Followers"
-          listUserData={followListModalUserData}
           onClose={() => setFollowListModalOpen(false)}
-          handleFollowToggle={(userId, isFollowing) =>
+          onToggleFollow={(userId, isFollowing) =>
             handleFollowToggle(userId, isFollowing)
           }
+          open={followListModalOpen}
+          title="Followers"
         />
       )}
       {followListModalOpen && isFollowingModal && (
         <FollowListModal
+          list={followListModalData}
           loading={followListModalLoading}
-          open={followListModalOpen}
-          title="Following"
-          listUserData={followListModalUserData}
           onClose={() => setFollowListModalOpen(false)}
-          handleFollowToggle={(userId, isFollowing) =>
+          onToggleFollow={(userId, isFollowing) =>
             handleFollowToggle(userId, isFollowing)
           }
+          open={followListModalOpen}
+          title="Following"
         />
       )}
     </>
