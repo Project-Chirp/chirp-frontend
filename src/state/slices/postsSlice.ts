@@ -18,12 +18,12 @@ export type Post = {
   username: string;
 };
 
-type PostSliceType = {
+type PostState = {
   posts: Post[];
   expandedPost: Post;
 };
 
-const initialState: PostSliceType = {
+const initialState: PostState = {
   posts: [],
   expandedPost: {
     displayName: "",

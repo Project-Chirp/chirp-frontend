@@ -166,7 +166,6 @@ const PostItem = ({ post }: PostProps) => {
               dispatch(
                 queueToast({
                   message: "Post URL copied to clipboard!",
-                  open: true,
                 })
               );
             }}

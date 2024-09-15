@@ -3,7 +3,8 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { closeToast } from "../../state/slices/toastSlice";
 
 const Toast = () => {
-  const toast = useAppSelector((state) => state.toast);
+  const { action, anchorOrigin, autoHideDuration, message, open, severity } =
+    useAppSelector((state) => state.toast);
   const dispatch = useAppDispatch();
 
   const handleClose = (
@@ -18,17 +19,13 @@ const Toast = () => {
 
   return (
     <Snackbar
-      anchorOrigin={toast.anchorOrigin}
-      autoHideDuration={toast.autoHideDuration}
+      anchorOrigin={anchorOrigin}
+      autoHideDuration={autoHideDuration}
       onClose={handleClose}
-      open={toast.open}
+      open={open}
     >
-      <Alert
-        onClose={handleClose}
-        severity={toast.severity}
-        action={toast.action}
-      >
-        {toast.message}
+      <Alert onClose={handleClose} severity={severity} action={action}>
+        {message}
       </Alert>
     </Snackbar>
   );

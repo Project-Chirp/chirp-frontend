@@ -2,7 +2,7 @@ import { AlertColor, SnackbarOrigin } from "@mui/material";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ReactNode } from "react";
 
-type Toast = {
+type ToastState = {
   action?: ReactNode;
   anchorOrigin?: SnackbarOrigin;
   autoHideDuration?: number;
@@ -11,7 +11,9 @@ type Toast = {
   severity?: AlertColor;
 };
 
-const initialState: Toast = {
+type ToastPayload = Omit<ToastState, "open">;
+
+const initialState: ToastState = {
   anchorOrigin: { vertical: "top", horizontal: "center" },
   autoHideDuration: 5000,
   message: "",
@@ -26,13 +28,12 @@ export const toastSlice = createSlice({
     closeToast: (state) => {
       state.open = false;
     },
-    queueToast: (state, action: PayloadAction<Toast>) => {
+    queueToast: (state, action: PayloadAction<ToastPayload>) => {
       const {
         action: toastAction,
         anchorOrigin,
         autoHideDuration,
         message,
-        open,
         severity,
       } = action.payload;
 
