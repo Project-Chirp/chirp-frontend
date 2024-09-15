@@ -35,9 +35,8 @@ type FollowListModalProps = {
   open: boolean;
   title: string;
   listUserData: NetworkUsers[];
-  setListUserData: (data: NetworkUsers[]) => void;
   onClose: () => void;
-  onFollowed: (isFollowing: boolean) => void;
+  handleFollowToggle: (userId: number, isFollowing: boolean) => void;
 };
 
 const styles = {
@@ -68,24 +67,12 @@ const FollowListModal = ({
   open,
   title,
   listUserData,
-  setListUserData,
   onClose,
-  onFollowed,
+  handleFollowToggle,
 }: FollowListModalProps) => {
   const currentUserId = useAppSelector((state) => state.user.userId);
   const navigate = useNavigate();
   const theme = useTheme();
-
-  const handleFollowToggle = async (userId: number) => {
-    const updatedList = listUserData.map((o) => {
-      if (userId === o.userId) {
-        onFollowed(o.isFollowing);
-        return { ...o, isFollowing: !o.isFollowing };
-      }
-      return o;
-    });
-    setListUserData(updatedList);
-  };
 
   const sortedListUserData = listUserData.sort((a, b) =>
     b.userId === currentUserId ? 1 : a.userId === currentUserId ? -1 : 0
@@ -152,14 +139,14 @@ const FollowListModal = ({
                     (o.isFollowing ? (
                       <FollowingButton
                         onClick={() => {
-                          handleFollowToggle(o.userId);
+                          handleFollowToggle(o.userId, o.isFollowing);
                         }}
                         visitedUserId={o.userId}
                       />
                     ) : (
                       <FollowButton
                         onClick={() => {
-                          handleFollowToggle(o.userId);
+                          handleFollowToggle(o.userId, o.isFollowing);
                         }}
                         visitedUserId={o.userId}
                       />

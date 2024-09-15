@@ -128,42 +128,41 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [followListModalLoading, setFollowListModalLoading] = useState(true);
   const [followListModalOpen, setFollowListModalOpen] = useState(false);
-  const [followerListData, setFollowerListData] = useState<NetworkUsers[]>([]);
+  const [followListModalUserData, setFollowListModalUserData] = useState<
+    NetworkUsers[]
+  >([]);
   const [isFollowersModal, setIsFollowersModal] = useState(false);
   const [isFollowingModal, setIsFollowingModal] = useState(false);
 
-  const onFollowed = (
-    // userId: number,
-    isFollowing: boolean
-  ) => {
-    // const updatedList = followerListData.map((o) => {
-    //   if (userId === o.userId) {
-    //     return { ...o, isFollowing: !o.isFollowing };
-    //   }
-    //   return o;
-    // });
-    // setFollowerListData(updatedList);
-
-    setProfileContents((prevProfileContents) => ({
-      ...prevProfileContents,
-      followingCount: isFollowing
-        ? --prevProfileContents.followingCount
-        : ++prevProfileContents.followingCount,
-    }));
+  const handleFollowToggle = (userId: number, isFollowing: boolean) => {
+    const updatedList = followListModalUserData.map((o) => {
+      if (userId === o.userId) {
+        setProfileContents((prevProfileContents) => ({
+          ...prevProfileContents,
+          followingCount: isFollowing
+            ? --prevProfileContents.followingCount
+            : ++prevProfileContents.followingCount,
+        }));
+        return { ...o, isFollowing: !o.isFollowing };
+      }
+      return o;
+    });
+    setFollowListModalUserData(updatedList);
   };
 
   const handleOpenFollowersModal = async () => {
     setFollowListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      const endpoint = "http://localhost:3001/api/follow/getFollowersList";
+      const endpoint = "http://localhost:3001/api/follow/getFollowerList";
       const result = await axios.get(endpoint, {
         params: {
           visitedUserId: profileContents.userId,
           currentUserId: currentUserId,
         },
       });
-      setFollowerListData(result.data);
+
+      setFollowListModalUserData(result.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -182,7 +181,7 @@ const Profile = () => {
           currentUserId: currentUserId,
         },
       });
-      setFollowerListData(result.data);
+      setFollowListModalUserData(result.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -407,10 +406,11 @@ const Profile = () => {
           loading={followListModalLoading}
           open={followListModalOpen}
           title="Followers"
-          listUserData={followerListData}
-          setListUserData={setFollowerListData}
+          listUserData={followListModalUserData}
           onClose={() => setFollowListModalOpen(false)}
-          onFollowed={(isFollowing) => onFollowed(isFollowing)}
+          handleFollowToggle={(userId, isFollowing) =>
+            handleFollowToggle(userId, isFollowing)
+          }
         />
       )}
       {followListModalOpen && isFollowingModal && (
@@ -418,10 +418,11 @@ const Profile = () => {
           loading={followListModalLoading}
           open={followListModalOpen}
           title="Following"
-          listUserData={followerListData}
-          setListUserData={setFollowerListData}
+          listUserData={followListModalUserData}
           onClose={() => setFollowListModalOpen(false)}
-          onFollowed={(isFollowing) => onFollowed(isFollowing)}
+          handleFollowToggle={(userId, isFollowing) =>
+            handleFollowToggle(userId, isFollowing)
+          }
         />
       )}
     </>
