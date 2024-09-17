@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { EmojiClickData } from "emoji-picker-react";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
@@ -64,9 +64,14 @@ const EditPostModal = ({ onClose, open, postId }: EditPostModalProps) => {
   const existingPost = useAppSelector((state) =>
     state.posts.posts.find((post) => post.postId === postId)
   );
-  const [postTextContent, setPostTextContent] = useState<string>(
-    existingPost!.textContent || ""
-  );
+  const [postTextContent, setPostTextContent] = useState<string>("");
+
+  useEffect(() => {
+    if (existingPost) {
+      setPostTextContent(existingPost.textContent);
+    }
+  }, [existingPost]);
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
