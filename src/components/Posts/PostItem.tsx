@@ -105,14 +105,10 @@ const PostItem = ({ post }: PostProps) => {
           </Box>
         }
         subheader={
-          post.editedTimestamp ? (
-            <TooltipTimestamp
-              timestamp={post.editedTimestamp}
-              isEdited={true}
-            />
-          ) : (
-            <TooltipTimestamp timestamp={post.timestamp} />
-          )
+          <TooltipTimestamp
+            timestamp={post.editedTimestamp || post.timestamp}
+            isEdited={Boolean(post.editedTimestamp)}
+          />
         }
         subheaderTypographyProps={{ sx: styles.tooltipText }}
       />

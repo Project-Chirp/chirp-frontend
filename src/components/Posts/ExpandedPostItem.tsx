@@ -159,11 +159,12 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
-        {post.editedTimestamp ? (
-          <TooltipTimestamp timestamp={post.editedTimestamp} isEdited={true} />
-        ) : (
-          <TooltipTimestamp timestamp={post.timestamp} />
-        )}
+        {
+          <TooltipTimestamp
+            timestamp={post.editedTimestamp || post.timestamp}
+            isEdited={Boolean(post.editedTimestamp)}
+          />
+        }
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionsContainer}>
