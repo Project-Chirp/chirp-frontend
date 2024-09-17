@@ -80,15 +80,7 @@ const PostItem = ({ post }: PostProps) => {
     <Card sx={styles.card}>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
-        action={
-          <PostMenu
-            authorId={post.userId}
-            postId={post.postId}
-            textContent={post.textContent}
-            timestamp={post.timestamp}
-            editedTimestamp={post.editedTimestamp}
-          />
-        }
+        action={<PostMenu authorId={post.userId} postId={post.postId} />}
         title={
           <Box>
             <Link

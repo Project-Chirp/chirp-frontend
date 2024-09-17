@@ -162,12 +162,11 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
-        <Typography component="span" variant="subtitle2">
-          {post.editedTimestamp
-            ? formatTimestamp(post.editedTimestamp, true)
-            : formatTimestamp(post.timestamp)}
-        </Typography>
-        <TooltipTimestamp timestamp={post.timestamp} />
+        {post.editedTimestamp ? (
+          <TooltipTimestamp timestamp={post.editedTimestamp} isEdited={true} />
+        ) : (
+          <TooltipTimestamp timestamp={post.timestamp} />
+        )}
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionsContainer}>

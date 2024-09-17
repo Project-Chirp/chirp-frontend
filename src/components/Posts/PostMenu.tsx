@@ -14,10 +14,7 @@ import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
 type PostMenuProps = {
   authorId: number;
   postId: number;
-  textContent: string;
-  timestamp: string;
   isExpandedPost?: boolean;
-  editedTimestamp: string;
 };
 
 const styles = {
@@ -37,10 +34,7 @@ const styles = {
 const PostMenu = ({
   authorId,
   postId,
-  textContent,
-  timestamp,
   isExpandedPost = false,
-  editedTimestamp,
 }: PostMenuProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const menuRef = useRef<HTMLButtonElement>(null);
@@ -119,9 +113,6 @@ const PostMenu = ({
         onClose={() => setEditModalOpen(false)}
         open={editModalOpen}
         postId={postId}
-        originalPostTextContent={textContent}
-        originalPostTimestamp={timestamp}
-        prevEditedPostTimestamp={editedTimestamp}
       ></EditPostModal>
     </>
   );

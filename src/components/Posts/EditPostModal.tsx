@@ -10,13 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { EmojiClickData } from "emoji-picker-react";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 import UserAvatar from "../Common/UserAvatar";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import axios from "axios";
 import { updatePost } from "../../state/slices/postsSlice";
 
@@ -24,55 +23,42 @@ type EditPostModalProps = {
   onClose: () => void;
   open: boolean;
   postId: number;
-  originalPostTextContent: string;
-  originalPostTimestamp: string;
-  prevEditedPostTimestamp: string;
 };
 
 const styles = {
-  avatar: { paddingRight: 1.5 },
+  paperProps: {
+    overflow: "visible",
+    borderRadius: 20,
+  },
   dialog: {
     ".MuiDialog-scrollPaper": { alignItems: "flex-start" },
-  },
-  dialogContentContainer: {
-    padding: 2,
   },
   dialogTitle: {
     display: "flex",
     alignItems: "center",
   },
-  editPostHeader: {
+  titleText: {
+    fontWeight: "bold",
+    paddingLeft: 3,
+  },
+  dialogContentContainer: {
     display: "flex",
+    paddingBottom: 2,
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 1,
   },
-  paperProps: {
-    overflow: "visible",
-    borderRadius: 20,
-  },
+  avatar: { paddingRight: 1.5 },
+  textFieldContainer: { width: "100%", paddingTop: 0.5 },
+  textField: { paddingBottom: 2 },
   postActions: {
     display: "flex",
     justifyContent: "space-between",
     marginTop: 1,
   },
-  textFieldContainer: { width: "100%", paddingTop: 2 },
-  textField: { paddingBottom: 2 },
-  titleText: {
-    fontWeight: "bold",
-    paddingLeft: 3,
-  },
-  userInfoText: {
-    display: "flex",
-    gap: 0.5,
-  },
 };
 
-const EditPostModal = ({
-  onClose,
-  open,
-  postId,
-  originalPostTextContent,
-  originalPostTimestamp,
-  prevEditedPostTimestamp,
-}: EditPostModalProps) => {
+const EditPostModal = ({ onClose, open, postId }: EditPostModalProps) => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const existingPost = useAppSelector((state) =>
@@ -81,14 +67,13 @@ const EditPostModal = ({
   const [postTextContent, setPostTextContent] = useState<string>(
     existingPost?.textContent || ""
   );
-
-  const handleEdit = async () => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       await axios.put("http://localhost:3001/api/posts/editPost", {
         postId: postId,
         textContent: postTextContent,
       });
-
       if (existingPost) {
         dispatch(
           updatePost({
@@ -119,60 +104,46 @@ const EditPostModal = ({
         <Typography sx={styles.titleText}>Edit Post</Typography>
       </DialogTitle>
       <DialogContent>
-        <Box sx={styles.dialogContentContainer}>
-          <Box sx={styles.editPostHeader}>
+        <form onSubmit={onSubmit}>
+          <Box sx={styles.dialogContentContainer}>
             <Box sx={styles.avatar}>
               <UserAvatar username={user.username} />
             </Box>
-            <Box>
-              <Box sx={styles.userInfoText}>
-                <Typography variant="subtitle1">{user.username}</Typography>
-                <Typography variant="subtitle2">{`@${user.displayName}`}</Typography>
+            <Box sx={styles.textFieldContainer}>
+              <TextField
+                fullWidth
+                hiddenLabel
+                multiline
+                onChange={(e) => setPostTextContent(e.target.value)}
+                sx={styles.textField}
+                value={postTextContent}
+                variant="standard"
+              />
+              <Box sx={styles.postActions}>
+                <Stack direction="row">
+                  <IconButton size="small">
+                    <AddPhotoAlternateOutlinedIcon />
+                  </IconButton>
+                  <EmojiPickerIconButton
+                    onEmojiClick={(emoji: EmojiClickData) => {
+                      setPostTextContent(
+                        (prevContent) => prevContent + emoji.emoji
+                      );
+                    }}
+                  />
+                </Stack>
+                <Button
+                  disabled={!postTextContent.trim()}
+                  size="small"
+                  type="submit"
+                  variant="contained"
+                >
+                  Update
+                </Button>
               </Box>
-              <Typography variant="body2">
-                {
-                  prevEditedPostTimestamp
-                    ? formatTimestamp(prevEditedPostTimestamp, true)
-                    : formatTimestamp(originalPostTimestamp)
-                  // formatTimestamp(existingPost?.timestamp || "")
-                }
-              </Typography>
             </Box>
           </Box>
-          <Box sx={styles.textFieldContainer}>
-            <TextField
-              fullWidth
-              hiddenLabel
-              multiline
-              onChange={(e) => setPostTextContent(e.target.value)}
-              sx={styles.textField}
-              value={postTextContent}
-              variant="standard"
-            />
-            <Box sx={styles.postActions}>
-              <Stack direction="row">
-                <IconButton size="small">
-                  <AddPhotoAlternateOutlinedIcon />
-                </IconButton>
-                <EmojiPickerIconButton
-                  onEmojiClick={(emoji: EmojiClickData) => {
-                    setPostTextContent(
-                      (prevContent) => prevContent + emoji.emoji
-                    );
-                  }}
-                />
-              </Stack>
-              <Button
-                size="small"
-                type="submit"
-                variant="contained"
-                onClick={handleEdit}
-              >
-                Update
-              </Button>
-            </Box>
-          </Box>
-        </Box>
+        </form>
       </DialogContent>
     </Dialog>
   );
