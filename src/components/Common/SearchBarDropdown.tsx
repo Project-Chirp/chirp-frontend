@@ -1,4 +1,5 @@
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Autocomplete,
   Avatar,
@@ -11,13 +12,12 @@ import {
   TextField,
   Typography,
   debounce,
-  createFilterOptions,
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type SearchBarProps = {
   placeholder: string;
@@ -25,8 +25,9 @@ type SearchBarProps = {
 
 const styles = {
   autocomplete: {
-    "&.MuiAutocomplete-input": { paddingX: 0 },
+    "&.MuiAutocomplete-hasClearIcon .MuiOutlinedInput-root": { paddingX: 1 },
     position: "relative",
+    padding: 0,
   },
   box: {
     paddingBottom: 1,
@@ -48,10 +49,6 @@ const styles = {
       color: "primary.main",
     },
   },
-  noOptions: {
-    padding: 2,
-    textAlign: "center",
-  },
 };
 
 const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
@@ -66,7 +63,6 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
   const [searchOptions, setSearchOptions] = useState<SelectedUser[]>([]);
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const fetchUsers = async (keywords: string) => {
     setLoading(true);
@@ -109,70 +105,45 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
   };
 
   const onSelect = (selectedUsername: string) => {
+    setKeywords("");
+    setSearchOptions([]);
     inputRef.current?.blur();
     navigate(`/${selectedUsername}`);
+  };
+
+  const handleClear = () => {
+    setKeywords("");
+    setSearchOptions([]);
+    setFocusSearchBar(false);
   };
 
   useEffect(() => {
     debouncedFetch(keywords);
   }, [keywords]);
 
-  useEffect(() => {
-    setKeywords("");
-    setSearchOptions([]);
-  }, [location]);
-
-  const renderOption = (params: any, option: SelectedUser) => {
-    return (
-      <Box key={option.userId}>
-        <ListItemButton
-          {...params}
-          component="li"
-          key={option.userId}
-          onClick={() => onSelect(option.username)}
-        >
-          <ListItemAvatar>
-            <Avatar />
-          </ListItemAvatar>
-          <ListItemText
-            disableTypography
-            primary={
-              <Box>
-                <Typography variant="subtitle1">
-                  {option.displayName}
-                </Typography>
-                <Typography variant="subtitle2">{`@${option.username}`}</Typography>
-              </Box>
-            }
-          />
-        </ListItemButton>
-      </Box>
-    );
-  };
-
   return (
     <Box sx={styles.box}>
       <Autocomplete
         disablePortal
         fullWidth
-        freeSolo
         filterOptions={(options) => options}
-        getOptionLabel={(option) =>
-          typeof option === "string"
-            ? option
-            : `${option.displayName} @${option.username}`
-        }
+        getOptionLabel={() => ""}
+        forcePopupIcon={false}
         id="search"
         inputValue={keywords}
         ListboxProps={{ style: styles.listBox }}
-        loading={loading}
+        loading={!keywords && loading}
         loadingText="Start typing to search..."
         onChange={(_, value) => {
-          if (value && typeof value !== "string") {
+          if (value === null) {
+            setKeywords("");
+            setSearchOptions([]);
+          } else {
             onSelect(value.username);
           }
         }}
-        onBlur={() => setFocusSearchBar(false)}
+        isOptionEqualToValue={(option, value) => option.userId === value.userId}
+        onBlur={() => handleClear()}
         onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
         onFocus={() => setFocusSearchBar(true)}
         open={focusSearchBar}
@@ -200,21 +171,46 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
                   </IconButton>
                 </InputAdornment>
               ),
+              endAdornment: keywords && (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setKeywords("")}>
+                    <ClearIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ),
               inputRef: inputRef,
             }}
             placeholder={placeholder}
             size="small"
           />
         )}
-        renderOption={(params, option) =>
-          searchOptions.length === 0 ? (
-            <Box sx={styles.noOptions}>
-              <Typography>No user found</Typography>
+        renderOption={(params, option) => {
+          return (
+            <Box key={option.userId}>
+              <ListItemButton
+                {...params}
+                component="li"
+                key={option.userId}
+                onClick={() => onSelect(option.username)}
+              >
+                <ListItemAvatar>
+                  <Avatar />
+                </ListItemAvatar>
+                <ListItemText
+                  disableTypography
+                  primary={
+                    <Box>
+                      <Typography variant="subtitle1">
+                        {option.displayName}
+                      </Typography>
+                      <Typography variant="subtitle2">{`@${option.username}`}</Typography>
+                    </Box>
+                  }
+                />
+              </ListItemButton>
             </Box>
-          ) : (
-            renderOption(params, option)
-          )
-        }
+          );
+        }}
         sx={styles.autocomplete}
       />
     </Box>

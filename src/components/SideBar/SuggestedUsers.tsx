@@ -66,8 +66,8 @@ const SuggestedUsers = () => {
         Who to Follow
       </Typography>
       <List disablePadding>
-        {usersData.map((user) => (
-          <ListItemButton key={user.id} onClick={() => navigate(`/`)}>
+        {usersData.map((o) => (
+          <ListItemButton key={o.id} onClick={() => navigate(`/`)}>
             <ListItemAvatar>
               <UserAvatar username="" />
             </ListItemAvatar>
@@ -80,22 +80,24 @@ const SuggestedUsers = () => {
                   underline="hover"
                   variant="subtitle1"
                 >
-                  {user.displayName}
+                  {o.displayName}
                 </Link>
               }
               secondary={
-                <Typography
+                <Link
                   color={theme.typography.subtitle2.color}
-                  component="span"
+                  component={Routerlink}
+                  to="/"
+                  underline="none"
                   variant="subtitle2"
                 >
-                  {`@${user.username}`}
-                </Typography>
+                  {`@${o.displayName}`}
+                </Link>
               }
               sx={styles.listItemText}
             />
             {/* TODO: Update to render Following Button as well */}
-            <FollowButton onClick={() => {}} visitedUserId={NaN} />
+            <FollowButton visitedUserId={NaN} />
           </ListItemButton>
         ))}
       </List>
