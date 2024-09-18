@@ -83,10 +83,10 @@ type ExpandedPostItemProps = {
 const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
-  const urlParams = useParams();
-  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const urlParams = useParams();
+  const user = useAppSelector((state) => state.user);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const updatedExpandedPost = async () => {

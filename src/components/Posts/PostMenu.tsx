@@ -6,9 +6,10 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useRef, useState } from "react";
-import { useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
+import { enqueueToast } from "../../state/slices/toastSlice";
 
 type PostMenuProps = {
   authorId: number;
@@ -35,11 +36,16 @@ const PostMenu = ({
   postId,
   isExpandedPost = false,
 }: PostMenuProps) => {
+  const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId);
   const menuRef = useRef<HTMLButtonElement>(null);
   const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
     useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/post/${postId}`);
+  };
 
   return (
     <>
@@ -86,7 +92,16 @@ const PostMenu = ({
             </ListItemText>
           </MenuItem>
         )}
-        <MenuItem sx={styles.menuItem} onClick={() => setMenuOpen(false)}>
+        <MenuItem
+          sx={styles.menuItem}
+          onClick={() => {
+            copyToClipboard();
+            setMenuOpen(false);
+            dispatch(
+              enqueueToast({ message: "Post URL copied to clipboard!" })
+            );
+          }}
+        >
           <ListItemIcon>
             <Link sx={styles.icon} />
           </ListItemIcon>

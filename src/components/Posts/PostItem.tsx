@@ -66,9 +66,9 @@ const styles = {
 const PostItem = ({ post }: PostProps) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
 
   const routeChange = () => {
     navigate(`/post/${post.postId}`);
