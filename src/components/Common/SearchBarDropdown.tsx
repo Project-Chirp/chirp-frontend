@@ -130,6 +130,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
         getOptionLabel={() => ""}
         forcePopupIcon={false}
         id="search"
+        value={null}
         inputValue={keywords}
         ListboxProps={{ style: styles.listBox }}
         loading={!keywords && loading}
