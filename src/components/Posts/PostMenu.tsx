@@ -113,7 +113,7 @@ const PostMenu = ({
         onClose={() => setEditModalOpen(false)}
         open={editModalOpen}
         postId={postId}
-      ></EditPostModal>
+      />
     </>
   );
 };

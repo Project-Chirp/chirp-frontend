@@ -63,26 +63,19 @@ const EditPostModal = ({ onClose, open, postId }: EditPostModalProps) => {
   const dispatch = useAppDispatch();
   const existingPost = useAppSelector((state) =>
     state.posts.posts.find((post) => post.postId === postId)
+  )!;
+  const [postTextContent, setPostTextContent] = useState(
+    existingPost.textContent!
   );
-  const [postTextContent, setPostTextContent] = useState<string>("");
 
-  useEffect(() => {
-    if (existingPost) {
-      setPostTextContent(existingPost.textContent);
-    }
-  }, [existingPost]);
-
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-
-    if (!existingPost) {
-      throw new Error(`Post with ID ${postId} not found`);
-    }
 
     try {
       await axios.put("http://localhost:3001/api/posts/editPost", {
         postId: postId,
         textContent: postTextContent,
+        editedTimestamp: new Date(),
       });
       dispatch(
         updatePost({
