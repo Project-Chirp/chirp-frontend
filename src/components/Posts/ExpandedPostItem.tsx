@@ -34,7 +34,7 @@ import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
-import { queueToast } from "../../state/slices/toastSlice";
+import { enqueueToast } from "../../state/slices/toastSlice";
 
 const styles = {
   actionButton: {
@@ -230,7 +230,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             onClick={() => {
               copyToClipboard();
               dispatch(
-                queueToast({
+                enqueueToast({
                   message: "Post URL copied to clipboard!",
                 })
               );

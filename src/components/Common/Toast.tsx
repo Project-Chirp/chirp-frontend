@@ -1,11 +1,26 @@
 import { Alert, Snackbar } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { closeToast } from "../../state/slices/toastSlice";
+import {
+  clearCurrentToast,
+  dequeueToast,
+  setToastOpen,
+} from "../../state/slices/toastSlice";
+import { useEffect } from "react";
 
 const Toast = () => {
-  const { action, anchorOrigin, autoHideDuration, message, open, severity } =
-    useAppSelector((state) => state.toast);
+  const { currentToast, loaf, open } = useAppSelector((state) => state.toast);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (loaf.length > 0 && !currentToast) {
+      // Show next the toast if one isn't active
+      dispatch(dequeueToast());
+      dispatch(setToastOpen(true));
+    } else if (loaf.length > 0 && currentToast && open) {
+      // Close the current toast when a new one is added
+      dispatch(setToastOpen(false));
+    }
+  }, [currentToast, loaf, dispatch]);
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -14,18 +29,29 @@ const Toast = () => {
     if (reason === "clickaway") {
       return;
     }
-    dispatch(closeToast());
+    dispatch(setToastOpen(false));
   };
+
+  const handleExited = () => {
+    dispatch(clearCurrentToast());
+  };
+
+  if (!currentToast) return null;
 
   return (
     <Snackbar
-      anchorOrigin={anchorOrigin}
-      autoHideDuration={autoHideDuration}
+      anchorOrigin={currentToast.anchorOrigin}
+      autoHideDuration={currentToast.autoHideDuration}
       onClose={handleClose}
       open={open}
+      TransitionProps={{ onExited: handleExited }}
     >
-      <Alert onClose={handleClose} severity={severity} action={action}>
-        {message}
+      <Alert
+        onClose={handleClose}
+        severity={currentToast.severity}
+        action={currentToast.action}
+      >
+        {currentToast.message}
       </Alert>
     </Snackbar>
   );

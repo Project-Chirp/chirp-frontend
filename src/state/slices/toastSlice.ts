@@ -2,22 +2,30 @@ import { AlertColor, SnackbarOrigin } from "@mui/material";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ReactNode } from "react";
 
-type ToastState = {
+type Toast = {
   action?: ReactNode;
   anchorOrigin?: SnackbarOrigin;
   autoHideDuration?: number;
   message: string;
-  open: boolean;
   severity?: AlertColor;
 };
 
-type ToastPayload = Omit<ToastState, "open">;
+type ToastLoafState = {
+  currentToast: Toast | null;
+  loaf: Toast[];
+  open: boolean;
+};
 
-const initialState: ToastState = {
+const initialState: ToastLoafState = {
+  currentToast: null,
+  loaf: [],
+  open: false,
+};
+
+const defaultToastOptions: Toast = {
   anchorOrigin: { vertical: "top", horizontal: "center" },
   autoHideDuration: 5000,
   message: "",
-  open: false,
   severity: "success",
 };
 
@@ -25,10 +33,13 @@ export const toastSlice = createSlice({
   name: "toast",
   initialState,
   reducers: {
-    closeToast: (state) => {
-      state.open = false;
+    clearCurrentToast: (state) => {
+      state.currentToast = null;
     },
-    queueToast: (state, action: PayloadAction<ToastPayload>) => {
+    dequeueToast: (state) => {
+      state.currentToast = state.loaf.shift() || null;
+    },
+    enqueueToast: (state, action: PayloadAction<Toast>) => {
       const {
         action: toastAction,
         anchorOrigin,
@@ -37,17 +48,24 @@ export const toastSlice = createSlice({
         severity,
       } = action.payload;
 
-      state.open = true;
-      state.message = message;
-      state.action = toastAction;
-      state.anchorOrigin = anchorOrigin ?? initialState.anchorOrigin;
-      state.autoHideDuration =
-        autoHideDuration ?? initialState.autoHideDuration;
-      state.severity = severity ?? initialState.severity;
+      const newToast: Toast = {
+        action: toastAction,
+        message,
+        anchorOrigin: anchorOrigin ?? defaultToastOptions.anchorOrigin,
+        autoHideDuration:
+          autoHideDuration ?? defaultToastOptions.autoHideDuration,
+        severity: severity ?? defaultToastOptions.severity,
+      };
+
+      state.loaf.push(newToast);
+    },
+    setToastOpen: (state, action: PayloadAction<boolean>) => {
+      state.open = action.payload;
     },
   },
 });
 
-export const { closeToast, queueToast } = toastSlice.actions;
+export const { clearCurrentToast, dequeueToast, enqueueToast, setToastOpen } =
+  toastSlice.actions;
 
 export default toastSlice.reducer;
