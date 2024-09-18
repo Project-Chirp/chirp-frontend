@@ -1,4 +1,5 @@
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Autocomplete,
   Avatar,
@@ -11,7 +12,6 @@ import {
   TextField,
   Typography,
   debounce,
-  createFilterOptions,
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
@@ -25,8 +25,9 @@ type SearchBarProps = {
 
 const styles = {
   autocomplete: {
-    "&.MuiAutocomplete-input": { paddingX: 0 },
+    "&.MuiAutocomplete-hasClearIcon .MuiOutlinedInput-root": { paddingX: 1 },
     position: "relative",
+    padding: 0,
   },
   box: {
     paddingBottom: 1,
@@ -109,8 +110,16 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
   };
 
   const onSelect = (selectedUsername: string) => {
+    setKeywords("");
+    setSearchOptions([]);
     inputRef.current?.blur();
     navigate(`/${selectedUsername}`);
+  };
+
+  const handleClear = () => {
+    setKeywords("");
+    setSearchOptions([]);
+    setFocusSearchBar(false);
   };
 
   useEffect(() => {
@@ -155,24 +164,26 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
       <Autocomplete
         disablePortal
         fullWidth
-        freeSolo
         filterOptions={(options) => options}
-        getOptionLabel={(option) =>
-          typeof option === "string"
-            ? option
-            : `${option.displayName} @${option.username}`
-        }
+        getOptionLabel={() => ""}
+        forcePopupIcon={false}
         id="search"
         inputValue={keywords}
         ListboxProps={{ sx: styles.listBox }}
-        loading={loading}
+        loading={!keywords && loading}
         loadingText="Start typing to search..."
         onChange={(_, value) => {
-          if (value && typeof value !== "string") {
+          if (value === null) {
+            setKeywords("");
+            setSearchOptions([]);
+          } else {
             onSelect(value.username);
           }
         }}
-        onBlur={() => setFocusSearchBar(false)}
+        isOptionEqualToValue={(option, value) => option.userId === value.userId}
+        onBlur={() => {
+          handleClear();
+        }}
         onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
         onFocus={() => setFocusSearchBar(true)}
         open={focusSearchBar}
@@ -197,6 +208,13 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
                     }
                   >
                     <SearchRoundedIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              endAdornment: keywords && (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setKeywords("")}>
+                    <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               ),
