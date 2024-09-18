@@ -164,7 +164,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
         }
         id="search"
         inputValue={keywords}
-        ListboxProps={{ sx: styles.listBox }}
+        ListboxProps={{ style: styles.listBox }}
         loading={loading}
         loadingText="Start typing to search..."
         onChange={(_, value) => {
