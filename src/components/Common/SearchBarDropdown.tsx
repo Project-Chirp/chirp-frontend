@@ -19,7 +19,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
 import { useNavigate } from "react-router-dom";
 
-type SearchBarProps = {
+type SearchBarDropDownProps = {
   placeholder: string;
 };
 
@@ -51,7 +51,7 @@ const styles = {
   },
 };
 
-const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
+const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
   const debouncedFetch = useMemo(
     () => debounce((keywords: string) => fetchUsers(keywords), 100),
     []
