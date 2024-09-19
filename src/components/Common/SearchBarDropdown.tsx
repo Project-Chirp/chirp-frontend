@@ -17,9 +17,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-type SearchBarProps = {
+type SearchBarDropDownProps = {
   placeholder: string;
 };
 
@@ -48,13 +48,9 @@ const styles = {
       color: "primary.main",
     },
   },
-  noOptions: {
-    padding: 2,
-    textAlign: "center",
-  },
 };
 
-const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
+const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
   const debouncedFetch = useMemo(
     () => debounce((keywords: string) => fetchUsers(keywords), 100),
     []
@@ -66,7 +62,6 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
   const [searchOptions, setSearchOptions] = useState<SelectedUser[]>([]);
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const fetchUsers = async (keywords: string) => {
     setLoading(true);
@@ -117,39 +112,6 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
     debouncedFetch(keywords);
   }, [keywords]);
 
-  useEffect(() => {
-    setKeywords("");
-    setSearchOptions([]);
-  }, [location]);
-
-  const renderOption = (params: any, option: SelectedUser) => {
-    return (
-      <Box key={option.userId}>
-        <ListItemButton
-          {...params}
-          component="li"
-          key={option.userId}
-          onClick={() => onSelect(option.username)}
-        >
-          <ListItemAvatar>
-            <Avatar />
-          </ListItemAvatar>
-          <ListItemText
-            disableTypography
-            primary={
-              <Box>
-                <Typography variant="subtitle1">
-                  {option.displayName}
-                </Typography>
-                <Typography variant="subtitle2">{`@${option.username}`}</Typography>
-              </Box>
-            }
-          />
-        </ListItemButton>
-      </Box>
-    );
-  };
-
   return (
     <Box sx={styles.box}>
       <Autocomplete
@@ -164,7 +126,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
         }
         id="search"
         inputValue={keywords}
-        ListboxProps={{ sx: styles.listBox }}
+        ListboxProps={{ style: styles.listBox }}
         loading={loading}
         loadingText="Start typing to search..."
         onChange={(_, value) => {
@@ -206,15 +168,33 @@ const SearchBarDropDown = ({ placeholder }: SearchBarProps) => {
             size="small"
           />
         )}
-        renderOption={(params, option) =>
-          searchOptions.length === 0 ? (
-            <Box sx={styles.noOptions}>
-              <Typography>No user found</Typography>
+        renderOption={(params, option) => {
+          return (
+            <Box key={option.userId}>
+              <ListItemButton
+                {...params}
+                component="li"
+                key={option.userId}
+                onClick={() => onSelect(option.username)}
+              >
+                <ListItemAvatar>
+                  <Avatar />
+                </ListItemAvatar>
+                <ListItemText
+                  disableTypography
+                  primary={
+                    <Box>
+                      <Typography variant="subtitle1">
+                        {option.displayName}
+                      </Typography>
+                      <Typography variant="subtitle2">{`@${option.username}`}</Typography>
+                    </Box>
+                  }
+                />
+              </ListItemButton>
             </Box>
-          ) : (
-            renderOption(params, option)
-          )
-        }
+          );
+        }}
         sx={styles.autocomplete}
       />
     </Box>
