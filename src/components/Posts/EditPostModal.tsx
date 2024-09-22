@@ -75,11 +75,11 @@ const EditPostModal = ({ onClose, open, postId }: EditPostModalProps) => {
       await axios.put("http://localhost:3001/api/posts/editPost", {
         postId: postId,
         textContent: postTextContent,
-        editedTimestamp: new Date(),
       });
       dispatch(
         updatePost({
           ...existingPost!,
+          editedTimestamp: new Date().toString(),
           textContent: postTextContent,
         })
       );
