@@ -65,7 +65,7 @@ const EditPostModal = ({ onClose, open, postId }: EditPostModalProps) => {
     state.posts.posts.find((post) => post.postId === postId)
   )!;
   const [postTextContent, setPostTextContent] = useState(
-    existingPost.textContent!
+    existingPost.textContent
   );
 
   const onSubmit = async (e: React.SyntheticEvent) => {
@@ -78,7 +78,7 @@ const EditPostModal = ({ onClose, open, postId }: EditPostModalProps) => {
       });
       dispatch(
         updatePost({
-          ...existingPost!,
+          ...existingPost,
           editedTimestamp: new Date().toString(),
           textContent: postTextContent,
         })
