@@ -30,6 +30,7 @@ import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
+import formatTimestamp from "../../utilities/formatTimestamp";
 
 type PostProps = {
   post: Post;
@@ -103,7 +104,12 @@ const PostItem = ({ post }: PostProps) => {
             </Link>
           </Box>
         }
-        subheader={<TooltipTimestamp timestamp={post.timestamp} />}
+        subheader={
+          <TooltipTimestamp
+            timestamp={post.editedTimestamp || post.timestamp}
+            isEdited={Boolean(post.editedTimestamp)}
+          />
+        }
         subheaderTypographyProps={{ sx: styles.tooltipText }}
       />
       <CardActionArea onClick={() => routeChange()}>

@@ -5,6 +5,7 @@ import formatTooltipTimestamp from "../../utilities/formatTooltipTimestamp";
 type TooltipTimestampProps = {
   timestamp: string;
   variant?: TypographyVariant;
+  isEdited?: boolean;
 };
 
 const styles = {
@@ -19,6 +20,7 @@ const styles = {
 const TooltipTimestamp = ({
   timestamp,
   variant = "subtitle2",
+  isEdited,
 }: TooltipTimestampProps) => {
   return (
     <Tooltip
@@ -33,7 +35,7 @@ const TooltipTimestamp = ({
       title={formatTooltipTimestamp(timestamp)}
     >
       <Typography variant={variant} sx={styles.tooltipText}>
-        {formatTimestamp(timestamp)}
+        {formatTimestamp(timestamp, isEdited)}
       </Typography>
     </Tooltip>
   );
