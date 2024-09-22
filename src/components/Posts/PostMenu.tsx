@@ -45,6 +45,8 @@ const PostMenu = ({
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(`http://localhost:3000/post/${postId}`);
+    setMenuOpen(false);
+    dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 
   return (
@@ -92,16 +94,7 @@ const PostMenu = ({
             </ListItemText>
           </MenuItem>
         )}
-        <MenuItem
-          sx={styles.menuItem}
-          onClick={() => {
-            copyToClipboard();
-            setMenuOpen(false);
-            dispatch(
-              enqueueToast({ message: "Post URL copied to clipboard!" })
-            );
-          }}
-        >
+        <MenuItem sx={styles.menuItem} onClick={() => copyToClipboard()}>
           <ListItemIcon>
             <Link sx={styles.icon} />
           </ListItemIcon>

@@ -24,7 +24,7 @@ const initialState: ToastLoafState = {
 
 const defaultToastOptions: Toast = {
   anchorOrigin: { vertical: "top", horizontal: "center" },
-  autoHideDuration: 5000,
+  autoHideDuration: 3000,
   message: "",
   severity: "success",
 };

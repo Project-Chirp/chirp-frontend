@@ -22,10 +22,7 @@ const Toast = () => {
     }
   }, [currentToast, loaf, dispatch]);
 
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
+  const handleClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }

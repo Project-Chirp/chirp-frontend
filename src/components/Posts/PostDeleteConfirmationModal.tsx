@@ -74,7 +74,6 @@ const PostDeleteModal = ({
       dispatch(
         enqueueToast({
           message: "Your post has been deleted",
-          severity: "info",
         })
       );
     } catch (error) {
