@@ -8,6 +8,7 @@ import {
 import { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
+import EditPostModal from "./EditPostModal";
 import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
 import { enqueueToast } from "../../state/slices/toastSlice";
 
@@ -41,6 +42,7 @@ const PostMenu = ({
   const menuRef = useRef<HTMLButtonElement>(null);
   const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
     useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const copyToClipboard = () => {
@@ -64,7 +66,13 @@ const PostMenu = ({
         MenuListProps={{ sx: styles.menuList }}
       >
         {userId === authorId && (
-          <MenuItem sx={styles.menuItem} onClick={() => setMenuOpen(false)}>
+          <MenuItem
+            sx={styles.menuItem}
+            onClick={() => {
+              setMenuOpen(false);
+              setEditModalOpen(true);
+            }}
+          >
             <ListItemIcon>
               <Edit sx={styles.icon} />
             </ListItemIcon>
@@ -108,6 +116,11 @@ const PostMenu = ({
         open={deleteConfirmationModalOpen}
         postId={postId}
         isExpandedPost={isExpandedPost}
+      />
+      <EditPostModal
+        onClose={() => setEditModalOpen(false)}
+        open={editModalOpen}
+        postId={postId}
       />
     </>
   );

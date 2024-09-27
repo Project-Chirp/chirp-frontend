@@ -34,6 +34,7 @@ import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
+import formatTimestamp from "../../utilities/formatTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
 
 const styles = {
@@ -164,7 +165,10 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
-        <TooltipTimestamp timestamp={post.timestamp} />
+        <TooltipTimestamp
+          timestamp={post.editedTimestamp || post.timestamp}
+          isEdited={Boolean(post.editedTimestamp)}
+        />
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionsContainer}>
