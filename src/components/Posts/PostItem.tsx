@@ -29,10 +29,11 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
+import formatTimestamp from "../../utilities/formatTimestamp";
 
 type PostProps = {
   post: Post;
@@ -57,6 +58,7 @@ const styles = {
     justifyContent: "space-between",
     width: "100%",
   },
+  cardMedia: { maxWidth: 200, margin: "auto" },
   coloredButton: {
     color: "primary.main",
   },
@@ -69,7 +71,9 @@ const styles = {
   displayName: {
     paddingRight: 0.5,
   },
-  media: { maxWidth: 200, margin: "auto" },
+  tooltipText: {
+    display: "inline-block",
+  },
 };
 
 const PostItem = ({ post }: PostProps) => {
@@ -120,8 +124,13 @@ const PostItem = ({ post }: PostProps) => {
             </Link>
           </Box>
         }
-        subheader={formatTimestamp(post.timestamp)}
-        subheaderTypographyProps={{ color: theme.typography.subtitle2.color }}
+        subheader={
+          <TooltipTimestamp
+            timestamp={post.editedTimestamp || post.timestamp}
+            isEdited={Boolean(post.editedTimestamp)}
+          />
+        }
+        subheaderTypographyProps={{ sx: styles.tooltipText }}
       />
       <CardActionArea onClick={() => routeChange()} sx={styles.actionArea}>
         <CardContent>
@@ -129,7 +138,7 @@ const PostItem = ({ post }: PostProps) => {
         </CardContent>
         {post.imagePath && (
           <CardMedia
-            sx={styles.media}
+            sx={styles.cardMedia}
             component="img"
             image={post.imagePath}
             onClick={(event) => event.stopPropagation()}

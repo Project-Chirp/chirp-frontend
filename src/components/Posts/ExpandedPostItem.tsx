@@ -25,7 +25,6 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { toggleLikePost } from "../../state/slices/postsSlice";
 import { setExpandedPost } from "../../state/slices/postsSlice";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
@@ -34,6 +33,8 @@ import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
 import PostMenu from "./PostMenu";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
+import formatTimestamp from "../../utilities/formatTimestamp";
 
 const styles = {
   actionButton: {
@@ -48,7 +49,6 @@ const styles = {
     paddingY: 1,
   },
   actionCount: { fontWeight: "bold", paddingRight: 0.5 },
-  backButton: { "&:hover": { backgroundColor: "transparent" } },
   card: {
     padding: 0,
     boxShadow: "none",
@@ -71,7 +71,8 @@ const styles = {
   topHeader: {
     alignItems: "center",
     display: "flex",
-    paddingTop: 1,
+    gap: 2,
+    padding: 1,
   },
 };
 
@@ -110,10 +111,10 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   return (
     <Card sx={styles.card}>
       <Box sx={styles.topHeader}>
-        <IconButton onClick={() => navigate(-1)} sx={styles.backButton}>
+        <IconButton onClick={() => navigate(-1)}>
           <KeyboardBackspace color="secondary" />
         </IconButton>
-        <Typography variant="h2">Post</Typography>
+        <Typography variant="h3">Post</Typography>
       </Box>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
@@ -158,9 +159,10 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
-        <Typography component="span" variant="subtitle2">
-          {formatTimestamp(post.timestamp)}
-        </Typography>
+        <TooltipTimestamp
+          timestamp={post.editedTimestamp || post.timestamp}
+          isEdited={Boolean(post.editedTimestamp)}
+        />
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionsContainer}>
