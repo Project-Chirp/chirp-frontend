@@ -15,6 +15,7 @@ import ExpandedPost from "./pages/ExpandedPost";
 import Messages from "./pages/Messages";
 import DirectMessage from "./pages/DirectMessage";
 import ComingSoon from "./pages/ComingSoon";
+import Toast from "./components/Common/Toast";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -53,29 +54,32 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<ProtectedRoute component={Timeline} />} />
-      <Route
-        path="/messages"
-        element={<ProtectedRoute component={Messages} />}
-      />
-      <Route
-        path="/messages/:userId1/:userId2"
-        element={<ProtectedRoute component={DirectMessage} />}
-      />
-      <Route
-        path="/:username"
-        element={<ProtectedRoute component={Profile} />}
-      />
-      <Route
-        path="/post/:postId"
-        element={<ProtectedRoute component={ExpandedPost} />}
-      />
-      <Route
-        path="/coming-soon"
-        element={<ProtectedRoute component={ComingSoon} />}
-      />
-    </Routes>
+    <>
+      <Toast />
+      <Routes>
+        <Route path="/" element={<ProtectedRoute component={Timeline} />} />
+        <Route
+          path="/messages"
+          element={<ProtectedRoute component={Messages} />}
+        />
+        <Route
+          path="/messages/:userId1/:userId2"
+          element={<ProtectedRoute component={DirectMessage} />}
+        />
+        <Route
+          path="/:username"
+          element={<ProtectedRoute component={Profile} />}
+        />
+        <Route
+          path="/post/:postId"
+          element={<ProtectedRoute component={ExpandedPost} />}
+        />
+        <Route
+          path="/coming-soon"
+          element={<ProtectedRoute component={ComingSoon} />}
+        />
+      </Routes>
+    </>
   );
 }
 
