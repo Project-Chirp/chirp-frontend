@@ -10,6 +10,7 @@ import {
   Box,
   Divider,
   Link,
+  useTheme,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ProfilePosts from "../components/Profile/ProfilePosts";
@@ -22,13 +23,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
-import { Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import FollowingButton from "../components/Common/FollowingButton";
 import FollowButton from "../components/Common/FollowButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
 import { setDisplayName } from "../state/slices/userSlice";
 import { updateDisplayNames } from "../state/slices/postsSlice";
+import FollowListModal, {
+  NetworkUsers,
+} from "../components/Profile/FollowListModal";
 
 const styles = {
   avatar: {
@@ -49,25 +52,13 @@ const styles = {
     backgroundColor: "primary.main",
   },
   bio: { paddingTop: 1 },
-  displayName: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
+  displayName: { fontWeight: 700 },
   editProfileButton: {
-    textTransform: "none",
     fontWeight: "bold",
-    color: "black",
+    color: "black.main",
     minWidth: "84px",
     ":hover": {
       backgroundColor: "primary.light",
-    },
-  },
-  followerButtons: {
-    color: "black",
-    padding: 0,
-    textTransform: "none",
-    "&:hover": {
-      backgroundColor: "transparent",
     },
   },
   followerCount: { fontWeight: "bold" },
@@ -75,25 +66,26 @@ const styles = {
   header: {
     alignItems: "center",
     display: "flex",
+    gap: 2,
+    padding: 1,
   },
   nameContainer: { paddingTop: 1 },
   personalInfo: {
     alignItems: "center",
     display: "flex",
-    color: "grey",
+    color: "gray.dark",
     gap: 2,
     paddingTop: 1,
   },
   personalInfoContent: { display: "flex", gap: 0.5 },
   profileContent: { padding: 2 },
-  tabs: {
-    textTransform: "none",
+  tab: {
+    ":hover": {
+      backgroundColor: "primary.light",
+    },
+    transitionDuration: "0.25s",
   },
-  tweetCount: { fontSize: 13 },
-  username: {
-    color: "#71797E",
-    fontSize: 15,
-  },
+  username: { fontSize: 16 },
 };
 
 export type EditableProfileContents = Pick<
@@ -115,6 +107,7 @@ export type ProfileContent = {
 };
 
 const Profile = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { username } = useParams();
@@ -133,6 +126,66 @@ const Profile = () => {
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [followListModalLoading, setFollowListModalLoading] = useState(true);
+  const [followerListModalOpen, setFollowerListModalOpen] = useState(false);
+  const [followingListModalOpen, setFollowingListModalOpen] = useState(false);
+  const [followListModalData, setFollowListModalData] = useState<
+    NetworkUsers[]
+  >([]);
+
+  const handleFollowToggle = (userId: number, isFollowing: boolean) => {
+    const updatedList = followListModalData.map((o) => {
+      if (userId === o.userId) {
+        return { ...o, isFollowing: !o.isFollowing };
+      }
+      return o;
+    });
+    setFollowListModalData(updatedList);
+    setProfileContents((prevProfileContents) => ({
+      ...prevProfileContents,
+      followingCount: isFollowing
+        ? --prevProfileContents.followingCount
+        : ++prevProfileContents.followingCount,
+    }));
+  };
+
+  const handleOpenFollowersModal = async () => {
+    setFollowerListModalOpen(true);
+    try {
+      setFollowListModalLoading(true);
+      const endpoint = "http://localhost:3001/api/follow/getFollowerList";
+      const result = await axios.get(endpoint, {
+        params: {
+          visitedUserId: profileContents.userId,
+          currentUserId: currentUserId,
+        },
+      });
+      setFollowListModalData(result.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFollowListModalLoading(false);
+    }
+  };
+
+  const handleOpenFollowingModal = async () => {
+    setFollowingListModalOpen(true);
+    try {
+      setFollowListModalLoading(true);
+      const endpoint = "http://localhost:3001/api/follow/getFollowingList";
+      const result = await axios.get(endpoint, {
+        params: {
+          visitedUserId: profileContents.userId,
+          currentUserId: currentUserId,
+        },
+      });
+      setFollowListModalData(result.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFollowListModalLoading(false);
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -185,16 +238,16 @@ const Profile = () => {
       <Layout
         middleContent={
           <Box>
-            <Box style={styles.header}>
+            <Box sx={styles.header}>
               <IconButton onClick={() => navigate(-1)}>
                 <KeyboardBackspaceIcon color="secondary" />
               </IconButton>
               <Box>
-                <Typography sx={styles.displayName}>
+                <Typography variant="h3">
                   {profileContents.displayName}
                 </Typography>
-                <Typography sx={styles.tweetCount}>
-                  {profileContents.postCount} Tweets
+                <Typography variant="subtitle2">
+                  {profileContents.postCount} Posts
                 </Typography>
               </Box>
             </Box>
@@ -240,10 +293,10 @@ const Profile = () => {
                     ))}
                 </Box>
                 <Box sx={styles.nameContainer}>
-                  <Typography variant="h2" sx={styles.displayName}>
+                  <Typography variant="h3" sx={styles.displayName}>
                     {profileContents.displayName}
                   </Typography>
-                  <Typography variant="h3" sx={styles.username}>
+                  <Typography variant="subtitle2" sx={styles.username}>
                     @{profileContents.username}
                   </Typography>
                 </Box>
@@ -268,10 +321,12 @@ const Profile = () => {
                 </Box>
                 <Box sx={styles.followerContainer}>
                   <Link
-                    component={Routerlink}
-                    to={`/${username}`} // TODO: Create Modal to check followers
+                    color={theme.palette.black.main}
+                    component="button"
                     underline="hover"
-                    sx={styles.followerButtons}
+                    onClick={() => {
+                      handleOpenFollowersModal();
+                    }}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followerCount}
@@ -279,10 +334,12 @@ const Profile = () => {
                     <Typography component="span"> Followers</Typography>
                   </Link>
                   <Link
-                    component={Routerlink}
-                    to={`/${username}`} // TODO: Create Modal to check following
+                    color={theme.palette.black.main}
+                    component="button"
                     underline="hover"
-                    sx={styles.followerButtons}
+                    onClick={() => {
+                      handleOpenFollowingModal();
+                    }}
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
@@ -299,9 +356,9 @@ const Profile = () => {
               value={value}
               variant="fullWidth"
             >
-              <Tab sx={styles.tabs} value="one" label="Tweets" />
-              <Tab sx={styles.tabs} value="two" label="Replies" />
-              <Tab sx={styles.tabs} value="three" label="Likes" />
+              <Tab value="one" label="Posts" sx={styles.tab} />
+              <Tab value="two" label="Replies" sx={styles.tab} />
+              <Tab value="three" label="Likes" sx={styles.tab} />
             </Tabs>
             <Divider />
             {!loading && profileContents.userId && (
@@ -338,6 +395,30 @@ const Profile = () => {
             setProfileContents({ ...profileContents, ...editedProfile });
           }}
           open={editProfileModalOpen}
+        />
+      )}
+      {followerListModalOpen && (
+        <FollowListModal
+          list={followListModalData}
+          loading={followListModalLoading}
+          onClose={() => setFollowerListModalOpen(false)}
+          onToggleFollow={(userId, isFollowing) =>
+            handleFollowToggle(userId, isFollowing)
+          }
+          open={followerListModalOpen}
+          title="Followers"
+        />
+      )}
+      {followingListModalOpen && (
+        <FollowListModal
+          list={followListModalData}
+          loading={followListModalLoading}
+          onClose={() => setFollowingListModalOpen(false)}
+          onToggleFollow={(userId, isFollowing) =>
+            handleFollowToggle(userId, isFollowing)
+          }
+          open={followingListModalOpen}
+          title="Following"
         />
       )}
     </>

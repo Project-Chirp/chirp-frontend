@@ -10,8 +10,6 @@ import { setUser } from "../state/slices/userSlice";
 const styles = {
   container: { height: "100%" },
   title: {
-    fontWeight: 700,
-    fontSize: 32,
     padding: 3,
     textAlign: "center",
   },

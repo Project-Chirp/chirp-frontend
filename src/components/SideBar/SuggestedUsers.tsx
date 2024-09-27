@@ -1,5 +1,4 @@
 import {
-  Avatar,
   List,
   ListItemButton,
   ListItemAvatar,
@@ -7,19 +6,13 @@ import {
   Box,
   Typography,
   Link,
+  useTheme,
 } from "@mui/material";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import FollowButton from "../Common/FollowButton";
-import { useAppDispatch } from "../../state/hooks";
-import { toggleFollow } from "../../state/slices/postsSlice";
+import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
-  avatar: {
-    opacity: 0.75,
-    "&:hover": {
-      opacity: 1,
-    },
-  },
   container: {
     boxSizing: "border-box",
     border: "2px solid",
@@ -31,17 +24,8 @@ const styles = {
     width: "100%",
     overflow: "hidden",
   },
-  displayName: {
-    color: "black",
-    fontWeight: "bold",
-    fontSize: "0.875rem",
-  },
   listItemText: { marginY: 0.5 },
   title: { fontWeight: "bold", paddingX: 2, paddingY: 1 },
-  username: {
-    color: "rgba(0, 0, 0, 0.7)",
-    fontSize: "0.875rem",
-  },
 };
 
 // TODO: Return followStatus from the follow table as well for every user.
@@ -73,7 +57,7 @@ const usersData = [
 ];
 
 const SuggestedUsers = () => {
-  const dispatch = useAppDispatch();
+  const theme = useTheme();
   const navigate = useNavigate();
 
   return (
@@ -82,37 +66,38 @@ const SuggestedUsers = () => {
         Who to Follow
       </Typography>
       <List disablePadding>
-        {usersData.map((user) => (
-          <ListItemButton key={user.id} onClick={() => navigate(`/`)}>
+        {usersData.map((o) => (
+          <ListItemButton key={o.id} onClick={() => navigate(`/`)}>
             <ListItemAvatar>
-              <Avatar
-                alt={user.displayName}
-                component={Routerlink}
-                sx={styles.avatar}
-                to="/"
-              />
+              <UserAvatar username="" />
             </ListItemAvatar>
             <ListItemText
               primary={
                 <Link
+                  color={theme.typography.subtitle1.color}
                   component={Routerlink}
                   to="/"
                   underline="hover"
-                  sx={styles.displayName}
+                  variant="subtitle1"
                 >
-                  {user.displayName}
+                  {o.displayName}
                 </Link>
               }
               secondary={
-                <Typography
-                  component="span"
-                  sx={styles.username}
-                >{`@${user.username}`}</Typography>
+                <Link
+                  color={theme.typography.subtitle2.color}
+                  component={Routerlink}
+                  to="/"
+                  underline="none"
+                  variant="subtitle2"
+                >
+                  {`@${o.displayName}`}
+                </Link>
               }
               sx={styles.listItemText}
             />
-            {/* TODO: update to render Following Button as well */}
-            <FollowButton onClick={() => {}} visitedUserId={NaN} />
+            {/* TODO: Update to render Following Button as well */}
+            <FollowButton visitedUserId={NaN} />
           </ListItemButton>
         ))}
       </List>

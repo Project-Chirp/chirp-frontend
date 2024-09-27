@@ -2,40 +2,43 @@ import {
   Box,
   Button,
   Card,
+  CardActions,
   CardContent,
+  CardHeader,
+  CardMedia,
+  Divider,
+  IconButton,
+  Link,
   Stack,
   Typography,
-  Divider,
-  Link,
 } from "@mui/material";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import CardHeader from "@mui/material/CardHeader/CardHeader";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import IconButton from "@mui/material/IconButton/IconButton";
-import CardMedia from "@mui/material/CardMedia/CardMedia";
-import CardActions from "@mui/material/CardActions/CardActions";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
-import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import {
+  AddCommentOutlined,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  KeyboardBackspace,
+  RepeatOutlined,
+  ShareOutlined,
+} from "@mui/icons-material";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { toggleLikePost } from "../../state/slices/postsSlice";
 import { setExpandedPost } from "../../state/slices/postsSlice";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
+import { useTheme } from "@mui/material/styles";
+import PostMenu from "./PostMenu";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
+import formatTimestamp from "../../utilities/formatTimestamp";
 
 const styles = {
   actionButton: {
-    color: "black",
-    textTransform: "none",
+    color: "black.main",
     "&:hover": {
       backgroundColor: "transparent",
     },
@@ -45,9 +48,7 @@ const styles = {
     paddingX: 1,
     paddingY: 1,
   },
-  actionCount: { fontWeight: "bold", fontSize: 14.5, paddingRight: 0.5 },
-  actionText: { fontSize: 14.5 },
-  backButton: { "&:hover": { backgroundColor: "transparent" } },
+  actionCount: { fontWeight: "bold", paddingRight: 0.5 },
   card: {
     padding: 0,
     boxShadow: "none",
@@ -55,23 +56,12 @@ const styles = {
   cardActions: {
     width: "100%",
   },
-  cardContent: { width: 400 },
   cardMedia: { maxWidth: 200, margin: "auto" },
-  displayName: {
-    fontSize: 15,
-    fontWeight: "bold",
-    color: "black",
-    paddingRight: 0.5,
-  },
   headerTitle: {
     fontWeight: "bold",
   },
   likedIcon: {
     color: "primary.main",
-  },
-  timestamp: {
-    fontSize: 14.5,
-    color: "#a4a8ab",
   },
   timestampBox: {
     display: "flex",
@@ -79,12 +69,10 @@ const styles = {
     paddingY: 1,
   },
   topHeader: {
-    display: "flex",
     alignItems: "center",
-  },
-  username: {
-    fontSize: "inherit",
-    color: "grey",
+    display: "flex",
+    gap: 2,
+    padding: 1,
   },
 };
 
@@ -93,66 +81,74 @@ type ExpandedPostItemProps = {
 };
 
 const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
+  const theme = useTheme();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const urlParams = useParams();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
-      const backupFetch = await axios.get(
-        "http://localhost:3001/api/posts/fetchPost",
-        {
-          params: {
-            userId: user.userId,
-            postId: urlParams.postId,
-          },
-        }
-      );
-      dispatch(setExpandedPost(backupFetch.data as Post));
+      try {
+        const backupFetch = await axios.get(
+          "http://localhost:3001/api/posts/fetchPost",
+          {
+            params: {
+              userId: user.userId,
+              postId: urlParams.postId,
+            },
+          }
+        );
+        dispatch(setExpandedPost(backupFetch.data as Post));
+      } catch (error) {
+        console.error("Failed to fetch post", error);
+      }
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
 
-  const navigate = useNavigate();
-
   return (
     <Card sx={styles.card}>
-      <Box style={styles.topHeader}>
-        <IconButton onClick={() => navigate(-1)} sx={styles.backButton}>
-          <KeyboardBackspaceIcon color="secondary" />
+      <Box sx={styles.topHeader}>
+        <IconButton onClick={() => navigate(-1)}>
+          <KeyboardBackspace color="secondary" />
         </IconButton>
-        <Typography style={styles.headerTitle}>Post</Typography>
+        <Typography variant="h3">Post</Typography>
       </Box>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
         action={
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
+          <PostMenu
+            authorId={post.userId}
+            postId={post.postId}
+            isExpandedPost
+          />
         }
         title={
           <Link
+            color={theme.typography.subtitle1.color}
             component={Routerlink}
             to={`/${post.username}`}
             underline="hover"
-            sx={styles.displayName}
+            variant="subtitle1"
           >
             {post.displayName}
           </Link>
         }
         subheader={
           <Link
+            color={theme.typography.subtitle2.color}
             component={Routerlink}
             to={`/${post.username}`}
             underline="none"
-            sx={styles.username}
+            variant="subtitle2"
           >
             @{post.username}
           </Link>
         }
       />
-      <CardContent sx={styles.cardContent}>
+      <CardContent>
         <Typography>{post.textContent}</Typography>
       </CardContent>
       {post.imagePath && (
@@ -163,9 +159,10 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
-        <Typography component="span" sx={styles.timestamp}>
-          {formatTimestamp(post.timestamp)}
-        </Typography>
+        <TooltipTimestamp
+          timestamp={post.editedTimestamp || post.timestamp}
+          isEdited={Boolean(post.editedTimestamp)}
+        />
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionsContainer}>
@@ -174,9 +171,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfReposts}
             </Typography>
-            <Typography component="span" sx={styles.actionText}>
-              Reposts
-            </Typography>
+            <Typography component="span">Reposts</Typography>
           </Button>
         </Box>
         <Box>
@@ -184,9 +179,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfReplies}
             </Typography>
-            <Typography component="span" sx={styles.actionText}>
-              Replies
-            </Typography>
+            <Typography component="span">Replies</Typography>
           </Button>
         </Box>
         <Box>
@@ -194,9 +187,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <Typography component="span" sx={styles.actionCount}>
               {post.numberOfLikes}
             </Typography>
-            <Typography component="span" sx={styles.actionText}>
-              Likes
-            </Typography>
+            <Typography component="span">Likes</Typography>
           </Button>
         </Box>
       </Box>
@@ -208,14 +199,14 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           sx={styles.cardActions}
         >
           <IconButton>
-            <RepeatOutlinedIcon />
+            <RepeatOutlined />
           </IconButton>
           <IconButton
             onClick={() => {
               setOpen(true);
             }}
           >
-            <AddCommentOutlinedIcon />
+            <AddCommentOutlined />
           </IconButton>
           <IconButton
             onClick={() => {
@@ -229,13 +220,13 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             sx={post.isLikedByCurrentUser ? styles.likedIcon : undefined}
           >
             {post.isLikedByCurrentUser ? (
-              <FavoriteOutlinedIcon />
+              <FavoriteOutlined />
             ) : (
-              <FavoriteBorderOutlinedIcon />
+              <FavoriteBorderOutlined />
             )}
           </IconButton>
           <IconButton>
-            <ShareOutlinedIcon />
+            <ShareOutlined />
           </IconButton>
         </Stack>
       </CardActions>

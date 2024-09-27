@@ -16,7 +16,6 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ConversationList from "../components/Messages/ConversationList";
@@ -25,10 +24,11 @@ import {
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
-import theme from "../styles/Theme";
 import NavBar from "../components/NavBar/NavBar";
-import formatTimestamp from "../utilities/formatTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
+import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
+import { EmojiClickData } from "emoji-picker-react";
+import TooltipTimestamp from "../components/Common/TooltipTimestamp";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -41,6 +41,7 @@ const styles = {
   chatInputContainer: {
     boxSizing: "border-box",
     padding: 1,
+    position: "relative",
     width: "100%",
   },
   directMessageContainer: {
@@ -50,6 +51,7 @@ const styles = {
   },
   divider: { height: "auto" },
   headerContainer: {
+    alignItems: "center",
     display: "flex",
     justifyContent: "space-between",
     paddingLeft: 2,
@@ -65,7 +67,7 @@ const styles = {
   messageText: {
     padding: 1,
     borderRadius: 10,
-    backgroundColor: "#cce3d9",
+    backgroundColor: "primary.light",
   },
   middleContent: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
   nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
@@ -81,7 +83,7 @@ const styles = {
   sentMessageText: {
     padding: 1,
     borderRadius: 10,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: "primary.main",
   },
   timestamp: { marginTop: 0.5 },
 };
@@ -219,13 +221,16 @@ const DirectMessage = () => {
                             : styles.messageText
                         }
                       >
-                        <Typography variant="body1">{o.textContent}</Typography>
+                        <Typography>{o.textContent}</Typography>
                       </Box>
                     }
                     secondary={
-                      <Typography sx={styles.timestamp} variant="caption">
-                        {formatTimestamp(o.timestamp)}
-                      </Typography>
+                      <Box sx={styles.timestamp}>
+                        <TooltipTimestamp
+                          timestamp={o.timestamp}
+                          variant="body2"
+                        />
+                      </Box>
                     }
                   />
                 </ListItem>
@@ -244,9 +249,14 @@ const DirectMessage = () => {
                         <IconButton>
                           <AddPhotoAlternateOutlinedIcon />
                         </IconButton>
-                        <IconButton>
-                          <EmojiEmotionsOutlinedIcon />
-                        </IconButton>
+                        <EmojiPickerIconButton
+                          onEmojiClick={(emoji: EmojiClickData) => {
+                            setTextContent(
+                              (prevContent) => prevContent + emoji.emoji
+                            );
+                          }}
+                          topPosition
+                        />
                         <IconButton>
                           <GifBoxOutlinedIcon />
                         </IconButton>
