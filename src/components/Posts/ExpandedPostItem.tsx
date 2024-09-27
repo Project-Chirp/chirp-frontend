@@ -110,11 +110,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
-    dispatch(
-      enqueueToast({
-        message: "Post URL copied to clipboard!",
-      })
-    );
+    dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 
   return (
