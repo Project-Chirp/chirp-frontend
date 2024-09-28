@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import PostItem from "../Posts/PostItem";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
+import useAxios from "../../utilities/useAxios";
 import { Divider, Stack } from "@mui/material";
 
 type ProfilePostsProps = {
@@ -12,18 +12,16 @@ type ProfilePostsProps = {
 const ProfilePosts = ({ userId }: ProfilePostsProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
+  const { loading, error, sendRequest } = useAxios(); // TODO: use loading/error
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getUserPosts",
-        {
-          params: {
-            visitedUserId: userId,
-          },
-        }
-      );
-      dispatch(setPosts(result.data as Post[]));
+      const result = await sendRequest({
+        endpoint: "profile/getUserPosts",
+        method: "GET",
+        params: { visitedUserId: userId },
+      });
+      dispatch(setPosts(result as Post[]));
     };
     fetchPosts();
   }, [dispatch, userId]);

@@ -9,12 +9,11 @@ import {
   ListItemButton,
   ListItemText,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { SelectedUser } from "../../../state/slices/messagesSlice";
+import useAxios from "../../../utilities/useAxios";
 
 const styles = {
   autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
@@ -41,20 +40,18 @@ const MessagesSearchBar = ({
 }: MessagesSearchBarProps) => {
   const user = useAppSelector((state) => state.user);
   const [followedList, setFollowedList] = useState<SelectedUser[]>([]);
+  const { sendRequest } = useAxios();
+
   useEffect(() => {
     const fetchDMList = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/messages/followedList",
-        {
-          params: {
-            userId: user.userId,
-          },
-        }
-      );
-      setFollowedList(result.data as SelectedUser[]);
+      const result = await sendRequest({
+        endpoint: "messages/followedList",
+        method: "GET",
+      });
+      setFollowedList(result as SelectedUser[]);
     };
     fetchDMList();
-  }, [user]);
+  }, [user, sendRequest]);
 
   return (
     <Box sx={styles.box}>
@@ -99,15 +96,10 @@ const MessagesSearchBar = ({
                 <Avatar />
               </ListItemAvatar>
               <ListItemText
-                disableTypography
-                primary={
-                  <Box>
-                    <Typography variant="subtitle1">
-                      {option.displayName}
-                    </Typography>
-                    <Typography variant="subtitle2">{`@${option.username}`}</Typography>
-                  </Box>
-                }
+                primary={option.displayName}
+                primaryTypographyProps={{ variant: "subtitle1" }}
+                secondary={`@${option.username}`}
+                secondaryTypographyProps={{ variant: "subtitle2" }}
               />
             </ListItemButton>
           );

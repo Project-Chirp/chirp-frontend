@@ -10,14 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { EmojiClickData } from "emoji-picker-react";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 import UserAvatar from "../Common/UserAvatar";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import axios from "axios";
 import { updatePost } from "../../state/slices/postsSlice";
+import useAxios from "../../utilities/useAxios";
 
 type EditPostModalProps = {
   onClose: () => void;
@@ -60,6 +60,7 @@ const styles = {
 
 const EditPostModal = ({ onClose, open, postId }: EditPostModalProps) => {
   const user = useAppSelector((state) => state.user);
+  const { sendRequest } = useAxios();
   const dispatch = useAppDispatch();
   const existingPost = useAppSelector((state) =>
     state.posts.posts.find((post) => post.postId === postId)
@@ -72,9 +73,13 @@ const EditPostModal = ({ onClose, open, postId }: EditPostModalProps) => {
     e.preventDefault();
 
     try {
-      await axios.put("http://localhost:3001/api/posts/editPost", {
-        postId: postId,
-        textContent: postTextContent,
+      await sendRequest({
+        endpoint: "posts/editPost",
+        method: "PUT",
+        body: {
+          postId: postId,
+          textContent: postTextContent,
+        },
       });
       dispatch(
         updatePost({
