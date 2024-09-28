@@ -146,8 +146,8 @@ const Profile = () => {
     setProfileContents((prevProfileContents) => ({
       ...prevProfileContents,
       followingCount: isFollowing
-        ? --prevProfileContents.followingCount
-        : ++prevProfileContents.followingCount,
+        ? prevProfileContents.followingCount - 1
+        : prevProfileContents.followingCount + 1,
     }));
   };
 
@@ -163,7 +163,7 @@ const Profile = () => {
       //   },
       // });
       const result = await sendRequest({
-        endpoint: "http://localhost:3001/api/follow/getFollowerList",
+        endpoint: "follow/getFollowerList",
         method: "GET",
         params: {
           visitedUserId: profileContents.userId,
@@ -190,7 +190,7 @@ const Profile = () => {
       //   },
       // });
       const result = await sendRequest({
-        endpoint: "http://localhost:3001/api/follow/getFollowingList",
+        endpoint: "follow/getFollowingList",
         method: "GET",
         params: {
           visitedUserId: profileContents.userId,

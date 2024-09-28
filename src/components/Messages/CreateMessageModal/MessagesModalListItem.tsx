@@ -48,15 +48,10 @@ const MessageModalListItem = ({
           <Avatar />
         </ListItemAvatar>
         <ListItemText
-          disableTypography
-          primary={
-            <Box>
-              <Typography variant="subtitle1">
-                {otherUser.displayName}
-              </Typography>
-              <Typography variant="subtitle2">{`@${otherUser.username}`}</Typography>
-            </Box>
-          }
+          primary={otherUser.displayName}
+          primaryTypographyProps={{ variant: "subtitle1" }}
+          secondary={`@${otherUser.username}`}
+          secondaryTypographyProps={{ variant: "subtitle2" }}
         />
       </Box>
     </ListItemButton>

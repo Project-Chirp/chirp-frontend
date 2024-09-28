@@ -96,15 +96,10 @@ const MessagesSearchBar = ({
                 <Avatar />
               </ListItemAvatar>
               <ListItemText
-                disableTypography
-                primary={
-                  <Box>
-                    <Typography variant="subtitle1">
-                      {option.displayName}
-                    </Typography>
-                    <Typography variant="subtitle2">{`@${option.username}`}</Typography>
-                  </Box>
-                }
+                primary={option.displayName}
+                primaryTypographyProps={{ variant: "subtitle1" }}
+                secondary={`@${option.username}`}
+                secondaryTypographyProps={{ variant: "subtitle2" }}
               />
             </ListItemButton>
           );
