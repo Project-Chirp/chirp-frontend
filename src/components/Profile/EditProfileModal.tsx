@@ -58,7 +58,7 @@ const EditProfileModal = ({
   const [birthDateValue, setBirthDateValue] = useState(birthDate || new Date());
   const [displayNameValue, setDisplayNameValue] = useState(displayName);
   const user = useAppSelector((state) => state.user);
-  const { loading, error, sendRequest } = useAxios();
+  const { loading, error, sendRequest } = useAxios(); // TODO: use loading/error
 
   const saveProfile = async (e: React.SyntheticEvent) => {
     e.preventDefault();

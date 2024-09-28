@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import { useAppSelector } from "../../state/hooks";
 import { useState } from "react";
 import useAxios from "../../utilities/useAxios";
 
@@ -27,9 +26,8 @@ type FollowingButtonProps = {
 };
 
 const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
-  const user = useAppSelector((state) => state.user);
   const [isHovered, setIsHovered] = useState(false);
-  const { loading, error, sendRequest } = useAxios();
+  const { sendRequest } = useAxios();
 
   const handleUnfollow = async (e: React.MouseEvent) => {
     e.stopPropagation();

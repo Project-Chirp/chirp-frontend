@@ -3,7 +3,6 @@ import {
   ListItemAvatar,
   Avatar,
   ListItemText,
-  Typography,
   Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -33,11 +32,11 @@ const MessageModalListItem = ({
   otherUser,
   onClose,
 }: MessageModalListItemProps) => {
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const navigate = useNavigate();
   const routeChange = () => {
     onClose();
-    const path = `/messages/${user.userId}/${otherUser.userId}`;
+    const path = `/messages/${userId}/${otherUser.userId}`;
     navigate(path);
   };
 

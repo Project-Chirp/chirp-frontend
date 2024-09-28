@@ -1,10 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import { useCallback, useEffect, useState } from "react";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { useCallback, useState } from "react";
 
 export type SendRequestProps = {
   endpoint: string;
-  method?: "GET" | "POST" | "PUT" | "DELETE"; // Add more methods as needed
+  method?: "GET" | "POST" | "PUT" | "DELETE";
   headers?: { [key: string]: string };
   body?: any;
   params?: any;

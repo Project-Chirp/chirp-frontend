@@ -31,7 +31,6 @@ import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
 
 type PostProps = {

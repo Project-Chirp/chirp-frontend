@@ -19,11 +19,10 @@ import Toast from "./components/Common/Toast";
 
 function App() {
   const { isLoading, isAuthenticated } = useAuth0();
-
   const userIsLoading = useAppSelector((state) => state.user.isLoading);
   const username = useAppSelector((state) => state.user.username);
   const dispatch = useAppDispatch();
-  const { loading, error, sendRequest } = useAxios();
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const getUser = async () => {

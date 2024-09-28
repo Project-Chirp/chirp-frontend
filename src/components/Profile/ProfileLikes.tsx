@@ -12,7 +12,7 @@ type ProfileLikesProps = {
 const ProfileLikes = ({ userId }: ProfileLikesProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
-  const { loading, error, sendRequest } = useAxios();
+  const { loading, error, sendRequest } = useAxios(); // TODO: use loading/error
 
   useEffect(() => {
     const fetchPosts = async () => {

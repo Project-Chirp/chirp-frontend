@@ -24,7 +24,6 @@ import {
   updateConversation,
 } from "../state/slices/messagesSlice";
 import NavBar from "../components/NavBar/NavBar";
-import formatTimestamp from "../utilities/formatTimestamp";
 import useAxios from "../utilities/useAxios";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
@@ -101,6 +100,7 @@ const DirectMessage = () => {
   const { userId1, userId2 } = useParams();
   const [textContent, setTextContent] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const { sendRequest } = useAxios();
   const user = useAppSelector((state) => state.user);
   const { selectedConversation, conversations } = useAppSelector(
     (state) => state.messages
@@ -110,7 +110,6 @@ const DirectMessage = () => {
   const userExists = conversations.find(
     (o) => o.otherUserId === Number(userId2)
   );
-  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchDirectMessage = async () => {

@@ -61,7 +61,7 @@ const Register = () => {
           required
           type="text"
           value={username}
-          variant="filled"
+          variant="outlined"
         />
         <TextField
           id="displayname"
@@ -72,7 +72,7 @@ const Register = () => {
           placeholder="Display Name"
           type="text"
           value={displayName}
-          variant="filled"
+          variant="outlined"
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
@@ -80,7 +80,7 @@ const Register = () => {
               <TextField
                 id="date"
                 placeholder="Date of Birth"
-                variant="filled"
+                variant="outlined"
                 {...props}
               />
             )}

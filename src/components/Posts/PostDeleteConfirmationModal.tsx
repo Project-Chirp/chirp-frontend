@@ -65,8 +65,8 @@ const PostDeleteModal = ({
         endpoint: "posts/deletePost",
         method: "DELETE",
         body: {
-          postId: postId,
-          userId: userId,
+          postId,
+          userId,
         },
       });
       if (isExpandedPost) {

@@ -9,7 +9,6 @@ import {
   ListItemButton,
   ListItemText,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
@@ -42,6 +41,7 @@ const MessagesSearchBar = ({
   const user = useAppSelector((state) => state.user);
   const [followedList, setFollowedList] = useState<SelectedUser[]>([]);
   const { sendRequest } = useAxios();
+
   useEffect(() => {
     const fetchDMList = async () => {
       const result = await sendRequest({
