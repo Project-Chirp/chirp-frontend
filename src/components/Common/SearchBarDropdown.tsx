@@ -52,10 +52,6 @@ const styles = {
 };
 
 const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
-  const debouncedFetch = useMemo(
-    () => debounce((keywords: string) => fetchUsers(keywords), 100),
-    []
-  );
   const [focusSearchBar, setFocusSearchBar] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [keywords, setKeywords] = useState("");
@@ -63,6 +59,10 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
   const [searchOptions, setSearchOptions] = useState<SelectedUser[]>([]);
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
+  const debouncedFetch = useMemo(
+    () => debounce((keywords: string) => fetchUsers(keywords), 100),
+    []
+  );
 
   const fetchUsers = async (keywords: string) => {
     setLoading(true);
@@ -91,10 +91,15 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
       }
     } catch (error) {
       console.error("Failed to fetch users:", error);
+      setSearchOptions([]);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    debouncedFetch(keywords);
+  }, [keywords]);
 
   const handleInputChange = (newInputValue: string) => {
     setKeywords(newInputValue);
@@ -104,7 +109,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
     }
   };
 
-  const onSelect = (selectedUsername: string) => {
+  const handleSelect = (selectedUsername: string) => {
     setKeywords("");
     setSearchOptions([]);
     inputRef.current?.blur();
@@ -117,16 +122,12 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
     setFocusSearchBar(false);
   };
 
-  useEffect(() => {
-    debouncedFetch(keywords);
-  }, [keywords]);
-
   return (
     <Box sx={styles.box}>
       <Autocomplete
         disablePortal
         fullWidth
-        filterOptions={(options) => options}
+        filterOptions={(x) => x}
         getOptionLabel={() => ""}
         forcePopupIcon={false}
         id="search"
@@ -135,16 +136,8 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
         ListboxProps={{ style: styles.listBox }}
         loading={!keywords && loading}
         loadingText="Start typing to search..."
-        onChange={(_, value) => {
-          if (value === null) {
-            setKeywords("");
-            setSearchOptions([]);
-          } else {
-            onSelect(value.username);
-          }
-        }}
-        isOptionEqualToValue={(option, value) => option.userId === value.userId}
-        onBlur={() => handleClear()}
+        onChange={(_, value) => value && handleSelect(value.username)}
+        onBlur={handleClear}
         onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
         onFocus={() => setFocusSearchBar(true)}
         open={focusSearchBar}
@@ -155,7 +148,8 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
           <TextField
             {...params}
             fullWidth
-            hiddenLabel
+            variant="outlined"
+            inputRef={inputRef}
             InputProps={{
               ...params.InputProps,
               startAdornment: (
@@ -179,7 +173,6 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
                   </IconButton>
                 </InputAdornment>
               ),
-              inputRef: inputRef,
             }}
             placeholder={placeholder}
             size="small"
@@ -187,29 +180,22 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
         )}
         renderOption={(params, option) => {
           return (
-            <Box key={option.userId}>
-              <ListItemButton
-                {...params}
-                component="li"
-                key={option.userId}
-                onClick={() => onSelect(option.username)}
-              >
-                <ListItemAvatar>
-                  <Avatar />
-                </ListItemAvatar>
-                <ListItemText
-                  disableTypography
-                  primary={
-                    <Box>
-                      <Typography variant="subtitle1">
-                        {option.displayName}
-                      </Typography>
-                      <Typography variant="subtitle2">{`@${option.username}`}</Typography>
-                    </Box>
-                  }
-                />
-              </ListItemButton>
-            </Box>
+            <ListItemButton
+              {...params}
+              component="li"
+              key={option.userId}
+              onClick={() => handleSelect(option.username)}
+            >
+              <ListItemAvatar>
+                <Avatar />
+              </ListItemAvatar>
+              <ListItemText
+                primary={option.displayName}
+                secondary={`@${option.username}`}
+                primaryTypographyProps={{ variant: "subtitle1" }}
+                secondaryTypographyProps={{ variant: "subtitle2" }}
+              />
+            </ListItemButton>
           );
         }}
         sx={styles.autocomplete}
