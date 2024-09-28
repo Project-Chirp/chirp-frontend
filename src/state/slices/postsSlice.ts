@@ -16,6 +16,7 @@ export type Post = {
   timestamp: string;
   userId: number;
   username: string;
+  editedTimestamp: string;
 };
 
 type PostSliceType = {
@@ -37,6 +38,7 @@ const initialState: PostSliceType = {
     timestamp: "",
     userId: 0,
     username: "",
+    editedTimestamp: "",
   },
 };
 
@@ -74,6 +76,11 @@ export const postsSlice = createSlice({
         numberOfReposts: 0,
       });
     },
+    deletePost: (state, action: PayloadAction<number>) => {
+      state.posts = state.posts.filter(
+        (post) => post.postId !== action.payload
+      );
+    },
     setPosts: (state, action: PayloadAction<Post[]>) => {
       state.posts = action.payload;
     },
@@ -104,8 +111,8 @@ export const postsSlice = createSlice({
           : state.expandedPost.numberOfLikes--;
       }
     },
-    toggleFollow: (state, action: PayloadAction<boolean>) => {
-      state.expandedPost.followStatus = !action.payload;
+    toggleFollow: (state) => {
+      state.expandedPost.followStatus = !state.expandedPost.followStatus;
     },
     updateDisplayNames: (
       state,
@@ -117,17 +124,27 @@ export const postsSlice = createSlice({
           : o
       );
     },
+    updatePost: (state, action: PayloadAction<Post>) => {
+      state.posts = state.posts.map((o) => {
+        if (o.postId === action.payload.postId) {
+          return action.payload;
+        }
+        return o;
+      });
+    },
   },
 });
 
 export const {
   addReply,
   appendPost,
+  deletePost,
   setPosts,
   setExpandedPost,
   toggleLikePost,
   toggleFollow,
   updateDisplayNames,
+  updatePost,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

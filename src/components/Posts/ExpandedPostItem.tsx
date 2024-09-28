@@ -2,28 +2,29 @@ import {
   Box,
   Button,
   Card,
+  CardActions,
   CardContent,
+  CardHeader,
+  CardMedia,
+  Divider,
+  IconButton,
+  Link,
   Stack,
   Typography,
-  Divider,
-  Link,
 } from "@mui/material";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import CardHeader from "@mui/material/CardHeader/CardHeader";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import IconButton from "@mui/material/IconButton/IconButton";
-import CardMedia from "@mui/material/CardMedia/CardMedia";
-import CardActions from "@mui/material/CardActions/CardActions";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
-import RepeatOutlinedIcon from "@mui/icons-material/RepeatOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import {
+  AddCommentOutlined,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  KeyboardBackspace,
+  RepeatOutlined,
+  ShareOutlined,
+} from "@mui/icons-material";
+import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { toggleLikePost } from "../../state/slices/postsSlice";
 import { setExpandedPost } from "../../state/slices/postsSlice";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { useEffect, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { Post } from "../../state/slices/postsSlice";
@@ -32,6 +33,9 @@ import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
 import useAxios from "../../utilities/useAxios";
+import PostMenu from "./PostMenu";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
+import formatTimestamp from "../../utilities/formatTimestamp";
 
 const styles = {
   actionButton: {
@@ -46,7 +50,6 @@ const styles = {
     paddingY: 1,
   },
   actionCount: { fontWeight: "bold", paddingRight: 0.5 },
-  backButton: { "&:hover": { backgroundColor: "transparent" } },
   card: {
     padding: 0,
     boxShadow: "none",
@@ -69,7 +72,8 @@ const styles = {
   topHeader: {
     alignItems: "center",
     display: "flex",
-    paddingTop: 1,
+    gap: 2,
+    padding: 1,
   },
 };
 
@@ -84,35 +88,36 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const urlParams = useParams();
   const [open, setOpen] = useState(false);
   const { loading, error, sendRequest } = useAxios();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
       const backupFetch = await sendRequest({
         endpoint: "posts/fetchPost",
         method: "GET",
-        params: { postId: urlParams.postId },
+        params: { userId: user.userId, postId: urlParams.postId },
       });
       dispatch(setExpandedPost(backupFetch as Post));
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
 
-  const navigate = useNavigate();
-
   return (
     <Card sx={styles.card}>
       <Box sx={styles.topHeader}>
-        <IconButton onClick={() => navigate(-1)} sx={styles.backButton}>
-          <KeyboardBackspaceIcon color="secondary" />
+        <IconButton onClick={() => navigate(-1)}>
+          <KeyboardBackspace color="secondary" />
         </IconButton>
-        <Typography variant="h2">Post</Typography>
+        <Typography variant="h3">Post</Typography>
       </Box>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
         action={
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
+          <PostMenu
+            authorId={post.userId}
+            postId={post.postId}
+            isExpandedPost
+          />
         }
         title={
           <Link
@@ -148,9 +153,10 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         />
       )}
       <Box sx={styles.timestampBox}>
-        <Typography component="span" variant="subtitle2">
-          {formatTimestamp(post.timestamp)}
-        </Typography>
+        <TooltipTimestamp
+          timestamp={post.editedTimestamp || post.timestamp}
+          isEdited={Boolean(post.editedTimestamp)}
+        />
       </Box>
       <Divider variant="middle" />
       <Box sx={styles.actionsContainer}>
@@ -187,14 +193,14 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           sx={styles.cardActions}
         >
           <IconButton>
-            <RepeatOutlinedIcon />
+            <RepeatOutlined />
           </IconButton>
           <IconButton
             onClick={() => {
               setOpen(true);
             }}
           >
-            <AddCommentOutlinedIcon />
+            <AddCommentOutlined />
           </IconButton>
           <IconButton
             onClick={() => {
@@ -209,13 +215,13 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             sx={post.isLikedByCurrentUser ? styles.likedIcon : undefined}
           >
             {post.isLikedByCurrentUser ? (
-              <FavoriteOutlinedIcon />
+              <FavoriteOutlined />
             ) : (
-              <FavoriteBorderOutlinedIcon />
+              <FavoriteBorderOutlined />
             )}
           </IconButton>
           <IconButton>
-            <ShareOutlinedIcon />
+            <ShareOutlined />
           </IconButton>
         </Stack>
       </CardActions>

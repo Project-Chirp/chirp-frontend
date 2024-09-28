@@ -34,7 +34,7 @@ const styles = {
   },
   textField: { sx: { borderRadius: 2 } },
   textFieldContainer: { padding: 2 },
-  titleBox: { paddingLeft: 3, width: "100%" },
+  titleBox: { paddingLeft: 3 },
 };
 
 type EditProfileModalProps = {

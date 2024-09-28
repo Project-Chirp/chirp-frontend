@@ -29,6 +29,7 @@ import useAxios from "../utilities/useAxios";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import { EmojiClickData } from "emoji-picker-react";
+import TooltipTimestamp from "../components/Common/TooltipTimestamp";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },
@@ -204,7 +205,6 @@ const DirectMessage = () => {
               <InfoOutlinedIcon />
             </IconButton>
           </Box>
-
           <Divider />
           <Box sx={styles.chatContainer}>
             <List component="div" ref={messageRef} sx={styles.messageList}>
@@ -229,9 +229,12 @@ const DirectMessage = () => {
                       </Box>
                     }
                     secondary={
-                      <Typography sx={styles.timestamp} variant="body2">
-                        {formatTimestamp(o.timestamp)}
-                      </Typography>
+                      <Box sx={styles.timestamp}>
+                        <TooltipTimestamp
+                          timestamp={o.timestamp}
+                          variant="body2"
+                        />
+                      </Box>
                     }
                   />
                 </ListItem>
