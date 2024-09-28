@@ -32,6 +32,7 @@ import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import formatTimestamp from "../../utilities/formatTimestamp";
+import { enqueueToast } from "../../state/slices/toastSlice";
 
 type PostProps = {
   post: Post;
@@ -67,15 +68,19 @@ const styles = {
 const PostItem = ({ post }: PostProps) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const { sendRequest } = useAxios();
-  const navigate = useNavigate();
 
   const routeChange = () => {
-    const path = `/post/${post.postId}`;
-    navigate(path);
+    navigate(`/post/${post.postId}`);
     dispatch(setExpandedPost(post));
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
+    dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 
   return (
@@ -165,7 +170,7 @@ const PostItem = ({ post }: PostProps) => {
           >
             {post.numberOfLikes}
           </Button>
-          <IconButton>
+          <IconButton onClick={() => copyToClipboard()}>
             <ShareOutlined />
           </IconButton>
         </Box>

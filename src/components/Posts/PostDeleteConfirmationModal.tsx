@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
 import useAxios from "../../utilities/useAxios";
+import { enqueueToast } from "../../state/slices/toastSlice";
 
 const styles = {
   dialog: {
@@ -69,19 +70,24 @@ const PostDeleteModal = ({
           userId: userId,
         },
       });
-      // await axios.delete(`http://localhost:3001/api/posts/deletePost`, {
-      //   data: {
-      //     postId: postId,
-      //     userId: userId,
-      //   },
-      // });
       if (isExpandedPost) {
         navigate(-1);
       } else {
         dispatch(deletePost(postId));
       }
+      dispatch(
+        enqueueToast({
+          message: "Your post has been deleted",
+        })
+      );
     } catch (error) {
       console.error("Failed to delete the post", error);
+      dispatch(
+        enqueueToast({
+          message: "Your post failed to be deleted",
+          severity: "error",
+        })
+      );
     } finally {
       onClose();
     }

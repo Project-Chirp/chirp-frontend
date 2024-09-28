@@ -6,11 +6,11 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Divider,
   IconButton,
-  Link,
   Stack,
   Typography,
+  Divider,
+  Link,
 } from "@mui/material";
 import {
   AddCommentOutlined,
@@ -36,6 +36,7 @@ import useAxios from "../../utilities/useAxios";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import formatTimestamp from "../../utilities/formatTimestamp";
+import { enqueueToast } from "../../state/slices/toastSlice";
 
 const styles = {
   actionButton: {
@@ -84,11 +85,11 @@ type ExpandedPostItemProps = {
 const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
   const urlParams = useParams();
+  const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const { loading, error, sendRequest } = useAxios();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
@@ -101,6 +102,11 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
+    dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
+  };
 
   return (
     <Card sx={styles.card}>
@@ -220,7 +226,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
               <FavoriteBorderOutlined />
             )}
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => copyToClipboard()}>
             <ShareOutlined />
           </IconButton>
         </Stack>

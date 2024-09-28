@@ -52,7 +52,7 @@ const Register = () => {
       </Typography>
       <Box sx={styles.inputs}>
         <TextField
-          id="displayname"
+          id="username"
           label="Username"
           onChange={(e) => {
             setUsername(e.target.value);
@@ -61,7 +61,7 @@ const Register = () => {
           required
           type="text"
           value={username}
-          variant="outlined"
+          variant="filled"
         />
         <TextField
           id="displayname"
@@ -72,7 +72,7 @@ const Register = () => {
           placeholder="Display Name"
           type="text"
           value={displayName}
-          variant="outlined"
+          variant="filled"
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
@@ -80,7 +80,7 @@ const Register = () => {
               <TextField
                 id="date"
                 placeholder="Date of Birth"
-                variant="outlined"
+                variant="filled"
                 {...props}
               />
             )}

@@ -155,13 +155,6 @@ const Profile = () => {
     setFollowerListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      // const endpoint = "http://localhost:3001/api/follow/getFollowerList";
-      // const result = await axios.get(endpoint, {
-      //   params: {
-      //     visitedUserId: profileContents.userId,
-      //     currentUserId: currentUserId,
-      //   },
-      // });
       const result = await sendRequest({
         endpoint: "follow/getFollowerList",
         method: "GET",
@@ -182,13 +175,6 @@ const Profile = () => {
     setFollowingListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      // const endpoint = "http://localhost:3001/api/follow/getFollowingList";
-      // const result = await axios.get(endpoint, {
-      //   params: {
-      //     visitedUserId: profileContents.userId,
-      //     currentUserId: currentUserId,
-      //   },
-      // });
       const result = await sendRequest({
         endpoint: "follow/getFollowingList",
         method: "GET",
