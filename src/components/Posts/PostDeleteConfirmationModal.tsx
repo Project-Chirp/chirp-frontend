@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
+import useAxios from "../../utilities/useAxios";
 
 const styles = {
   dialog: {
@@ -56,15 +57,24 @@ const PostDeleteModal = ({
   const userId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { sendRequest } = useAxios();
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3001/api/posts/deletePost`, {
-        data: {
+      await sendRequest({
+        endpoint: "posts/deletePost",
+        method: "DELETE",
+        body: {
           postId: postId,
           userId: userId,
         },
       });
+      // await axios.delete(`http://localhost:3001/api/posts/deletePost`, {
+      //   data: {
+      //     postId: postId,
+      //     userId: userId,
+      //   },
+      // });
       if (isExpandedPost) {
         navigate(-1);
       } else {
