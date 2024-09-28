@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
 import useAxios from "../../utilities/useAxios";
 import { enqueueToast } from "../../state/slices/toastSlice";

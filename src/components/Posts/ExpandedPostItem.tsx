@@ -20,7 +20,6 @@ import {
   RepeatOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { toggleLikePost } from "../../state/slices/postsSlice";
@@ -35,7 +34,6 @@ import { useTheme } from "@mui/material/styles";
 import useAxios from "../../utilities/useAxios";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
 
 const styles = {

@@ -32,7 +32,6 @@ import { updateDisplayNames } from "../state/slices/postsSlice";
 import FollowListModal, {
   NetworkUsers,
 } from "../components/Profile/FollowListModal";
-import axios from "axios";
 
 const styles = {
   avatar: {
