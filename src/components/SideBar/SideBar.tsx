@@ -20,7 +20,7 @@ const SideBar = () => {
   return (
     <Box sx={styles.rightContent}>
       <Box sx={styles.searchBarContainer}>
-        <SearchBarDropdown placeholder="Search Chirp" />
+        <SearchBarDropdown placeholder="Search users" />
       </Box>
       <SuggestedUserItem />
       <Advertisement />

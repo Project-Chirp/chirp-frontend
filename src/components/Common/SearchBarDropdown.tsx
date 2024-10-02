@@ -10,7 +10,6 @@ import {
   ListItemButton,
   ListItemText,
   TextField,
-  Typography,
   debounce,
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -24,16 +23,6 @@ type SearchBarDropDownProps = {
 };
 
 const styles = {
-  autocomplete: {
-    "&.MuiAutocomplete-hasClearIcon .MuiOutlinedInput-root": { paddingX: 1 },
-    position: "relative",
-    padding: 0,
-  },
-  box: {
-    paddingBottom: 1,
-    paddingTop: 0,
-    paddingX: 2,
-  },
   listBox: {
     maxHeight: "60vh",
   },
@@ -66,7 +55,9 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
 
   const fetchUsers = async (keywords: string) => {
     setLoading(true);
-    if (keywords.length === 0) {
+    if (keywords.trim().length === 0) {
+      setSearchOptions([]);
+      setLoading(false);
       return;
     }
 
@@ -85,10 +76,6 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
       );
 
       setSearchOptions(result.data as SelectedUser[]);
-
-      if (keywords.trim() === "") {
-        setSearchOptions([]);
-      }
     } catch (error) {
       console.error("Failed to fetch users:", error);
       setSearchOptions([]);
@@ -101,14 +88,6 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
     debouncedFetch(keywords);
   }, [keywords]);
 
-  const handleInputChange = (newInputValue: string) => {
-    setKeywords(newInputValue);
-
-    if (newInputValue.trim() === "") {
-      setSearchOptions([]);
-    }
-  };
-
   const handleSelect = (selectedUsername: string) => {
     setKeywords("");
     setSearchOptions([]);
@@ -116,34 +95,39 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
     navigate(`/${selectedUsername}`);
   };
 
+  const handleInputChange = (newInputValue: string) => {
+    setLoading(true);
+    setKeywords(newInputValue);
+  };
+
   const handleClear = () => {
     setKeywords("");
     setSearchOptions([]);
-    setFocusSearchBar(false);
   };
 
   return (
-    <Box sx={styles.box}>
+    <Box>
       <Autocomplete
         disablePortal
         fullWidth
         filterOptions={(x) => x}
         getOptionLabel={() => ""}
         forcePopupIcon={false}
-        id="search"
         value={null}
         inputValue={keywords}
         ListboxProps={{ style: styles.listBox }}
-        loading={!keywords && loading}
-        loadingText="Start typing to search..."
+        loading={loading}
+        loadingText={"Loading..."}
         onChange={(_, value) => value && handleSelect(value.username)}
-        onBlur={handleClear}
+        onBlur={() => setFocusSearchBar(false)}
         onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
         onFocus={() => setFocusSearchBar(true)}
         open={focusSearchBar}
-        openOnFocus
         options={searchOptions}
-        noOptionsText={"No user found"}
+        noOptionsText={
+          !keywords ? "Start typing to search..." : "No user found"
+        }
+        clearOnBlur={false}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -168,7 +152,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
               ),
               endAdornment: keywords && (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setKeywords("")}>
+                  <IconButton onClick={handleClear}>
                     <ClearIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
@@ -198,7 +182,6 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
             </ListItemButton>
           );
         }}
-        sx={styles.autocomplete}
       />
     </Box>
   );

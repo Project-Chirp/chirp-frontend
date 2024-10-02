@@ -19,7 +19,7 @@ const styles = {
 const ExpandedPostSidebar = () => {
   return (
     <Box sx={styles.rightContent}>
-      <SearchBarDropdown placeholder="Search Chirp" />
+      <SearchBarDropdown placeholder="Search users" />
       <RelevantUsers />
       <Advertisement />
       <SidebarFooter />
