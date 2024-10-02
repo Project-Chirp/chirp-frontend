@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
+import { enqueueToast } from "../../state/slices/toastSlice";
 
 const styles = {
   dialog: {
@@ -70,8 +71,19 @@ const PostDeleteModal = ({
       } else {
         dispatch(deletePost(postId));
       }
+      dispatch(
+        enqueueToast({
+          message: "Your post has been deleted",
+        })
+      );
     } catch (error) {
       console.error("Failed to delete the post", error);
+      dispatch(
+        enqueueToast({
+          message: "Your post failed to be deleted",
+          severity: "error",
+        })
+      );
     } finally {
       onClose();
     }
