@@ -42,25 +42,20 @@ const styles = {
 
 const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
   const [focusSearchBar, setFocusSearchBar] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const [keywords, setKeywords] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchOptions, setSearchOptions] = useState<SelectedUser[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
-  const debouncedFetch = useMemo(
-    () => debounce((keywords: string) => fetchUsers(keywords), 100),
-    []
-  );
 
   const fetchUsers = async (keywords: string) => {
     setLoading(true);
-    if (keywords.trim().length === 0) {
+    if (keywords.trim() === "") {
       setSearchOptions([]);
       setLoading(false);
       return;
     }
-
     try {
       const token = await getAccessTokenSilently();
       const result = await axios.get(
@@ -74,7 +69,6 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
           },
         }
       );
-
       setSearchOptions(result.data as SelectedUser[]);
     } catch (error) {
       console.error("Failed to fetch users:", error);
@@ -83,6 +77,11 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
       setLoading(false);
     }
   };
+
+  const debouncedFetch = useMemo(
+    () => debounce((keywords: string) => fetchUsers(keywords), 100),
+    []
+  );
 
   useEffect(() => {
     debouncedFetch(keywords);
@@ -109,25 +108,23 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
     <Box>
       <Autocomplete
         disablePortal
-        fullWidth
+        clearOnBlur={false}
         filterOptions={(x) => x}
-        getOptionLabel={() => ""}
         forcePopupIcon={false}
-        value={null}
+        fullWidth
+        getOptionLabel={() => ""}
         inputValue={keywords}
         ListboxProps={{ style: styles.listBox }}
         loading={loading}
-        loadingText={"Loading..."}
-        onChange={(_, value) => value && handleSelect(value.username)}
-        onBlur={() => setFocusSearchBar(false)}
-        onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
-        onFocus={() => setFocusSearchBar(true)}
-        open={focusSearchBar}
-        options={searchOptions}
         noOptionsText={
           !keywords ? "Start typing to search..." : "No user found"
         }
-        clearOnBlur={false}
+        onBlur={() => setFocusSearchBar(false)}
+        onChange={(_, value) => value && handleSelect(value.username)}
+        onFocus={() => setFocusSearchBar(true)}
+        onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
+        open={focusSearchBar}
+        options={searchOptions}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -182,6 +179,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
             </ListItemButton>
           );
         }}
+        value={null}
       />
     </Box>
   );
