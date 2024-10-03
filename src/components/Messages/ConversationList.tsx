@@ -9,8 +9,8 @@ import {
   setSelectedConversation,
 } from "../../state/slices/messagesSlice";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import SearchBar from "../Common/SearchBar";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
+import SearchBar from "../Common/SearchBar";
 
 const styles = {
   header: {
