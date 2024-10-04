@@ -34,7 +34,6 @@ import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
 
 const styles = {
@@ -124,13 +123,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       </Box>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
-        action={
-          <PostMenu
-            authorId={post.userId}
-            postId={post.postId}
-            isExpandedPost
-          />
-        }
+        action={<PostMenu authorId={post.userId} post={post} isExpandedPost />}
         title={
           <Link
             color={theme.typography.subtitle1.color}

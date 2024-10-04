@@ -11,10 +11,11 @@ import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import EditPostModal from "./EditPostModal";
 import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import { Post } from "../../state/slices/postsSlice";
 
 type PostMenuProps = {
   authorId: number;
-  postId: number;
+  post: Post;
   isExpandedPost?: boolean;
 };
 
@@ -34,7 +35,7 @@ const styles = {
 
 const PostMenu = ({
   authorId,
-  postId,
+  post,
   isExpandedPost = false,
 }: PostMenuProps) => {
   const dispatch = useAppDispatch();
@@ -46,7 +47,7 @@ const PostMenu = ({
   const [menuOpen, setMenuOpen] = useState(false);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/post/${postId}`);
+    navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
     setMenuOpen(false);
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
@@ -114,13 +115,14 @@ const PostMenu = ({
       <PostDeleteConfirmationModal
         onClose={() => setDeleteConfirmationModalOpen(false)}
         open={deleteConfirmationModalOpen}
-        postId={postId}
+        postId={post.postId}
         isExpandedPost={isExpandedPost}
       />
       <EditPostModal
+        isExpandedPost={isExpandedPost}
         onClose={() => setEditModalOpen(false)}
         open={editModalOpen}
-        postId={postId}
+        post={post}
       />
     </>
   );
