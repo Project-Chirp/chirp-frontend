@@ -15,8 +15,8 @@ import { Post } from "../../state/slices/postsSlice";
 
 type PostMenuProps = {
   authorId: number;
-  post: Post;
   isExpandedPost?: boolean;
+  post: Post;
 };
 
 const styles = {
@@ -35,8 +35,8 @@ const styles = {
 
 const PostMenu = ({
   authorId,
-  post,
   isExpandedPost = false,
+  post,
 }: PostMenuProps) => {
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId);
