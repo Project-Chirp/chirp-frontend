@@ -40,10 +40,10 @@ const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
     useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const authorId = post.userId;
+  const { userId: authorId, postId } = post;
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
+    navigator.clipboard.writeText(`http://localhost:3000/post/${postId}`);
     setMenuOpen(false);
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
@@ -111,7 +111,7 @@ const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
       <PostDeleteConfirmationModal
         onClose={() => setDeleteConfirmationModalOpen(false)}
         open={deleteConfirmationModalOpen}
-        postId={post.postId}
+        postId={postId}
         isExpandedPost={isExpandedPost}
       />
       <EditPostModal
