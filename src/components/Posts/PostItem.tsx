@@ -85,7 +85,7 @@ const PostItem = ({ post }: PostProps) => {
     <Card sx={styles.card}>
       <CardHeader
         avatar={<UserAvatar username={post.username} />}
-        action={<PostMenu authorId={post.userId} post={post} />}
+        action={<PostMenu post={post} />}
         title={
           <Box>
             <Link

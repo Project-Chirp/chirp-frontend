@@ -14,7 +14,6 @@ import { enqueueToast } from "../../state/slices/toastSlice";
 import { Post } from "../../state/slices/postsSlice";
 
 type PostMenuProps = {
-  authorId: number;
   isExpandedPost?: boolean;
   post: Post;
 };
@@ -33,11 +32,7 @@ const styles = {
   menuList: { padding: 0 },
 };
 
-const PostMenu = ({
-  authorId,
-  isExpandedPost = false,
-  post,
-}: PostMenuProps) => {
+const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId);
   const menuRef = useRef<HTMLButtonElement>(null);
@@ -45,6 +40,7 @@ const PostMenu = ({
     useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const authorId = post.userId;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
