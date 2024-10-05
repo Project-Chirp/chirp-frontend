@@ -11,11 +11,11 @@ import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import EditPostModal from "./EditPostModal";
 import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import { Post } from "../../state/slices/postsSlice";
 
 type PostMenuProps = {
-  authorId: number;
-  postId: number;
   isExpandedPost?: boolean;
+  post: Post;
 };
 
 const styles = {
@@ -32,11 +32,7 @@ const styles = {
   menuList: { padding: 0 },
 };
 
-const PostMenu = ({
-  authorId,
-  postId,
-  isExpandedPost = false,
-}: PostMenuProps) => {
+const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.userId);
   const menuRef = useRef<HTMLButtonElement>(null);
@@ -44,6 +40,7 @@ const PostMenu = ({
     useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { userId: authorId, postId } = post;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(`http://localhost:3000/post/${postId}`);
@@ -118,9 +115,10 @@ const PostMenu = ({
         isExpandedPost={isExpandedPost}
       />
       <EditPostModal
+        isExpandedPost={isExpandedPost}
         onClose={() => setEditModalOpen(false)}
         open={editModalOpen}
-        postId={postId}
+        post={post}
       />
     </>
   );

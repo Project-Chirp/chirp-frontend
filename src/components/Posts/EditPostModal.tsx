@@ -10,19 +10,24 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { EmojiClickData } from "emoji-picker-react";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 import UserAvatar from "../Common/UserAvatar";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import axios from "axios";
-import { updatePost } from "../../state/slices/postsSlice";
+import {
+  Post,
+  setExpandedPost,
+  updatePost,
+} from "../../state/slices/postsSlice";
 
 type EditPostModalProps = {
+  isExpandedPost: boolean;
   onClose: () => void;
   open: boolean;
-  postId: number;
+  post: Post;
 };
 
 const styles = {
@@ -58,31 +63,32 @@ const styles = {
   },
 };
 
-const EditPostModal = ({ onClose, open, postId }: EditPostModalProps) => {
+const EditPostModal = ({
+  isExpandedPost,
+  onClose,
+  open,
+  post,
+}: EditPostModalProps) => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const existingPost = useAppSelector((state) =>
-    state.posts.posts.find((post) => post.postId === postId)
-  )!;
-  const [postTextContent, setPostTextContent] = useState(
-    existingPost.textContent
-  );
+  const [postTextContent, setPostTextContent] = useState(post.textContent);
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     try {
       await axios.put("http://localhost:3001/api/posts/editPost", {
-        postId: postId,
+        postId: post.postId,
         textContent: postTextContent,
       });
-      dispatch(
-        updatePost({
-          ...existingPost,
-          editedTimestamp: new Date().toString(),
-          textContent: postTextContent,
-        })
-      );
+      const editedPost = {
+        ...post,
+        editedTimestamp: new Date().toString(),
+        textContent: postTextContent,
+      };
+      isExpandedPost
+        ? dispatch(setExpandedPost(editedPost))
+        : dispatch(updatePost(editedPost));
       onClose?.();
     } catch (error) {
       console.log(error);
