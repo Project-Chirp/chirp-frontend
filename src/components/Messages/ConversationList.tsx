@@ -8,10 +8,9 @@ import {
   setSelectedConversation,
 } from "../../state/slices/messagesSlice";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import SearchBar from "../Common/SearchBar";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
 import useAxios from "../../utilities/useAxios";
-import { useAuth0 } from "@auth0/auth0-react";
+import SearchBar from "../Common/SearchBar";
 
 const styles = {
   header: {

@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import SidebarFooter from "./SidebarFooter";
 import RelevantUsers from "./RelevantUsers";
 import Advertisement from "./Advertisement";
-import SearchBar from "../Common/SearchBar";
+import SearchBarDropdown from "../Common/SearchBarDropdown";
 
 const styles = {
   rightContent: {
@@ -19,7 +19,7 @@ const styles = {
 const ExpandedPostSidebar = () => {
   return (
     <Box sx={styles.rightContent}>
-      <SearchBar placeholder="Search Chirp" />
+      <SearchBarDropdown placeholder="Search users" />
       <RelevantUsers />
       <Advertisement />
       <SidebarFooter />
