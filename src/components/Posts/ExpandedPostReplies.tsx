@@ -21,7 +21,7 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
         const resultReplies = await sendRequest({
           endpoint: "posts/fetchReplies",
           method: "GET",
-          params: { postId },
+          params: { userId: user.userId, postId },
         });
         dispatch(setPosts(resultReplies as Post[]));
       } catch (e) {

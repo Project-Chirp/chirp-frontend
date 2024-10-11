@@ -6,11 +6,12 @@ import useAxios from "../../utilities/useAxios";
 import { Divider, Stack } from "@mui/material";
 
 type ProfilePostsProps = {
-  userId: number;
+  visitedUserId: number;
 };
 
-const ProfilePosts = ({ userId }: ProfilePostsProps) => {
+const ProfilePosts = ({ visitedUserId }: ProfilePostsProps) => {
   const { posts } = useAppSelector((state) => state.posts);
+  const currentUserId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const { loading, error, sendRequest } = useAxios(); // TODO: use loading/error
 
@@ -19,12 +20,12 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
       const result = await sendRequest({
         endpoint: "profile/getUserPosts",
         method: "GET",
-        params: { visitedUserId: userId },
+        params: { currentUserId, visitedUserId },
       });
       dispatch(setPosts(result as Post[]));
     };
     fetchPosts();
-  }, [dispatch, userId]);
+  }, [dispatch, currentUserId, visitedUserId]);
 
   return (
     <Stack divider={<Divider />}>

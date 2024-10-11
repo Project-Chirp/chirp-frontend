@@ -18,6 +18,7 @@ const PostList = () => {
         const resultPosts = await sendRequest({
           endpoint: "posts",
           method: "GET",
+          body: { userId: user.userId },
         });
         dispatch(setPosts(resultPosts as Post[]));
       } catch (e) {

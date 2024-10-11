@@ -197,7 +197,7 @@ const Profile = () => {
         const result = await sendRequest({
           endpoint: "profile/getProfileContents",
           method: "GET",
-          params: { visitedUsername: username },
+          params: { currentUserId, visitedUsername: username },
         });
         setProfileContents({
           ...result,
@@ -362,13 +362,13 @@ const Profile = () => {
             {!loading && profileContents.userId && (
               <Box>
                 {value === "one" && (
-                  <ProfilePosts userId={profileContents.userId} />
+                  <ProfilePosts visitedUserId={profileContents.userId} />
                 )}
                 {value === "two" && (
-                  <ProfileReplies userId={profileContents.userId} />
+                  <ProfileReplies visitedUserId={profileContents.userId} />
                 )}
                 {value === "three" && (
-                  <ProfileLikes userId={profileContents.userId} />
+                  <ProfileLikes visitedUserId={profileContents.userId} />
                 )}
               </Box>
             )}

@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import useAxios from "../../utilities/useAxios";
+import { useAppSelector } from "../../state/hooks";
 
 const styles = {
   followingButton: {
@@ -26,6 +27,7 @@ type FollowingButtonProps = {
 };
 
 const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
+  const currentUserId = useAppSelector((state) => state.user.userId);
   const [isHovered, setIsHovered] = useState(false);
   const { sendRequest } = useAxios();
 
@@ -36,7 +38,7 @@ const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
       await sendRequest({
         endpoint: "follow/unfollowUser",
         method: "PUT",
-        body: { visitedUserId },
+        body: { currentUserId, visitedUserId },
         headers: { "Content-Type": "application/json" },
       });
       onClick?.();

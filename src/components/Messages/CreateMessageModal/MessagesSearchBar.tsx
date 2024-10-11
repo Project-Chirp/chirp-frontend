@@ -38,7 +38,7 @@ const MessagesSearchBar = ({
   onSearchClose,
   onSelect,
 }: MessagesSearchBarProps) => {
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const [followedList, setFollowedList] = useState<SelectedUser[]>([]);
   const { sendRequest } = useAxios();
 
@@ -47,11 +47,12 @@ const MessagesSearchBar = ({
       const result = await sendRequest({
         endpoint: "messages/followedList",
         method: "GET",
+        params: { userId },
       });
       setFollowedList(result as SelectedUser[]);
     };
     fetchDMList();
-  }, [user, sendRequest]);
+  }, [userId, sendRequest]);
 
   return (
     <Box sx={styles.box}>

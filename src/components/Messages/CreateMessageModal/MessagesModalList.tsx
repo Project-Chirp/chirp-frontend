@@ -10,7 +10,7 @@ type MessagesListProps = {
 };
 
 const MessagesList = ({ onClose }: MessagesListProps) => {
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const [conversationList, setConversationList] = useState<SelectedUser[]>([]);
   const { sendRequest } = useAxios();
 
@@ -19,11 +19,12 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
       const result = await sendRequest({
         endpoint: "messages/getModalConversations",
         method: "GET",
+        params: { userId: userId },
       });
       setConversationList(result as SelectedUser[]);
     };
     fetchConversationList();
-  }, [user, sendRequest]);
+  }, [userId, sendRequest]);
 
   return (
     <List component="div">

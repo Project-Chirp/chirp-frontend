@@ -11,6 +11,7 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SearchBar from "../Common/SearchBar";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
 import useAxios from "../../utilities/useAxios";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const styles = {
   header: {
@@ -29,7 +30,7 @@ const ConversationList = () => {
     (state) => state.messages
   );
   const [messageModal, showMessageModal] = useState(false);
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { sendRequest } = useAxios();
@@ -39,11 +40,12 @@ const ConversationList = () => {
       const result = await sendRequest({
         endpoint: "messages",
         method: "GET",
+        params: { userId },
       });
       dispatch(setConversations(result));
     };
     fetchMessages();
-  }, [dispatch, user, sendRequest]);
+  }, [dispatch, userId, sendRequest]);
 
   return (
     <Box>
@@ -70,7 +72,7 @@ const ConversationList = () => {
                   userId: o.otherUserId,
                 })
               );
-              navigate(`/messages/${user.userId}/${o.otherUserId}`);
+              navigate(`/messages/${userId}/${o.otherUserId}`);
             }}
             selected={selectedConversation.userId === o.otherUserId}
           />

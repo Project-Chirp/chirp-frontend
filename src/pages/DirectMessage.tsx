@@ -141,6 +141,7 @@ const DirectMessage = () => {
         body: {
           receivedUserId: selectedConversation.userId,
           textContent,
+          sentUserId: user.userId,
         },
       })) as Message;
       setTextContent("");
