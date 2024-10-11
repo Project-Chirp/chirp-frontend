@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -25,6 +24,7 @@ import {
   updateConversation,
 } from "../state/slices/messagesSlice";
 import NavBar from "../components/NavBar/NavBar";
+import useAxios from "../utilities/useAxios";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import { EmojiClickData } from "emoji-picker-react";
@@ -100,6 +100,7 @@ const DirectMessage = () => {
   const { userId1, userId2 } = useParams();
   const [textContent, setTextContent] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const { sendRequest } = useAxios();
   const user = useAppSelector((state) => state.user);
   const { selectedConversation, conversations } = useAppSelector(
     (state) => state.messages
@@ -112,19 +113,20 @@ const DirectMessage = () => {
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
-      const result = await axios.get(
-        `http://localhost:3001/api/messages/${userId1}/${userId2}`
-      );
-      setMessages(result.data.messages as Message[]);
+      const result = await sendRequest({
+        endpoint: `messages/${userId1}/${userId2}`,
+        method: "GET",
+      });
+      setMessages(result.messages as Message[]);
       dispatch(
         setSelectedConversation({
-          ...result.data.otherUser,
+          ...result.otherUser,
           userId: Number(userId2),
         })
       );
     };
     fetchDirectMessage();
-  }, [dispatch, userId1, userId2]);
+  }, [dispatch, userId1, userId2, sendRequest]);
 
   useEffect(() => {
     messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
@@ -133,13 +135,15 @@ const DirectMessage = () => {
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const newMessage = (
-        await axios.post("http://localhost:3001/api/messages", {
-          sentUserId: user.userId,
+      const newMessage = (await sendRequest({
+        endpoint: "messages",
+        method: "POST",
+        body: {
           receivedUserId: selectedConversation.userId,
           textContent,
-        })
-      ).data as Message;
+          sentUserId: user.userId,
+        },
+      })) as Message;
       setTextContent("");
       setMessages([...messages, newMessage]);
       if (userExists) {

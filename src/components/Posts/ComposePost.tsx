@@ -1,12 +1,12 @@
 import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import { useState } from "react";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
 import { EmojiClickData } from "emoji-picker-react";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
+import useAxios from "../../utilities/useAxios";
 
 type ComposePostProps = {
   placeholder: string;
@@ -36,19 +36,21 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const { loading, error, sendRequest } = useAxios(); //TODO: use loading/error
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      const newPost = await axios.post("http://localhost:3001/api/posts", {
-        userId: user.userId,
-        textContent,
+      const newPost = await sendRequest({
+        endpoint: "posts",
+        method: "POST",
+        body: { textContent, userId: user.userId },
       });
       setPostTextContent("");
       dispatch(
         appendPost({
-          ...newPost.data,
+          ...newPost,
           username: user.username,
           displayName: user.displayName,
         })

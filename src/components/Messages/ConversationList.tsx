@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import ConversationListItem from "./ConversationListItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
@@ -10,6 +9,7 @@ import {
 } from "../../state/slices/messagesSlice";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
+import useAxios from "../../utilities/useAxios";
 import SearchBar from "../Common/SearchBar";
 
 const styles = {
@@ -29,21 +29,22 @@ const ConversationList = () => {
     (state) => state.messages
   );
   const [messageModal, showMessageModal] = useState(false);
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const result = await axios.get("http://localhost:3001/api/messages", {
-        params: {
-          userId: user.userId,
-        },
+      const result = await sendRequest({
+        endpoint: "messages",
+        method: "GET",
+        params: { userId },
       });
-      dispatch(setConversations(result.data));
+      dispatch(setConversations(result));
     };
     fetchMessages();
-  }, [dispatch, user]);
+  }, [dispatch, userId, sendRequest]);
 
   return (
     <Box>
@@ -70,7 +71,7 @@ const ConversationList = () => {
                   userId: o.otherUserId,
                 })
               );
-              navigate(`/messages/${user.userId}/${o.otherUserId}`);
+              navigate(`/messages/${userId}/${o.otherUserId}`);
             }}
             selected={selectedConversation.userId === o.otherUserId}
           />

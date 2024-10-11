@@ -16,7 +16,7 @@ import { EmojiClickData } from "emoji-picker-react";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 import UserAvatar from "../Common/UserAvatar";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import axios from "axios";
+import useAxios from "../../utilities/useAxios";
 import {
   Post,
   setExpandedPost,
@@ -70,6 +70,7 @@ const EditPostModal = ({
   post,
 }: EditPostModalProps) => {
   const user = useAppSelector((state) => state.user);
+  const { sendRequest } = useAxios();
   const dispatch = useAppDispatch();
   const [postTextContent, setPostTextContent] = useState(post.textContent);
 
@@ -77,9 +78,13 @@ const EditPostModal = ({
     e.preventDefault();
 
     try {
-      await axios.put("http://localhost:3001/api/posts/editPost", {
-        postId: post.postId,
-        textContent: postTextContent,
+      await sendRequest({
+        endpoint: "posts/editPost",
+        method: "PUT",
+        body: {
+          postId: post.postId,
+          textContent: postTextContent,
+        },
       });
       const editedPost = {
         ...post,

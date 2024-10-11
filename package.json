@@ -30,7 +30,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@types/node": "^20.11.10",
+    "@types/node": "^20.14.9",
     "@vitejs/plugin-react": "^4.1.1",
     "sass": "^1.69.5",
     "vite": "^3.2.2",
