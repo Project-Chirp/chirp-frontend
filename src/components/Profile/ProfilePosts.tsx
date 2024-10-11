@@ -11,7 +11,6 @@ type ProfilePostsProps = {
 
 const ProfilePosts = ({ visitedUserId }: ProfilePostsProps) => {
   const { posts } = useAppSelector((state) => state.posts);
-  const currentUserId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const { loading, error, sendRequest } = useAxios(); // TODO: use loading/error
 
@@ -20,12 +19,12 @@ const ProfilePosts = ({ visitedUserId }: ProfilePostsProps) => {
       const result = await sendRequest({
         endpoint: "profile/getUserPosts",
         method: "GET",
-        params: { currentUserId, visitedUserId },
+        params: { visitedUserId },
       });
       dispatch(setPosts(result as Post[]));
     };
     fetchPosts();
-  }, [dispatch, currentUserId, visitedUserId]);
+  }, [dispatch, visitedUserId]);
 
   return (
     <Stack divider={<Divider />}>
