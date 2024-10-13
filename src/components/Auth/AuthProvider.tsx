@@ -26,10 +26,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <Auth0Provider
-      audience={audience}
+      authorizationParams={{ audience: audience, redirectUri: redirectUri }}
       clientId={clientId}
       domain={domain}
-      redirectUri={redirectUri}
       onRedirectCallback={onRedirectCallback}
     >
       {children}
