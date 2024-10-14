@@ -86,9 +86,11 @@ const EditPostModal = ({
         editedTimestamp: new Date().toString(),
         textContent: postTextContent,
       };
-      isExpandedPost
-        ? dispatch(setExpandedPost(editedPost))
-        : dispatch(updatePost(editedPost));
+      if (isExpandedPost) {
+        dispatch(setExpandedPost(editedPost));
+      } else {
+        dispatch(updatePost(editedPost));
+      }
       onClose?.();
     } catch (error) {
       console.log(error);

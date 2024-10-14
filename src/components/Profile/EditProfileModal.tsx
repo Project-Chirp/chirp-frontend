@@ -128,7 +128,9 @@ const EditProfileModal = ({
                 label="Birth Date"
                 maxDate={dayjs(new Date())}
                 onChange={(value) => {
-                  value && setBirthDateValue(value);
+                  if (value) {
+                    setBirthDateValue(value);
+                  }
                 }}
                 slotProps={{
                   textField: { placeholder: "Birth Date", variant: "outlined" },

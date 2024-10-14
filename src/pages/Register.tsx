@@ -59,7 +59,7 @@ const Register = () => {
   return (
     <form onSubmit={submitUserInfo} style={styles.container}>
       <Typography variant="h1" sx={styles.title}>
-        Let's get to know a little more about you
+        {`Let's get to know a little more about you`}
       </Typography>
       <Box sx={styles.inputs}>
         <TextField
@@ -89,8 +89,10 @@ const Register = () => {
           <DatePicker
             label="Date of Birth"
             maxDate={dayjs(new Date())}
-            onChange={(e) => {
-              e && setBirthDate(e);
+            onChange={(value) => {
+              if (value) {
+                setBirthDate(value);
+              }
             }}
             slotProps={{
               textField: { placeholder: "Date of Birth", variant: "outlined" },

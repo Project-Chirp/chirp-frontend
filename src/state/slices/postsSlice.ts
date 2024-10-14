@@ -106,9 +106,11 @@ export const postsSlice = createSlice({
       if (action.payload === state.expandedPost.postId) {
         const isLikedByCurrentUser = !state.expandedPost.isLikedByCurrentUser;
         state.expandedPost.isLikedByCurrentUser = isLikedByCurrentUser;
-        isLikedByCurrentUser
-          ? state.expandedPost.numberOfLikes++
-          : state.expandedPost.numberOfLikes--;
+        if (isLikedByCurrentUser) {
+          state.expandedPost.numberOfLikes++;
+        } else {
+          state.expandedPost.numberOfLikes--;
+        }
       }
     },
     toggleFollow: (state) => {
