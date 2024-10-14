@@ -73,18 +73,20 @@ const MessagesSearchBar = ({
               {...params}
               fullWidth
               hiddenLabel
-              InputProps={{
-                ...params.InputProps,
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IconButton disabled sx={styles.searchIcon}>
-                      <SearchRoundedIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
               placeholder={placeholder}
               size="small"
+              slotProps={{
+                input: {
+                  ...params.InputProps,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton disabled sx={styles.searchIcon}>
+                        <SearchRoundedIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
             />
           );
         }}

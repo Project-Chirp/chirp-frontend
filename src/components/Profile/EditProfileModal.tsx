@@ -105,9 +105,9 @@ const EditProfileModal = ({
               fullWidth
               label="Display Name"
               onChange={(e) => setDisplayNameValue(e.target.value)}
+              slotProps={{ input: styles.textField }}
               variant="outlined"
               value={displayNameValue}
-              InputProps={styles.textField}
             />
           </Box>
           <Box sx={styles.textFieldContainer}>
@@ -117,9 +117,9 @@ const EditProfileModal = ({
               onChange={(e) => setBioValue(e.target.value)}
               multiline
               rows={2}
+              slotProps={{ input: styles.textField }}
               variant="outlined"
               value={bioValue}
-              InputProps={styles.textField}
             />
           </Box>
           <Box sx={styles.textFieldContainer}>
