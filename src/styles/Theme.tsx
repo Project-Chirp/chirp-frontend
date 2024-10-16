@@ -142,7 +142,9 @@ const theme = createTheme({
     },
     MuiTextField: {
       defaultProps: {
-        InputProps: { disableUnderline: true },
+        slotProps: {
+          input: { disableUnderline: true },
+        },
       },
       styleOverrides: {
         root: {

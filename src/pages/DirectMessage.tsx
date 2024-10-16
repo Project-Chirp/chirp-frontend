@@ -243,39 +243,41 @@ const DirectMessage = () => {
                   autoComplete="off"
                   fullWidth
                   hiddenLabel
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <IconButton>
-                          <AddPhotoAlternateOutlinedIcon />
-                        </IconButton>
-                        <EmojiPickerIconButton
-                          onEmojiClick={(emoji: EmojiClickData) => {
-                            setTextContent(
-                              (prevContent) => prevContent + emoji.emoji
-                            );
-                          }}
-                          topPosition
-                        />
-                        <IconButton>
-                          <GifBoxOutlinedIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          type="submit"
-                          disabled={!textContent.trim()}
-                        >
-                          <SendIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
                   onChange={(e) => setTextContent(e.target.value)}
                   placeholder="Send a message"
                   size="small"
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <IconButton>
+                            <AddPhotoAlternateOutlinedIcon />
+                          </IconButton>
+                          <EmojiPickerIconButton
+                            onEmojiClick={(emoji: EmojiClickData) => {
+                              setTextContent(
+                                (prevContent) => prevContent + emoji.emoji
+                              );
+                            }}
+                            topPosition
+                          />
+                          <IconButton>
+                            <GifBoxOutlinedIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            type="submit"
+                            disabled={!textContent.trim()}
+                          >
+                            <SendIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
                   value={textContent}
                 />
               </Box>

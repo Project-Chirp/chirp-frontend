@@ -131,32 +131,34 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
             fullWidth
             variant="outlined"
             inputRef={inputRef}
-            InputProps={{
-              ...params.InputProps,
-              startAdornment: (
-                <InputAdornment position="start">
-                  <IconButton
-                    disabled
-                    sx={
-                      focusSearchBar
-                        ? styles.searchIconFocused
-                        : styles.searchIcon
-                    }
-                  >
-                    <SearchRoundedIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-              endAdornment: keywords && (
-                <InputAdornment position="end">
-                  <IconButton onClick={handleClear}>
-                    <ClearIcon fontSize="small" />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
             placeholder={placeholder}
             size="small"
+            slotProps={{
+              input: {
+                ...params.InputProps,
+                endAdornment: keywords && (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleClear}>
+                      <ClearIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton
+                      disabled
+                      sx={
+                        focusSearchBar
+                          ? styles.searchIconFocused
+                          : styles.searchIcon
+                      }
+                    >
+                      <SearchRoundedIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
         )}
         renderOption={(params, option) => {

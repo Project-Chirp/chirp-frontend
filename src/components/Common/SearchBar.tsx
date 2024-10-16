@@ -10,15 +10,17 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
     <TextField
       fullWidth
       hiddenLabel
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <SearchRoundedIcon />
-          </InputAdornment>
-        ),
-      }}
       placeholder={placeholder}
       size="small"
+      slotProps={{
+        input: {
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchRoundedIcon />
+            </InputAdornment>
+          ),
+        },
+      }}
     />
   );
 };
