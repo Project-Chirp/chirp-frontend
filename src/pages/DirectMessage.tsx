@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Divider,
   InputAdornment,
@@ -12,7 +13,7 @@ import {
 import IconButton from "@mui/material/IconButton";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
@@ -29,8 +30,35 @@ import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import { EmojiClickData } from "emoji-picker-react";
 import TooltipTimestamp from "../components/Common/TooltipTimestamp";
+import formatTimestamp from "../utilities/formatTimestamp";
 
 const styles = {
+  avatar: {
+    height: 64,
+    width: 64,
+    opacity: 0.75,
+    "&:hover": {
+      opacity: 1,
+    },
+  },
+  bioContainer: {
+    width: "100%",
+    height: "45%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    ":hover": {
+      backgroundColor: "gray.light",
+      cursor: "pointer",
+    },
+  },
+  bioDetails: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: 1,
+    marginTop: 7,
+  },
   container: { height: "auto", justifyContent: "center" },
   chatContainer: {
     display: "flex",
@@ -43,6 +71,10 @@ const styles = {
     padding: 1,
     position: "relative",
     width: "100%",
+  },
+  displayName: {
+    ":hover": { textDecoration: "underline", color: "primary.main" },
+    marginBottom: -1,
   },
   directMessageContainer: {
     display: "flex",
@@ -63,13 +95,20 @@ const styles = {
     flexDirection: "column",
     alignItems: "flex-start",
   },
-  messageList: { flex: 1, overflowY: "scroll" },
+  messageList: { flex: 1, overflowY: "scroll", paddingTop: 0 },
   messageText: {
     padding: 1,
     borderRadius: 10,
     backgroundColor: "primary.light",
   },
   middleContent: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
+  nameContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginBottom: 2,
+  },
   nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
   rightContent: {
     height: "100vh",
@@ -109,6 +148,7 @@ const DirectMessage = () => {
   const userExists = conversations.find(
     (o) => o.otherUserId === Number(userId2)
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
@@ -201,9 +241,31 @@ const DirectMessage = () => {
               <InfoOutlinedIcon />
             </IconButton>
           </Box>
-          <Divider />
+
           <Box sx={styles.chatContainer}>
             <List component="div" ref={messageRef} sx={styles.messageList}>
+              <Box
+                sx={styles.bioContainer}
+                onClick={() => navigate(`/${selectedConversation.username}`)}
+              >
+                <Box sx={styles.bioDetails}>
+                  <Avatar sx={styles.avatar} />
+                </Box>
+                <Box sx={styles.nameContainer}>
+                  <Typography variant="h6" sx={styles.displayName}>
+                    {selectedConversation.displayName}
+                  </Typography>
+                  <Typography variant="body2">
+                    {`@${selectedConversation.username}`}
+                  </Typography>
+                </Box>
+                <Typography>{selectedConversation.bio}</Typography>
+                <Typography variant="body2">
+                  {`Joined ${formatTimestamp(selectedConversation.joinedDate)} •
+                    ${selectedConversation.followerCount} Followers`}
+                </Typography>
+              </Box>
+              <Divider />
               {messages.map((o) => (
                 <ListItem component="div" key={o.messageId}>
                   <ListItemText
