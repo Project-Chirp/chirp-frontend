@@ -71,16 +71,7 @@ const ConversationList = () => {
             key={o.otherUserId}
             conversation={o}
             onClick={() => {
-              if (o.otherUserId !== selectedConversation.userId) {
-                dispatch(
-                  setSelectedConversation({
-                    displayName: o.displayName,
-                    username: o.username,
-                    userId: o.otherUserId,
-                  })
-                );
-                navigate(`/messages/${user.userId}/${o.otherUserId}`);
-              }
+              navigate(`/messages/${user.userId}/${o.otherUserId}`);
             }}
             selected={selectedConversation.userId === o.otherUserId}
           />

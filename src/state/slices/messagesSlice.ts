@@ -27,7 +27,6 @@ const initialState: ConversationDetails = {
     displayName: "",
     username: "",
     userId: 0,
-    joinedDate: "",
   },
   conversations: [],
 };
