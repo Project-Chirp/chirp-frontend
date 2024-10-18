@@ -29,18 +29,26 @@ const ConversationList = () => {
     (state) => state.messages
   );
   const [messageModal, showMessageModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const result = await axios.get("http://localhost:3001/api/messages", {
-        params: {
-          userId: user.userId,
-        },
-      });
-      dispatch(setConversations(result.data));
+      try {
+        setLoading(true);
+        const result = await axios.get("http://localhost:3001/api/messages", {
+          params: {
+            userId: user.userId,
+          },
+        });
+        dispatch(setConversations(result.data));
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchMessages();
   }, [dispatch, user]);
@@ -63,14 +71,16 @@ const ConversationList = () => {
             key={o.otherUserId}
             conversation={o}
             onClick={() => {
-              dispatch(
-                setSelectedConversation({
-                  displayName: o.displayName,
-                  username: o.username,
-                  userId: o.otherUserId,
-                })
-              );
-              navigate(`/messages/${user.userId}/${o.otherUserId}`);
+              if (o.otherUserId !== selectedConversation.userId) {
+                dispatch(
+                  setSelectedConversation({
+                    displayName: o.displayName,
+                    username: o.username,
+                    userId: o.otherUserId,
+                  })
+                );
+                navigate(`/messages/${user.userId}/${o.otherUserId}`);
+              }
             }}
             selected={selectedConversation.userId === o.otherUserId}
           />

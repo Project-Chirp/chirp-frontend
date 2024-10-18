@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  CircularProgress,
   Divider,
   InputAdornment,
   List,
@@ -31,6 +32,7 @@ import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import { EmojiClickData } from "emoji-picker-react";
 import TooltipTimestamp from "../components/Common/TooltipTimestamp";
 import formatTimestamp from "../utilities/formatTimestamp";
+import PageLoader from "./PageLoader";
 
 const styles = {
   avatar: {
@@ -47,6 +49,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    justifyContent: "center",
     ":hover": {
       backgroundColor: "gray.light",
       cursor: "pointer",
@@ -57,7 +60,6 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     marginBottom: 1,
-    marginTop: 7,
   },
   container: { height: "auto", justifyContent: "center" },
   chatContainer: {
@@ -138,6 +140,7 @@ export type Message = {
 const DirectMessage = () => {
   const { userId1, userId2 } = useParams();
   const [textContent, setTextContent] = useState("");
+  const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
   const user = useAppSelector((state) => state.user);
   const { selectedConversation, conversations } = useAppSelector(
@@ -152,16 +155,23 @@ const DirectMessage = () => {
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
-      const result = await axios.get(
-        `http://localhost:3001/api/messages/${userId1}/${userId2}`
-      );
-      setMessages(result.data.messages as Message[]);
-      dispatch(
-        setSelectedConversation({
-          ...result.data.otherUser,
-          userId: Number(userId2),
-        })
-      );
+      try {
+        setLoading(true);
+        const result = await axios.get(
+          `http://localhost:3001/api/messages/${userId1}/${userId2}`
+        );
+        setMessages(result.data.messages as Message[]);
+        dispatch(
+          setSelectedConversation({
+            ...result.data.otherUser,
+            userId: Number(userId2),
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchDirectMessage();
   }, [dispatch, userId1, userId2]);
@@ -248,25 +258,32 @@ const DirectMessage = () => {
                 sx={styles.bioContainer}
                 onClick={() => navigate(`/${selectedConversation.username}`)}
               >
-                <Box sx={styles.bioDetails}>
-                  <Avatar sx={styles.avatar} />
-                </Box>
-                <Box sx={styles.nameContainer}>
-                  <Typography variant="h6" sx={styles.displayName}>
-                    {selectedConversation.displayName}
-                  </Typography>
-                  <Typography variant="body2">
-                    {`@${selectedConversation.username}`}
-                  </Typography>
-                </Box>
-                <Typography>{selectedConversation.bio}</Typography>
-                <Typography variant="body2">
-                  {`Joined ${formatTimestamp(
-                    selectedConversation.joinedDate ?? ""
-                  )} •
-                    ${selectedConversation.followerCount} Followers`}
-                </Typography>
+                {loading ? (
+                  <CircularProgress />
+                ) : (
+                  <>
+                    <Box sx={styles.bioDetails}>
+                      <Avatar sx={styles.avatar} />
+                    </Box>
+                    <Box sx={styles.nameContainer}>
+                      <Typography variant="h6" sx={styles.displayName}>
+                        {selectedConversation.displayName}
+                      </Typography>
+                      <Typography variant="body2">
+                        {`@${selectedConversation.username}`}
+                      </Typography>
+                    </Box>
+                    <Typography>{selectedConversation.bio}</Typography>
+                    <Typography variant="body2">
+                      {`Joined ${formatTimestamp(
+                        selectedConversation.joinedDate ?? ""
+                      )} •
+                    ${selectedConversation.followerCount ?? 0} Followers`}
+                    </Typography>
+                  </>
+                )}
               </Box>
+
               <Divider />
               {messages.map((o) => (
                 <ListItem component="div" key={o.messageId}>
