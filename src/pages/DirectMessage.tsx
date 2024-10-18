@@ -261,7 +261,9 @@ const DirectMessage = () => {
                 </Box>
                 <Typography>{selectedConversation.bio}</Typography>
                 <Typography variant="body2">
-                  {`Joined ${formatTimestamp(selectedConversation.joinedDate)} •
+                  {`Joined ${formatTimestamp(
+                    selectedConversation.joinedDate ?? ""
+                  )} •
                     ${selectedConversation.followerCount} Followers`}
                 </Typography>
               </Box>

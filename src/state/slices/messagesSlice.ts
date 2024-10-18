@@ -13,7 +13,7 @@ export type SelectedUser = {
   userId: number;
   username: string;
   bio?: string;
-  joinedDate: string;
+  joinedDate?: string;
   followerCount?: string;
 };
 
