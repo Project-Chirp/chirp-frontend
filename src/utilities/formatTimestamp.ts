@@ -1,4 +1,6 @@
 const formatTimestamp = (entry: string, isEdited?: boolean) => {
+  if (!entry) return "N/A";
+
   const date = new Date(entry);
   const currentDate = new Date();
   const millisecondsInADay = 24 * 60 * 60 * 1000;

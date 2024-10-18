@@ -12,6 +12,9 @@ export type SelectedUser = {
   displayName: string;
   userId: number;
   username: string;
+  bio?: string;
+  joinedDate?: string;
+  followerCount?: string;
 };
 
 type ConversationDetails = {
@@ -20,7 +23,11 @@ type ConversationDetails = {
 };
 
 const initialState: ConversationDetails = {
-  selectedConversation: { displayName: "", username: "", userId: 0 },
+  selectedConversation: {
+    displayName: "",
+    username: "",
+    userId: 0,
+  },
   conversations: [],
 };
 
