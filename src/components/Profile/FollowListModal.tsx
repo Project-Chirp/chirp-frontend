@@ -76,7 +76,7 @@ const FollowListModal = ({
   const theme = useTheme();
 
   const sortedList = list.sort((a, b) =>
-    b.userId === currentUserId ? 1 : a.userId === currentUserId ? -1 : 0
+    b.userId === currentUserId ? 1 : a.userId === currentUserId ? -1 : 0,
   );
 
   return (

@@ -26,7 +26,7 @@ const styles = {
 
 const ConversationList = () => {
   const { conversations, selectedConversation } = useAppSelector(
-    (state) => state.messages
+    (state) => state.messages,
   );
   const [messageModal, showMessageModal] = useState(false);
   const user = useAppSelector((state) => state.user);
@@ -68,7 +68,7 @@ const ConversationList = () => {
                   displayName: o.displayName,
                   username: o.username,
                   userId: o.otherUserId,
-                })
+                }),
               );
               navigate(`/messages/${user.userId}/${o.otherUserId}`);
             }}

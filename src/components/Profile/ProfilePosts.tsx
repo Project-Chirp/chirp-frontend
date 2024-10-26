@@ -21,7 +21,7 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
           params: {
             visitedUserId: userId,
           },
-        }
+        },
       );
       dispatch(setPosts(result.data as Post[]));
     };

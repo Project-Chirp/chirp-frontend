@@ -57,7 +57,7 @@ const EditProfileModal = ({
 }: EditProfileModalProps) => {
   const [bioValue, setBioValue] = useState(bio);
   const [birthDateValue, setBirthDateValue] = useState(
-    dayjs(birthDate || new Date())
+    dayjs(birthDate || new Date()),
   );
   const [displayNameValue, setDisplayNameValue] = useState(displayName);
   const user = useAppSelector((state) => state.user);

@@ -98,7 +98,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
               userId: user.userId,
               postId: urlParams.postId,
             },
-          }
+          },
         );
         dispatch(setExpandedPost(backupFetch.data as Post));
       } catch (error) {
@@ -212,7 +212,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
               toggleLikePostRequest(
                 post.isLikedByCurrentUser,
                 post.postId,
-                user.userId
+                user.userId,
               );
               dispatch(toggleLikePost(post.postId));
             }}

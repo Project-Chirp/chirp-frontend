@@ -21,7 +21,7 @@ const ProfileLikes = ({ userId }: ProfileLikesProps) => {
           params: {
             visitedUserId: userId,
           },
-        }
+        },
       );
       dispatch(setPosts(result.data as Post[]));
     };

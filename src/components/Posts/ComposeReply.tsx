@@ -53,7 +53,7 @@ const ComposeReply = ({
           userId: user.userId,
           parentPostId,
           textContent,
-        }
+        },
       );
       setPostTextContent("");
       dispatch(
@@ -61,7 +61,7 @@ const ComposeReply = ({
           ...reply.data,
           username: user.username,
           displayName: user.displayName,
-        })
+        }),
       );
       onClose?.();
     } catch (err) {
@@ -96,7 +96,7 @@ const ComposeReply = ({
                 <EmojiPickerIconButton
                   onEmojiClick={(emoji: EmojiClickData) => {
                     setPostTextContent(
-                      (prevContent) => prevContent + emoji.emoji
+                      (prevContent) => prevContent + emoji.emoji,
                     );
                   }}
                 />

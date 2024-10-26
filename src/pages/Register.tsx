@@ -48,7 +48,7 @@ const Register = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       dispatch(setUser(newUserInfo.data));
     } catch (error) {

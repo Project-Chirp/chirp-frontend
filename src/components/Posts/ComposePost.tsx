@@ -51,7 +51,7 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
           ...newPost.data,
           username: user.username,
           displayName: user.displayName,
-        })
+        }),
       );
       onClose?.();
     } catch (err) {
@@ -84,7 +84,7 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
               <EmojiPickerIconButton
                 onEmojiClick={(emoji: EmojiClickData) => {
                   setPostTextContent(
-                    (prevContent) => prevContent + emoji.emoji
+                    (prevContent) => prevContent + emoji.emoji,
                   );
                 }}
               />

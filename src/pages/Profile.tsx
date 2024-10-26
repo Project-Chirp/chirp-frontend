@@ -199,7 +199,7 @@ const Profile = () => {
               currentUserId,
               visitedUsername: username,
             },
-          }
+          },
         );
         setProfileContents({
           ...result.data,
@@ -390,7 +390,7 @@ const Profile = () => {
               updateDisplayNames({
                 prevDisplayName: profileContents.displayName,
                 newDisplayName: editedProfile.displayName,
-              })
+              }),
             );
             setProfileContents({ ...profileContents, ...editedProfile });
           }}

@@ -49,7 +49,7 @@ const MessagesSearchBar = ({
           params: {
             userId: user.userId,
           },
-        }
+        },
       );
       setFollowedList(result.data as SelectedUser[]);
     };

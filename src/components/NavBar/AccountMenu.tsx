@@ -51,7 +51,7 @@ const AccountMenu = () => {
   const user = useAppSelector((state) => state.user);
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
+    null,
   );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

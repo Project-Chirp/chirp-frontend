@@ -53,7 +53,7 @@ export const toastSlice = createSlice({
         message,
         anchorOrigin: anchorOrigin ?? defaultToastOptions.anchorOrigin,
         autoHideDuration:
-          autoHideDuration ?? severity === "error"
+          (autoHideDuration ?? severity === "error")
             ? 5000
             : defaultToastOptions.autoHideDuration,
         severity: severity ?? defaultToastOptions.severity,

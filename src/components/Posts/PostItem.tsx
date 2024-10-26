@@ -147,7 +147,7 @@ const PostItem = ({ post }: PostProps) => {
               toggleLikePostRequest(
                 post.isLikedByCurrentUser,
                 post.postId,
-                user.userId
+                user.userId,
               );
               dispatch(toggleLikePost(post.postId));
             }}

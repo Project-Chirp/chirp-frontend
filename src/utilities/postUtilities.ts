@@ -3,7 +3,7 @@ import axios from "axios";
 export const toggleLikePostRequest = async (
   isLikedByCurrentUser: boolean,
   postId: number,
-  userId?: number
+  userId?: number,
 ) => {
   if (isLikedByCurrentUser) {
     await axios.delete("http://localhost:3001/api/posts/unlikePost", {

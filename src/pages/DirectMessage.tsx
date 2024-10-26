@@ -102,25 +102,25 @@ const DirectMessage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const user = useAppSelector((state) => state.user);
   const { selectedConversation, conversations } = useAppSelector(
-    (state) => state.messages
+    (state) => state.messages,
   );
   const messageRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const userExists = conversations.find(
-    (o) => o.otherUserId === Number(userId2)
+    (o) => o.otherUserId === Number(userId2),
   );
 
   useEffect(() => {
     const fetchDirectMessage = async () => {
       const result = await axios.get(
-        `http://localhost:3001/api/messages/${userId1}/${userId2}`
+        `http://localhost:3001/api/messages/${userId1}/${userId2}`,
       );
       setMessages(result.data.messages as Message[]);
       dispatch(
         setSelectedConversation({
           ...result.data.otherUser,
           userId: Number(userId2),
-        })
+        }),
       );
     };
     fetchDirectMessage();
@@ -146,7 +146,7 @@ const DirectMessage = () => {
         dispatch(
           setSelectedConversation({
             ...selectedConversation,
-          })
+          }),
         );
       } else {
         dispatch(
@@ -156,7 +156,7 @@ const DirectMessage = () => {
             textContent: "",
             timestamp: new Date().toString(),
             otherUserId: Number(userId2),
-          })
+          }),
         );
       }
       dispatch(
@@ -166,7 +166,7 @@ const DirectMessage = () => {
           textContent: newMessage.textContent,
           timestamp: newMessage.timestamp,
           username: selectedConversation.username,
-        })
+        }),
       );
     } catch (err) {
       console.log(err);
@@ -256,7 +256,7 @@ const DirectMessage = () => {
                           <EmojiPickerIconButton
                             onEmojiClick={(emoji: EmojiClickData) => {
                               setTextContent(
-                                (prevContent) => prevContent + emoji.emoji
+                                (prevContent) => prevContent + emoji.emoji,
                               );
                             }}
                             topPosition

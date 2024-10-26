@@ -136,7 +136,7 @@ const EditPostModal = ({
                   <EmojiPickerIconButton
                     onEmojiClick={(emoji: EmojiClickData) => {
                       setPostTextContent(
-                        (prevContent) => prevContent + emoji.emoji
+                        (prevContent) => prevContent + emoji.emoji,
                       );
                     }}
                   />

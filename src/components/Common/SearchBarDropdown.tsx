@@ -67,7 +67,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       setSearchOptions(result.data as SelectedUser[]);
     } catch (error) {
@@ -80,7 +80,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
 
   const debouncedFetch = useMemo(
     () => debounce((keywords: string) => fetchUsers(keywords), 100),
-    []
+    [],
   );
 
   useEffect(() => {

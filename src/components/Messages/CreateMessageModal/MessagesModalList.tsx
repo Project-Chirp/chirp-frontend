@@ -21,7 +21,7 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
           params: {
             userId: user.userId,
           },
-        }
+        },
       );
       setConversationList(result.data as SelectedUser[]);
     };

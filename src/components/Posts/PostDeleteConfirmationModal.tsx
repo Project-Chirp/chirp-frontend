@@ -74,7 +74,7 @@ const PostDeleteModal = ({
       dispatch(
         enqueueToast({
           message: "Your post has been deleted",
-        })
+        }),
       );
     } catch (error) {
       console.error("Failed to delete the post", error);
@@ -82,7 +82,7 @@ const PostDeleteModal = ({
         enqueueToast({
           message: "Your post failed to be deleted",
           severity: "error",
-        })
+        }),
       );
     } finally {
       onClose();

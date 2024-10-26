@@ -21,7 +21,7 @@ const ProfileReplies = ({ userId }: ProfileRepliesProps) => {
           params: {
             visitedUserId: userId,
           },
-        }
+        },
       );
       dispatch(setPosts(result.data as Post[]));
     };

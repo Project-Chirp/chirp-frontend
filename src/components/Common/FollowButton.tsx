@@ -34,7 +34,7 @@ const FollowButton = ({ onClick, visitedUserId }: FollowButtonProps) => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       onClick?.();
     } catch (error) {

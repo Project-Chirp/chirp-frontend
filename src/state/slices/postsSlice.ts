@@ -78,7 +78,7 @@ export const postsSlice = createSlice({
     },
     deletePost: (state, action: PayloadAction<number>) => {
       state.posts = state.posts.filter(
-        (post) => post.postId !== action.payload
+        (post) => post.postId !== action.payload,
       );
     },
     setPosts: (state, action: PayloadAction<Post[]>) => {
@@ -118,12 +118,15 @@ export const postsSlice = createSlice({
     },
     updateDisplayNames: (
       state,
-      action: PayloadAction<{ prevDisplayName: string; newDisplayName: string }>
+      action: PayloadAction<{
+        prevDisplayName: string;
+        newDisplayName: string;
+      }>,
     ) => {
       state.posts = state.posts.map((o) =>
         o.displayName === action.payload.prevDisplayName
           ? { ...o, displayName: action.payload.newDisplayName }
-          : o
+          : o,
       );
     },
     updatePost: (state, action: PayloadAction<Post>) => {
