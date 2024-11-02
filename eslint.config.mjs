@@ -26,6 +26,7 @@ export default [
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
       "import-x/default": "off",
+      "import-x/order": "error",
     },
   },
 ];

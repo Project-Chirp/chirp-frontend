@@ -13,11 +13,12 @@ import IconButton from "@mui/material/IconButton";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
+import { EmojiClickData } from "emoji-picker-react";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
 import ConversationList from "../components/Messages/ConversationList";
 import {
   appendConversation,
@@ -27,7 +28,6 @@ import {
 import NavBar from "../components/NavBar/NavBar";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
-import { EmojiClickData } from "emoji-picker-react";
 import TooltipTimestamp from "../components/Common/TooltipTimestamp";
 
 const styles = {

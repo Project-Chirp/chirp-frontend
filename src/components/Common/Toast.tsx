@@ -1,11 +1,11 @@
 import { Alert, Snackbar } from "@mui/material";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
   clearCurrentToast,
   dequeueToast,
   setToastOpen,
 } from "../../state/slices/toastSlice";
-import { useEffect } from "react";
 
 const Toast = () => {
   const { currentToast, loaf, open } = useAppSelector((state) => state.toast);

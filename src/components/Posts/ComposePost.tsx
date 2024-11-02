@@ -2,10 +2,10 @@ import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import { useState } from "react";
 import axios from "axios";
+import { EmojiClickData } from "emoji-picker-react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
 import UserAvatar from "../Common/UserAvatar";
-import { EmojiClickData } from "emoji-picker-react";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 
 type ComposePostProps = {
