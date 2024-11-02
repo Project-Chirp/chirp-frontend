@@ -103,7 +103,7 @@ const FollowListModal = ({
         {!loading && (
           <List sx={styles.list}>
             {sortedList.map((o) => (
-              <ListItem key={o.userId} disablePadding>
+              <ListItem disablePadding key={o.userId}>
                 <ListItemButton
                   onClick={() => {
                     navigate(`/${o.username}`);

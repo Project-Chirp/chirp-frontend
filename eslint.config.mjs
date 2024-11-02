@@ -27,6 +27,8 @@ export default [
       "@typescript-eslint/no-explicit-any": "off",
       "import-x/default": "off",
       "import-x/order": "error",
+      "react/jsx-sort-props": ["error", { ignoreCase: true }],
+      "react/sort-prop-types": "error",
     },
   },
 ];

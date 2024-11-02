@@ -260,8 +260,8 @@ const Profile = () => {
                     (profileContents.userId === currentUserId ? (
                       <Button
                         onClick={() => setEditProfileModalOpen(true)}
-                        startIcon={<EditIcon />}
                         size="small"
+                        startIcon={<EditIcon />}
                         sx={styles.editProfileButton}
                         variant="outlined"
                       >
@@ -292,10 +292,10 @@ const Profile = () => {
                     ))}
                 </Box>
                 <Box sx={styles.nameContainer}>
-                  <Typography variant="h3" sx={styles.displayName}>
+                  <Typography sx={styles.displayName} variant="h3">
                     {profileContents.displayName}
                   </Typography>
-                  <Typography variant="subtitle2" sx={styles.username}>
+                  <Typography sx={styles.username} variant="subtitle2">
                     @{profileContents.username}
                   </Typography>
                 </Box>
@@ -322,10 +322,10 @@ const Profile = () => {
                   <Link
                     color={theme.palette.black.main}
                     component="button"
-                    underline="hover"
                     onClick={() => {
                       handleOpenFollowersModal();
                     }}
+                    underline="hover"
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followerCount}
@@ -335,10 +335,10 @@ const Profile = () => {
                   <Link
                     color={theme.palette.black.main}
                     component="button"
-                    underline="hover"
                     onClick={() => {
                       handleOpenFollowingModal();
                     }}
+                    underline="hover"
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
@@ -355,9 +355,9 @@ const Profile = () => {
               value={value}
               variant="fullWidth"
             >
-              <Tab value="one" label="Posts" sx={styles.tab} />
-              <Tab value="two" label="Replies" sx={styles.tab} />
-              <Tab value="three" label="Likes" sx={styles.tab} />
+              <Tab label="Posts" sx={styles.tab} value="one" />
+              <Tab label="Replies" sx={styles.tab} value="two" />
+              <Tab label="Likes" sx={styles.tab} value="three" />
             </Tabs>
             <Divider />
             {!loading && profileContents.userId && (

@@ -20,8 +20,8 @@ const ExpandedPost = () => {
           <ExpandedPostItem post={expandedPost} />
           <Divider sx={styles.divider} variant="middle" />
           <ComposeReply
-            placeholder="Post your reply"
             parentPostId={expandedPost.postId}
+            placeholder="Post your reply"
           />
           <Divider />
           <ExpandedPostReplies postId={expandedPost.postId} />

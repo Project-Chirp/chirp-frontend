@@ -44,9 +44,9 @@ const Toast = () => {
       TransitionProps={{ onExited: handleExited }}
     >
       <Alert
+        action={currentToast.action}
         onClose={handleClose}
         severity={currentToast.severity}
-        action={currentToast.action}
       >
         {currentToast.message}
       </Alert>

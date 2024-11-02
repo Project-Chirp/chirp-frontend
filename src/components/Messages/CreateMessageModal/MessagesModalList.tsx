@@ -31,7 +31,7 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
   return (
     <List component="div">
       {conversationList.map((o) => (
-        <MessagesModalListItem otherUser={o} key={o.userId} onClose={onClose} />
+        <MessagesModalListItem key={o.userId} onClose={onClose} otherUser={o} />
       ))}
     </List>
   );

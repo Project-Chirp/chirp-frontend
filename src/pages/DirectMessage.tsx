@@ -207,11 +207,6 @@ const DirectMessage = () => {
               {messages.map((o) => (
                 <ListItem component="div" key={o.messageId}>
                   <ListItemText
-                    sx={
-                      o.sentUserId === user.userId
-                        ? styles.sentMessage
-                        : styles.message
-                    }
                     disableTypography
                     primary={
                       <Box
@@ -231,6 +226,11 @@ const DirectMessage = () => {
                           variant="body2"
                         />
                       </Box>
+                    }
+                    sx={
+                      o.sentUserId === user.userId
+                        ? styles.sentMessage
+                        : styles.message
                     }
                   />
                 </ListItem>
@@ -269,8 +269,8 @@ const DirectMessage = () => {
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
-                            type="submit"
                             disabled={!textContent.trim()}
+                            type="submit"
                           >
                             <SendIcon />
                           </IconButton>

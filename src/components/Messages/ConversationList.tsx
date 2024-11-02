@@ -60,8 +60,8 @@ const ConversationList = () => {
       <List component="div">
         {conversations.map((o) => (
           <ConversationListItem
-            key={o.otherUserId}
             conversation={o}
+            key={o.otherUserId}
             onClick={() => {
               dispatch(
                 setSelectedConversation({

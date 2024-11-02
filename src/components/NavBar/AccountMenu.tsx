@@ -76,22 +76,22 @@ const AccountMenu = () => {
         </Stack>
       </Button>
       <Popover
-        id={id}
-        open={open}
         anchorEl={anchorEl}
-        onClose={handleClose}
         anchorOrigin={{
           vertical: -5,
           horizontal: "center",
         }}
+        id={id}
+        onClose={handleClose}
+        open={open}
+        sx={styles.popover}
         transformOrigin={{
           vertical: "bottom",
           horizontal: "center",
         }}
-        sx={styles.popover}
       >
         <ArrowDropDownIcon fontSize="large" sx={styles.arrow} />
-        <Button sx={styles.popoverButton} onClick={() => logout()}>
+        <Button onClick={() => logout()} sx={styles.popoverButton}>
           <LogoutIcon sx={styles.logOutIcon}></LogoutIcon>
           Log Out
         </Button>

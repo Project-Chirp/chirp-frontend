@@ -87,8 +87,8 @@ const EditProfileModal = ({
       fullWidth
       onClose={onClose}
       open={open}
-      scroll="paper"
       PaperProps={{ sx: styles.dialog }}
+      scroll="paper"
     >
       <form onSubmit={saveProfile}>
         <DialogTitle sx={styles.dialogTitle}>
@@ -106,20 +106,20 @@ const EditProfileModal = ({
               label="Display Name"
               onChange={(e) => setDisplayNameValue(e.target.value)}
               slotProps={{ input: styles.textField }}
-              variant="outlined"
               value={displayNameValue}
+              variant="outlined"
             />
           </Box>
           <Box sx={styles.textFieldContainer}>
             <TextField
               fullWidth
               label="Bio"
-              onChange={(e) => setBioValue(e.target.value)}
               multiline
+              onChange={(e) => setBioValue(e.target.value)}
               rows={2}
               slotProps={{ input: styles.textField }}
-              variant="outlined"
               value={bioValue}
+              variant="outlined"
             />
           </Box>
           <Box sx={styles.textFieldContainer}>

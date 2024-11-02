@@ -53,14 +53,14 @@ const EmojiPickerIconButton = ({
   return (
     <>
       <IconButton
-        ref={emojiIconButtonRef}
         onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+        ref={emojiIconButtonRef}
         size="small"
         sx={{ ...(showEmojiPicker && styles.activeButton) }}
       >
         <EmojiEmotionsOutlinedIcon />
       </IconButton>
-      <Box sx={{ ...styles.emojiContainer, top: top }} ref={emojiContainerRef}>
+      <Box ref={emojiContainerRef} sx={{ ...styles.emojiContainer, top: top }}>
         <EmojiPicker
           emojiStyle={twitterEmojiStyle}
           height={pickerHeight}

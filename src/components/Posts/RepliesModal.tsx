@@ -83,9 +83,9 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
       fullWidth
       onClose={onClose}
       open={open}
+      PaperProps={{ style: styles.paperProps }}
       scroll="paper"
       sx={styles.dialog}
-      PaperProps={{ style: styles.paperProps }}
     >
       <DialogTitle>
         <IconButton onClick={onClose}>
@@ -117,19 +117,19 @@ export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
             <Typography sx={styles.postText}>{post.textContent}</Typography>
             <Typography>
               Replying to
-              <Typography component="span" color="primary">
+              <Typography color="primary" component="span">
                 {` @${post.username}`}
               </Typography>
             </Typography>
           </Box>
         </Box>
         {post.imagePath && (
-          <Box sx={styles.postMedia} component="img" src={post.imagePath} />
+          <Box component="img" src={post.imagePath} sx={styles.postMedia} />
         )}
         <ComposeReply
-          placeholder="Post your reply"
-          parentPostId={post.postId}
           onClose={onClose}
+          parentPostId={post.postId}
+          placeholder="Post your reply"
         />
       </DialogContent>
     </Dialog>

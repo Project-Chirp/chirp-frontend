@@ -90,28 +90,28 @@ const NavBar = () => {
         <Box sx={styles.navList}>
           <IconButton component={Routerlink} sx={styles.iconButton} to="/">
             <SvgIcon
+              color="primary"
               component={Logo}
               fontSize="large"
-              color="primary"
               inheritViewBox
             />
           </IconButton>
-          <List sx={styles.navItemList} component="nav">
+          <List component="nav" sx={styles.navItemList}>
             {navItems.map((navItem, index) => (
               <NavItem
-                key={index}
                 icon={navItem.icon}
-                selectedIcon={navItem.selectedIcon}
+                key={index}
                 label={navItem.label}
                 route={navItem.route}
                 selected={location.pathname === navItem.route}
+                selectedIcon={navItem.selectedIcon}
               />
             ))}
           </List>
           <Button
+            onClick={() => setOpenModal(true)}
             sx={styles.postButton}
             variant="contained"
-            onClick={() => setOpenModal(true)}
           >
             Post
           </Button>
@@ -123,8 +123,8 @@ const NavBar = () => {
         openModal={openModal}
       >
         <ComposePost
-          placeholder="What's happening?"
           onClose={() => setOpenModal(false)}
+          placeholder="What's happening?"
         />
       </PostButtonModal>
     </>

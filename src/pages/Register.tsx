@@ -58,7 +58,7 @@ const Register = () => {
 
   return (
     <form onSubmit={submitUserInfo} style={styles.container}>
-      <Typography variant="h1" sx={styles.title}>
+      <Typography sx={styles.title} variant="h1">
         {`Let's get to know a little more about you`}
       </Typography>
       <Box sx={styles.inputs}>

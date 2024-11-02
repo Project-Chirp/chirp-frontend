@@ -50,25 +50,25 @@ const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
 
   return (
     <>
-      <IconButton ref={menuRef} onClick={() => setMenuOpen(true)}>
+      <IconButton onClick={() => setMenuOpen(true)} ref={menuRef}>
         <MoreVert />
       </IconButton>
       <Menu
         anchorEl={menuRef.current}
-        open={menuOpen}
+        MenuListProps={{ sx: styles.menuList }}
         onClose={() => setMenuOpen(false)}
+        open={menuOpen}
         PaperProps={{
           sx: styles.menu,
         }}
-        MenuListProps={{ sx: styles.menuList }}
       >
         {userId === authorId && (
           <MenuItem
-            sx={styles.menuItem}
             onClick={() => {
               setMenuOpen(false);
               setEditModalOpen(true);
             }}
+            sx={styles.menuItem}
           >
             <ListItemIcon>
               <Edit sx={styles.icon} />
@@ -80,11 +80,11 @@ const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
         )}
         {userId === authorId && (
           <MenuItem
-            sx={styles.menuItem}
             onClick={() => {
               setMenuOpen(false);
               setDeleteConfirmationModalOpen(true);
             }}
+            sx={styles.menuItem}
           >
             <ListItemIcon>
               <Delete color="error" />
@@ -99,7 +99,7 @@ const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
             </ListItemText>
           </MenuItem>
         )}
-        <MenuItem sx={styles.menuItem} onClick={() => copyToClipboard()}>
+        <MenuItem onClick={() => copyToClipboard()} sx={styles.menuItem}>
           <ListItemIcon>
             <Link sx={styles.icon} />
           </ListItemIcon>
@@ -109,10 +109,10 @@ const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
         </MenuItem>
       </Menu>
       <PostDeleteConfirmationModal
+        isExpandedPost={isExpandedPost}
         onClose={() => setDeleteConfirmationModalOpen(false)}
         open={deleteConfirmationModalOpen}
         postId={postId}
-        isExpandedPost={isExpandedPost}
       />
       <EditPostModal
         isExpandedPost={isExpandedPost}

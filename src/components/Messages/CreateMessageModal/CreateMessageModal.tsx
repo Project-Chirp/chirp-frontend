@@ -48,22 +48,22 @@ export default function CreateMessageModal({
       fullWidth
       onClose={onClose}
       open={open}
-      scroll="paper"
       PaperProps={{ sx: styles.dialog }}
+      scroll="paper"
     >
       <DialogTitle sx={styles.dialogTitle}>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
-        <Typography variant="h3" sx={styles.titleText}>
+        <Typography sx={styles.titleText} variant="h3">
           New Message
         </Typography>
       </DialogTitle>
       <MessagesSearchBar
-        placeholder="Search following"
-        onSelect={onSelect}
         onSearchClose={() => setFocusSearchBar(false)}
         onSearchOpen={() => setFocusSearchBar(true)}
+        onSelect={onSelect}
+        placeholder="Search following"
       />
       <DialogContent>
         {!focusSearchBar && <MessagesModalList onClose={onClose} />}

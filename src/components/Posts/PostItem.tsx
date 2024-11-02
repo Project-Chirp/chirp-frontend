@@ -85,16 +85,23 @@ const PostItem = ({ post }: PostProps) => {
   return (
     <Card sx={styles.card}>
       <CardHeader
-        avatar={<UserAvatar username={post.username} />}
         action={<PostMenu post={post} />}
+        avatar={<UserAvatar username={post.username} />}
+        subheader={
+          <TooltipTimestamp
+            isEdited={Boolean(post.editedTimestamp)}
+            timestamp={post.editedTimestamp || post.timestamp}
+          />
+        }
+        subheaderTypographyProps={{ sx: styles.tooltipText }}
         title={
           <Box>
             <Link
               color={theme.typography.subtitle1.color}
               component={Routerlink}
+              sx={styles.displayName}
               to={`/${post.username}`}
               underline="hover"
-              sx={styles.displayName}
               variant="subtitle1"
             >
               {post.displayName}
@@ -110,13 +117,6 @@ const PostItem = ({ post }: PostProps) => {
             </Link>
           </Box>
         }
-        subheader={
-          <TooltipTimestamp
-            timestamp={post.editedTimestamp || post.timestamp}
-            isEdited={Boolean(post.editedTimestamp)}
-          />
-        }
-        subheaderTypographyProps={{ sx: styles.tooltipText }}
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent>
@@ -124,9 +124,9 @@ const PostItem = ({ post }: PostProps) => {
         </CardContent>
         {post.imagePath && (
           <CardMedia
-            sx={styles.cardMedia}
             component="img"
             image={post.imagePath}
+            sx={styles.cardMedia}
           />
         )}
       </CardActionArea>
