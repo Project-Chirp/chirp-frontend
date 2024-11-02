@@ -20,13 +20,17 @@ import {
   ShareOutlined,
 } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, toggleLikePost } from "../../state/slices/postsSlice";
-import { useNavigate } from "react-router-dom";
-import { setExpandedPost } from "../../state/slices/postsSlice";
+import {
+  Post,
+  toggleLikePost,
+  setExpandedPost,
+} from "../../state/slices/postsSlice";
+import { useNavigate, Link as Routerlink } from "react-router-dom";
+
 import { useState } from "react";
-import RepliesModal from "./RepliesModal";
+import { RepliesModal } from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
-import { Link as Routerlink } from "react-router-dom";
+
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";

@@ -11,8 +11,8 @@ import PostButtonModal from "./PostButtonModal";
 import { useState } from "react";
 import ComposePost from "../Posts/ComposePost";
 import { useAppSelector } from "../../state/hooks";
-import { useLocation } from "react-router-dom";
-import { Link as Routerlink } from "react-router-dom";
+import { useLocation, Link as Routerlink } from "react-router-dom";
+
 import Logo from "../../assets/logo.svg?react";
 
 const styles = {

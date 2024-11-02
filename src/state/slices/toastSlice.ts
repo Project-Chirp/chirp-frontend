@@ -29,7 +29,7 @@ const defaultToastOptions: Toast = {
   severity: "success",
 };
 
-export const toastSlice = createSlice({
+const toastSlice = createSlice({
   name: "toast",
   initialState,
   reducers: {
