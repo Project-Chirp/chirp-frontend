@@ -1,12 +1,12 @@
-import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
-import { useState } from "react";
-import axios from "axios";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
+import axios from "axios";
 import { EmojiClickData } from "emoji-picker-react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { addReply } from "../../state/slices/postsSlice";
-import UserAvatar from "../Common/UserAvatar";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
+import UserAvatar from "../Common/UserAvatar";
 
 type ComposeReplyProps = {
   placeholder: string;

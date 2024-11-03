@@ -1,12 +1,12 @@
+import { ThemeProvider } from "@mui/material/styles";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider } from "@mui/material/styles";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import theme from "./styles/Theme";
 import AuthProvider from "./components/Auth/AuthProvider";
 import { store } from "./state/store";
+import theme from "./styles/Theme";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 

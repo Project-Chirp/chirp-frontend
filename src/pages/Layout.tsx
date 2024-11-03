@@ -1,5 +1,5 @@
-import { ReactElement } from "react";
 import { Box, Divider, Stack } from "@mui/material";
+import { ReactElement } from "react";
 import NavBar from "../components/NavBar/NavBar";
 
 const styles = {

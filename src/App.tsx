@@ -1,21 +1,21 @@
-import { Route, Routes } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect } from "react";
-import Timeline from "./pages/Timeline";
-import Welcome from "./pages/Welcome";
-import Register from "./pages/Register";
+import { Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
+import Toast from "./components/Common/Toast";
+import ComingSoon from "./pages/ComingSoon";
+import DirectMessage from "./pages/DirectMessage";
+import ExpandedPost from "./pages/ExpandedPost";
+import Messages from "./pages/Messages";
 import PageLoader from "./pages/PageLoader";
 import Profile from "./pages/Profile";
+import Register from "./pages/Register";
+import Timeline from "./pages/Timeline";
+import Welcome from "./pages/Welcome";
 import "./styles/App.css";
 import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { setUser } from "./state/slices/userSlice";
-import ExpandedPost from "./pages/ExpandedPost";
-import Messages from "./pages/Messages";
-import DirectMessage from "./pages/DirectMessage";
-import ComingSoon from "./pages/ComingSoon";
-import Toast from "./components/Common/Toast";
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();

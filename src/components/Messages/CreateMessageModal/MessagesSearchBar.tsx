@@ -11,8 +11,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../state/hooks";
 import { SelectedUser } from "../../../state/slices/messagesSlice";
 

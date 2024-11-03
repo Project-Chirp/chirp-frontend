@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import UserAvatar from "../Common/UserAvatar";
-import FollowingButton from "../Common/FollowingButton";
 import { toggleFollow } from "../../state/slices/postsSlice";
 import FollowButton from "../Common/FollowButton";
+import FollowingButton from "../Common/FollowingButton";
+import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
   container: {

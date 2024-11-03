@@ -1,10 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Avatar, Typography, Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import Stack from "@mui/material/Stack/Stack";
 import { useState } from "react";
-import LogoutIcon from "@mui/icons-material/Logout";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useAppSelector } from "../../state/hooks";
 
 const styles = {

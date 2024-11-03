@@ -1,6 +1,6 @@
+import { List } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { List } from "@mui/material";
 import { useAppSelector } from "../../../state/hooks";
 import { SelectedUser } from "../../../state/slices/messagesSlice";
 import MessagesModalListItem from "./MessagesModalListItem";
