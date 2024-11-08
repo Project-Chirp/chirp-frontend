@@ -65,7 +65,7 @@ const EditProfileModal = ({
   const saveProfile = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      await axios.put("http://localhost:3001/api/profile", {
+      await axios.put(`${import.meta.env.VITE_BASE_URL}/profile`, {
         bio: bioValue,
         birthDate: birthDateValue,
         displayName: displayNameValue,

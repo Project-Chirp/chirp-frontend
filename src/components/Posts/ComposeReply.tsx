@@ -48,7 +48,7 @@ const ComposeReply = ({
     try {
       const textContent = postTextContent;
       const reply = await axios.post(
-        "http://localhost:3001/api/posts/postReply",
+        `${import.meta.env.VITE_BASE_URL}/posts/postReply`,
         {
           userId: user.userId,
           parentPostId,

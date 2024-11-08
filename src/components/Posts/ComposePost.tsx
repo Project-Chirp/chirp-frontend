@@ -41,10 +41,13 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      const newPost = await axios.post("http://localhost:3001/api/posts", {
-        userId: user.userId,
-        textContent,
-      });
+      const newPost = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/posts`,
+        {
+          userId: user.userId,
+          textContent,
+        }
+      );
       setPostTextContent("");
       dispatch(
         appendPost({

@@ -7,7 +7,8 @@ export default defineConfig({
   // This changes the out put dir from dist to build
   // comment this out if that isn't relevant for your project
   build: {
-    outDir: "build",
+    target: "esnext",
+    outDir: "dist",
     chunkSizeWarningLimit: 1000,
   },
   server: {
@@ -23,4 +24,5 @@ export default defineConfig({
       },
     }),
   ],
+  base: "/",
 });

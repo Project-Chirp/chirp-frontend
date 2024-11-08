@@ -113,7 +113,7 @@ const DirectMessage = () => {
   useEffect(() => {
     const fetchDirectMessage = async () => {
       const result = await axios.get(
-        `http://localhost:3001/api/messages/${userId1}/${userId2}`
+        `${import.meta.env.VITE_BASE_URL}/messages/${userId1}/${userId2}`
       );
       setMessages(result.data.messages as Message[]);
       dispatch(
@@ -134,7 +134,7 @@ const DirectMessage = () => {
     e.preventDefault();
     try {
       const newMessage = (
-        await axios.post("http://localhost:3001/api/messages", {
+        await axios.post(`${import.meta.env.VITE_BASE_URL}/messages`, {
           sentUserId: user.userId,
           receivedUserId: selectedConversation.userId,
           textContent,

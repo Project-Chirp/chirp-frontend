@@ -38,7 +38,7 @@ const Register = () => {
     try {
       dispatch(setUser({ ...user, isLoading: true }));
       const newUserInfo = await axios.put(
-        `http://localhost:3001/api/users/${user.userId}`,
+        `${import.meta.env.VITE_BASE_URL}/users/${user.userId}`,
         {
           username,
           displayName,

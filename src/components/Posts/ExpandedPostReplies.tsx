@@ -18,7 +18,7 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
     const fetchPosts = async () => {
       try {
         const resultReplies = await axios.get(
-          "http://localhost:3001/api/posts/fetchReplies",
+          `${import.meta.env.VITE_BASE_URL}/posts/fetchReplies`,
           {
             params: {
               userId: user.userId,

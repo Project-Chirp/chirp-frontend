@@ -60,7 +60,7 @@ const PostDeleteModal = ({
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3001/api/posts/deletePost`, {
+      await axios.delete(`${import.meta.env.VITE_BASE_URL}/posts/deletePost`, {
         data: {
           postId: postId,
           userId: userId,

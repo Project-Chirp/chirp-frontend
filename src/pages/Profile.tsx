@@ -153,7 +153,7 @@ const Profile = () => {
     setFollowerListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      const endpoint = "http://localhost:3001/api/follow/getFollowerList";
+      const endpoint = `${import.meta.env.VITE_BASE_URL}/follow/getFollowerList`;
       const result = await axios.get(endpoint, {
         params: {
           visitedUserId: profileContents.userId,
@@ -172,7 +172,7 @@ const Profile = () => {
     setFollowingListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      const endpoint = "http://localhost:3001/api/follow/getFollowingList";
+      const endpoint = `${import.meta.env.VITE_BASE_URL}/follow/getFollowingList`;
       const result = await axios.get(endpoint, {
         params: {
           visitedUserId: profileContents.userId,
@@ -193,7 +193,7 @@ const Profile = () => {
       try {
         setLoading(true);
         const result = await axios.get(
-          "http://localhost:3001/api/profile/getProfileContents",
+          `${import.meta.env.VITE_BASE_URL}/profile/getProfileContents`,
           {
             params: {
               currentUserId,

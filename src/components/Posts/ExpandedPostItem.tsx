@@ -92,7 +92,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
     const updatedExpandedPost = async () => {
       try {
         const backupFetch = await axios.get(
-          "http://localhost:3001/api/posts/fetchPost",
+          `${import.meta.env.VITE_BASE_URL}/posts/fetchPost`,
           {
             params: {
               userId: user.userId,

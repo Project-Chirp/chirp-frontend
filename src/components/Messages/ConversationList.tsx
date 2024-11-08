@@ -35,11 +35,14 @@ const ConversationList = () => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const result = await axios.get("http://localhost:3001/api/messages", {
-        params: {
-          userId: user.userId,
-        },
-      });
+      const result = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/messages`,
+        {
+          params: {
+            userId: user.userId,
+          },
+        }
+      );
       dispatch(setConversations(result.data));
     };
     fetchMessages();

@@ -16,7 +16,7 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
   useEffect(() => {
     const fetchConversationList = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/messages/getModalConversations",
+        `${import.meta.env.VITE_BASE_URL}/messages/getModalConversations`,
         {
           params: {
             userId: user.userId,

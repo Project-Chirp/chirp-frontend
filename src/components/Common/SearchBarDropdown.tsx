@@ -59,7 +59,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
     try {
       const token = await getAccessTokenSilently();
       const result = await axios.get(
-        `http://localhost:3001/api/users/searchUsers`,
+        `${import.meta.env.VITE_BASE_URL}/users/searchUsers`,
         {
           params: {
             keyword: keywords,
