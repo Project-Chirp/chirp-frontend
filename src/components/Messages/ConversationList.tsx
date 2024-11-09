@@ -29,7 +29,6 @@ const ConversationList = () => {
     (state) => state.messages
   );
   const [messageModal, showMessageModal] = useState(false);
-  const [loading, setLoading] = useState(false);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -37,7 +36,6 @@ const ConversationList = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        setLoading(true);
         const result = await axios.get("http://localhost:3001/api/messages", {
           params: {
             userId: user.userId,
@@ -46,8 +44,6 @@ const ConversationList = () => {
         dispatch(setConversations(result.data));
       } catch (error) {
         console.log(error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchMessages();

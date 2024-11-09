@@ -1,9 +1,9 @@
 import {
   Avatar,
   Box,
-  CircularProgress,
   Divider,
   InputAdornment,
+  Link,
   List,
   ListItem,
   ListItemText,
@@ -33,6 +33,7 @@ import { EmojiClickData } from "emoji-picker-react";
 import TooltipTimestamp from "../components/Common/TooltipTimestamp";
 import formatTimestamp from "../utilities/formatTimestamp";
 import PageLoader from "./PageLoader";
+import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
   avatar: {
@@ -75,8 +76,7 @@ const styles = {
     width: "100%",
   },
   displayName: {
-    ":hover": { textDecoration: "underline", color: "primary.main" },
-    marginBottom: -1,
+    ":hover": { color: "primary.main" },
   },
   directMessageContainer: {
     display: "flex",
@@ -105,11 +105,10 @@ const styles = {
   },
   middleContent: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
   nameContainer: {
-    width: "100%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginBottom: 2,
+    marginBottom: 1.5,
   },
   nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
   rightContent: {
@@ -258,27 +257,37 @@ const DirectMessage = () => {
                 sx={styles.bioContainer}
                 onClick={() => navigate(`/${selectedConversation.username}`)}
               >
-                {loading ? (
-                  <CircularProgress />
-                ) : (
+                {loading && <PageLoader />}
+                {!loading && (
                   <>
-                    <Box sx={styles.bioDetails}>
-                      <Avatar sx={styles.avatar} />
-                    </Box>
+                    <Avatar sx={styles.avatar} />
+
                     <Box sx={styles.nameContainer}>
-                      <Typography variant="h6" sx={styles.displayName}>
+                      <Link
+                        color={"black.main"}
+                        underline="hover"
+                        component={Routerlink}
+                        to={`/${selectedConversation.username}`}
+                        variant="h6"
+                        sx={styles.displayName}
+                      >
                         {selectedConversation.displayName}
-                      </Typography>
+                      </Link>
                       <Typography variant="body2">
                         {`@${selectedConversation.username}`}
                       </Typography>
                     </Box>
-                    <Typography>{selectedConversation.bio}</Typography>
+                    {selectedConversation.bio && (
+                      <Typography>{selectedConversation.bio}</Typography>
+                    )}
+
                     <Typography variant="body2">
-                      {`Joined ${formatTimestamp(
-                        selectedConversation.joinedDate ?? ""
-                      )} •
-                    ${selectedConversation.followerCount ?? 0} Followers`}
+                      {selectedConversation.joinedDate &&
+                        `Joined
+                          ${formatTimestamp(
+                            selectedConversation.joinedDate
+                          )} •`}
+                      {selectedConversation.followerCount ?? 0} Followers
                     </Typography>
                   </>
                 )}
