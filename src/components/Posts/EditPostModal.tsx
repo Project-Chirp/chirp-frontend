@@ -77,7 +77,7 @@ const EditPostModal = ({
     e.preventDefault();
 
     try {
-      await axios.put("http://localhost:3001/api/posts/editPost", {
+      await axios.put(`${import.meta.env.VITE_BASE_URL}/posts/editPost`, {
         postId: post.postId,
         textContent: postTextContent,
       });

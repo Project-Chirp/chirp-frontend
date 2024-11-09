@@ -13,11 +13,14 @@ const PostList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const resultPosts = await axios.get("http://localhost:3001/api/posts", {
-          params: {
-            userId: user.userId,
-          },
-        });
+        const resultPosts = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/posts`,
+          {
+            params: {
+              userId: user.userId,
+            },
+          }
+        );
         dispatch(setPosts(resultPosts.data as Post[]));
       } catch (e) {
         console.log(e.message);

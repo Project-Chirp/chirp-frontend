@@ -35,7 +35,7 @@ const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
 
     try {
       await axios.put(
-        "http://localhost:3001/api/follow/unfollowUser",
+        `${import.meta.env.VITE_BASE_URL}/follow/unfollowUser`,
         {
           currentUserId: user.userId,
           visitedUserId: visitedUserId,

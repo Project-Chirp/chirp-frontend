@@ -16,7 +16,7 @@ const ProfileReplies = ({ userId }: ProfileRepliesProps) => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getUserReplies",
+        `${import.meta.env.VITE_BASE_URL}/profile/getUserReplies`,
         {
           params: {
             visitedUserId: userId,

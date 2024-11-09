@@ -16,7 +16,7 @@ const ProfileLikes = ({ userId }: ProfileLikesProps) => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getUserLikes",
+        `${import.meta.env.VITE_BASE_URL}/profile/getUserLikes`,
         {
           params: {
             visitedUserId: userId,

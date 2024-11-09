@@ -25,7 +25,7 @@ const FollowButton = ({ onClick, visitedUserId }: FollowButtonProps) => {
     e.stopPropagation();
     try {
       await axios.put(
-        "http://localhost:3001/api/follow/followUser",
+        `${import.meta.env.VITE_BASE_URL}/follow/followUser`,
         {
           currentUserId: user.userId,
           visitedUserId: visitedUserId,

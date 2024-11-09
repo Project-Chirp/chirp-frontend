@@ -6,14 +6,14 @@ export const toggleLikePostRequest = async (
   userId?: number
 ) => {
   if (isLikedByCurrentUser) {
-    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
+    await axios.delete(`${import.meta.env.VITE_BASE_URL}/posts/unlikePost`, {
       params: {
         postId,
         userId,
       },
     });
   } else {
-    await axios.post("http://localhost:3001/api/posts/likePost", {
+    await axios.post(`${import.meta.env.VITE_BASE_URL}/posts/likePost`, {
       postId,
       userId,
     });

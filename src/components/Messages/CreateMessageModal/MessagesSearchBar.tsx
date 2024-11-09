@@ -44,7 +44,7 @@ const MessagesSearchBar = ({
   useEffect(() => {
     const fetchDMList = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/messages/followedList",
+        `${import.meta.env.VITE_BASE_URL}/messages/followedList`,
         {
           params: {
             userId: user.userId,

@@ -16,7 +16,7 @@ const ProfilePosts = ({ userId }: ProfilePostsProps) => {
   useEffect(() => {
     const fetchPosts = async () => {
       const result = await axios.get(
-        "http://localhost:3001/api/profile/getUserPosts",
+        `${import.meta.env.VITE_BASE_URL}/profile/getUserPosts`,
         {
           params: {
             visitedUserId: userId,

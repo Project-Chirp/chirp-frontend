@@ -77,7 +77,9 @@ const PostItem = ({ post }: PostProps) => {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
+    navigator.clipboard.writeText(
+      `${window.location.origin}/post/${post.postId}`
+    );
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 

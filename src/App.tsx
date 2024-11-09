@@ -28,11 +28,14 @@ function App() {
     const getUser = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3001/api/users/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/users/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         dispatch(setUser(response.data));
       } catch (error) {
         console.log(error);
