@@ -10,6 +10,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useEffect, useRef, useState } from "react";
@@ -38,6 +39,7 @@ import { Link as Routerlink } from "react-router-dom";
 const styles = {
   avatar: {
     height: 64,
+    marginBottom: 0.5,
     width: 64,
     opacity: 0.75,
     "&:hover": {
@@ -56,11 +58,11 @@ const styles = {
       cursor: "pointer",
     },
   },
-  bioDetails: {
-    width: "100%",
+  bioContent: {
+    alignItems: "center",
     display: "flex",
-    justifyContent: "center",
-    marginBottom: 1,
+    flexDirection: "column",
+    gap: 1,
   },
   container: { height: "auto", justifyContent: "center" },
   chatContainer: {
@@ -74,9 +76,6 @@ const styles = {
     padding: 1,
     position: "relative",
     width: "100%",
-  },
-  displayName: {
-    ":hover": { color: "primary.main" },
   },
   directMessageContainer: {
     display: "flex",
@@ -108,7 +107,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginBottom: 1.5,
   },
   nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
   rightContent: {
@@ -137,6 +135,7 @@ export type Message = {
 };
 
 const DirectMessage = () => {
+  const theme = useTheme();
   const { userId1, userId2 } = useParams();
   const [textContent, setTextContent] = useState("");
   const [loading, setLoading] = useState(true);
@@ -250,7 +249,6 @@ const DirectMessage = () => {
               <InfoOutlinedIcon />
             </IconButton>
           </Box>
-
           <Box sx={styles.chatContainer}>
             <List component="div" ref={messageRef} sx={styles.messageList}>
               <Box
@@ -259,40 +257,36 @@ const DirectMessage = () => {
               >
                 {loading && <PageLoader />}
                 {!loading && (
-                  <>
-                    <Avatar sx={styles.avatar} />
-
+                  <Box sx={styles.bioContent}>
                     <Box sx={styles.nameContainer}>
+                      <Avatar sx={styles.avatar} />
                       <Link
-                        color={"black.main"}
+                        color={theme.typography.subtitle1.color}
                         underline="hover"
                         component={Routerlink}
                         to={`/${selectedConversation.username}`}
-                        variant="h6"
-                        sx={styles.displayName}
+                        variant="subtitle1"
                       >
                         {selectedConversation.displayName}
                       </Link>
-                      <Typography variant="body2">
+                      <Typography variant="subtitle2">
                         {`@${selectedConversation.username}`}
                       </Typography>
                     </Box>
                     {selectedConversation.bio && (
                       <Typography>{selectedConversation.bio}</Typography>
                     )}
-
                     <Typography variant="body2">
                       {selectedConversation.joinedDate &&
                         `Joined
                           ${formatTimestamp(
                             selectedConversation.joinedDate
-                          )} •`}
-                      {selectedConversation.followerCount ?? 0} Followers
+                          )} • `}
+                      {`${selectedConversation.followerCount ?? 0} Followers`}
                     </Typography>
-                  </>
+                  </Box>
                 )}
               </Box>
-
               <Divider />
               {messages.map((o) => (
                 <ListItem component="div" key={o.messageId}>
