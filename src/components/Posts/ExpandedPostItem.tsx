@@ -109,7 +109,9 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   }, [dispatch, user.userId, urlParams.postId]);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
+    navigator.clipboard.writeText(
+      `${import.meta.env.VITE_BASE_URL}/post/${post.postId}`
+    );
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 
