@@ -44,7 +44,7 @@ const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(
-      `${import.meta.env.VITE_BASE_URL}/post/${postId}`
+      `${import.meta.env.VITE_AUTH0_AUDIENCE}/post/${postId}`
     );
     setMenuOpen(false);
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
