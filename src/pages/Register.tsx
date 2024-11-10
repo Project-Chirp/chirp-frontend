@@ -63,7 +63,6 @@ const Register = () => {
       </Typography>
       <Box sx={styles.inputs}>
         <TextField
-          id="displayname"
           label="Username"
           onChange={(e) => {
             setUsername(e.target.value);
@@ -75,7 +74,6 @@ const Register = () => {
           variant="outlined"
         />
         <TextField
-          id="displayname"
           label="Display Name"
           onChange={(e) => {
             setDisplayName(e.target.value);

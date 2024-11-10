@@ -61,7 +61,6 @@ const MessagesSearchBar = ({
       <Autocomplete
         fullWidth
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
-        id="messages-search"
         onClose={onSearchClose}
         onOpen={onSearchOpen}
         openOnFocus
