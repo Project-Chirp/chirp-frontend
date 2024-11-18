@@ -21,6 +21,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     paddingY: 1,
+    gap: 3,
   },
   titleText: { paddingLeft: 3 },
 };
@@ -51,13 +52,11 @@ export default function CreateMessageModal({
       PaperProps={{ sx: styles.dialog }}
       scroll="paper"
     >
-      <DialogTitle sx={styles.dialogTitle}>
+      <DialogTitle variant="h3" sx={styles.dialogTitle}>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
-        <Typography sx={styles.titleText} variant="h3">
-          New Message
-        </Typography>
+        New Message
       </DialogTitle>
       <MessagesSearchBar
         onSearchClose={() => setFocusSearchBar(false)}
