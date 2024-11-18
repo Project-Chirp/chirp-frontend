@@ -4,10 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import {
-  setConversations,
-  setSelectedConversation,
-} from "../../state/slices/messagesSlice";
+import { setConversations } from "../../state/slices/messagesSlice";
 import SearchBar from "../Common/SearchBar";
 import ConversationListItem from "./ConversationListItem";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";

@@ -1,11 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  IconButton,
-  Typography,
-} from "@mui/material/";
+import { Dialog, DialogTitle, DialogContent, IconButton } from "@mui/material/";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
@@ -52,7 +46,7 @@ export default function CreateMessageModal({
       PaperProps={{ sx: styles.dialog }}
       scroll="paper"
     >
-      <DialogTitle variant="h3" sx={styles.dialogTitle}>
+      <DialogTitle sx={styles.dialogTitle} variant="h3">
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
