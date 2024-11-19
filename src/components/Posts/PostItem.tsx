@@ -9,6 +9,11 @@ import {
   CardMedia,
   IconButton,
   Link,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Popover,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -18,19 +23,19 @@ import {
   FavoriteOutlined,
   RepeatOutlined,
   ShareOutlined,
+  RateReview,
 } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, toggleLikePost } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/postsSlice";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import RepliesModal from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
 
 type PostProps = {
@@ -69,7 +74,9 @@ const PostItem = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
-  const [open, setOpen] = useState(false);
+  const [openReplies, setOpenReplies] = useState(false);
+  const [openRepostMenu, setOpenRepostMenu] = useState(false);
+  const repostMenuRef = useRef<HTMLButtonElement>(null);
 
   const routeChange = () => {
     navigate(`/post/${post.postId}`);
@@ -131,12 +138,51 @@ const PostItem = ({ post }: PostProps) => {
       </CardActionArea>
       <CardActions>
         <Box sx={styles.cardActions}>
-          <Button startIcon={<RepeatOutlined />} sx={styles.defaultButton}>
+          <Button
+            ref={repostMenuRef}
+            onClick={() => setOpenRepostMenu(true)}
+            startIcon={<RepeatOutlined />}
+            sx={styles.defaultButton}
+          >
             {post.numberOfReposts}
           </Button>
+          <Menu
+            anchorEl={repostMenuRef.current}
+            open={openRepostMenu}
+            onClose={() => setOpenRepostMenu(false)}
+            slotProps={{
+              paper: {
+                sx: { borderRadius: 2 },
+              },
+            }}
+            MenuListProps={{ sx: { padding: 0 } }}
+          >
+            <MenuItem
+              sx={{ paddingX: 1.5, paddingY: 1 }}
+              onClick={() => setOpenRepostMenu(false)}
+            >
+              <ListItemIcon>
+                <RepeatOutlined sx={{ color: "black.main" }} />
+              </ListItemIcon>
+              <ListItemText primaryTypographyProps={{ variant: "subtitle1" }}>
+                Repost
+              </ListItemText>
+            </MenuItem>
+            <MenuItem
+              sx={{ paddingX: 1.5, paddingY: 1 }}
+              onClick={() => setOpenRepostMenu(false)}
+            >
+              <ListItemIcon>
+                <RateReview sx={{ color: "black.main" }} />
+              </ListItemIcon>
+              <ListItemText primaryTypographyProps={{ variant: "subtitle1" }}>
+                Quote Post
+              </ListItemText>
+            </MenuItem>
+          </Menu>
           <Button
             onClick={() => {
-              setOpen(true);
+              setOpenReplies(true);
             }}
             startIcon={<AddCommentOutlined />}
             sx={styles.defaultButton}
@@ -172,7 +218,11 @@ const PostItem = ({ post }: PostProps) => {
           </IconButton>
         </Box>
       </CardActions>
-      <RepliesModal onClose={() => setOpen(false)} open={open} post={post} />
+      <RepliesModal
+        onClose={() => setOpenReplies(false)}
+        open={openReplies}
+        post={post}
+      />
     </Card>
   );
 };
