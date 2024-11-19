@@ -5,6 +5,7 @@ export type Post = {
   followStatus: boolean;
   imagePath?: string;
   isLikedByCurrentUser: boolean;
+  isRepostedByCurrentUser: boolean;
   isQuotePost?: boolean;
   isRepost?: boolean;
   numberOfLikes: number;
@@ -30,6 +31,7 @@ const initialState: PostState = {
     displayName: "",
     followStatus: false,
     isLikedByCurrentUser: false,
+    isRepostedByCurrentUser: false,
     numberOfLikes: 0,
     numberOfReplies: 0,
     numberOfReposts: 0,
@@ -87,6 +89,32 @@ export const postsSlice = createSlice({
     setExpandedPost: (state, action: PayloadAction<Post>) => {
       state.expandedPost = action.payload;
     },
+    toggleRepost: (state, action: PayloadAction<number>) => {
+      const newPosts = state.posts.map((o) => {
+        if (o.postId === action.payload) {
+          const isRepostedByCurrentUser = !o.isRepostedByCurrentUser;
+          return {
+            ...o,
+            isRepostedByCurrentUser,
+            numberOfReposts: isRepostedByCurrentUser
+              ? Number(o.numberOfReposts + 1)
+              : Number(o.numberOfReposts - 1),
+          };
+        }
+        return o;
+      });
+
+      state.posts = newPosts;
+
+      if (action.payload === state.expandedPost.postId) {
+        const isRepostedByCurrentUser =
+          !state.expandedPost.isRepostedByCurrentUser;
+        state.expandedPost.isRepostedByCurrentUser = isRepostedByCurrentUser;
+        isRepostedByCurrentUser
+          ? state.expandedPost.numberOfReposts++
+          : state.expandedPost.numberOfReposts--;
+      }
+    },
     toggleLikePost: (state, action: PayloadAction<number>) => {
       const newPosts = state.posts.map((o) => {
         if (o.postId === action.payload) {
@@ -141,6 +169,7 @@ export const {
   deletePost,
   setPosts,
   setExpandedPost,
+  toggleRepost,
   toggleLikePost,
   toggleFollow,
   updateDisplayNames,

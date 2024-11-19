@@ -19,3 +19,23 @@ export const toggleLikePostRequest = async (
     });
   }
 };
+
+export const toggleRepostRequest = async (
+  isRepostedByCurrentUser: boolean,
+  parentPostId: number,
+  userId?: number
+) => {
+  if (isRepostedByCurrentUser) {
+    await axios.delete("http://localhost:3001/api/posts/deleteRepost", {
+      params: {
+        userId,
+        parentPostId,
+      },
+    });
+  } else {
+    await axios.post("http://localhost:3001/api/posts/addRepost", {
+      userId,
+      parentPostId,
+    });
+  }
+};

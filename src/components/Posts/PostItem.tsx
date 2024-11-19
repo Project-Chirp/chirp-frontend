@@ -24,14 +24,22 @@ import {
   RepeatOutlined,
   ShareOutlined,
   RateReview,
+  Repeat,
 } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, toggleLikePost } from "../../state/slices/postsSlice";
+import {
+  Post,
+  toggleLikePost,
+  toggleRepost,
+} from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useRef, useState } from "react";
 import RepliesModal from "./RepliesModal";
-import { toggleLikePostRequest } from "../../utilities/postUtilities";
+import {
+  toggleLikePostRequest,
+  toggleRepostRequest,
+} from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
@@ -64,6 +72,10 @@ const styles = {
   displayName: {
     paddingRight: 0.5,
   },
+  icon: { color: "black.main" },
+  menu: { borderRadius: 2 },
+  menuList: { padding: 0 },
+  menuItem: { paddingX: 1.5, paddingY: 1 },
   tooltipText: {
     display: "inline-block",
   },
@@ -141,8 +153,14 @@ const PostItem = ({ post }: PostProps) => {
           <Button
             ref={repostMenuRef}
             onClick={() => setOpenRepostMenu(true)}
-            startIcon={<RepeatOutlined />}
-            sx={styles.defaultButton}
+            startIcon={
+              post.isLikedByCurrentUser ? <RepeatOutlined /> : <Repeat />
+            }
+            sx={
+              post.isRepostedByCurrentUser
+                ? styles.coloredButton
+                : styles.defaultButton
+            }
           >
             {post.numberOfReposts}
           </Button>
@@ -152,28 +170,36 @@ const PostItem = ({ post }: PostProps) => {
             onClose={() => setOpenRepostMenu(false)}
             slotProps={{
               paper: {
-                sx: { borderRadius: 2 },
+                sx: styles.menu,
               },
             }}
-            MenuListProps={{ sx: { padding: 0 } }}
+            MenuListProps={{ sx: styles.menuList }}
           >
             <MenuItem
-              sx={{ paddingX: 1.5, paddingY: 1 }}
-              onClick={() => setOpenRepostMenu(false)}
+              sx={styles.menuItem}
+              onClick={() => {
+                setOpenRepostMenu(false);
+                toggleRepostRequest(
+                  post.isRepostedByCurrentUser,
+                  post.postId,
+                  user.userId
+                );
+                dispatch(toggleRepost(post.postId));
+              }}
             >
               <ListItemIcon>
-                <RepeatOutlined sx={{ color: "black.main" }} />
+                <RepeatOutlined sx={styles.icon} />
               </ListItemIcon>
               <ListItemText primaryTypographyProps={{ variant: "subtitle1" }}>
-                Repost
+                {post.isRepostedByCurrentUser ? "Undo repost" : "Repost"}
               </ListItemText>
             </MenuItem>
             <MenuItem
-              sx={{ paddingX: 1.5, paddingY: 1 }}
+              sx={styles.menuItem}
               onClick={() => setOpenRepostMenu(false)}
             >
               <ListItemIcon>
-                <RateReview sx={{ color: "black.main" }} />
+                <RateReview sx={styles.icon} />
               </ListItemIcon>
               <ListItemText primaryTypographyProps={{ variant: "subtitle1" }}>
                 Quote Post
