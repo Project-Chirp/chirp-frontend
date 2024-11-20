@@ -72,7 +72,6 @@ const EditPostModal = ({
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const [postTextContent, setPostTextContent] = useState(post.textContent);
-
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 

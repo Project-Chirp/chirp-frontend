@@ -91,7 +91,11 @@ const PostItem = ({ post }: PostProps) => {
   const repostMenuRef = useRef<HTMLButtonElement>(null);
 
   const routeChange = () => {
-    navigate(`/post/${post.postId}`);
+    if (post.isRepost) {
+      navigate(`/post/${post.parentPostId}`);
+    } else {
+      navigate(`/post/${post.postId}`);
+    }
     dispatch(setExpandedPost(post));
   };
 

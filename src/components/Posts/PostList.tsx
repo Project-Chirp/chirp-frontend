@@ -18,7 +18,6 @@ const PostList = () => {
             userId: user.userId,
           },
         });
-        console.log(resultPosts.data);
         dispatch(setPosts(resultPosts.data as Post[]));
       } catch (e) {
         console.log(e.message);
