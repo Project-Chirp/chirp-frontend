@@ -28,12 +28,10 @@ import {
 } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
-  appendPost,
-  appendRepost,
-  deletePost,
   Post,
   toggleLikePost,
   toggleRepost,
+  undoRepost,
 } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/postsSlice";
@@ -114,19 +112,25 @@ const PostItem = ({ post }: PostProps) => {
   */
   const handleRepost = async () => {
     setOpenRepostMenu(false);
-    if (post.isRepost && post.parentPostId) {
-      await toggleRepostRequest(
-        post.isRepostedByCurrentUser,
-        post.parentPostId,
-        user.userId
+    const targetPostId =
+      post.isRepost && post.parentPostId ? post.parentPostId : post.postId;
+
+    await toggleRepostRequest(
+      post.isRepostedByCurrentUser,
+      targetPostId,
+      user.userId
+    );
+
+    if (post.isRepostedByCurrentUser) {
+      // Undo repost and update related state
+      dispatch(
+        undoRepost({
+          parentPostId: targetPostId,
+          repostedUsername: user.username,
+        })
       );
-      dispatch(toggleRepost(post.postId));
     } else {
-      await toggleRepostRequest(
-        post.isRepostedByCurrentUser,
-        post.postId,
-        user.userId
-      );
+      // Create a repost
       dispatch(toggleRepost(post.postId));
     }
   };

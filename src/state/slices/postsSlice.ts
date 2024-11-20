@@ -79,9 +79,6 @@ export const postsSlice = createSlice({
         numberOfReposts: 0,
       });
     },
-    appendRepost: (state, action: PayloadAction<Post>) => {
-      state.posts.unshift({ ...action.payload });
-    },
     deletePost: (state, action: PayloadAction<number>) => {
       state.posts = state.posts.filter(
         (post) => post.postId !== action.payload
@@ -146,6 +143,32 @@ export const postsSlice = createSlice({
     toggleFollow: (state) => {
       state.expandedPost.followStatus = !state.expandedPost.followStatus;
     },
+    undoRepost: (
+      state,
+      action: PayloadAction<{ parentPostId: number; repostedUsername?: string }>
+    ) => {
+      const { parentPostId, repostedUsername } = action.payload;
+
+      state.posts = state.posts
+        .filter((post) => {
+          return !(
+            post.isRepost &&
+            post.parentPostId === parentPostId &&
+            post.isRepostedByCurrentUser &&
+            post.repostedUsername === repostedUsername
+          );
+        })
+        .map((post) => {
+          if (
+            post.postId === parentPostId ||
+            post.parentPostId === parentPostId
+          ) {
+            return { ...post, isRepostedByCurrentUser: false };
+          }
+
+          return post;
+        });
+    },
     updateDisplayNames: (
       state,
       action: PayloadAction<{ prevDisplayName: string; newDisplayName: string }>
@@ -170,13 +193,13 @@ export const postsSlice = createSlice({
 export const {
   addReply,
   appendPost,
-  appendRepost,
   deletePost,
   setPosts,
   setExpandedPost,
   toggleRepost,
   toggleLikePost,
   toggleFollow,
+  undoRepost,
   updateDisplayNames,
   updatePost,
 } = postsSlice.actions;
