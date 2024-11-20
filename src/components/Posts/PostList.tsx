@@ -18,6 +18,7 @@ const PostList = () => {
             userId: user.userId,
           },
         });
+        console.log(resultPosts.data);
         dispatch(setPosts(resultPosts.data as Post[]));
       } catch (e) {
         console.log(e.message);
@@ -29,7 +30,7 @@ const PostList = () => {
   return (
     <Stack divider={<Divider />}>
       {posts
-        .filter((o) => o.parentPostId == null)
+        .filter((o) => o.parentPostId == null || o.isRepost == true)
         .map((o) => (
           <PostItem key={o.postId} post={o} />
         ))}

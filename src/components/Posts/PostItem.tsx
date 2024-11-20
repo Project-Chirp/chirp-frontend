@@ -28,6 +28,9 @@ import {
 } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
+  appendPost,
+  appendRepost,
+  deletePost,
   Post,
   toggleLikePost,
   toggleRepost,
@@ -100,6 +103,34 @@ const PostItem = ({ post }: PostProps) => {
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 
+  /*
+  Closes Popover Menu
+  Checks is the post is a repost and has a parentPostId
+    - sends a request to delete or repost depending on isRepostedByCurrentUser flag
+    - updates the state for both the repost and the root post
+  If post is a root post
+    - sends a request to delete/repost depending on isRepostedByCurrentuser flag
+    - only updates the state for the root post
+  */
+  const handleRepost = async () => {
+    setOpenRepostMenu(false);
+    if (post.isRepost && post.parentPostId) {
+      await toggleRepostRequest(
+        post.isRepostedByCurrentUser,
+        post.parentPostId,
+        user.userId
+      );
+      dispatch(toggleRepost(post.postId));
+    } else {
+      await toggleRepostRequest(
+        post.isRepostedByCurrentUser,
+        post.postId,
+        user.userId
+      );
+      dispatch(toggleRepost(post.postId));
+    }
+  };
+
   return (
     <Card sx={styles.card}>
       <CardHeader
@@ -126,6 +157,18 @@ const PostItem = ({ post }: PostProps) => {
             >
               @{post.username}
             </Link>
+            {post.isRepost && (
+              <Link
+                color={theme.typography.subtitle2.color}
+                component={Routerlink}
+                to={`/${post.repostedUsername}`}
+                variant="subtitle2"
+                sx={{ paddingLeft: 1 }}
+                underline="hover"
+              >
+                Reposted by @{post.repostedUsername}
+              </Link>
+            )}
           </Box>
         }
         subheader={
@@ -175,18 +218,7 @@ const PostItem = ({ post }: PostProps) => {
             }}
             MenuListProps={{ sx: styles.menuList }}
           >
-            <MenuItem
-              sx={styles.menuItem}
-              onClick={() => {
-                setOpenRepostMenu(false);
-                toggleRepostRequest(
-                  post.isRepostedByCurrentUser,
-                  post.postId,
-                  user.userId
-                );
-                dispatch(toggleRepost(post.postId));
-              }}
-            >
+            <MenuItem sx={styles.menuItem} onClick={handleRepost}>
               <ListItemIcon>
                 <RepeatOutlined sx={styles.icon} />
               </ListItemIcon>

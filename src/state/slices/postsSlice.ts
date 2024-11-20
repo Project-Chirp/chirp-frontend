@@ -17,6 +17,7 @@ export type Post = {
   timestamp: string;
   userId: number;
   username: string;
+  repostedUsername?: string;
   editedTimestamp: string;
 };
 
@@ -77,6 +78,9 @@ export const postsSlice = createSlice({
         numberOfReplies: 0,
         numberOfReposts: 0,
       });
+    },
+    appendRepost: (state, action: PayloadAction<Post>) => {
+      state.posts.unshift({ ...action.payload });
     },
     deletePost: (state, action: PayloadAction<number>) => {
       state.posts = state.posts.filter(
@@ -166,6 +170,7 @@ export const postsSlice = createSlice({
 export const {
   addReply,
   appendPost,
+  appendRepost,
   deletePost,
   setPosts,
   setExpandedPost,
