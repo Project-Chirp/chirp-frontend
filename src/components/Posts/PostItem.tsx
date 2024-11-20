@@ -101,15 +101,6 @@ const PostItem = ({ post }: PostProps) => {
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 
-  /*
-  Closes Popover Menu
-  Checks is the post is a repost and has a parentPostId
-    - sends a request to delete or repost depending on isRepostedByCurrentUser flag
-    - updates the state for both the repost and the root post
-  If post is a root post
-    - sends a request to delete/repost depending on isRepostedByCurrentuser flag
-    - only updates the state for the root post
-  */
   const handleRepost = async () => {
     setOpenRepostMenu(false);
     const targetPostId =
@@ -122,7 +113,6 @@ const PostItem = ({ post }: PostProps) => {
     );
 
     if (post.isRepostedByCurrentUser) {
-      // Undo repost and update related state
       dispatch(
         undoRepost({
           parentPostId: targetPostId,
@@ -130,7 +120,6 @@ const PostItem = ({ post }: PostProps) => {
         })
       );
     } else {
-      // Create a repost
       dispatch(toggleRepost(post.postId));
     }
   };
