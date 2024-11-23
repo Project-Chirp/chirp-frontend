@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { useCallback, useState } from "react";
+import axios from "axios";
+import { useCallback } from "react";
 
 export type SendRequestProps = {
   endpoint: string;
@@ -11,9 +11,6 @@ export type SendRequestProps = {
 };
 
 const useAxios = () => {
-  const [data, setData] = useState<AxiosResponse>();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<AxiosError | null>(null);
   const { getAccessTokenSilently } = useAuth0();
 
   const sendRequest = useCallback(
@@ -24,8 +21,6 @@ const useAxios = () => {
       body = null,
       params = null,
     }: SendRequestProps): Promise<any> => {
-      setLoading(true);
-      setError(null);
       try {
         const token = await getAccessTokenSilently();
 
@@ -41,22 +36,19 @@ const useAxios = () => {
           params,
         });
 
-        setData(response.data);
         return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          setError(error.response?.data?.message || error.message);
+          console.log(error.message);
         } else {
-          setError(error.message);
+          console.log(error.message);
         }
-      } finally {
-        setLoading(false);
       }
     },
     [getAccessTokenSilently]
   );
 
-  return { data, loading, error, sendRequest };
+  return { sendRequest };
 };
 
 export default useAxios;
