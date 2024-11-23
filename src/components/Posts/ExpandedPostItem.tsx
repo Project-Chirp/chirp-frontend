@@ -87,7 +87,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const urlParams = useParams();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
-  const { loading, error, sendRequest } = useAxios(); // TODO: use loading/errors
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {

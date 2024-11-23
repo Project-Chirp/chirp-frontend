@@ -42,7 +42,7 @@ const ComposeReply = ({
   const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const { loading, error, sendRequest } = useAxios(); // TODO: use loading/error
+  const { sendRequest } = useAxios();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();

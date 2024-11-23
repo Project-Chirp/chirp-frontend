@@ -12,7 +12,7 @@ type ProfilePostsProps = {
 const ProfilePosts = ({ visitedUserId }: ProfilePostsProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
-  const { loading, error, sendRequest } = useAxios(); // TODO: use loading/error
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchPosts = async () => {

@@ -36,7 +36,7 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const { loading, error, sendRequest } = useAxios(); //TODO: use loading/error
+  const { sendRequest } = useAxios();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();

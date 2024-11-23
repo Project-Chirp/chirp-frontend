@@ -61,7 +61,7 @@ const EditProfileModal = ({
   );
   const [displayNameValue, setDisplayNameValue] = useState(displayName);
   const user = useAppSelector((state) => state.user);
-  const { loading, error, sendRequest } = useAxios(); // TODO: use loading/error
+  const { sendRequest } = useAxios();
 
   const saveProfile = async (e: React.SyntheticEvent) => {
     e.preventDefault();
