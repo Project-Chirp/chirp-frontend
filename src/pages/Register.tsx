@@ -5,6 +5,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useAppDispatch, useAppSelector } from "./../state/hooks";
 import { setUser } from "../state/slices/userSlice";
 import useAxios from "../utilities/useAxios";
+import dayjs, { Dayjs } from "dayjs";
 
 const styles = {
   container: { height: "100%" },
@@ -24,7 +25,7 @@ const styles = {
 const Register = () => {
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [birthDate, setBirthDate] = useState<Date | undefined>();
+  const [birthDate, setBirthDate] = useState<Dayjs | undefined>();
 
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -37,7 +38,7 @@ const Register = () => {
       const newUserInfo = await sendRequest({
         endpoint: `users/${user.userId}`,
         method: "PUT",
-        body: { username, displayName, birthDate },
+        body: { username, displayName, userId: user.userId, birthDate },
       });
       dispatch(setUser(newUserInfo));
     } catch (error) {
@@ -76,20 +77,15 @@ const Register = () => {
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            renderInput={(props) => (
-              <TextField
-                id="date"
-                placeholder="Date of Birth"
-                variant="outlined"
-                {...props}
-              />
-            )}
             label="Date of Birth"
-            maxDate={new Date()}
+            maxDate={dayjs(new Date())}
             onChange={(e) => {
               e && setBirthDate(e);
             }}
-            value={birthDate}
+            slotProps={{
+              textField: { placeholder: "Date of Birth", variant: "outlined" },
+            }}
+            value={dayjs(birthDate)}
           />
         </LocalizationProvider>
         <Button size="large" type="submit" variant="contained">

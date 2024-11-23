@@ -126,6 +126,11 @@ const theme = createTheme({
         },
       },
     },
+    MuiInput: {
+      defaultProps: {
+        disableUnderline: true,
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: ({ theme }) => ({
@@ -141,9 +146,6 @@ const theme = createTheme({
       },
     },
     MuiTextField: {
-      defaultProps: {
-        InputProps: { disableUnderline: true },
-      },
       styleOverrides: {
         root: {
           "&.MuiFormControl-root": {

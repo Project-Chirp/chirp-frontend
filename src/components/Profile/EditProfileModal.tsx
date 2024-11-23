@@ -16,6 +16,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useAppSelector } from "../../state/hooks";
 import { EditableProfileContents } from "../../pages/Profile";
 import useAxios from "../../utilities/useAxios";
+import dayjs from "dayjs";
 
 const styles = {
   dialog: {
@@ -55,7 +56,9 @@ const EditProfileModal = ({
   onSubmit,
 }: EditProfileModalProps) => {
   const [bioValue, setBioValue] = useState(bio);
-  const [birthDateValue, setBirthDateValue] = useState(birthDate || new Date());
+  const [birthDateValue, setBirthDateValue] = useState(
+    dayjs(birthDate || new Date())
+  );
   const [displayNameValue, setDisplayNameValue] = useState(displayName);
   const user = useAppSelector((state) => state.user);
   const { loading, error, sendRequest } = useAxios(); // TODO: use loading/error
@@ -107,9 +110,9 @@ const EditProfileModal = ({
               fullWidth
               label="Display Name"
               onChange={(e) => setDisplayNameValue(e.target.value)}
+              slotProps={{ input: styles.textField }}
               variant="outlined"
               value={displayNameValue}
-              InputProps={styles.textField}
             />
           </Box>
           <Box sx={styles.textFieldContainer}>
@@ -119,28 +122,23 @@ const EditProfileModal = ({
               onChange={(e) => setBioValue(e.target.value)}
               multiline
               rows={2}
+              slotProps={{ input: styles.textField }}
               variant="outlined"
               value={bioValue}
-              InputProps={styles.textField}
             />
           </Box>
           <Box sx={styles.textFieldContainer}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                renderInput={(props) => (
-                  <TextField
-                    id="date"
-                    placeholder="Birth Date"
-                    variant="outlined"
-                    {...props}
-                  />
-                )}
                 label="Birth Date"
-                maxDate={new Date()}
+                maxDate={dayjs(new Date())}
                 onChange={(value) => {
                   value && setBirthDateValue(value);
                 }}
-                value={birthDateValue}
+                slotProps={{
+                  textField: { placeholder: "Birth Date", variant: "outlined" },
+                }}
+                value={dayjs(birthDateValue)}
               />
             </LocalizationProvider>
           </Box>

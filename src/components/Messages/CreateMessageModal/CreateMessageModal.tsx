@@ -3,7 +3,6 @@ import {
   DialogTitle,
   DialogContent,
   IconButton,
-  Typography,
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
 import MessagesModalList from "./MessagesModalList";
@@ -51,7 +50,7 @@ export default function CreateMessageModal({
       scroll="paper"
       PaperProps={{ sx: styles.dialog }}
     >
-      <DialogTitle sx={styles.dialogTitle} variant="h3">
+      <DialogTitle variant="h3" sx={styles.dialogTitle}>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
