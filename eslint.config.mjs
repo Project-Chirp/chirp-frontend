@@ -14,9 +14,9 @@ export default [
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
   pluginReact.configs.flat["jsx-runtime"],
-  eslintPluginPrettierRecommended,
   eslintPluginImportX.flatConfigs.recommended,
   eslintPluginImportX.flatConfigs.typescript,
+  eslintPluginPrettierRecommended,
   {
     languageOptions: {
       parser: tsParser,
@@ -37,6 +37,11 @@ export default [
       ],
       "react/jsx-sort-props": ["error", { ignoreCase: true }],
       "react/sort-prop-types": "error",
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
     },
   },
 ];
