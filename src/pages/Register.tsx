@@ -37,8 +37,10 @@ const Register = () => {
       dispatch(setUser({ ...user, isLoading: true }));
       const newUserInfo = await sendRequest({
         endpoint: `users/${user.userId}`,
-        method: "PUT",
-        body: { username, displayName, userId: user.userId, birthDate },
+        config: {
+          method: "PUT",
+          data: { username, displayName, userId: user.userId, birthDate },
+        },
       });
       dispatch(setUser(newUserInfo));
     } catch (error) {

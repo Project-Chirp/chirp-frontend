@@ -18,8 +18,10 @@ const ProfileLikes = ({ visitedUserId }: ProfileLikesProps) => {
     const fetchPosts = async () => {
       const result = await sendRequest({
         endpoint: "profile/getUserLikes",
-        method: "GET",
-        params: { visitedUserId },
+        config: {
+          method: "GET",
+          params: { visitedUserId },
+        },
       });
       dispatch(setPosts(result as Post[]));
     };

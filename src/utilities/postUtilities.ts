@@ -9,14 +9,18 @@ const toggleLikePostRequest = async (
   if (isLikedByCurrentUser) {
     await sendRequest({
       endpoint: "posts/unlikePost",
-      method: "DELETE",
-      body: { postId, userId },
+      config: {
+        method: "DELETE",
+        data: { postId, userId },
+      },
     });
   } else {
     await sendRequest({
       endpoint: "posts/likePost",
-      method: "POST",
-      body: { postId, userId },
+      config: {
+        method: "POST",
+        data: { postId, userId },
+      },
     });
   }
 };

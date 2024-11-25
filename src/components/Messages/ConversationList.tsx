@@ -3,10 +3,7 @@ import ConversationListItem from "./ConversationListItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Box, Divider, IconButton, List, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import {
-  setConversations,
-  setSelectedConversation,
-} from "../../state/slices/messagesSlice";
+import { setConversations } from "../../state/slices/messagesSlice";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
 import useAxios from "../../utilities/useAxios";
@@ -38,8 +35,10 @@ const ConversationList = () => {
     const fetchMessages = async () => {
       const result = await sendRequest({
         endpoint: "messages",
-        method: "GET",
-        params: { userId },
+        config: {
+          method: "GET",
+          params: { userId },
+        },
       });
       dispatch(setConversations(result));
     };
@@ -64,13 +63,6 @@ const ConversationList = () => {
             key={o.otherUserId}
             conversation={o}
             onClick={() => {
-              dispatch(
-                setSelectedConversation({
-                  displayName: o.displayName,
-                  username: o.username,
-                  userId: o.otherUserId,
-                })
-              );
               navigate(`/messages/${userId}/${o.otherUserId}`);
             }}
             selected={selectedConversation.userId === o.otherUserId}

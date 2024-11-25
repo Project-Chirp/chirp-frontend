@@ -63,10 +63,12 @@ const PostDeleteModal = ({
     try {
       await sendRequest({
         endpoint: "posts/deletePost",
-        method: "DELETE",
-        body: {
-          postId,
-          userId,
+        config: {
+          method: "DELETE",
+          data: {
+            postId,
+            userId,
+          },
         },
       });
       if (isExpandedPost) {

@@ -27,9 +27,11 @@ const FollowButton = ({ onClick, visitedUserId }: FollowButtonProps) => {
     try {
       await sendRequest({
         endpoint: "follow/followUser",
-        method: "PUT",
-        body: { currentUserId, visitedUserId },
-        headers: { "Content-Type": "application/json" },
+        config: {
+          method: "PUT",
+          data: { currentUserId, visitedUserId },
+          headers: { "Content-Type": "application/json" },
+        },
       });
       onClick?.();
     } catch (error) {

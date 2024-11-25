@@ -1,26 +1,17 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { useCallback } from "react";
 
 export type SendRequestProps = {
   endpoint: string;
-  method?: "GET" | "POST" | "PUT" | "DELETE";
-  headers?: { [key: string]: string };
-  body?: any;
-  params?: any;
+  config: AxiosRequestConfig;
 };
 
 const useAxios = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   const sendRequest = useCallback(
-    async ({
-      endpoint,
-      method = "GET",
-      headers = {},
-      body = null,
-      params = null,
-    }: SendRequestProps): Promise<any> => {
+    async ({ endpoint, config }: SendRequestProps): Promise<any> => {
       try {
         const token = await getAccessTokenSilently();
 
@@ -29,11 +20,11 @@ const useAxios = () => {
         }
 
         const response = await axios.request({
-          method: method,
+          method: config.method,
           url: `${import.meta.env.VITE_BASE_URL}/${endpoint}`,
-          headers: { ...headers, Authorization: `Bearer ${token}` },
-          data: body,
-          params,
+          headers: { ...config.headers, Authorization: `Bearer ${token}` },
+          data: config.data,
+          params: config.params,
         });
 
         return response.data;

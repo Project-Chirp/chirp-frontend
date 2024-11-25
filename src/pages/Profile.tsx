@@ -145,8 +145,8 @@ const Profile = () => {
     setProfileContents((prevProfileContents) => ({
       ...prevProfileContents,
       followingCount: isFollowing
-        ? prevProfileContents.followingCount - 1
-        : prevProfileContents.followingCount + 1,
+        ? Number(prevProfileContents.followingCount - 1)
+        : Number(prevProfileContents.followingCount + 1),
     }));
   };
 
@@ -156,10 +156,12 @@ const Profile = () => {
       setFollowListModalLoading(true);
       const result = await sendRequest({
         endpoint: "follow/getFollowerList",
-        method: "GET",
-        params: {
-          visitedUserId: profileContents.userId,
-          currentUserId: currentUserId,
+        config: {
+          method: "GET",
+          params: {
+            visitedUserId: profileContents.userId,
+            currentUserId: currentUserId,
+          },
         },
       });
       setFollowListModalData(result);
@@ -176,10 +178,12 @@ const Profile = () => {
       setFollowListModalLoading(true);
       const result = await sendRequest({
         endpoint: "follow/getFollowingList",
-        method: "GET",
-        params: {
-          visitedUserId: profileContents.userId,
-          currentUserId: currentUserId,
+        config: {
+          method: "GET",
+          params: {
+            visitedUserId: profileContents.userId,
+            currentUserId: currentUserId,
+          },
         },
       });
       setFollowListModalData(result);
@@ -196,8 +200,10 @@ const Profile = () => {
       try {
         const result = await sendRequest({
           endpoint: "profile/getProfileContents",
-          method: "GET",
-          params: { currentUserId, visitedUsername: username },
+          config: {
+            method: "GET",
+            params: { currentUserId, visitedUsername: username },
+          },
         });
         setProfileContents({
           ...result,

@@ -50,8 +50,10 @@ const ComposeReply = ({
       const textContent = postTextContent;
       const reply = await sendRequest({
         endpoint: "posts/postReply",
-        method: "POST",
-        body: { parentPostId, textContent, userId: user.userId },
+        config: {
+          method: "POST",
+          data: { parentPostId, textContent, userId: user.userId },
+        },
       });
       setPostTextContent("");
       dispatch(

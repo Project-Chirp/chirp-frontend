@@ -18,8 +18,10 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
     const fetchConversationList = async () => {
       const result = await sendRequest({
         endpoint: "messages/getModalConversations",
-        method: "GET",
-        params: { userId: userId },
+        config: {
+          method: "GET",
+          params: { userId },
+        },
       });
       setConversationList(result as SelectedUser[]);
     };

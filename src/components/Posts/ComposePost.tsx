@@ -44,8 +44,10 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
       const textContent = postTextContent;
       const newPost = await sendRequest({
         endpoint: "posts",
-        method: "POST",
-        body: { textContent, userId: user.userId },
+        config: {
+          method: "POST",
+          data: { textContent, userId: user.userId },
+        },
       });
       setPostTextContent("");
       dispatch(

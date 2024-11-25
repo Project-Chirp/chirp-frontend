@@ -29,7 +29,9 @@ function App() {
       try {
         const response = await sendRequest({
           endpoint: "users",
-          method: "GET",
+          config: {
+            method: "GET",
+          },
         });
         dispatch(setUser(response));
       } catch (error) {

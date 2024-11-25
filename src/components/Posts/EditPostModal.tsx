@@ -80,10 +80,12 @@ const EditPostModal = ({
     try {
       await sendRequest({
         endpoint: "posts/editPost",
-        method: "PUT",
-        body: {
-          postId: post.postId,
-          textContent: postTextContent,
+        config: {
+          method: "PUT",
+          data: {
+            postId: post.postId,
+            textContent: postTextContent,
+          },
         },
       });
       const editedPost = {

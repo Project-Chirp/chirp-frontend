@@ -68,12 +68,14 @@ const EditProfileModal = ({
     try {
       await sendRequest({
         endpoint: "profile",
-        method: "PUT",
-        body: {
-          bio: bioValue,
-          birthDate: birthDateValue,
-          displayName: displayNameValue,
-          userId: user.userId,
+        config: {
+          method: "PUT",
+          data: {
+            bio: bioValue,
+            birthDate: birthDateValue,
+            displayName: displayNameValue,
+            userId: user.userId,
+          },
         },
       });
       onSubmit({

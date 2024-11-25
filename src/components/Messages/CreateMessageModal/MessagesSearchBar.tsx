@@ -46,8 +46,10 @@ const MessagesSearchBar = ({
     const fetchDMList = async () => {
       const result = await sendRequest({
         endpoint: "messages/followedList",
-        method: "GET",
-        params: { userId },
+        config: {
+          method: "GET",
+          params: { userId },
+        },
       });
       setFollowedList(result as SelectedUser[]);
     };

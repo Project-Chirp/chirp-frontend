@@ -13,8 +13,6 @@ import {
   debounce,
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../utilities/useAxios";
@@ -60,8 +58,10 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
     try {
       const result = await sendRequest({
         endpoint: "users/searchUsers",
-        method: "GET",
-        params: { keywords },
+        config: {
+          method: "GET",
+          params: { keywords },
+        },
       });
       setSearchOptions(result as SelectedUser[]);
     } catch (error) {

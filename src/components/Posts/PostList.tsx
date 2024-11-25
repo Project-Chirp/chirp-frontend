@@ -17,8 +17,10 @@ const PostList = () => {
       try {
         const resultPosts = await sendRequest({
           endpoint: "posts",
-          method: "GET",
-          params: { userId: user.userId },
+          config: {
+            method: "GET",
+            params: { userId: user.userId },
+          },
         });
         dispatch(setPosts(resultPosts as Post[]));
       } catch (e) {

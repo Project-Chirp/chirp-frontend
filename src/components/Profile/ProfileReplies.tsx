@@ -18,8 +18,10 @@ const ProfileReplies = ({ visitedUserId }: ProfileRepliesProps) => {
     const fetchPosts = async () => {
       const result = await sendRequest({
         endpoint: "profile/getUserReplies",
-        method: "GET",
-        params: { visitedUserId },
+        config: {
+          method: "GET",
+          params: { visitedUserId },
+        },
       });
       dispatch(setPosts(result as Post[]));
     };

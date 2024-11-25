@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -154,20 +153,30 @@ const DirectMessage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchDirectMessage = async () => {
-      const result = await sendRequest({
-        endpoint: `messages/${userId1}/${userId2}`,
-        method: "GET",
-      });
-      setMessages(result.messages as Message[]);
-      dispatch(
-        setSelectedConversation({
-          ...result.otherUser,
-          userId: Number(userId2),
-        })
-      );
-    };
-    fetchDirectMessage();
+    try {
+      setLoading(true);
+      const fetchDirectMessage = async () => {
+        const result = await sendRequest({
+          endpoint: `messages/${userId1}/${userId2}`,
+          config: {
+            method: "GET",
+          },
+        });
+        setMessages(result.messages as Message[]);
+        dispatch(
+          setSelectedConversation({
+            ...result.otherUser,
+            userId: Number(userId2),
+          })
+        );
+      };
+
+      fetchDirectMessage();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }, [dispatch, userId1, userId2, sendRequest]);
 
   useEffect(() => {
@@ -179,11 +188,13 @@ const DirectMessage = () => {
     try {
       const newMessage = (await sendRequest({
         endpoint: "messages",
-        method: "POST",
-        body: {
-          receivedUserId: selectedConversation.userId,
-          textContent,
-          sentUserId: user.userId,
+        config: {
+          method: "POST",
+          data: {
+            receivedUserId: selectedConversation.userId,
+            textContent,
+            sentUserId: user.userId,
+          },
         },
       })) as Message;
       setTextContent("");
