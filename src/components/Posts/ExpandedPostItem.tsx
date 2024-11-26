@@ -203,7 +203,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <AddCommentOutlined />
           </IconButton>
           <IconButton
-            onClick={() => {
+            onClick={async () => {
               toggleLikePostRequest(
                 sendRequest,
                 post.isLikedByCurrentUser,
