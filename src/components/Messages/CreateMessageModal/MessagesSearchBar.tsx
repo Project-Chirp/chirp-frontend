@@ -9,12 +9,11 @@ import {
   ListItemButton,
   ListItemText,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { SelectedUser } from "../../../state/slices/messagesSlice";
+import useAxios from "../../../utilities/useAxios";
 
 const styles = {
   autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
@@ -39,22 +38,23 @@ const MessagesSearchBar = ({
   onSearchClose,
   onSelect,
 }: MessagesSearchBarProps) => {
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const [followedList, setFollowedList] = useState<SelectedUser[]>([]);
+  const { sendRequest } = useAxios();
+
   useEffect(() => {
     const fetchDMList = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/messages/followedList",
+      const result = await sendRequest(
         {
-          params: {
-            userId: user.userId,
-          },
-        }
+          method: "GET",
+          params: { userId },
+        },
+        "messages/followedList"
       );
-      setFollowedList(result.data as SelectedUser[]);
+      setFollowedList(result as SelectedUser[]);
     };
     fetchDMList();
-  }, [user]);
+  }, [userId, sendRequest]);
 
   return (
     <Box sx={styles.box}>
@@ -101,15 +101,10 @@ const MessagesSearchBar = ({
                 <Avatar />
               </ListItemAvatar>
               <ListItemText
-                disableTypography
-                primary={
-                  <Box>
-                    <Typography variant="subtitle1">
-                      {option.displayName}
-                    </Typography>
-                    <Typography variant="subtitle2">{`@${option.username}`}</Typography>
-                  </Box>
-                }
+                primary={option.displayName}
+                primaryTypographyProps={{ variant: "subtitle1" }}
+                secondary={`@${option.username}`}
+                secondaryTypographyProps={{ variant: "subtitle2" }}
               />
             </ListItemButton>
           );

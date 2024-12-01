@@ -13,10 +13,9 @@ import {
   debounce,
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
 import { SelectedUser } from "../../state/slices/messagesSlice";
 import { useNavigate } from "react-router-dom";
+import useAxios from "../../utilities/useAxios";
 
 type SearchBarDropDownProps = {
   placeholder: string;
@@ -46,8 +45,8 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
   const [loading, setLoading] = useState(false);
   const [searchOptions, setSearchOptions] = useState<SelectedUser[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
+  const { sendRequest } = useAxios();
 
   const fetchUsers = async (keywords: string) => {
     setLoading(true);
@@ -57,19 +56,14 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
       return;
     }
     try {
-      const token = await getAccessTokenSilently();
-      const result = await axios.get(
-        `http://localhost:3001/api/users/searchUsers`,
+      const result = await sendRequest(
         {
-          params: {
-            keyword: keywords,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+          method: "GET",
+          params: { keywords },
+        },
+        "users/searchUsers"
       );
-      setSearchOptions(result.data as SelectedUser[]);
+      setSearchOptions(result as SelectedUser[]);
     } catch (error) {
       console.error("Failed to fetch users:", error);
       setSearchOptions([]);

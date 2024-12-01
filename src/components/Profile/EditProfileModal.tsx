@@ -13,9 +13,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import axios from "axios";
 import { useAppSelector } from "../../state/hooks";
 import { EditableProfileContents } from "../../pages/Profile";
+import useAxios from "../../utilities/useAxios";
 import dayjs from "dayjs";
 
 const styles = {
@@ -61,16 +61,23 @@ const EditProfileModal = ({
   );
   const [displayNameValue, setDisplayNameValue] = useState(displayName);
   const user = useAppSelector((state) => state.user);
+  const { sendRequest } = useAxios();
 
   const saveProfile = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      await axios.put("http://localhost:3001/api/profile", {
-        bio: bioValue,
-        birthDate: birthDateValue,
-        displayName: displayNameValue,
-        userId: user.userId,
-      });
+      await sendRequest(
+        {
+          method: "PUT",
+          data: {
+            bio: bioValue,
+            birthDate: birthDateValue,
+            displayName: displayNameValue,
+            userId: user.userId,
+          },
+        },
+        "profile"
+      );
       onSubmit({
         bio: bioValue,
         birthDate: birthDateValue.toString(),

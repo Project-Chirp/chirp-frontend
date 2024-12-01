@@ -25,12 +25,12 @@ import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/postsSlice";
 import { useState } from "react";
 import RepliesModal from "./RepliesModal";
-import { toggleLikePostRequest } from "../../utilities/postUtilities";
+import useAxios from "../../utilities/useAxios";
+import toggleLikePostRequest from "../../utilities/postUtilities";
 import { Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
-import formatTimestamp from "../../utilities/formatTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
 
 type PostProps = {
@@ -70,6 +70,7 @@ const PostItem = ({ post }: PostProps) => {
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
+  const { sendRequest } = useAxios();
 
   const routeChange = () => {
     navigate(`/post/${post.postId}`);
@@ -144,8 +145,9 @@ const PostItem = ({ post }: PostProps) => {
             {post.numberOfReplies}
           </Button>
           <Button
-            onClick={() => {
-              toggleLikePostRequest(
+            onClick={async () => {
+              await toggleLikePostRequest(
+                sendRequest,
                 post.isLikedByCurrentUser,
                 post.postId,
                 user.userId

@@ -3,7 +3,6 @@ import {
   DialogTitle,
   DialogContent,
   IconButton,
-  Typography,
 } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
 import MessagesModalList from "./MessagesModalList";
@@ -23,7 +22,6 @@ const styles = {
     paddingY: 1,
     gap: 3,
   },
-  titleText: { paddingLeft: 3 },
 };
 
 type CreateMessageModalProps = {

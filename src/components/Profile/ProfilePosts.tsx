@@ -1,32 +1,32 @@
 import { useEffect } from "react";
 import PostItem from "../Posts/PostItem";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
+import useAxios from "../../utilities/useAxios";
 import { Divider, Stack } from "@mui/material";
 
 type ProfilePostsProps = {
-  userId: number;
+  visitedUserId: number;
 };
 
-const ProfilePosts = ({ userId }: ProfilePostsProps) => {
+const ProfilePosts = ({ visitedUserId }: ProfilePostsProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getUserPosts",
+      const result = await sendRequest(
         {
-          params: {
-            visitedUserId: userId,
-          },
-        }
+          method: "GET",
+          params: { visitedUserId },
+        },
+        "profile/getUserPosts"
       );
-      dispatch(setPosts(result.data as Post[]));
+      dispatch(setPosts(result as Post[]));
     };
     fetchPosts();
-  }, [dispatch, userId]);
+  }, [dispatch, visitedUserId]);
 
   return (
     <Stack divider={<Divider />}>

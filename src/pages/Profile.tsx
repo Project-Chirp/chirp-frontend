@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ProfilePosts from "../components/Profile/ProfilePosts";
-import axios from "axios";
 import ProfileReplies from "../components/Profile/ProfileReplies";
 import ProfileLikes from "../components/Profile/ProfileLikes";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -22,6 +21,7 @@ import CakeIcon from "@mui/icons-material/Cake";
 import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Layout from "./Layout";
+import useAxios from "../utilities/useAxios";
 import SideBar from "../components/SideBar/SideBar";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import FollowingButton from "../components/Common/FollowingButton";
@@ -125,6 +125,7 @@ const Profile = () => {
     username: "",
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
+  const { sendRequest } = useAxios();
   const [loading, setLoading] = useState(true);
   const [followListModalLoading, setFollowListModalLoading] = useState(true);
   const [followerListModalOpen, setFollowerListModalOpen] = useState(false);
@@ -144,8 +145,8 @@ const Profile = () => {
     setProfileContents((prevProfileContents) => ({
       ...prevProfileContents,
       followingCount: isFollowing
-        ? --prevProfileContents.followingCount
-        : ++prevProfileContents.followingCount,
+        ? Number(prevProfileContents.followingCount - 1)
+        : Number(prevProfileContents.followingCount + 1),
     }));
   };
 
@@ -153,14 +154,17 @@ const Profile = () => {
     setFollowerListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      const endpoint = "http://localhost:3001/api/follow/getFollowerList";
-      const result = await axios.get(endpoint, {
-        params: {
-          visitedUserId: profileContents.userId,
-          currentUserId: currentUserId,
+      const result = await sendRequest(
+        {
+          method: "GET",
+          params: {
+            visitedUserId: profileContents.userId,
+            currentUserId: currentUserId,
+          },
         },
-      });
-      setFollowListModalData(result.data);
+        "follow/getFollowerList"
+      );
+      setFollowListModalData(result);
     } catch (error) {
       console.log(error);
     } finally {
@@ -172,14 +176,17 @@ const Profile = () => {
     setFollowingListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      const endpoint = "http://localhost:3001/api/follow/getFollowingList";
-      const result = await axios.get(endpoint, {
-        params: {
-          visitedUserId: profileContents.userId,
-          currentUserId: currentUserId,
+      const result = await sendRequest(
+        {
+          method: "GET",
+          params: {
+            visitedUserId: profileContents.userId,
+            currentUserId: currentUserId,
+          },
         },
-      });
-      setFollowListModalData(result.data);
+        "follow/getFollowingList"
+      );
+      setFollowListModalData(result);
     } catch (error) {
       console.log(error);
     } finally {
@@ -188,25 +195,22 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const fetchProfileContents = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const result = await axios.get(
-          "http://localhost:3001/api/profile/getProfileContents",
+        const result = await sendRequest(
           {
-            params: {
-              currentUserId,
-              visitedUsername: username,
-            },
-          }
+            method: "GET",
+            params: { currentUserId, visitedUsername: username },
+          },
+          "profile/getProfileContents"
         );
         setProfileContents({
-          ...result.data,
+          ...result,
         });
-        setLoading(false);
       } catch (error) {
         console.log(error);
+      } finally {
         setLoading(false);
       }
     };
@@ -364,13 +368,13 @@ const Profile = () => {
             {!loading && profileContents.userId && (
               <Box>
                 {value === "one" && (
-                  <ProfilePosts userId={profileContents.userId} />
+                  <ProfilePosts visitedUserId={profileContents.userId} />
                 )}
                 {value === "two" && (
-                  <ProfileReplies userId={profileContents.userId} />
+                  <ProfileReplies visitedUserId={profileContents.userId} />
                 )}
                 {value === "three" && (
-                  <ProfileLikes userId={profileContents.userId} />
+                  <ProfileLikes visitedUserId={profileContents.userId} />
                 )}
               </Box>
             )}
@@ -397,7 +401,7 @@ const Profile = () => {
           open={editProfileModalOpen}
         />
       )}
-      {followerListModalOpen && (
+      {!loading && followerListModalOpen && (
         <FollowListModal
           list={followListModalData}
           loading={followListModalLoading}
@@ -409,7 +413,7 @@ const Profile = () => {
           title="Followers"
         />
       )}
-      {followingListModalOpen && (
+      {!loading && followingListModalOpen && (
         <FollowListModal
           list={followListModalData}
           loading={followListModalLoading}
