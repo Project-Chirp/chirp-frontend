@@ -66,9 +66,8 @@ const EditProfileModal = ({
   const saveProfile = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      await sendRequest({
-        endpoint: "profile",
-        config: {
+      await sendRequest(
+        {
           method: "PUT",
           data: {
             bio: bioValue,
@@ -77,7 +76,8 @@ const EditProfileModal = ({
             userId: user.userId,
           },
         },
-      });
+        "profile"
+      );
       onSubmit({
         bio: bioValue,
         birthDate: birthDateValue.toString(),

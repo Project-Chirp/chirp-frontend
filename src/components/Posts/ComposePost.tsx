@@ -42,13 +42,13 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      const newPost = await sendRequest({
-        endpoint: "posts",
-        config: {
+      const newPost = await sendRequest(
+        {
           method: "POST",
           data: { textContent, userId: user.userId },
         },
-      });
+        "posts"
+      );
       setPostTextContent("");
       dispatch(
         appendPost({

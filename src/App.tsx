@@ -27,12 +27,12 @@ function App() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await sendRequest({
-          endpoint: "users",
-          config: {
+        const response = await sendRequest(
+          {
             method: "GET",
           },
-        });
+          "users"
+        );
         dispatch(setUser(response));
       } catch (error) {
         console.log(error);

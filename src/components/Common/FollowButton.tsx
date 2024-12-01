@@ -25,14 +25,14 @@ const FollowButton = ({ onClick, visitedUserId }: FollowButtonProps) => {
   const handleFollow = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      await sendRequest({
-        endpoint: "follow/followUser",
-        config: {
+      await sendRequest(
+        {
           method: "PUT",
           data: { currentUserId, visitedUserId },
           headers: { "Content-Type": "application/json" },
         },
-      });
+        "follow/followUser"
+      );
       onClick?.();
     } catch (error) {
       console.log(error);

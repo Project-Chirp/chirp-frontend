@@ -78,16 +78,16 @@ const EditPostModal = ({
     e.preventDefault();
 
     try {
-      await sendRequest({
-        endpoint: "posts/editPost",
-        config: {
+      await sendRequest(
+        {
           method: "PUT",
           data: {
             postId: post.postId,
             textContent: postTextContent,
           },
         },
-      });
+        "posts/editPost"
+      );
       const editedPost = {
         ...post,
         editedTimestamp: new Date().toString(),

@@ -16,13 +16,13 @@ const ProfilePosts = ({ visitedUserId }: ProfilePostsProps) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const result = await sendRequest({
-        endpoint: "profile/getUserPosts",
-        config: {
+      const result = await sendRequest(
+        {
           method: "GET",
           params: { visitedUserId },
         },
-      });
+        "profile/getUserPosts"
+      );
       dispatch(setPosts(result as Post[]));
     };
     fetchPosts();

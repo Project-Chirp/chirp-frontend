@@ -44,13 +44,13 @@ const MessagesSearchBar = ({
 
   useEffect(() => {
     const fetchDMList = async () => {
-      const result = await sendRequest({
-        endpoint: "messages/followedList",
-        config: {
+      const result = await sendRequest(
+        {
           method: "GET",
           params: { userId },
         },
-      });
+        "messages/followedList"
+      );
       setFollowedList(result as SelectedUser[]);
     };
     fetchDMList();

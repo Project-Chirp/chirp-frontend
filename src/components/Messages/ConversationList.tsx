@@ -33,13 +33,13 @@ const ConversationList = () => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const result = await sendRequest({
-        endpoint: "messages",
-        config: {
+      const result = await sendRequest(
+        {
           method: "GET",
           params: { userId },
         },
-      });
+        "messages"
+      );
       dispatch(setConversations(result));
     };
     fetchMessages();

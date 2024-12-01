@@ -35,13 +35,13 @@ const Register = () => {
     e.preventDefault();
     try {
       dispatch(setUser({ ...user, isLoading: true }));
-      const newUserInfo = await sendRequest({
-        endpoint: `users/${user.userId}`,
-        config: {
+      const newUserInfo = await sendRequest(
+        {
           method: "PUT",
           data: { username, displayName, userId: user.userId, birthDate },
         },
-      });
+        `users/${user.userId}`
+      );
       dispatch(setUser(newUserInfo));
     } catch (error) {
       console.log(error);

@@ -56,13 +56,13 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
       return;
     }
     try {
-      const result = await sendRequest({
-        endpoint: "users/searchUsers",
-        config: {
+      const result = await sendRequest(
+        {
           method: "GET",
           params: { keywords },
         },
-      });
+        "users/searchUsers"
+      );
       setSearchOptions(result as SelectedUser[]);
     } catch (error) {
       console.error("Failed to fetch users:", error);

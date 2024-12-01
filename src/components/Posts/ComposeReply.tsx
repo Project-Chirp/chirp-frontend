@@ -48,13 +48,13 @@ const ComposeReply = ({
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      const reply = await sendRequest({
-        endpoint: "posts/postReply",
-        config: {
+      const reply = await sendRequest(
+        {
           method: "POST",
           data: { parentPostId, textContent, userId: user.userId },
         },
-      });
+        "posts/postReply"
+      );
       setPostTextContent("");
       dispatch(
         addReply({

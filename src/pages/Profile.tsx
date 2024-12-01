@@ -154,16 +154,16 @@ const Profile = () => {
     setFollowerListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      const result = await sendRequest({
-        endpoint: "follow/getFollowerList",
-        config: {
+      const result = await sendRequest(
+        {
           method: "GET",
           params: {
             visitedUserId: profileContents.userId,
             currentUserId: currentUserId,
           },
         },
-      });
+        "follow/getFollowerList"
+      );
       setFollowListModalData(result);
     } catch (error) {
       console.log(error);
@@ -176,16 +176,16 @@ const Profile = () => {
     setFollowingListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      const result = await sendRequest({
-        endpoint: "follow/getFollowingList",
-        config: {
+      const result = await sendRequest(
+        {
           method: "GET",
           params: {
             visitedUserId: profileContents.userId,
             currentUserId: currentUserId,
           },
         },
-      });
+        "follow/getFollowingList"
+      );
       setFollowListModalData(result);
     } catch (error) {
       console.log(error);
@@ -198,13 +198,13 @@ const Profile = () => {
     const fetchProfileContents = async () => {
       setLoading(true);
       try {
-        const result = await sendRequest({
-          endpoint: "profile/getProfileContents",
-          config: {
+        const result = await sendRequest(
+          {
             method: "GET",
             params: { currentUserId, visitedUsername: username },
           },
-        });
+          "profile/getProfileContents"
+        );
         setProfileContents({
           ...result,
         });

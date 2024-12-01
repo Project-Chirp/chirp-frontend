@@ -91,13 +91,13 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
-      const backupFetch = await sendRequest({
-        endpoint: "posts/fetchPost",
-        config: {
+      const backupFetch = await sendRequest(
+        {
           method: "GET",
           params: { userId: user.userId, postId: urlParams.postId },
         },
-      });
+        "posts/fetchPost"
+      );
       dispatch(setExpandedPost(backupFetch as Post));
     };
     updatedExpandedPost();

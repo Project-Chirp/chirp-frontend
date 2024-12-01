@@ -35,14 +35,14 @@ const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
     e.stopPropagation();
 
     try {
-      await sendRequest({
-        endpoint: "follow/unfollowUser",
-        config: {
+      await sendRequest(
+        {
           method: "PUT",
           data: { currentUserId, visitedUserId },
           headers: { "Content-Type": "application/json" },
         },
-      });
+        "follow/unfollowUser"
+      );
       onClick?.();
     } catch (error) {
       console.log(error);

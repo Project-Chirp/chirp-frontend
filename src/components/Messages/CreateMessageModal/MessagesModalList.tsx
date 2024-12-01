@@ -16,13 +16,13 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
 
   useEffect(() => {
     const fetchConversationList = async () => {
-      const result = await sendRequest({
-        endpoint: "messages/getModalConversations",
-        config: {
+      const result = await sendRequest(
+        {
           method: "GET",
           params: { userId },
         },
-      });
+        "messages/getModalConversations"
+      );
       setConversationList(result as SelectedUser[]);
     };
     fetchConversationList();

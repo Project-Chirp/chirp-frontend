@@ -16,13 +16,13 @@ const ProfileLikes = ({ visitedUserId }: ProfileLikesProps) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const result = await sendRequest({
-        endpoint: "profile/getUserLikes",
-        config: {
+      const result = await sendRequest(
+        {
           method: "GET",
           params: { visitedUserId },
         },
-      });
+        "profile/getUserLikes"
+      );
       dispatch(setPosts(result as Post[]));
     };
     fetchPosts();

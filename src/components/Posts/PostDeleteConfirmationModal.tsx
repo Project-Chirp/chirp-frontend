@@ -61,16 +61,16 @@ const PostDeleteModal = ({
 
   const handleDelete = async () => {
     try {
-      await sendRequest({
-        endpoint: "posts/deletePost",
-        config: {
+      await sendRequest(
+        {
           method: "DELETE",
           data: {
             postId,
             userId,
           },
         },
-      });
+        "posts/deletePost"
+      );
       if (isExpandedPost) {
         navigate(-1);
       } else {

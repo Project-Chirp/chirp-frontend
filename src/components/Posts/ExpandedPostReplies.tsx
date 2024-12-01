@@ -18,13 +18,13 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const resultReplies = await sendRequest({
-          endpoint: "posts/fetchReplies",
-          config: {
+        const resultReplies = await sendRequest(
+          {
             method: "GET",
             params: { userId: user.userId, postId },
           },
-        });
+          "posts/fetchReplies"
+        );
         dispatch(setPosts(resultReplies as Post[]));
       } catch (e) {
         console.log(e.message);

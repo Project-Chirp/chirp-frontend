@@ -156,12 +156,12 @@ const DirectMessage = () => {
     try {
       setLoading(true);
       const fetchDirectMessage = async () => {
-        const result = await sendRequest({
-          endpoint: `messages/${userId1}/${userId2}`,
-          config: {
+        const result = await sendRequest(
+          {
             method: "GET",
           },
-        });
+          `messages/${userId1}/${userId2}`
+        );
         setMessages(result.messages as Message[]);
         dispatch(
           setSelectedConversation({
@@ -186,9 +186,8 @@ const DirectMessage = () => {
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const newMessage = (await sendRequest({
-        endpoint: "messages",
-        config: {
+      const newMessage = (await sendRequest(
+        {
           method: "POST",
           data: {
             receivedUserId: selectedConversation.userId,
@@ -196,7 +195,8 @@ const DirectMessage = () => {
             sentUserId: user.userId,
           },
         },
-      })) as Message;
+        "messages"
+      )) as Message;
       setTextContent("");
       setMessages([...messages, newMessage]);
       if (userExists) {

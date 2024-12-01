@@ -15,13 +15,13 @@ const PostList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const resultPosts = await sendRequest({
-          endpoint: "posts",
-          config: {
+        const resultPosts = await sendRequest(
+          {
             method: "GET",
             params: { userId: user.userId },
           },
-        });
+          "posts"
+        );
         dispatch(setPosts(resultPosts as Post[]));
       } catch (e) {
         console.log(e.message);
