@@ -21,21 +21,24 @@ import {
   ShareOutlined,
 } from "@mui/icons-material";
 import axios from "axios";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useTheme } from "@mui/material/styles";
-import { toggleLikePostRequest } from "../../utilities/postUtilities";
-import UserAvatar from "../Common/UserAvatar";
 import {
   toggleLikePost,
   setExpandedPost,
   Post,
 } from "../../state/slices/postsSlice";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+
+import { useEffect, useState } from "react";
+import { RepliesModal } from "./RepliesModal";
+
+import { toggleLikePostRequest } from "../../utilities/postUtilities";
+
+import UserAvatar from "../Common/UserAvatar";
+import { useTheme } from "@mui/material/styles";
+import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
-import { RepliesModal } from "./RepliesModal";
-import PostMenu from "./PostMenu";
 
 const styles = {
   actionButton: {

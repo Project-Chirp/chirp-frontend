@@ -3,9 +3,9 @@ import { Avatar, Typography, Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import Stack from "@mui/material/Stack/Stack";
 import { useState } from "react";
+import { useAppSelector } from "../../state/hooks";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { useAppSelector } from "../../state/hooks";
 
 const styles = {
   arrow: {

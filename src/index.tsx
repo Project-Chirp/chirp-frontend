@@ -1,11 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
-import { Provider } from "react-redux";
-import App from "./App";
 import theme from "./styles/Theme";
 import AuthProvider from "./components/Auth/AuthProvider";
+import { Provider } from "react-redux";
 import { store } from "./state/store";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);

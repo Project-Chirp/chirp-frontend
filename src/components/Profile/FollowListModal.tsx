@@ -15,11 +15,11 @@ import {
   useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Link as Routerlink, useNavigate } from "react-router-dom";
 import SearchBar from "../Common/SearchBar";
 import FollowingButton from "../Common/FollowingButton";
 import FollowButton from "../Common/FollowButton";
 import { useAppSelector } from "../../state/hooks";
+import { Link as Routerlink, useNavigate } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import PageLoader from "../../pages/PageLoader";
 

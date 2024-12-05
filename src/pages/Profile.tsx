@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
   Button,
@@ -12,14 +13,15 @@ import {
   useTheme,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import ProfilePosts from "../components/Profile/ProfilePosts";
 import axios from "axios";
+import ProfileReplies from "../components/Profile/ProfileReplies";
+import ProfileLikes from "../components/Profile/ProfileLikes";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CakeIcon from "@mui/icons-material/Cake";
 import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
-import ProfileLikes from "../components/Profile/ProfileLikes";
-import ProfileReplies from "../components/Profile/ProfileReplies";
-import ProfilePosts from "../components/Profile/ProfilePosts";
+import Layout from "./Layout";
 import SideBar from "../components/SideBar/SideBar";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import FollowingButton from "../components/Common/FollowingButton";
@@ -30,7 +32,6 @@ import { updateDisplayNames } from "../state/slices/postsSlice";
 import FollowListModal, {
   NetworkUsers,
 } from "../components/Profile/FollowListModal";
-import Layout from "./Layout";
 
 const styles = {
   avatar: {

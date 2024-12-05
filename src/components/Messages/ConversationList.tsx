@@ -1,16 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import ConversationListItem from "./ConversationListItem";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Box, Divider, IconButton, List, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import {
   setConversations,
   setSelectedConversation,
 } from "../../state/slices/messagesSlice";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import SearchBar from "../Common/SearchBar";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
-import ConversationListItem from "./ConversationListItem";
+import SearchBar from "../Common/SearchBar";
 
 const styles = {
   header: {

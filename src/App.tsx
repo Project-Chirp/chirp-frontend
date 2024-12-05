@@ -1,9 +1,9 @@
+import Welcome from "./pages/Welcome";
+import Timeline from "./pages/Timeline";
 import { Route, Routes } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect } from "react";
-import Timeline from "./pages/Timeline";
-import Welcome from "./pages/Welcome";
 import Register from "./pages/Register";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
 import PageLoader from "./pages/PageLoader";
