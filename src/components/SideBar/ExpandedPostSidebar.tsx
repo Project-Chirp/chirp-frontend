@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
-import SearchBarDropdown from "../Common/SearchBarDropdown";
 import SidebarFooter from "./SidebarFooter";
 import RelevantUsers from "./RelevantUsers";
 import Advertisement from "./Advertisement";
+import SearchBarDropdown from "../Common/SearchBarDropdown";
 
 const styles = {
   rightContent: {

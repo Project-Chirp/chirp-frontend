@@ -4,9 +4,9 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import dayjs, { Dayjs } from "dayjs";
-import { setUser } from "../state/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "./../state/hooks";
+import { setUser } from "../state/slices/userSlice";
+import dayjs, { Dayjs } from "dayjs";
 
 const styles = {
   container: { height: "100%" },

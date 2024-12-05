@@ -19,20 +19,22 @@ import {
   RepeatOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { useNavigate, Link as Routerlink } from "react-router-dom";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
   Post,
   toggleLikePost,
   setExpandedPost,
 } from "../../state/slices/postsSlice";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useNavigate, Link as Routerlink } from "react-router-dom";
+
+import { useState } from "react";
+import { RepliesModal } from "./RepliesModal";
 import { toggleLikePostRequest } from "../../utilities/postUtilities";
+
 import UserAvatar from "../Common/UserAvatar";
+import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
-import { RepliesModal } from "./RepliesModal";
-import PostMenu from "./PostMenu";
 
 type PostProps = {
   post: Post;

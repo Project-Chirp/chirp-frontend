@@ -3,8 +3,8 @@ import ExpandedPostItem from "../components/Posts/ExpandedPostItem";
 import ComposeReply from "../components/Posts/ComposeReply";
 import ExpandedPostReplies from "../components/Posts/ExpandedPostReplies";
 import { useAppSelector } from "../state/hooks";
-import ExpandedPostSidebar from "../components/SideBar/ExpandedPostSidebar";
 import Layout from "./Layout";
+import ExpandedPostSidebar from "../components/SideBar/ExpandedPostSidebar";
 
 const styles = {
   divider: { marginBottom: 3 },

@@ -10,8 +10,8 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CloseIcon from "@mui/icons-material/Close";
 import { Post } from "../../state/slices/postsSlice";
-import UserAvatar from "../Common/UserAvatar";
 import ComposeReply from "./ComposeReply";
+import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
   avatarBox: {

@@ -7,8 +7,8 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useNavigate, Link as Routerlink } from "react-router-dom";
 import UserAvatar from "../Common/UserAvatar";
 import FollowingButton from "../Common/FollowingButton";
 import { toggleFollow } from "../../state/slices/postsSlice";
