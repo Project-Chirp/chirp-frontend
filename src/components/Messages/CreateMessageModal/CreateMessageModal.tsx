@@ -1,14 +1,9 @@
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  IconButton,
-} from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
-import MessagesModalList from "./MessagesModalList";
+import { Dialog, DialogTitle, DialogContent, IconButton } from "@mui/material/";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
+import MessagesModalList from "./MessagesModalList";
 import MessagesSearchBar from "./MessagesSearchBar";
 
 const styles = {
@@ -50,7 +45,7 @@ export default function CreateMessageModal({
       PaperProps={{ sx: styles.dialog }}
       scroll="paper"
     >
-      <DialogTitle variant="h3" sx={styles.dialogTitle}>
+      <DialogTitle sx={styles.dialogTitle} variant="h3">
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>

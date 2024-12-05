@@ -1,3 +1,5 @@
+import CloseIcon from "@mui/icons-material/Close";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
   Dialog,
@@ -7,11 +9,9 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import CloseIcon from "@mui/icons-material/Close";
 import { Post } from "../../state/slices/postsSlice";
-import ComposeReply from "./ComposeReply";
 import UserAvatar from "../Common/UserAvatar";
+import ComposeReply from "./ComposeReply";
 
 const styles = {
   avatarBox: {

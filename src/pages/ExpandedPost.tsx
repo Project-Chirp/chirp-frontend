@@ -1,10 +1,10 @@
 import { Box, Divider } from "@mui/material";
-import ExpandedPostItem from "../components/Posts/ExpandedPostItem";
 import ComposeReply from "../components/Posts/ComposeReply";
+import ExpandedPostItem from "../components/Posts/ExpandedPostItem";
 import ExpandedPostReplies from "../components/Posts/ExpandedPostReplies";
+import ExpandedPostSidebar from "../components/SideBar/ExpandedPostSidebar";
 import { useAppSelector } from "../state/hooks";
 import Layout from "./Layout";
-import ExpandedPostSidebar from "../components/SideBar/ExpandedPostSidebar";
 
 const styles = {
   divider: { marginBottom: 3 },

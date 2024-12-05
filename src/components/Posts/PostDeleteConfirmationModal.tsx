@@ -6,11 +6,11 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { deletePost } from "../../state/slices/postsSlice";
-import useAxios from "../../utilities/useAxios";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import useAxios from "../../utilities/useAxios";
 
 const styles = {
   dialog: {
@@ -69,7 +69,7 @@ const PostDeleteModal = ({
             userId,
           },
         },
-        "posts/deletePost"
+        "posts/deletePost",
       );
       if (isExpandedPost) {
         navigate(-1);

@@ -1,3 +1,4 @@
+import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import {
   IconButton,
   ListItemIcon,
@@ -7,11 +8,10 @@ import {
 } from "@mui/material";
 import { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
+import { Post } from "../../state/slices/postsSlice";
+import { enqueueToast } from "../../state/slices/toastSlice";
 import EditPostModal from "./EditPostModal";
 import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
-import { enqueueToast } from "../../state/slices/toastSlice";
-import { Post } from "../../state/slices/postsSlice";
 
 type PostMenuProps = {
   isExpandedPost?: boolean;

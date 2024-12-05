@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import ConversationListItem from "./ConversationListItem";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Box, Divider, IconButton, List, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { setConversations } from "../../state/slices/messagesSlice";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
+import { Box, Divider, IconButton, List, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { setConversations } from "../../state/slices/messagesSlice";
 import useAxios from "../../utilities/useAxios";
 import SearchBar from "../Common/SearchBar";
+import ConversationListItem from "./ConversationListItem";
+import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
 
 const styles = {
   header: {
@@ -38,7 +38,7 @@ const ConversationList = () => {
           method: "GET",
           params: { userId },
         },
-        "messages"
+        "messages",
       );
       dispatch(setConversations(result));
     };

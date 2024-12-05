@@ -1,19 +1,18 @@
-import HomeIcon from "@mui/icons-material/Home";
-import MailIcon from "@mui/icons-material/Mail";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import HomeIcon from "@mui/icons-material/Home";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import MailIcon from "@mui/icons-material/Mail";
+import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import { Box, Button, IconButton, List, SvgIcon, Toolbar } from "@mui/material";
+import { useState } from "react";
+import { useLocation, Link as Routerlink } from "react-router-dom";
+import Logo from "../../assets/logo.svg?react";
+import { useAppSelector } from "../../state/hooks";
+import ComposePost from "../Posts/ComposePost";
 import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
 import PostButtonModal from "./PostButtonModal";
-import { useState } from "react";
-import ComposePost from "../Posts/ComposePost";
-import { useAppSelector } from "../../state/hooks";
-import { useLocation, Link as Routerlink } from "react-router-dom";
-
-import Logo from "../../assets/logo.svg?react";
 
 const styles = {
   icon: {

@@ -1,11 +1,11 @@
 /* eslint-disable import-x/no-named-as-default-member */
-import globals from "globals";
 import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
-import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
-import eslintPluginImportX from "eslint-plugin-import-x";
 import tsParser from "@typescript-eslint/parser";
+import eslintPluginImportX from "eslint-plugin-import-x";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import pluginReact from "eslint-plugin-react";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default [
   { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
@@ -26,7 +26,15 @@ export default [
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
       "import-x/default": "off",
-      "import-x/order": "error",
+      "import-x/order": [
+        "error",
+        {
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+        },
+      ],
       "react/jsx-sort-props": ["error", { ignoreCase: true }],
       "react/sort-prop-types": "error",
     },

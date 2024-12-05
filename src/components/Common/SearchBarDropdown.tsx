@@ -1,5 +1,5 @@
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ClearIcon from "@mui/icons-material/Clear";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import {
   Autocomplete,
   Avatar,
@@ -13,8 +13,8 @@ import {
   debounce,
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { SelectedUser } from "../../state/slices/messagesSlice";
 import { useNavigate } from "react-router-dom";
+import { SelectedUser } from "../../state/slices/messagesSlice";
 import useAxios from "../../utilities/useAxios";
 
 type SearchBarDropDownProps = {

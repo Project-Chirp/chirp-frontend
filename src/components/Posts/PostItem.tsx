@@ -1,4 +1,11 @@
 import {
+  AddCommentOutlined,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  RepeatOutlined,
+  ShareOutlined,
+} from "@mui/icons-material";
+import {
   Box,
   Button,
   Card,
@@ -12,28 +19,21 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import {
-  AddCommentOutlined,
-  FavoriteBorderOutlined,
-  FavoriteOutlined,
-  RepeatOutlined,
-  ShareOutlined,
-} from "@mui/icons-material";
+import { useState } from "react";
+import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
   Post,
   toggleLikePost,
   setExpandedPost,
 } from "../../state/slices/postsSlice";
-import { useNavigate, Link as Routerlink } from "react-router-dom";
-import { useState } from "react";
-import { RepliesModal } from "./RepliesModal";
-import useAxios from "../../utilities/useAxios";
+import { enqueueToast } from "../../state/slices/toastSlice";
 import toggleLikePostRequest from "../../utilities/postUtilities";
+import useAxios from "../../utilities/useAxios";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
-import TooltipTimestamp from "../Common/TooltipTimestamp";
-import { enqueueToast } from "../../state/slices/toastSlice";
+import { RepliesModal } from "./RepliesModal";
 
 type PostProps = {
   post: Post;
