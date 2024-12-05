@@ -62,7 +62,7 @@ const SuggestedUsers = () => {
 
   return (
     <Box sx={styles.container}>
-      <Typography variant="h6" sx={styles.title}>
+      <Typography sx={styles.title} variant="h6">
         Who to Follow
       </Typography>
       <List disablePadding>

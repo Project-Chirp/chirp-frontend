@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { Box, Button, Typography, TextField } from "@mui/material/";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useAppDispatch, useAppSelector } from "./../state/hooks";
+import dayjs, { Dayjs } from "dayjs";
+import { useState } from "react";
 import { setUser } from "../state/slices/userSlice";
 import useAxios from "../utilities/useAxios";
-import dayjs, { Dayjs } from "dayjs";
+import { useAppDispatch, useAppSelector } from "./../state/hooks";
 
 const styles = {
   container: { height: "100%" },
@@ -50,7 +50,7 @@ const Register = () => {
 
   return (
     <form onSubmit={submitUserInfo} style={styles.container}>
-      <Typography variant="h1" sx={styles.title}>
+      <Typography sx={styles.title} variant="h1">
         {`Let's get to know a little more about you`}
       </Typography>
       <Box sx={styles.inputs}>

@@ -1,3 +1,7 @@
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import SendIcon from "@mui/icons-material/Send";
 import {
   Avatar,
   Box,
@@ -13,26 +17,22 @@ import {
   useTheme,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
+import { EmojiClickData } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
-import SendIcon from "@mui/icons-material/Send";
+import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
+import TooltipTimestamp from "../components/Common/TooltipTimestamp";
+import UserAvatar from "../components/Common/UserAvatar";
 import ConversationList from "../components/Messages/ConversationList";
+import NavBar from "../components/NavBar/NavBar";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
 import {
   appendConversation,
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
-import NavBar from "../components/NavBar/NavBar";
-import useAxios from "../utilities/useAxios";
-import UserAvatar from "../components/Common/UserAvatar";
-import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
-import { EmojiClickData } from "emoji-picker-react";
-import TooltipTimestamp from "../components/Common/TooltipTimestamp";
 import formatTimestamp from "../utilities/formatTimestamp";
+import useAxios from "../utilities/useAxios";
 import PageLoader from "./PageLoader";
 
 const styles = {
@@ -260,8 +260,8 @@ const DirectMessage = () => {
           <Box sx={styles.chatContainer}>
             <List component="div" ref={messageRef} sx={styles.messageList}>
               <Box
-                sx={styles.bioContainer}
                 onClick={() => navigate(`/${selectedConversation.username}`)}
+                sx={styles.bioContainer}
               >
                 {loading && <PageLoader />}
                 {!loading && (
@@ -270,9 +270,9 @@ const DirectMessage = () => {
                       <Avatar sx={styles.avatar} />
                       <Link
                         color={theme.typography.subtitle1.color}
-                        underline="hover"
                         component={Routerlink}
                         to={`/${selectedConversation.username}`}
+                        underline="hover"
                         variant="subtitle1"
                       >
                         {selectedConversation.displayName}
@@ -299,11 +299,6 @@ const DirectMessage = () => {
               {messages.map((o) => (
                 <ListItem component="div" key={o.messageId}>
                   <ListItemText
-                    sx={
-                      o.sentUserId === user.userId
-                        ? styles.sentMessage
-                        : styles.message
-                    }
                     disableTypography
                     primary={
                       <Box
@@ -323,6 +318,11 @@ const DirectMessage = () => {
                           variant="body2"
                         />
                       </Box>
+                    }
+                    sx={
+                      o.sentUserId === user.userId
+                        ? styles.sentMessage
+                        : styles.message
                     }
                   />
                 </ListItem>
@@ -361,8 +361,8 @@ const DirectMessage = () => {
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
-                            type="submit"
                             disabled={!textContent.trim()}
+                            type="submit"
                           >
                             <SendIcon />
                           </IconButton>

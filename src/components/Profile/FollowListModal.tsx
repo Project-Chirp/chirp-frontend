@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   Dialog,
@@ -14,14 +15,13 @@ import {
   Link,
   useTheme,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import SearchBar from "../Common/SearchBar";
-import FollowingButton from "../Common/FollowingButton";
-import FollowButton from "../Common/FollowButton";
-import { useAppSelector } from "../../state/hooks";
 import { Link as Routerlink, useNavigate } from "react-router-dom";
-import UserAvatar from "../Common/UserAvatar";
 import PageLoader from "../../pages/PageLoader";
+import { useAppSelector } from "../../state/hooks";
+import FollowButton from "../Common/FollowButton";
+import FollowingButton from "../Common/FollowingButton";
+import SearchBar from "../Common/SearchBar";
+import UserAvatar from "../Common/UserAvatar";
 
 export type NetworkUsers = {
   userId: number;
@@ -103,7 +103,7 @@ const FollowListModal = ({
         {!loading && (
           <List sx={styles.list}>
             {sortedList.map((o) => (
-              <ListItem key={o.userId} disablePadding>
+              <ListItem disablePadding key={o.userId}>
                 <ListItemButton
                   onClick={() => {
                     navigate(`/${o.username}`);

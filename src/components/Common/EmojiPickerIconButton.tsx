@@ -1,7 +1,7 @@
-import { Box, IconButton } from "@mui/material";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
-import React, { useState, useEffect, useRef } from "react";
+import { Box, IconButton } from "@mui/material";
 import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
+import React, { useState, useEffect, useRef } from "react";
 
 type EmojiPickerIconButtonProps = {
   onEmojiClick: (emoji: EmojiClickData) => void;
@@ -53,14 +53,14 @@ const EmojiPickerIconButton = ({
   return (
     <>
       <IconButton
-        ref={emojiIconButtonRef}
         onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+        ref={emojiIconButtonRef}
         size="small"
         sx={{ ...(showEmojiPicker && styles.activeButton) }}
       >
         <EmojiEmotionsOutlinedIcon />
       </IconButton>
-      <Box sx={{ ...styles.emojiContainer, top: top }} ref={emojiContainerRef}>
+      <Box ref={emojiContainerRef} sx={{ ...styles.emojiContainer, top: top }}>
         <EmojiPicker
           emojiStyle={twitterEmojiStyle}
           height={pickerHeight}

@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
-import useAxios from "../../utilities/useAxios";
 import { useAppSelector } from "../../state/hooks";
+import useAxios from "../../utilities/useAxios";
 
 const styles = {
   followButton: {

@@ -1,4 +1,12 @@
 import {
+  AddCommentOutlined,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  KeyboardBackspace,
+  RepeatOutlined,
+  ShareOutlined,
+} from "@mui/icons-material";
+import {
   Box,
   Button,
   Card,
@@ -12,33 +20,23 @@ import {
   Divider,
   Link,
 } from "@mui/material";
-import {
-  AddCommentOutlined,
-  FavoriteBorderOutlined,
-  FavoriteOutlined,
-  KeyboardBackspace,
-  RepeatOutlined,
-  ShareOutlined,
-} from "@mui/icons-material";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useTheme } from "@mui/material/styles";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
   toggleLikePost,
   setExpandedPost,
   Post,
 } from "../../state/slices/postsSlice";
 
-import { useEffect, useState } from "react";
-import { RepliesModal } from "./RepliesModal";
-
-import toggleLikePostRequest from "../../utilities/postUtilities";
-
-import UserAvatar from "../Common/UserAvatar";
-import { useTheme } from "@mui/material/styles";
-import useAxios from "../../utilities/useAxios";
-import PostMenu from "./PostMenu";
-import TooltipTimestamp from "../Common/TooltipTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import toggleLikePostRequest from "../../utilities/postUtilities";
+import useAxios from "../../utilities/useAxios";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
+import UserAvatar from "../Common/UserAvatar";
+import PostMenu from "./PostMenu";
+import { RepliesModal } from "./RepliesModal";
 
 const styles = {
   actionButton: {
@@ -121,19 +119,8 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         <Typography variant="h3">Post</Typography>
       </Box>
       <CardHeader
-        avatar={<UserAvatar username={post.username} />}
         action={<PostMenu isExpandedPost post={post} />}
-        title={
-          <Link
-            color={theme.typography.subtitle1.color}
-            component={Routerlink}
-            to={`/${post.username}`}
-            underline="hover"
-            variant="subtitle1"
-          >
-            {post.displayName}
-          </Link>
-        }
+        avatar={<UserAvatar username={post.username} />}
         subheader={
           <Link
             color={theme.typography.subtitle2.color}
@@ -145,21 +132,32 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             @{post.username}
           </Link>
         }
+        title={
+          <Link
+            color={theme.typography.subtitle1.color}
+            component={Routerlink}
+            to={`/${post.username}`}
+            underline="hover"
+            variant="subtitle1"
+          >
+            {post.displayName}
+          </Link>
+        }
       />
       <CardContent>
         <Typography>{post.textContent}</Typography>
       </CardContent>
       {post.imagePath && (
         <CardMedia
-          sx={styles.cardMedia}
           component="img"
           image={post.imagePath}
+          sx={styles.cardMedia}
         />
       )}
       <Box sx={styles.timestampBox}>
         <TooltipTimestamp
-          timestamp={post.editedTimestamp || post.timestamp}
           isEdited={Boolean(post.editedTimestamp)}
+          timestamp={post.editedTimestamp || post.timestamp}
         />
       </Box>
       <Divider variant="middle" />

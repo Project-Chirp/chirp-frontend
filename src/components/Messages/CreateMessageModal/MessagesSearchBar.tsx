@@ -10,8 +10,8 @@ import {
   ListItemText,
   TextField,
 } from "@mui/material";
-import { useAppSelector } from "../../../state/hooks";
 import { useEffect, useState } from "react";
+import { useAppSelector } from "../../../state/hooks";
 import { SelectedUser } from "../../../state/slices/messagesSlice";
 import useAxios from "../../../utilities/useAxios";
 
@@ -61,11 +61,11 @@ const MessagesSearchBar = ({
       <Autocomplete
         fullWidth
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
-        popupIcon={false}
-        onOpen={onSearchOpen}
         onClose={onSearchClose}
-        options={followedList}
+        onOpen={onSearchOpen}
         openOnFocus
+        options={followedList}
+        popupIcon={false}
         renderInput={(params) => {
           return (
             <TextField
@@ -92,8 +92,8 @@ const MessagesSearchBar = ({
         renderOption={(_, option) => {
           return (
             <ListItemButton
-              key={option.userId}
               component="li"
+              key={option.userId}
               onClick={() => onSelect(option.userId)}
             >
               <ListItemAvatar>

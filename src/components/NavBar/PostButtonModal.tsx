@@ -1,5 +1,5 @@
-import { Dialog, DialogTitle, DialogContent, IconButton } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
+import { Dialog, DialogTitle, DialogContent, IconButton } from "@mui/material/";
 
 const styles = {
   dialog: {
@@ -34,9 +34,9 @@ export default function PostButtonModal({
       fullWidth
       onClose={onClose}
       open={openModal}
+      PaperProps={{ style: styles.paperProps }}
       scroll="paper"
       sx={styles.dialog}
-      PaperProps={{ style: styles.paperProps }}
     >
       <DialogTitle>
         <IconButton onClick={onClose}>
