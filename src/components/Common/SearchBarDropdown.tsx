@@ -107,8 +107,8 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
   return (
     <Box>
       <Autocomplete
-        clearOnBlur={false}
         disablePortal
+        clearOnBlur={false}
         filterOptions={(x) => x}
         forcePopupIcon={false}
         fullWidth
@@ -129,6 +129,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
           <TextField
             {...params}
             fullWidth
+            variant="outlined"
             inputRef={inputRef}
             placeholder={placeholder}
             size="small"
@@ -158,7 +159,6 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
                 ),
               },
             }}
-            variant="outlined"
           />
         )}
         renderOption={(params, option) => {
@@ -174,8 +174,8 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
               </ListItemAvatar>
               <ListItemText
                 primary={option.displayName}
-                primaryTypographyProps={{ variant: "subtitle1" }}
                 secondary={`@${option.username}`}
+                primaryTypographyProps={{ variant: "subtitle1" }}
                 secondaryTypographyProps={{ variant: "subtitle2" }}
               />
             </ListItemButton>

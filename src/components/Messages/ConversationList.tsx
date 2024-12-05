@@ -64,8 +64,8 @@ const ConversationList = () => {
       <List component="div">
         {conversations.map((o) => (
           <ConversationListItem
-            conversation={o}
             key={o.otherUserId}
+            conversation={o}
             onClick={() => {
               navigate(`/messages/${user.userId}/${o.otherUserId}`);
             }}

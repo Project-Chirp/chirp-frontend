@@ -61,11 +61,11 @@ const MessagesSearchBar = ({
       <Autocomplete
         fullWidth
         getOptionLabel={(option) => `${option.displayName} @${option.username}`}
-        onClose={onSearchClose}
-        onOpen={onSearchOpen}
-        openOnFocus
-        options={followedList}
         popupIcon={false}
+        onOpen={onSearchOpen}
+        onClose={onSearchClose}
+        options={followedList}
+        openOnFocus
         renderInput={(params) => {
           return (
             <TextField
@@ -92,8 +92,8 @@ const MessagesSearchBar = ({
         renderOption={(_, option) => {
           return (
             <ListItemButton
-              component="li"
               key={option.userId}
+              component="li"
               onClick={() => onSelect(option.userId)}
             >
               <ListItemAvatar>

@@ -57,26 +57,26 @@ function App() {
     <>
       <Toast />
       <Routes>
-        <Route element={<ProtectedRoute component={Timeline} />} path="/" />
+        <Route path="/" element={<ProtectedRoute component={Timeline} />} />
         <Route
-          element={<ProtectedRoute component={Messages} />}
           path="/messages"
+          element={<ProtectedRoute component={Messages} />}
         />
         <Route
-          element={<ProtectedRoute component={DirectMessage} />}
           path="/messages/:userId1/:userId2"
+          element={<ProtectedRoute component={DirectMessage} />}
         />
         <Route
-          element={<ProtectedRoute component={Profile} />}
           path="/:username"
+          element={<ProtectedRoute component={Profile} />}
         />
         <Route
-          element={<ProtectedRoute component={ExpandedPost} />}
           path="/post/:postId"
+          element={<ProtectedRoute component={ExpandedPost} />}
         />
         <Route
-          element={<ProtectedRoute component={ComingSoon} />}
           path="/coming-soon"
+          element={<ProtectedRoute component={ComingSoon} />}
         />
       </Routes>
     </>

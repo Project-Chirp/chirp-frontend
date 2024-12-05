@@ -39,7 +39,7 @@ const RelevantUsers = () => {
 
   return (
     <Box sx={styles.container}>
-      <Typography sx={styles.title} variant="h6">
+      <Typography variant="h6" sx={styles.title}>
         Relevant People
       </Typography>
       <ListItemButton onClick={() => navigate(`/${relevantUser.username}`)}>

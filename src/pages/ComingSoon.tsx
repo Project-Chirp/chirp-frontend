@@ -40,7 +40,7 @@ const ComingSoon = () => {
         <KeyboardBackspaceIcon color="secondary" />
       </IconButton>
       <Box sx={styles.greenRectangle}>
-        <Typography color="primary.contrastText" sx={styles.text} variant="h2">
+        <Typography color="primary.contrastText" variant="h2" sx={styles.text}>
           Coming Soon
         </Typography>
       </Box>

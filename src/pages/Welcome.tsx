@@ -21,15 +21,15 @@ const Welcome = () => {
     <Box sx={styles.container}>
       <Typography variant="h1">Welcome to Chirp</Typography>
       <SvgIcon
-        color="primary"
         component={Logo}
-        inheritViewBox
         sx={styles.logo}
+        color="primary"
+        inheritViewBox
       />
       <Button
-        onClick={() => loginWithRedirect()}
         size="large"
         variant="contained"
+        onClick={() => loginWithRedirect()}
       >
         Take me to Chirp
       </Button>

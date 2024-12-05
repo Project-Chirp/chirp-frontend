@@ -123,19 +123,8 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         <Typography variant="h3">Post</Typography>
       </Box>
       <CardHeader
-        action={<PostMenu isExpandedPost post={post} />}
         avatar={<UserAvatar username={post.username} />}
-        subheader={
-          <Link
-            color={theme.typography.subtitle2.color}
-            component={Routerlink}
-            to={`/${post.username}`}
-            underline="none"
-            variant="subtitle2"
-          >
-            @{post.username}
-          </Link>
-        }
+        action={<PostMenu isExpandedPost post={post} />}
         title={
           <Link
             color={theme.typography.subtitle1.color}
@@ -147,21 +136,32 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             {post.displayName}
           </Link>
         }
+        subheader={
+          <Link
+            color={theme.typography.subtitle2.color}
+            component={Routerlink}
+            to={`/${post.username}`}
+            underline="none"
+            variant="subtitle2"
+          >
+            @{post.username}
+          </Link>
+        }
       />
       <CardContent>
         <Typography>{post.textContent}</Typography>
       </CardContent>
       {post.imagePath && (
         <CardMedia
+          sx={styles.cardMedia}
           component="img"
           image={post.imagePath}
-          sx={styles.cardMedia}
         />
       )}
       <Box sx={styles.timestampBox}>
         <TooltipTimestamp
-          isEdited={Boolean(post.editedTimestamp)}
           timestamp={post.editedTimestamp || post.timestamp}
+          isEdited={Boolean(post.editedTimestamp)}
         />
       </Box>
       <Divider variant="middle" />

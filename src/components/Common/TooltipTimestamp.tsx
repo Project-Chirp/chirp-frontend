@@ -34,7 +34,7 @@ const TooltipTimestamp = ({
       }}
       title={formatTooltipTimestamp(timestamp)}
     >
-      <Typography sx={styles.tooltipText} variant={variant}>
+      <Typography variant={variant} sx={styles.tooltipText}>
         {formatTimestamp(timestamp, isEdited)}
       </Typography>
     </Tooltip>

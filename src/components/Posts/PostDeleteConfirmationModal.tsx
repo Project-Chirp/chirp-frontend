@@ -101,14 +101,14 @@ const PostDeleteModal = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} sx={styles.cancelButton} variant="outlined">
+        <Button variant="outlined" onClick={onClose} sx={styles.cancelButton}>
           Cancel
         </Button>
         <Button
-          color="error"
           onClick={handleDelete}
-          sx={styles.deleteButton}
           variant="outlined"
+          color="error"
+          sx={styles.deleteButton}
         >
           Delete
         </Button>

@@ -52,8 +52,8 @@ const NavItem = ({
       <ListItemIcon>{selected ? selectedIcon : icon}</ListItemIcon>
       <ListItemText disableTypography sx={styles.listItemText}>
         <Typography
-          sx={{ ...(!selected && styles.unselectedText) }}
           variant="h3"
+          sx={{ ...(!selected && styles.unselectedText) }}
         >
           {label}
         </Typography>
