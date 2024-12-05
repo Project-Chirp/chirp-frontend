@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { deletePost } from "../../state/slices/postsSlice";
+import useAxios from "../../utilities/useAxios";
 import { enqueueToast } from "../../state/slices/toastSlice";
 
 const styles = {
@@ -57,15 +57,20 @@ const PostDeleteModal = ({
   const userId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { sendRequest } = useAxios();
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3001/api/posts/deletePost`, {
-        data: {
-          postId: postId,
-          userId: userId,
+      await sendRequest(
+        {
+          method: "DELETE",
+          data: {
+            postId,
+            userId,
+          },
         },
-      });
+        "posts/deletePost"
+      );
       if (isExpandedPost) {
         navigate(-1);
       } else {

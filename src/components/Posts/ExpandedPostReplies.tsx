@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import PostItem from "./PostItem";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import { Divider } from "@mui/material";
+import useAxios from "../../utilities/useAxios";
 
 type ExpandedPostRepliesProps = {
   postId: number;
@@ -13,20 +13,19 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const resultReplies = await axios.get(
-          "http://localhost:3001/api/posts/fetchReplies",
+        const resultReplies = await sendRequest(
           {
-            params: {
-              userId: user.userId,
-              postId: postId,
-            },
+            method: "GET",
+            params: { userId: user.userId, postId },
           },
+          "posts/fetchReplies",
         );
-        dispatch(setPosts(resultReplies.data as Post[]));
+        dispatch(setPosts(resultReplies as Post[]));
       } catch (e) {
         console.log(e.message);
       }
