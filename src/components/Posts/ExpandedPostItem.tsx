@@ -20,7 +20,6 @@ import {
   RepeatOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
 import {
@@ -28,14 +27,12 @@ import {
   setExpandedPost,
   Post,
 } from "../../state/slices/postsSlice";
-
 import { useEffect, useState } from "react";
 import { RepliesModal } from "./RepliesModal";
-
-import { toggleLikePostRequest } from "../../utilities/postUtilities";
-
+import toggleLikePostRequest from "../../utilities/postUtilities";
 import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
+import useAxios from "../../utilities/useAxios";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
@@ -91,23 +88,18 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const urlParams = useParams();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
-      try {
-        const backupFetch = await axios.get(
-          "http://localhost:3001/api/posts/fetchPost",
-          {
-            params: {
-              userId: user.userId,
-              postId: urlParams.postId,
-            },
-          },
-        );
-        dispatch(setExpandedPost(backupFetch.data as Post));
-      } catch (error) {
-        console.error("Failed to fetch post", error);
-      }
+      const backupFetch = await sendRequest(
+        {
+          method: "GET",
+          params: { userId: user.userId, postId: urlParams.postId },
+        },
+        "posts/fetchPost",
+      );
+      dispatch(setExpandedPost(backupFetch as Post));
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
@@ -212,8 +204,9 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <AddCommentOutlined />
           </IconButton>
           <IconButton
-            onClick={() => {
+            onClick={async () => {
               toggleLikePostRequest(
+                sendRequest,
                 post.isLikedByCurrentUser,
                 post.postId,
                 user.userId,

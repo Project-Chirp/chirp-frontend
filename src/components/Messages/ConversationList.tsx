@@ -1,15 +1,12 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import ConversationListItem from "./ConversationListItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Box, Divider, IconButton, List, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import {
-  setConversations,
-  setSelectedConversation,
-} from "../../state/slices/messagesSlice";
+import { setConversations } from "../../state/slices/messagesSlice";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
+import useAxios from "../../utilities/useAxios";
 import SearchBar from "../Common/SearchBar";
 
 const styles = {
@@ -29,25 +26,24 @@ const ConversationList = () => {
     (state) => state.messages,
   );
   const [messageModal, showMessageModal] = useState(false);
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchMessages = async () => {
-      try {
-        const result = await axios.get("http://localhost:3001/api/messages", {
-          params: {
-            userId: user.userId,
-          },
-        });
-        dispatch(setConversations(result.data));
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sendRequest(
+        {
+          method: "GET",
+          params: { userId },
+        },
+        "messages"
+      );
+      dispatch(setConversations(result));
     };
     fetchMessages();
-  }, [dispatch, user]);
+  }, [dispatch, userId, sendRequest]);
 
   return (
     <Box>
@@ -67,7 +63,7 @@ const ConversationList = () => {
             conversation={o}
             key={o.otherUserId}
             onClick={() => {
-              navigate(`/messages/${user.userId}/${o.otherUserId}`);
+              navigate(`/messages/${userId}/${o.otherUserId}`);
             }}
             selected={selectedConversation.userId === o.otherUserId}
           />
