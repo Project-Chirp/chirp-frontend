@@ -1,7 +1,7 @@
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import { Box, IconButton } from "@mui/material";
-import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
+import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import React, { useState, useEffect, useRef } from "react";
+import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
 
 type EmojiPickerIconButtonProps = {
   onEmojiClick: (emoji: EmojiClickData) => void;

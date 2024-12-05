@@ -1,12 +1,4 @@
 import {
-  AddCommentOutlined,
-  FavoriteBorderOutlined,
-  FavoriteOutlined,
-  KeyboardBackspace,
-  RepeatOutlined,
-  ShareOutlined,
-} from "@mui/icons-material";
-import {
   Box,
   Button,
   Card,
@@ -20,22 +12,30 @@ import {
   Divider,
   Link,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import {
+  AddCommentOutlined,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  KeyboardBackspace,
+  RepeatOutlined,
+  ShareOutlined,
+} from "@mui/icons-material";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useEffect, useState } from "react";
+import { useTheme } from "@mui/material/styles";
+import { toggleLikePostRequest } from "../../utilities/postUtilities";
+import UserAvatar from "../Common/UserAvatar";
 import {
   toggleLikePost,
   setExpandedPost,
   Post,
 } from "../../state/slices/postsSlice";
-import { enqueueToast } from "../../state/slices/toastSlice";
-import { toggleLikePostRequest } from "../../utilities/postUtilities";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
-import UserAvatar from "../Common/UserAvatar";
-import PostMenu from "./PostMenu";
+import { enqueueToast } from "../../state/slices/toastSlice";
 import { RepliesModal } from "./RepliesModal";
+import PostMenu from "./PostMenu";
 
 const styles = {
   actionButton: {

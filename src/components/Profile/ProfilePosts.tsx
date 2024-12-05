@@ -1,9 +1,9 @@
-import { Divider, Stack } from "@mui/material";
-import axios from "axios";
 import { useEffect } from "react";
+import axios from "axios";
+import { Divider, Stack } from "@mui/material";
+import PostItem from "../Posts/PostItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import PostItem from "../Posts/PostItem";
 
 type ProfilePostsProps = {
   userId: number;

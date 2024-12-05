@@ -1,7 +1,3 @@
-import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import SendIcon from "@mui/icons-material/Send";
 import {
   Avatar,
   Box,
@@ -17,19 +13,16 @@ import {
   useTheme,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import axios from "axios";
-import { EmojiClickData } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
-import ConversationList from "../components/Messages/ConversationList";
-import NavBar from "../components/NavBar/NavBar";
+import { EmojiClickData } from "emoji-picker-react";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
+import ConversationList from "../components/Messages/ConversationList";
 import {
   appendConversation,
   setSelectedConversation,

@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import {
   ListItemButton,
   ListItemIcon,
@@ -5,7 +6,6 @@ import {
   SvgIconProps,
   Typography,
 } from "@mui/material";
-import { ReactElement } from "react";
 import { Link as Routerlink } from "react-router-dom";
 
 type NavItemProps = {
