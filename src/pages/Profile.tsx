@@ -1,6 +1,4 @@
-import CakeIcon from "@mui/icons-material/Cake";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import EditIcon from "@mui/icons-material/Edit";
+import { useState, useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
   Button,
@@ -13,23 +11,25 @@ import {
   Link,
   useTheme,
 } from "@mui/material";
-import IconButton from "@mui/material/IconButton/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CakeIcon from "@mui/icons-material/Cake";
 import { useNavigate, useParams } from "react-router-dom";
-import FollowButton from "../components/Common/FollowButton";
+import IconButton from "@mui/material/IconButton/IconButton";
+import ProfileLikes from "../components/Profile/ProfileLikes";
+import ProfileReplies from "../components/Profile/ProfileReplies";
+import ProfilePosts from "../components/Profile/ProfilePosts";
+import SideBar from "../components/SideBar/SideBar";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
 import FollowingButton from "../components/Common/FollowingButton";
+import FollowButton from "../components/Common/FollowButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
+import { setDisplayName } from "../state/slices/userSlice";
+import { updateDisplayNames } from "../state/slices/postsSlice";
 import FollowListModal, {
   NetworkUsers,
 } from "../components/Profile/FollowListModal";
-import ProfileLikes from "../components/Profile/ProfileLikes";
-import ProfilePosts from "../components/Profile/ProfilePosts";
-import ProfileReplies from "../components/Profile/ProfileReplies";
-import SideBar from "../components/SideBar/SideBar";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { updateDisplayNames } from "../state/slices/postsSlice";
-import { setDisplayName } from "../state/slices/userSlice";
 import Layout from "./Layout";
 
 const styles = {

@@ -1,7 +1,3 @@
-import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import SendIcon from "@mui/icons-material/Send";
 import {
   Avatar,
   Box,
@@ -17,19 +13,16 @@ import {
   useTheme,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import axios from "axios";
-import { EmojiClickData } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { useParams, Link as Routerlink, useNavigate } from "react-router-dom";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
 import SendIcon from "@mui/icons-material/Send";
-import ConversationList from "../components/Messages/ConversationList";
-import NavBar from "../components/NavBar/NavBar";
+import { EmojiClickData } from "emoji-picker-react";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
+import ConversationList from "../components/Messages/ConversationList";
 import {
   appendConversation,
   setSelectedConversation,
@@ -38,11 +31,9 @@ import {
 import NavBar from "../components/NavBar/NavBar";
 import UserAvatar from "../components/Common/UserAvatar";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
-import { EmojiClickData } from "emoji-picker-react";
 import TooltipTimestamp from "../components/Common/TooltipTimestamp";
 import formatTimestamp from "../utilities/formatTimestamp";
 import PageLoader from "./PageLoader";
-import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
   avatar: {
@@ -260,8 +251,8 @@ const DirectMessage = () => {
           <Box sx={styles.chatContainer}>
             <List component="div" ref={messageRef} sx={styles.messageList}>
               <Box
-                sx={styles.bioContainer}
                 onClick={() => navigate(`/${selectedConversation.username}`)}
+                sx={styles.bioContainer}
               >
                 {loading && <PageLoader />}
                 {!loading && (
@@ -270,9 +261,9 @@ const DirectMessage = () => {
                       <Avatar sx={styles.avatar} />
                       <Link
                         color={theme.typography.subtitle1.color}
-                        underline="hover"
                         component={Routerlink}
                         to={`/${selectedConversation.username}`}
+                        underline="hover"
                         variant="subtitle1"
                       >
                         {selectedConversation.displayName}

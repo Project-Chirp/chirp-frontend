@@ -1,5 +1,3 @@
-import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
   DialogTitle,
@@ -11,17 +9,19 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import axios from "axios";
-import { EmojiClickData } from "emoji-picker-react";
+import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
+import { EmojiClickData } from "emoji-picker-react";
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
+import UserAvatar from "../Common/UserAvatar";
 import {
   Post,
   setExpandedPost,
   updatePost,
 } from "../../state/slices/postsSlice";
-import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
-import UserAvatar from "../Common/UserAvatar";
 
 type EditPostModalProps = {
   isExpandedPost: boolean;

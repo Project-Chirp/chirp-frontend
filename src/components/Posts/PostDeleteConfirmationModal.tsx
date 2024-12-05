@@ -6,8 +6,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { deletePost } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";

@@ -1,4 +1,3 @@
-import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
   DialogTitle,
@@ -10,13 +9,14 @@ import {
   DialogActions,
   Button,
 } from "@mui/material/";
+import CloseIcon from "@mui/icons-material/Close";
+import { useState } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useState } from "react";
-import { EditableProfileContents } from "../../pages/Profile";
 import { useAppSelector } from "../../state/hooks";
+import { EditableProfileContents } from "../../pages/Profile";
 
 const styles = {
   dialog: {

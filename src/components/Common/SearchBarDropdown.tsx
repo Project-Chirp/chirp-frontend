@@ -1,6 +1,5 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import ClearIcon from "@mui/icons-material/Clear";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Autocomplete,
   Avatar,
@@ -13,8 +12,9 @@ import {
   TextField,
   debounce,
 } from "@mui/material";
-import axios from "axios";
 import { useEffect, useMemo, useRef, useState } from "react";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { SelectedUser } from "../../state/slices/messagesSlice";
 

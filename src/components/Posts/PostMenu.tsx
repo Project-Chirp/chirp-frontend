@@ -1,4 +1,3 @@
-import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import {
   IconButton,
   ListItemIcon,
@@ -7,9 +6,10 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useRef, useState } from "react";
+import { MoreVert, Edit, Delete, Link } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import { Post } from "../../state/slices/postsSlice";
 import EditPostModal from "./EditPostModal";
 import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
 
