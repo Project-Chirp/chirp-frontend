@@ -1,9 +1,9 @@
+import { Divider, Stack } from "@mui/material";
 import { useEffect } from "react";
-import PostItem from "../Posts/PostItem";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
 import useAxios from "../../utilities/useAxios";
-import { Divider, Stack } from "@mui/material";
+import PostItem from "../Posts/PostItem";
 
 type ProfilePostsProps = {
   visitedUserId: number;
@@ -21,7 +21,7 @@ const ProfilePosts = ({ visitedUserId }: ProfilePostsProps) => {
           method: "GET",
           params: { visitedUserId },
         },
-        "profile/getUserPosts"
+        "profile/getUserPosts",
       );
       dispatch(setPosts(result as Post[]));
     };

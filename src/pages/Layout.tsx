@@ -1,6 +1,6 @@
+import { Box, Divider, Stack } from "@mui/material";
 import { ReactElement } from "react";
 import NavBar from "../components/NavBar/NavBar";
-import { Box, Divider, Stack } from "@mui/material";
 
 const styles = {
   container: { height: "auto", justifyContent: "center" },

@@ -1,13 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar } from "@mui/material";
-import { Typography } from "@mui/material";
-import { Button } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Avatar, Typography, Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import Stack from "@mui/material/Stack/Stack";
-import React from "react";
+import { useState } from "react";
 import { useAppSelector } from "../../state/hooks";
-import LogoutIcon from "@mui/icons-material/Logout";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const styles = {
   arrow: {
@@ -50,9 +48,7 @@ const AccountMenu = () => {
   const { logout } = useAuth0();
   const user = useAppSelector((state) => state.user);
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -80,22 +76,22 @@ const AccountMenu = () => {
         </Stack>
       </Button>
       <Popover
-        id={id}
-        open={open}
         anchorEl={anchorEl}
-        onClose={handleClose}
         anchorOrigin={{
           vertical: -5,
           horizontal: "center",
         }}
+        id={id}
+        onClose={handleClose}
+        open={open}
+        sx={styles.popover}
         transformOrigin={{
           vertical: "bottom",
           horizontal: "center",
         }}
-        sx={styles.popover}
       >
         <ArrowDropDownIcon fontSize="large" sx={styles.arrow} />
-        <Button sx={styles.popoverButton} onClick={() => logout()}>
+        <Button onClick={() => logout()} sx={styles.popoverButton}>
           <LogoutIcon sx={styles.logOutIcon}></LogoutIcon>
           Log Out
         </Button>

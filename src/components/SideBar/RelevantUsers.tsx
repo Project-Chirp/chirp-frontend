@@ -7,12 +7,12 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
-import UserAvatar from "../Common/UserAvatar";
-import FollowingButton from "../Common/FollowingButton";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { toggleFollow } from "../../state/slices/postsSlice";
 import FollowButton from "../Common/FollowButton";
+import FollowingButton from "../Common/FollowingButton";
+import UserAvatar from "../Common/UserAvatar";
 
 const styles = {
   container: {
@@ -39,7 +39,7 @@ const RelevantUsers = () => {
 
   return (
     <Box sx={styles.container}>
-      <Typography variant="h6" sx={styles.title}>
+      <Typography sx={styles.title} variant="h6">
         Relevant People
       </Typography>
       <ListItemButton onClick={() => navigate(`/${relevantUser.username}`)}>

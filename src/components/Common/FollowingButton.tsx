@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
-import useAxios from "../../utilities/useAxios";
 import { useAppSelector } from "../../state/hooks";
+import useAxios from "../../utilities/useAxios";
 
 const styles = {
   followingButton: {
@@ -41,7 +41,7 @@ const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
           data: { currentUserId, visitedUserId },
           headers: { "Content-Type": "application/json" },
         },
-        "follow/unfollowUser"
+        "follow/unfollowUser",
       );
       onClick?.();
     } catch (error) {

@@ -29,7 +29,7 @@ const useAxios = () => {
         }
       }
     },
-    [getAccessTokenSilently]
+    [getAccessTokenSilently],
   );
 
   return { sendRequest };
