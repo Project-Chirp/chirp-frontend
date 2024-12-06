@@ -17,6 +17,7 @@ export default [
   eslintPluginImportX.flatConfigs.recommended,
   eslintPluginImportX.flatConfigs.typescript,
   eslintPluginPrettierRecommended,
+  { ignores: ["build/"] },
   {
     languageOptions: {
       parser: tsParser,
