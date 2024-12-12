@@ -4,7 +4,7 @@ const toggleLikePostRequest = async (
   sendRequest: (config: AxiosRequestConfig, endpoint: string) => Promise<any>,
   isLikedByCurrentUser: boolean,
   postId: number,
-  userId?: number
+  userId?: number,
 ) => {
   if (isLikedByCurrentUser) {
     await sendRequest(
@@ -12,7 +12,7 @@ const toggleLikePostRequest = async (
         method: "DELETE",
         data: { postId, userId },
       },
-      "posts/unlikePost"
+      "posts/unlikePost",
     );
   } else {
     await sendRequest(
@@ -20,7 +20,7 @@ const toggleLikePostRequest = async (
         method: "POST",
         data: { postId, userId },
       },
-      "posts/likePost"
+      "posts/likePost",
     );
   }
 };

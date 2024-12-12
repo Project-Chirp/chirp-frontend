@@ -1,5 +1,5 @@
-import { Box, IconButton, Typography } from "@mui/material";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { Box, IconButton, Typography } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
@@ -40,7 +40,7 @@ const ComingSoon = () => {
         <KeyboardBackspaceIcon color="secondary" />
       </IconButton>
       <Box sx={styles.greenRectangle}>
-        <Typography color="primary.contrastText" variant="h2" sx={styles.text}>
+        <Typography color="primary.contrastText" sx={styles.text} variant="h2">
           Coming Soon
         </Typography>
       </Box>

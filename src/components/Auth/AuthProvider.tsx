@@ -20,7 +20,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   if (!(domain && clientId && redirectUri)) {
     throw new Error(
-      "Authorization provider error, something is wrong with the authorization config!"
+      "Authorization provider error, something is wrong with the authorization config!",
     );
   }
 

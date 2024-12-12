@@ -6,11 +6,11 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { deletePost } from "../../state/slices/postsSlice";
-import useAxios from "../../utilities/useAxios";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import useAxios from "../../utilities/useAxios";
 
 const styles = {
   dialog: {
@@ -69,7 +69,7 @@ const PostDeleteModal = ({
             userId,
           },
         },
-        "posts/deletePost"
+        "posts/deletePost",
       );
       if (isExpandedPost) {
         navigate(-1);
@@ -79,7 +79,7 @@ const PostDeleteModal = ({
       dispatch(
         enqueueToast({
           message: "Your post has been deleted",
-        })
+        }),
       );
     } catch (error) {
       console.error("Failed to delete the post", error);
@@ -87,7 +87,7 @@ const PostDeleteModal = ({
         enqueueToast({
           message: "Your post failed to be deleted",
           severity: "error",
-        })
+        }),
       );
     } finally {
       onClose();
@@ -106,14 +106,14 @@ const PostDeleteModal = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={onClose} sx={styles.cancelButton}>
+        <Button onClick={onClose} sx={styles.cancelButton} variant="outlined">
           Cancel
         </Button>
         <Button
-          onClick={handleDelete}
-          variant="outlined"
           color="error"
+          onClick={handleDelete}
           sx={styles.deleteButton}
+          variant="outlined"
         >
           Delete
         </Button>

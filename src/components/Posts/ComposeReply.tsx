@@ -1,12 +1,12 @@
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
+import { EmojiClickData } from "emoji-picker-react";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import { addReply } from "../../state/slices/postsSlice";
-import UserAvatar from "../Common/UserAvatar";
-import { EmojiClickData } from "emoji-picker-react";
-import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 import useAxios from "../../utilities/useAxios";
+import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
+import UserAvatar from "../Common/UserAvatar";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -53,7 +53,7 @@ const ComposeReply = ({
           method: "POST",
           data: { parentPostId, textContent, userId: user.userId },
         },
-        "posts/postReply"
+        "posts/postReply",
       );
       setPostTextContent("");
       dispatch(
@@ -61,7 +61,7 @@ const ComposeReply = ({
           ...reply,
           username: user.username,
           displayName: user.displayName,
-        })
+        }),
       );
       onClose?.();
     } catch (err) {
@@ -96,7 +96,7 @@ const ComposeReply = ({
                 <EmojiPickerIconButton
                   onEmojiClick={(emoji: EmojiClickData) => {
                     setPostTextContent(
-                      (prevContent) => prevContent + emoji.emoji
+                      (prevContent) => prevContent + emoji.emoji,
                     );
                   }}
                 />

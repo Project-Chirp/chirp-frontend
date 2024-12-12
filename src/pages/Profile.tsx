@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import CakeIcon from "@mui/icons-material/Cake";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import EditIcon from "@mui/icons-material/Edit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
   Button,
@@ -12,26 +13,24 @@ import {
   Link,
   useTheme,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import ProfilePosts from "../components/Profile/ProfilePosts";
-import ProfileReplies from "../components/Profile/ProfileReplies";
-import ProfileLikes from "../components/Profile/ProfileLikes";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import CakeIcon from "@mui/icons-material/Cake";
-import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
-import Layout from "./Layout";
-import useAxios from "../utilities/useAxios";
-import SideBar from "../components/SideBar/SideBar";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
-import FollowingButton from "../components/Common/FollowingButton";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import FollowButton from "../components/Common/FollowButton";
+import FollowingButton from "../components/Common/FollowingButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
-import { setDisplayName } from "../state/slices/userSlice";
-import { updateDisplayNames } from "../state/slices/postsSlice";
 import FollowListModal, {
   NetworkUsers,
 } from "../components/Profile/FollowListModal";
+import ProfileLikes from "../components/Profile/ProfileLikes";
+import ProfilePosts from "../components/Profile/ProfilePosts";
+import ProfileReplies from "../components/Profile/ProfileReplies";
+import SideBar from "../components/SideBar/SideBar";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { updateDisplayNames } from "../state/slices/postsSlice";
+import { setDisplayName } from "../state/slices/userSlice";
+import useAxios from "../utilities/useAxios";
+import Layout from "./Layout";
 
 const styles = {
   avatar: {
@@ -162,7 +161,7 @@ const Profile = () => {
             currentUserId: currentUserId,
           },
         },
-        "follow/getFollowerList"
+        "follow/getFollowerList",
       );
       setFollowListModalData(result);
     } catch (error) {
@@ -184,7 +183,7 @@ const Profile = () => {
             currentUserId: currentUserId,
           },
         },
-        "follow/getFollowingList"
+        "follow/getFollowingList",
       );
       setFollowListModalData(result);
     } catch (error) {
@@ -203,7 +202,7 @@ const Profile = () => {
             method: "GET",
             params: { currentUserId, visitedUsername: username },
           },
-          "profile/getProfileContents"
+          "profile/getProfileContents",
         );
         setProfileContents({
           ...result,
@@ -265,8 +264,8 @@ const Profile = () => {
                     (profileContents.userId === currentUserId ? (
                       <Button
                         onClick={() => setEditProfileModalOpen(true)}
-                        startIcon={<EditIcon />}
                         size="small"
+                        startIcon={<EditIcon />}
                         sx={styles.editProfileButton}
                         variant="outlined"
                       >
@@ -297,10 +296,10 @@ const Profile = () => {
                     ))}
                 </Box>
                 <Box sx={styles.nameContainer}>
-                  <Typography variant="h3" sx={styles.displayName}>
+                  <Typography sx={styles.displayName} variant="h3">
                     {profileContents.displayName}
                   </Typography>
-                  <Typography variant="subtitle2" sx={styles.username}>
+                  <Typography sx={styles.username} variant="subtitle2">
                     @{profileContents.username}
                   </Typography>
                 </Box>
@@ -327,10 +326,10 @@ const Profile = () => {
                   <Link
                     color={theme.palette.black.main}
                     component="button"
-                    underline="hover"
                     onClick={() => {
                       handleOpenFollowersModal();
                     }}
+                    underline="hover"
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followerCount}
@@ -340,10 +339,10 @@ const Profile = () => {
                   <Link
                     color={theme.palette.black.main}
                     component="button"
-                    underline="hover"
                     onClick={() => {
                       handleOpenFollowingModal();
                     }}
+                    underline="hover"
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
@@ -360,9 +359,9 @@ const Profile = () => {
               value={value}
               variant="fullWidth"
             >
-              <Tab value="one" label="Posts" sx={styles.tab} />
-              <Tab value="two" label="Replies" sx={styles.tab} />
-              <Tab value="three" label="Likes" sx={styles.tab} />
+              <Tab label="Posts" sx={styles.tab} value="one" />
+              <Tab label="Replies" sx={styles.tab} value="two" />
+              <Tab label="Likes" sx={styles.tab} value="three" />
             </Tabs>
             <Divider />
             {!loading && profileContents.userId && (
@@ -394,7 +393,7 @@ const Profile = () => {
               updateDisplayNames({
                 prevDisplayName: profileContents.displayName,
                 newDisplayName: editedProfile.displayName,
-              })
+              }),
             );
             setProfileContents({ ...profileContents, ...editedProfile });
           }}

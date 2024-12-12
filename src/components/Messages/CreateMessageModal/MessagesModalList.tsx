@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
 import { List } from "@mui/material";
+import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../state/hooks";
-import MessagesModalListItem from "./MessagesModalListItem";
 import { SelectedUser } from "../../../state/slices/messagesSlice";
 import useAxios from "../../../utilities/useAxios";
+import MessagesModalListItem from "./MessagesModalListItem";
 
 type MessagesListProps = {
   onClose: () => void;
@@ -21,7 +21,7 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
           method: "GET",
           params: { userId },
         },
-        "messages/getModalConversations"
+        "messages/getModalConversations",
       );
       setConversationList(result as SelectedUser[]);
     };
@@ -31,7 +31,7 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
   return (
     <List component="div">
       {conversationList.map((o) => (
-        <MessagesModalListItem otherUser={o} key={o.userId} onClose={onClose} />
+        <MessagesModalListItem key={o.userId} onClose={onClose} otherUser={o} />
       ))}
     </List>
   );

@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
   DialogTitle,
@@ -9,14 +10,13 @@ import {
   DialogActions,
   Button,
 } from "@mui/material/";
-import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useAppSelector } from "../../state/hooks";
-import { EditableProfileContents } from "../../pages/Profile";
-import useAxios from "../../utilities/useAxios";
 import dayjs from "dayjs";
+import { useState } from "react";
+import { EditableProfileContents } from "../../pages/Profile";
+import { useAppSelector } from "../../state/hooks";
+import useAxios from "../../utilities/useAxios";
 
 const styles = {
   dialog: {
@@ -57,7 +57,7 @@ const EditProfileModal = ({
 }: EditProfileModalProps) => {
   const [bioValue, setBioValue] = useState(bio);
   const [birthDateValue, setBirthDateValue] = useState(
-    dayjs(birthDate || new Date())
+    dayjs(birthDate || new Date()),
   );
   const [displayNameValue, setDisplayNameValue] = useState(displayName);
   const user = useAppSelector((state) => state.user);
@@ -76,7 +76,7 @@ const EditProfileModal = ({
             userId: user.userId,
           },
         },
-        "profile"
+        "profile",
       );
       onSubmit({
         bio: bioValue,
@@ -94,8 +94,8 @@ const EditProfileModal = ({
       fullWidth
       onClose={onClose}
       open={open}
-      scroll="paper"
       PaperProps={{ sx: styles.dialog }}
+      scroll="paper"
     >
       <form onSubmit={saveProfile}>
         <DialogTitle sx={styles.dialogTitle}>
@@ -113,20 +113,20 @@ const EditProfileModal = ({
               label="Display Name"
               onChange={(e) => setDisplayNameValue(e.target.value)}
               slotProps={{ input: styles.textField }}
-              variant="outlined"
               value={displayNameValue}
+              variant="outlined"
             />
           </Box>
           <Box sx={styles.textFieldContainer}>
             <TextField
               fullWidth
               label="Bio"
-              onChange={(e) => setBioValue(e.target.value)}
               multiline
+              onChange={(e) => setBioValue(e.target.value)}
               rows={2}
               slotProps={{ input: styles.textField }}
-              variant="outlined"
               value={bioValue}
+              variant="outlined"
             />
           </Box>
           <Box sx={styles.textFieldContainer}>
@@ -135,7 +135,9 @@ const EditProfileModal = ({
                 label="Birth Date"
                 maxDate={dayjs(new Date())}
                 onChange={(value) => {
-                  value && setBirthDateValue(value);
+                  if (value) {
+                    setBirthDateValue(value);
+                  }
                 }}
                 slotProps={{
                   textField: { placeholder: "Birth Date", variant: "outlined" },
