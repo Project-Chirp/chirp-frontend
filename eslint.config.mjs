@@ -25,6 +25,7 @@ export default [
       sourceType: "module",
     },
     rules: {
+      "@typescript-eslint/no-unused-vars": "warn",
       "@typescript-eslint/no-explicit-any": "off",
       "import-x/default": "off",
       "import-x/order": [
