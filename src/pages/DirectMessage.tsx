@@ -20,6 +20,7 @@ import IconButton from "@mui/material/IconButton";
 import { EmojiClickData } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import { useParams, Link as Routerlink, useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
 import TooltipTimestamp from "../components/Common/TooltipTimestamp";
 import UserAvatar from "../components/Common/UserAvatar";
@@ -133,6 +134,8 @@ export type Message = {
   receivedUserId: number;
 };
 
+const socket = io("http://localhost:3001/");
+
 const DirectMessage = () => {
   const theme = useTheme();
   const { userId1, userId2 } = useParams();
@@ -179,6 +182,17 @@ const DirectMessage = () => {
   }, [dispatch, userId1, userId2, sendRequest]);
 
   useEffect(() => {
+    // Listen for messages from the server
+    socket.on("message", (message: string) => {
+      console.log(message);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
   }, [messages]);
 
@@ -198,6 +212,7 @@ const DirectMessage = () => {
       )) as Message;
       setTextContent("");
       setMessages([...messages, newMessage]);
+      socket.emit("message", textContent);
       if (userExists) {
         dispatch(
           setSelectedConversation({
