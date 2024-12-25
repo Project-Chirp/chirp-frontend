@@ -183,8 +183,9 @@ const DirectMessage = () => {
 
   useEffect(() => {
     // Listen for messages from the server
-    socket.on("message", (message: string) => {
-      console.log(message);
+    socket.on("message", (newMessage: Message) => {
+      console.log(newMessage);
+      setMessages([...messages, newMessage]);
     });
 
     return () => {
@@ -212,7 +213,7 @@ const DirectMessage = () => {
       )) as Message;
       setTextContent("");
       setMessages([...messages, newMessage]);
-      socket.emit("message", textContent);
+      socket.emit("message", newMessage);
       if (userExists) {
         dispatch(
           setSelectedConversation({
