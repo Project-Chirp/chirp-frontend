@@ -41,6 +41,8 @@ function App() {
     getUser();
   }, [dispatch, sendRequest]);
 
+  console.log("APP RENDER");
+
   if (isLoading || (isAuthenticated && userIsLoading)) {
     return <PageLoader />;
   }

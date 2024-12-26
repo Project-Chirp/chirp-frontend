@@ -32,17 +32,18 @@ const ConversationList = () => {
   const { sendRequest } = useAxios();
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      const result = await sendRequest(
+    const fetchConversations = async () => {
+      const conversations = await sendRequest(
         {
           method: "GET",
           params: { userId },
         },
         "messages",
       );
-      dispatch(setConversations(result));
+      dispatch(setConversations(conversations));
+      console.log(conversations);
     };
-    fetchMessages();
+    fetchConversations();
   }, [dispatch, userId, sendRequest]);
 
   return (

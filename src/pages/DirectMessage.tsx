@@ -28,7 +28,7 @@ import ConversationList from "../components/Messages/ConversationList";
 import NavBar from "../components/NavBar/NavBar";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import {
-  appendConversation,
+  addConversation,
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
@@ -222,7 +222,7 @@ const DirectMessage = () => {
         );
       } else {
         dispatch(
-          appendConversation({
+          addConversation({
             displayName: selectedConversation.displayName,
             username: selectedConversation.username,
             textContent: "",

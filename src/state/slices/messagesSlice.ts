@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import dayjs from "dayjs";
 
 export type Conversation = {
   displayName: string;
@@ -35,6 +36,9 @@ const messagesSlice = createSlice({
   name: "messages",
   initialState,
   reducers: {
+    addConversation: (state, action: PayloadAction<Conversation>) => {
+      state.conversations.unshift({ ...action.payload });
+    },
     setConversations: (state, action: PayloadAction<Conversation[]>) => {
       state.conversations = action.payload;
     },
@@ -48,19 +52,27 @@ const messagesSlice = createSlice({
         }
         return o;
       });
+      newConversations.sort((a, b) => {
+        const dateA = dayjs(a.timestamp);
+        const dateB = dayjs(b.timestamp);
+        if (dateA.isAfter(dateB)) {
+          return -1;
+        }
+        if (dateA.isBefore(dateB)) {
+          return 1;
+        }
+        return 0;
+      });
       state.conversations = newConversations;
-    },
-    appendConversation: (state, action: PayloadAction<Conversation>) => {
-      state.conversations.unshift({ ...action.payload });
     },
   },
 });
 
 export const {
+  addConversation,
   setConversations,
   setSelectedConversation,
   updateConversation,
-  appendConversation,
 } = messagesSlice.actions;
 
 export default messagesSlice.reducer;
