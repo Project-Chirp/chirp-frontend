@@ -1,11 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export type Conversation = {
-  displayName: string;
-  otherUserId: number;
-  textContent: string;
-  timestamp: string;
-  username: string;
+export type Conversation = SelectedUser & {
+  textContent?: string;
+  timestamp?: string;
 };
 
 export type Message = {
@@ -36,6 +33,7 @@ const initialState: ConversationDetails = {
   messages: [],
   selectedConversation: {
     displayName: "",
+    followerCount: "0",
     username: "",
     userId: 0,
   },
@@ -56,7 +54,7 @@ const messagesSlice = createSlice({
     },
     updateConversation: (state, action: PayloadAction<Conversation>) => {
       const newConversations = state.conversations.map((o) => {
-        if (o.otherUserId === action.payload.otherUserId) {
+        if (o.userId === action.payload.userId) {
           return action.payload;
         }
         return o;

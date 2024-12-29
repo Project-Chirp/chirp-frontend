@@ -64,11 +64,11 @@ const ConversationList = () => {
         {conversations.map((o) => (
           <ConversationListItem
             conversation={o}
-            key={o.otherUserId}
+            key={o.userId}
             onClick={() => {
-              navigate(`/messages/${userId}/${o.otherUserId}`);
+              navigate(`/messages/${userId}/${o.userId}`);
             }}
-            selected={selectedConversationUserId === o.otherUserId}
+            selected={selectedConversationUserId === o.userId}
           />
         ))}
       </List>

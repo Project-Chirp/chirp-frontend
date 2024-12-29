@@ -1,6 +1,13 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Box, Divider, IconButton, Typography } from "@mui/material";
-import { useAppSelector } from "../../state/hooks";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import {
+  setMessages,
+  setSelectedConversation,
+} from "../../state/slices/messagesSlice";
+import useAxios from "../../utilities/useAxios";
 import UserAvatar from "../Common/UserAvatar";
 import ChatInput from "./ChatInput";
 import ChatList from "./ChatList";
@@ -17,7 +24,31 @@ const styles = {
 };
 
 const ChatContainer = () => {
-  const { selectedConversation } = useAppSelector((state) => state.messages);
+  const { messages, selectedConversation } = useAppSelector(
+    (state) => state.messages,
+  );
+  const dispatch = useAppDispatch();
+
+  const { userId1: currentUserId, userId2: otherUserId } = useParams();
+  const { sendRequest } = useAxios();
+
+  useEffect(() => {
+    try {
+      const fetchDirectMessage = async () => {
+        const result = await sendRequest(
+          {
+            method: "GET",
+          },
+          `messages/${currentUserId}/${otherUserId}`,
+        );
+        dispatch(setMessages(result.messages));
+        dispatch(setSelectedConversation(result.otherUserDetail));
+      };
+      fetchDirectMessage();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch, currentUserId, otherUserId, sendRequest]);
 
   return (
     <>
@@ -35,7 +66,7 @@ const ChatContainer = () => {
           <InfoOutlinedIcon />
         </IconButton>
       </Box>
-      <ChatList />
+      <ChatList messages={messages} userDetail={selectedConversation} />
       <Divider />
       <ChatInput />
     </>

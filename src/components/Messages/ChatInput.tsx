@@ -37,9 +37,7 @@ const ChatInput = () => {
   const { userId2 } = useParams();
   const { sendRequest } = useAxios();
 
-  const userExists = conversations.find(
-    (o) => o.otherUserId === Number(userId2),
-  );
+  const userExists = conversations.find((o) => o.userId === Number(userId2));
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -67,19 +65,19 @@ const ChatInput = () => {
         dispatch(
           appendConversation({
             displayName: selectedConversation.displayName,
-            username: selectedConversation.username,
             textContent: "",
             timestamp: new Date().toString(),
-            otherUserId: Number(userId2),
+            userId: Number(userId2),
+            username: selectedConversation.username,
           }),
         );
       }
       dispatch(
         updateConversation({
           displayName: selectedConversation.displayName,
-          otherUserId: selectedConversation.userId,
           textContent: newMessage.textContent,
           timestamp: newMessage.timestamp,
+          userId: selectedConversation.userId,
           username: selectedConversation.username,
         }),
       );

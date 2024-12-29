@@ -6,15 +6,10 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import PageLoader from "../../pages/PageLoader";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import {
-  setMessages,
-  setSelectedConversation,
-} from "../../state/slices/messagesSlice";
-import useAxios from "../../utilities/useAxios";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../state/hooks";
+import { Message, SelectedUser } from "../../state/slices/messagesSlice";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import ChatBio from "./ChatBio";
 
@@ -61,67 +56,32 @@ const styles = {
   timestamp: { marginTop: 0.5 },
 };
 
-const ChatList = () => {
-  const [loading, setLoading] = useState(true);
+type ChatListProps = {
+  messages: Message[];
+  userDetail: SelectedUser;
+};
 
-  const currentUserId = useAppSelector((state) => state.user.userId);
-  const { messages, selectedConversation } = useAppSelector(
-    (state) => state.messages,
-  );
+const ChatList = ({ messages, userDetail }: ChatListProps) => {
+  const { bio, displayName, followerCount, joinedDate, username } = userDetail;
   const messageRef = useRef<HTMLDivElement>(null);
-  const dispatch = useAppDispatch();
-
-  const { userId1, userId2 } = useParams();
-  const { sendRequest } = useAxios();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    try {
-      setLoading(true);
-      const fetchDirectMessage = async () => {
-        const result = await sendRequest(
-          {
-            method: "GET",
-          },
-          `messages/${userId1}/${userId2}`,
-        );
-        dispatch(setMessages(result.messages));
-        dispatch(
-          setSelectedConversation({
-            ...result.otherUser,
-            userId: Number(userId2),
-          }),
-        );
-      };
-      fetchDirectMessage();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }, [dispatch, userId1, userId2, sendRequest]);
+  const currentUserId = useAppSelector((state) => state.user.userId);
 
   useEffect(() => {
     messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
   }, [messages]);
 
-  if (loading) {
-    return <PageLoader />;
-  }
-
   return (
     <Box sx={styles.chatList}>
       <List component="div" ref={messageRef} sx={styles.messageList}>
-        <Box
-          onClick={() => navigate(`/${selectedConversation.username}`)}
-          sx={styles.bioContainer}
-        >
+        <Box onClick={() => navigate(`/${username}`)} sx={styles.bioContainer}>
           <ChatBio
-            bio={selectedConversation.bio}
-            displayName={selectedConversation.displayName}
-            followerCount={selectedConversation.followerCount}
-            joinedDate={selectedConversation.joinedDate}
-            username={selectedConversation.username}
+            bio={bio}
+            displayName={displayName}
+            followerCount={followerCount}
+            joinedDate={joinedDate}
+            username={username}
           />
         </Box>
         <Divider />

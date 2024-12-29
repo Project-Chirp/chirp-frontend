@@ -21,7 +21,7 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
           method: "GET",
           params: { userId },
         },
-        "messages/",
+        "messages",
       );
       setConversationList(result);
     };
@@ -32,11 +32,11 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
     <List component="div">
       {conversationList.map((o) => (
         <MessagesModalListItem
-          key={o.otherUserId}
+          key={o.userId}
           onClose={onClose}
           otherUser={{
             displayName: o.displayName,
-            userId: o.otherUserId,
+            userId: o.userId,
             username: o.username,
           }}
         />
