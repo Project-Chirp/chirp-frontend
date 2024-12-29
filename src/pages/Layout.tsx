@@ -6,7 +6,6 @@ const styles = {
   container: { height: "auto", justifyContent: "center" },
   divider: { height: "auto" },
   middleContent: { flex: "0 1 600px", minWidth: 0 },
-  nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
   rightContent: {
     boxSizing: "border-box",
     flex: "0 0 350px",
@@ -27,9 +26,7 @@ const Layout = ({ middleContent, rightContent }: LayoutProps) => {
       divider={<Divider orientation="vertical" sx={styles.divider} />}
       sx={styles.container}
     >
-      <Box component="header" sx={styles.nav}>
-        <NavBar />
-      </Box>
+      <NavBar />
       <Box sx={styles.middleContent}>{middleContent}</Box>
       <Box sx={styles.rightContent}>{rightContent}</Box>
     </Stack>

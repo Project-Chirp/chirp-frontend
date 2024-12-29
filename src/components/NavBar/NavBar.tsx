@@ -34,6 +34,12 @@ const styles = {
     height: 50,
     width: 50,
   },
+  navContainer: {
+    flex: "0 0 275px",
+    height: "100vh",
+    position: "sticky",
+    top: 0,
+  },
   navItemList: {
     alignItems: "flex-start",
     display: "flex",
@@ -85,7 +91,7 @@ const NavBar = () => {
   ];
 
   return (
-    <>
+    <Box component="header" sx={styles.navContainer}>
       <Toolbar sx={styles.toolbar}>
         <Box sx={styles.navList}>
           <IconButton component={Routerlink} sx={styles.iconButton} to="/">
@@ -103,7 +109,10 @@ const NavBar = () => {
                 key={index}
                 label={navItem.label}
                 route={navItem.route}
-                selected={location.pathname === navItem.route}
+                selected={
+                  location.pathname.split("/")[1] ===
+                  navItem.route.split("/")[1]
+                }
                 selectedIcon={navItem.selectedIcon}
               />
             ))}
@@ -127,7 +136,7 @@ const NavBar = () => {
           placeholder="What's happening?"
         />
       </PostButtonModal>
-    </>
+    </Box>
   );
 };
 
