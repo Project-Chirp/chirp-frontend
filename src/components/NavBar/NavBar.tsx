@@ -64,7 +64,9 @@ const styles = {
 const NavBar = () => {
   const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
-  const { selectedConversation } = useAppSelector((state) => state.messages);
+  const selectedConversationUserId = useAppSelector(
+    (state) => state.messages.selectedConversation.userId,
+  );
   const user = useAppSelector((state) => state.user);
 
   const navItems = [
@@ -78,8 +80,8 @@ const NavBar = () => {
       icon: <MailOutlinedIcon sx={styles.icon} />,
       selectedIcon: <MailIcon sx={styles.icon} />,
       label: "Messages",
-      route: selectedConversation.userId
-        ? `/messages/${user.userId}/${selectedConversation.userId}`
+      route: selectedConversationUserId
+        ? `/messages/${user.userId}/${selectedConversationUserId}`
         : "/messages",
     },
     {

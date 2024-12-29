@@ -8,27 +8,38 @@ export type Conversation = {
   username: string;
 };
 
+export type Message = {
+  messageId: number;
+  timestamp: string;
+  textContent: string;
+  sentUserId: number;
+  receivedUserId: number;
+};
+
 export type SelectedUser = {
+  bio?: string;
   displayName: string;
+  followerCount: string;
+  joinedDate?: string;
   userId: number;
   username: string;
-  bio?: string;
-  joinedDate?: string;
-  followerCount?: string;
 };
 
 type ConversationDetails = {
-  selectedConversation: SelectedUser;
   conversations: Conversation[];
+  messages: Message[];
+  selectedConversation: SelectedUser;
 };
 
 const initialState: ConversationDetails = {
+  conversations: [],
+  messages: [],
   selectedConversation: {
     displayName: "",
+    followerCount: "0",
     username: "",
     userId: 0,
   },
-  conversations: [],
 };
 
 const messagesSlice = createSlice({
@@ -37,6 +48,9 @@ const messagesSlice = createSlice({
   reducers: {
     setConversations: (state, action: PayloadAction<Conversation[]>) => {
       state.conversations = action.payload;
+    },
+    setMessages: (state, action: PayloadAction<Message[]>) => {
+      state.messages = action.payload;
     },
     setSelectedConversation: (state, action: PayloadAction<SelectedUser>) => {
       state.selectedConversation = action.payload;
@@ -58,6 +72,7 @@ const messagesSlice = createSlice({
 
 export const {
   setConversations,
+  setMessages,
   setSelectedConversation,
   updateConversation,
   appendConversation,
