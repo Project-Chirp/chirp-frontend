@@ -1,7 +1,7 @@
 import { List } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../state/hooks";
-import { SelectedUser } from "../../../state/slices/messagesSlice";
+import { Conversation } from "../../../state/slices/messagesSlice";
 import useAxios from "../../../utilities/useAxios";
 import MessagesModalListItem from "./MessagesModalListItem";
 
@@ -11,7 +11,7 @@ type MessagesListProps = {
 
 const MessagesList = ({ onClose }: MessagesListProps) => {
   const userId = useAppSelector((state) => state.user.userId);
-  const [conversationList, setConversationList] = useState<SelectedUser[]>([]);
+  const [conversationList, setConversationList] = useState<Conversation[]>([]);
   const { sendRequest } = useAxios();
 
   useEffect(() => {
@@ -21,9 +21,9 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
           method: "GET",
           params: { userId },
         },
-        "messages/getModalConversations",
+        "messages/",
       );
-      setConversationList(result as SelectedUser[]);
+      setConversationList(result);
     };
     fetchConversationList();
   }, [userId, sendRequest]);
@@ -31,7 +31,15 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
   return (
     <List component="div">
       {conversationList.map((o) => (
-        <MessagesModalListItem key={o.userId} onClose={onClose} otherUser={o} />
+        <MessagesModalListItem
+          key={o.otherUserId}
+          onClose={onClose}
+          otherUser={{
+            displayName: o.displayName,
+            userId: o.otherUserId,
+            username: o.username,
+          }}
+        />
       ))}
     </List>
   );

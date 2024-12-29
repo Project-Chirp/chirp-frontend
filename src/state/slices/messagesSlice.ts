@@ -19,7 +19,7 @@ export type Message = {
 export type SelectedUser = {
   bio?: string;
   displayName: string;
-  followerCount: string;
+  followerCount?: string;
   joinedDate?: string;
   userId: number;
   username: string;
@@ -36,7 +36,6 @@ const initialState: ConversationDetails = {
   messages: [],
   selectedConversation: {
     displayName: "",
-    followerCount: "0",
     username: "",
     userId: 0,
   },

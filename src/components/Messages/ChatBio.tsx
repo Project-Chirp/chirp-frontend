@@ -28,7 +28,7 @@ const styles = {
 type ChatBioProps = {
   bio?: string;
   displayName: string;
-  followerCount: string;
+  followerCount?: string;
   joinedDate?: string;
   username: string;
 };
@@ -60,7 +60,7 @@ const ChatBio = ({
       {bio && <Typography>{bio}</Typography>}
       <Typography variant="body2">
         {joinedDate && `Joined ${formatTimestamp(joinedDate)} • `}
-        {`${followerCount} Followers`}
+        {`${followerCount ?? 0} Followers`}
       </Typography>
     </Box>
   );

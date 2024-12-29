@@ -11,7 +11,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import PageLoader from "../../pages/PageLoader";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
-  Message,
   setMessages,
   setSelectedConversation,
 } from "../../state/slices/messagesSlice";
@@ -86,7 +85,7 @@ const ChatList = () => {
           },
           `messages/${userId1}/${userId2}`,
         );
-        dispatch(setMessages(result.messages as Message[]));
+        dispatch(setMessages(result.messages));
         dispatch(
           setSelectedConversation({
             ...result.otherUser,
