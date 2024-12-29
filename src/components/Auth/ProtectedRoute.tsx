@@ -5,10 +5,12 @@ type ProtectedRouteProps = {
   component: any;
 };
 
-export const ProtectedRoute = ({ component }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ component }: ProtectedRouteProps) => {
   const Component = withAuthenticationRequired(component, {
     onRedirecting: () => <PageLoader />,
   });
 
   return <Component />;
 };
+
+export default ProtectedRoute;

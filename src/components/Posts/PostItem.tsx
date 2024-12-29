@@ -33,7 +33,7 @@ import useAxios from "../../utilities/useAxios";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
-import { RepliesModal } from "./RepliesModal";
+import RepliesModal from "./RepliesModal";
 
 type PostProps = {
   post: Post;

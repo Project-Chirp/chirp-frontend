@@ -61,9 +61,11 @@ const ConversationListItem = ({
               <Typography noWrap sx={styles.username} variant="subtitle2">
                 {`@${conversation.username}`}
               </Typography>
-              <Typography noWrap sx={styles.timestamp} variant="subtitle2">
-                {`- ${formatTimestamp(conversation.timestamp)}`}
-              </Typography>
+              {conversation.timestamp && (
+                <Typography noWrap sx={styles.timestamp} variant="subtitle2">
+                  {`- ${formatTimestamp(conversation.timestamp)}`}
+                </Typography>
+              )}
             </Box>
           }
           secondary={

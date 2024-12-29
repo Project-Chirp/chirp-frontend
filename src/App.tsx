@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
+import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import Toast from "./components/Common/Toast";
 import ComingSoon from "./pages/ComingSoon";
 import DirectMessage from "./pages/DirectMessage";
