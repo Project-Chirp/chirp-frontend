@@ -4,15 +4,8 @@ import SendIcon from "@mui/icons-material/Send";
 import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import { EmojiClickData } from "emoji-picker-react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import {
-  appendConversation,
-  Message,
-  setMessages,
-  setSelectedConversation,
-  updateConversation,
-} from "../../state/slices/messagesSlice";
+import { addMessage } from "../../state/slices/messagesSlice";
 import useAxios from "../../utilities/useAxios";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 
@@ -29,20 +22,15 @@ const ChatInput = () => {
   const [textContent, setTextContent] = useState("");
 
   const user = useAppSelector((state) => state.user);
-  const { conversations, messages, selectedConversation } = useAppSelector(
-    (state) => state.messages,
-  );
+  const { selectedConversation } = useAppSelector((state) => state.messages);
   const dispatch = useAppDispatch();
 
-  const { userId2 } = useParams();
   const { sendRequest } = useAxios();
-
-  const userExists = conversations.find((o) => o.userId === Number(userId2));
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const newMessage = (await sendRequest(
+      const newMessage = await sendRequest(
         {
           method: "POST",
           data: {
@@ -52,35 +40,9 @@ const ChatInput = () => {
           },
         },
         "messages",
-      )) as Message;
-      setTextContent("");
-      dispatch(setMessages([...messages, newMessage]));
-      if (userExists) {
-        dispatch(
-          setSelectedConversation({
-            ...selectedConversation,
-          }),
-        );
-      } else {
-        dispatch(
-          appendConversation({
-            displayName: selectedConversation.displayName,
-            textContent: "",
-            timestamp: new Date().toString(),
-            userId: Number(userId2),
-            username: selectedConversation.username,
-          }),
-        );
-      }
-      dispatch(
-        updateConversation({
-          displayName: selectedConversation.displayName,
-          textContent: newMessage.textContent,
-          timestamp: newMessage.timestamp,
-          userId: selectedConversation.userId,
-          username: selectedConversation.username,
-        }),
       );
+      dispatch(addMessage(newMessage));
+      setTextContent("");
     } catch (err) {
       console.log(err);
     }

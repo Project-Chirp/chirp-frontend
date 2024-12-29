@@ -43,6 +43,30 @@ const messagesSlice = createSlice({
   name: "messages",
   initialState,
   reducers: {
+    addMessage: (state, action: PayloadAction<Message>) => {
+      const updatedConversation = {
+        displayName: state.selectedConversation.displayName,
+        textContent: action.payload.textContent,
+        timestamp: action.payload.timestamp,
+        userId: state.selectedConversation.userId,
+        username: state.selectedConversation.username,
+      };
+      const conversationExists = state.conversations.some(
+        (o) => o.userId === action.payload.receivedUserId,
+      );
+      if (!conversationExists) {
+        state.conversations.unshift(updatedConversation);
+      } else {
+        const newConversations = state.conversations.map((o) => {
+          if (o.userId === updatedConversation.userId) {
+            return updatedConversation;
+          }
+          return o;
+        });
+        state.conversations = newConversations;
+      }
+      state.messages = [...state.messages, action.payload];
+    },
     setConversations: (state, action: PayloadAction<Conversation[]>) => {
       state.conversations = action.payload;
     },
@@ -52,27 +76,14 @@ const messagesSlice = createSlice({
     setSelectedConversation: (state, action: PayloadAction<SelectedUser>) => {
       state.selectedConversation = action.payload;
     },
-    updateConversation: (state, action: PayloadAction<Conversation>) => {
-      const newConversations = state.conversations.map((o) => {
-        if (o.userId === action.payload.userId) {
-          return action.payload;
-        }
-        return o;
-      });
-      state.conversations = newConversations;
-    },
-    appendConversation: (state, action: PayloadAction<Conversation>) => {
-      state.conversations.unshift({ ...action.payload });
-    },
   },
 });
 
 export const {
+  addMessage,
   setConversations,
   setMessages,
   setSelectedConversation,
-  updateConversation,
-  appendConversation,
 } = messagesSlice.actions;
 
 export default messagesSlice.reducer;
