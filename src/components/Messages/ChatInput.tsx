@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { addMessage } from "../../state/slices/messagesSlice";
 import useAxios from "../../utilities/useAxios";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
+import { socket } from "./ChatContainer";
 
 const styles = {
   chatInputContainer: {
@@ -41,7 +42,8 @@ const ChatInput = () => {
         },
         "messages",
       );
-      dispatch(addMessage(newMessage));
+      // dispatch(addMessage(newMessage));
+      socket.emit("message", newMessage);
       setTextContent("");
     } catch (err) {
       console.log(err);

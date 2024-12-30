@@ -19,22 +19,25 @@ const styles = {
   divider: { height: "auto" },
 };
 
-const socket = io("http://localhost:3001/");
+// const socket = io("http://localhost:3001/");
 
 const DirectMessage = () => {
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    // Listen for messages from the server
-    socket.on("message", (newMessage: Message) => {
-      console.log(newMessage);
-      dispatch(addMessage(newMessage));
-    });
+  // useEffect(() => {
+  //   // Listen for messages from the server
+  //   socket.on("message", (newMessage: Message) => {
+  //     console.log("NEW MESSAGE", newMessage);
+  //     dispatch(addMessage(newMessage));
+  //   });
+  //   console.log("CONNECTED");
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     console.log("DISCONNECTED");
+  //     socket.disconnect();
+  //   };
+  // }, []);
+
   return (
     <Stack
       direction="row"

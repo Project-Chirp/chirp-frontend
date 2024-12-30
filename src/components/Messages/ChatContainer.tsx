@@ -2,8 +2,11 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Box, Divider, IconButton, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { io } from "socket.io-client";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
+  addMessage,
+  Message,
   setMessages,
   setSelectedConversation,
 } from "../../state/slices/messagesSlice";
@@ -23,6 +26,8 @@ const styles = {
   headerContent: { alignItems: "center", display: "flex", gap: 2, padding: 1 },
 };
 
+export const socket = io("http://localhost:3001/");
+
 const ChatContainer = () => {
   const { messages, selectedConversation } = useAppSelector(
     (state) => state.messages,
@@ -31,6 +36,20 @@ const ChatContainer = () => {
 
   const { userId1: currentUserId, userId2: otherUserId } = useParams();
   const { sendRequest } = useAxios();
+
+  useEffect(() => {
+    // Listen for messages from the server
+    socket.on("message", (newMessage: Message) => {
+      console.log("NEW MESSAGE", newMessage);
+      dispatch(addMessage(newMessage));
+    });
+    console.log("CONNECTED");
+
+    return () => {
+      console.log("DISCONNECTED");
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     try {
