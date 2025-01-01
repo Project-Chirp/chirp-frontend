@@ -29,6 +29,7 @@ import SideBar from "../components/SideBar/SideBar";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { updateDisplayNames } from "../state/slices/postsSlice";
 import { setDisplayName } from "../state/slices/userSlice";
+import { EditableProfileContent, ProfileContent } from "../types/profile";
 import useAxios from "../utilities/useAxios";
 import Layout from "./Layout";
 
@@ -85,24 +86,6 @@ const styles = {
     transitionDuration: "0.25s",
   },
   username: { fontSize: 16 },
-};
-
-export type EditableProfileContents = Pick<
-  ProfileContent,
-  "bio" | "birthDate" | "displayName"
->;
-
-export type ProfileContent = {
-  bio?: string;
-  birthDate?: string;
-  displayName: string;
-  followerCount: number;
-  followingCount: number;
-  followStatus: boolean;
-  joinedDate: string;
-  postCount: number;
-  userId?: number;
-  username: string;
 };
 
 const Profile = () => {
@@ -387,7 +370,7 @@ const Profile = () => {
           birthDate={profileContents.birthDate}
           displayName={profileContents.displayName}
           onClose={() => setEditProfileModalOpen(false)}
-          onSubmit={(editedProfile: EditableProfileContents) => {
+          onSubmit={(editedProfile: EditableProfileContent) => {
             dispatch(setDisplayName(editedProfile.displayName));
             dispatch(
               updateDisplayNames({
