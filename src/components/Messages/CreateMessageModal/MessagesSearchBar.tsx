@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../state/hooks";
-import { SelectedUser } from "../../../state/slices/messagesSlice";
+import { AvatarUser } from "../../../state/slices/userSlice";
 import useAxios from "../../../utilities/useAxios";
 
 const styles = {
@@ -39,7 +39,7 @@ const MessagesSearchBar = ({
   onSelect,
 }: MessagesSearchBarProps) => {
   const userId = useAppSelector((state) => state.user.userId);
-  const [followedList, setFollowedList] = useState<SelectedUser[]>([]);
+  const [followedList, setFollowedList] = useState<AvatarUser[]>([]);
   const { sendRequest } = useAxios();
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const MessagesSearchBar = ({
         },
         "messages/followedList",
       );
-      setFollowedList(result as SelectedUser[]);
+      setFollowedList(result);
     };
     fetchDMList();
   }, [userId, sendRequest]);

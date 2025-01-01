@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
-import { SelectedUser } from "../../../state/slices/messagesSlice";
+import { AvatarUser } from "../../../state/slices/userSlice";
 
 const styles = {
   avatar: { margin: "auto" },
@@ -24,7 +24,7 @@ const styles = {
 };
 
 type MessageModalListItemProps = {
-  otherUser: SelectedUser;
+  otherUser: AvatarUser;
   onClose: () => void;
 };
 

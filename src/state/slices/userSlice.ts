@@ -1,5 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+export type AvatarUser = {
+  displayName: string;
+  imageUrl?: string;
+  userId: number;
+  username: string;
+};
+
+export type FollowableUser = AvatarUser & {
+  isFollowing: boolean;
+};
+
 type User = {
   isLoading: boolean;
   userId?: number;

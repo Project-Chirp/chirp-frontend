@@ -9,7 +9,10 @@ import {
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../state/hooks";
-import { Message, SelectedUser } from "../../state/slices/messagesSlice";
+import {
+  Message,
+  ChatBio as ChatBioType,
+} from "../../state/slices/messagesSlice";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import ChatBio from "./ChatBio";
 
@@ -58,11 +61,10 @@ const styles = {
 
 type ChatListProps = {
   messages: Message[];
-  userDetail: SelectedUser;
+  userDetail: ChatBioType;
 };
 
 const ChatList = ({ messages, userDetail }: ChatListProps) => {
-  const { bio, displayName, followerCount, joinedDate, username } = userDetail;
   const messageRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -75,14 +77,11 @@ const ChatList = ({ messages, userDetail }: ChatListProps) => {
   return (
     <Box sx={styles.chatList}>
       <List component="div" ref={messageRef} sx={styles.messageList}>
-        <Box onClick={() => navigate(`/${username}`)} sx={styles.bioContainer}>
-          <ChatBio
-            bio={bio}
-            displayName={displayName}
-            followerCount={followerCount}
-            joinedDate={joinedDate}
-            username={username}
-          />
+        <Box
+          onClick={() => navigate(`/${userDetail.username}`)}
+          sx={styles.bioContainer}
+        >
+          <ChatBio userDetail={userDetail} />
         </Box>
         <Divider />
         {messages.map((o) => (

@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SelectedUser } from "../../state/slices/messagesSlice";
+import { AvatarUser } from "../../state/slices/userSlice";
 import useAxios from "../../utilities/useAxios";
 
 type SearchBarDropDownProps = {
@@ -43,7 +43,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
   const [focusSearchBar, setFocusSearchBar] = useState(false);
   const [keywords, setKeywords] = useState("");
   const [loading, setLoading] = useState(false);
-  const [searchOptions, setSearchOptions] = useState<SelectedUser[]>([]);
+  const [searchOptions, setSearchOptions] = useState<AvatarUser[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { sendRequest } = useAxios();
@@ -63,7 +63,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
         },
         "users/searchUsers",
       );
-      setSearchOptions(result as SelectedUser[]);
+      setSearchOptions(result);
     } catch (error) {
       console.error("Failed to fetch users:", error);
       setSearchOptions([]);

@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { ProfileContent } from "../../types/profile";
+import { AvatarUser } from "./userSlice";
 
-export type Conversation = SelectedUser & {
+export type Conversation = AvatarUser & {
   textContent?: string;
   timestamp?: string;
 };
@@ -13,19 +15,15 @@ export type Message = {
   receivedUserId: number;
 };
 
-export type SelectedUser = {
-  bio?: string;
-  displayName: string;
-  followerCount?: string;
-  joinedDate?: string;
-  userId: number;
-  username: string;
-};
+export type ChatBio = Pick<
+  ProfileContent,
+  "bio" | "displayName" | "followerCount" | "joinedDate" | "userId" | "username"
+>;
 
 type ConversationDetails = {
   conversations: Conversation[];
   messages: Message[];
-  selectedConversation: SelectedUser;
+  selectedConversation: AvatarUser;
 };
 
 const initialState: ConversationDetails = {
@@ -33,7 +31,6 @@ const initialState: ConversationDetails = {
   messages: [],
   selectedConversation: {
     displayName: "",
-    followerCount: "0",
     username: "",
     userId: 0,
   },
@@ -75,7 +72,7 @@ const messagesSlice = createSlice({
     setMessages: (state, action: PayloadAction<Message[]>) => {
       state.messages = action.payload;
     },
-    setSelectedConversation: (state, action: PayloadAction<SelectedUser>) => {
+    setSelectedConversation: (state, action: PayloadAction<AvatarUser>) => {
       state.selectedConversation = action.payload;
     },
   },
