@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ProfileContent } from "../../types/profile";
 import { AvatarUser } from "./userSlice";
 
 export type Conversation = AvatarUser & {
@@ -14,11 +13,6 @@ export type Message = {
   sentUserId: number;
   receivedUserId: number;
 };
-
-export type ChatBio = Pick<
-  ProfileContent,
-  "bio" | "displayName" | "followerCount" | "joinedDate" | "userId" | "username"
->;
 
 type ConversationDetails = {
   conversations: Conversation[];

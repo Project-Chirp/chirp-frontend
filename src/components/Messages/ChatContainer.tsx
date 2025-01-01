@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
-  ChatBio,
   setMessages,
   setSelectedConversation,
 } from "../../state/slices/messagesSlice";
+import { ChatBioType } from "../../types/chatBio";
 import useAxios from "../../utilities/useAxios";
 import UserAvatar from "../Common/UserAvatar";
 import ChatInput from "./ChatInput";
@@ -28,7 +28,7 @@ const ChatContainer = () => {
   const { messages, selectedConversation } = useAppSelector(
     (state) => state.messages,
   );
-  const [chatBio, setChatBio] = useState<ChatBio>({
+  const [chatBio, setChatBio] = useState<ChatBioType>({
     bio: "",
     username: "",
     userId: 0,
@@ -80,7 +80,7 @@ const ChatContainer = () => {
           <InfoOutlinedIcon />
         </IconButton>
       </Box>
-      <ChatList messages={messages} userDetail={chatBio} />
+      <ChatList bioContents={chatBio} messages={messages} />
       <Divider />
       <ChatInput />
     </>

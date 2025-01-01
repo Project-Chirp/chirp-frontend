@@ -1,6 +1,6 @@
 import { Avatar, Box, Link, Typography, useTheme } from "@mui/material";
 import { Link as Routerlink } from "react-router-dom";
-import { ChatBio as ChatBioType } from "../../state/slices/messagesSlice";
+import { ChatBioType } from "../../types/chatBio";
 import formatTimestamp from "../../utilities/formatTimestamp";
 
 const styles = {
@@ -27,11 +27,11 @@ const styles = {
 };
 
 type ChatBioProps = {
-  userDetail: ChatBioType;
+  bioContents: ChatBioType;
 };
 
-const ChatBio = ({ userDetail }: ChatBioProps) => {
-  const { username, displayName, bio, joinedDate, followerCount } = userDetail;
+const ChatBio = ({ bioContents }: ChatBioProps) => {
+  const { username, displayName, bio, joinedDate, followerCount } = bioContents;
   const theme = useTheme();
 
   return (

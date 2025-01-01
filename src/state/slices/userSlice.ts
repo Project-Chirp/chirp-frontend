@@ -11,14 +11,14 @@ export type FollowableUser = AvatarUser & {
   isFollowing: boolean;
 };
 
-type User = {
+export type CurrentUser = {
   isLoading: boolean;
   userId?: number;
   username?: string;
   displayName?: string;
 };
 
-const initialState: User = {
+const initialState: CurrentUser = {
   isLoading: true,
 };
 
@@ -29,7 +29,7 @@ const userSlice = createSlice({
     setDisplayName: (state, action: PayloadAction<string>) => {
       state.displayName = action.payload;
     },
-    setUser: (_, action: PayloadAction<User>) => {
+    setUser: (_, action: PayloadAction<CurrentUser>) => {
       return { ...action.payload };
     },
   },
