@@ -52,7 +52,9 @@ const messagesSlice = createSlice({
         username: state.selectedConversation.username,
       };
       const conversationExists = state.conversations.some(
-        (o) => o.userId === action.payload.receivedUserId,
+        (o) =>
+          o.userId === action.payload.receivedUserId ||
+          o.userId === action.payload.sentUserId,
       );
       if (!conversationExists) {
         state.conversations.unshift(updatedConversation);

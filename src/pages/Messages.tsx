@@ -8,9 +8,6 @@ const styles = {
   button: {
     marginTop: 1,
   },
-  container: { height: "auto", justifyContent: "center" },
-  conversationList: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
-  divider: { height: "auto" },
   chatContainer: {
     alignItems: "center",
     display: "flex",
@@ -18,6 +15,9 @@ const styles = {
     height: "100vh",
     justifyContent: "center",
   },
+  container: { height: "auto", justifyContent: "center" },
+  conversationContainer: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
+  divider: { height: "auto" },
 };
 
 const Messages = () => {
@@ -31,7 +31,7 @@ const Messages = () => {
         sx={styles.container}
       >
         <NavBar />
-        <Box sx={styles.conversationList}>
+        <Box sx={styles.conversationContainer}>
           <ConversationList />
         </Box>
         <Box sx={styles.chatContainer}>
