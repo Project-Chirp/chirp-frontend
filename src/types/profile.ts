@@ -4,7 +4,7 @@ export type ProfileContent = {
   displayName: string;
   followerCount: number;
   followingCount: number;
-  followStatus: boolean;
+  isFollowing?: boolean;
   joinedDate: string;
   postCount: number;
   userId: number;

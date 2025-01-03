@@ -100,7 +100,7 @@ const Profile = () => {
     displayName: "",
     followerCount: 0,
     followingCount: 0,
-    followStatus: false,
+    isFollowing: false,
     joinedDate: "",
     postCount: 0,
     userId: 0,
@@ -254,12 +254,12 @@ const Profile = () => {
                       >
                         Edit Profile
                       </Button>
-                    ) : profileContents.followStatus ? (
+                    ) : profileContents.isFollowing ? (
                       <FollowingButton
                         onClick={() => {
                           setProfileContents({
                             ...profileContents,
-                            followStatus: false,
+                            isFollowing: false,
                             followerCount: --profileContents.followerCount,
                           });
                         }}
@@ -270,7 +270,7 @@ const Profile = () => {
                         onClick={() => {
                           setProfileContents({
                             ...profileContents,
-                            followStatus: true,
+                            isFollowing: true,
                             followerCount: ++profileContents.followerCount,
                           });
                         }}
