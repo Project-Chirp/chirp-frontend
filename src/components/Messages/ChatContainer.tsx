@@ -50,13 +50,16 @@ const ChatContainer = () => {
           },
           `messages/${currentUserId}/${otherUserId}`,
         );
-        const { displayName, imageUrl, userId, username, ...rest } =
-          result.otherUserDetail;
+        const { displayName, imageUrl, userId, username } = result.chatBio;
+        const newSelectedConversation = {
+          displayName,
+          imageUrl,
+          userId,
+          username,
+        };
         dispatch(setMessages(result.messages));
-        dispatch(
-          setSelectedConversation({ displayName, imageUrl, userId, username }),
-        );
-        setChatBio({ displayName, imageUrl, userId, username, ...rest });
+        dispatch(setSelectedConversation(newSelectedConversation));
+        setChatBio(result.chatBio);
       };
       fetchDirectMessage();
     } catch (error) {
