@@ -26,8 +26,9 @@ import ProfileReplies from "../components/Profile/ProfileReplies";
 import SideBar from "../components/SideBar/SideBar";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { updateDisplayNames } from "../state/slices/postsSlice";
-import { FollowableUser, setDisplayName } from "../state/slices/userSlice";
+import { setDisplayName } from "../state/slices/userSlice";
 import { EditableProfileContent, ProfileContent } from "../types/profile";
+import { FollowableUser } from "../types/users";
 import useAxios from "../utilities/useAxios";
 import Layout from "./Layout";
 

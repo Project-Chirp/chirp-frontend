@@ -1,18 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { AvatarUser } from "./userSlice";
-
-export type Conversation = AvatarUser & {
-  textContent?: string;
-  timestamp?: string;
-};
-
-export type Message = {
-  messageId: number;
-  timestamp: string;
-  textContent: string;
-  sentUserId: number;
-  receivedUserId: number;
-};
+import { Conversation, Message } from "../../types/messages";
+import { AvatarUser } from "../../types/users";
 
 type ConversationDetails = {
   conversations: Conversation[];

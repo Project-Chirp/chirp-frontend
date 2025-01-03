@@ -9,8 +9,8 @@ import {
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../state/hooks";
-import { Message } from "../../state/slices/messagesSlice";
 import { ChatBioType } from "../../types/chatBio";
+import { Message } from "../../types/messages";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import ChatBio from "./ChatBio";
 

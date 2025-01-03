@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
-import { AvatarUser } from "../../../state/slices/userSlice";
+import { AvatarUser } from "../../../types/users";
 
 const styles = {
   avatar: { margin: "auto" },

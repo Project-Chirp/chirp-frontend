@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AvatarUser } from "../../state/slices/userSlice";
+import { AvatarUser } from "../../types/users";
 import useAxios from "../../utilities/useAxios";
 
 type SearchBarDropDownProps = {

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../state/hooks";
-import { AvatarUser } from "../../../state/slices/userSlice";
+import { AvatarUser } from "../../../types/users";
 import useAxios from "../../../utilities/useAxios";
 
 const styles = {
