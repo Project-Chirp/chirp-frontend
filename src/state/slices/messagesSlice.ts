@@ -2,13 +2,13 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Conversation, Message } from "../../types/messages";
 import { AvatarUser } from "../../types/users";
 
-type ConversationDetails = {
+type MessageState = {
   conversations: Conversation[];
   messages: Message[];
   selectedConversation: AvatarUser;
 };
 
-const initialState: ConversationDetails = {
+const initialState: MessageState = {
   conversations: [],
   messages: [],
   selectedConversation: {
