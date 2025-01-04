@@ -51,8 +51,7 @@ const ChatBio = ({ bioContents }: ChatBioProps) => {
       </Box>
       {bio && <Typography>{bio}</Typography>}
       <Typography variant="body2">
-        {joinedDate && `Joined ${formatTimestamp(joinedDate)} • `}
-        {`${followerCount ?? 0} Followers`}
+        {`Joined ${formatTimestamp(joinedDate)} • ${followerCount} Followers`}
       </Typography>
     </Box>
   );
