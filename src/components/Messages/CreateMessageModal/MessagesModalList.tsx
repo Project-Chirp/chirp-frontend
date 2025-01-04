@@ -1,7 +1,7 @@
 import { List } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../state/hooks";
-import { Conversation } from "../../../state/slices/messagesSlice";
+import { Conversation } from "../../../types/messages";
 import useAxios from "../../../utilities/useAxios";
 import MessagesModalListItem from "./MessagesModalListItem";
 

@@ -1,40 +1,19 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
+import { Conversation, Message } from "../../types/messages";
+import { AvatarUser } from "../../types/users";
 
-export type Conversation = SelectedUser & {
-  textContent?: string;
-  timestamp?: string;
-};
-
-export type Message = {
-  messageId: number;
-  timestamp: string;
-  textContent: string;
-  sentUserId: number;
-  receivedUserId: number;
-};
-
-export type SelectedUser = {
-  bio?: string;
-  displayName: string;
-  followerCount?: string;
-  joinedDate?: string;
-  userId: number;
-  username: string;
-};
-
-type ConversationDetails = {
+type MessageState = {
   conversations: Conversation[];
   messages: Message[];
-  selectedConversation: SelectedUser;
+  selectedConversation: AvatarUser;
 };
 
-const initialState: ConversationDetails = {
+const initialState: MessageState = {
   conversations: [],
   messages: [],
   selectedConversation: {
     displayName: "",
-    followerCount: "0",
     username: "",
     userId: 0,
   },
@@ -87,7 +66,7 @@ const messagesSlice = createSlice({
     setMessages: (state, action: PayloadAction<Message[]>) => {
       state.messages = action.payload;
     },
-    setSelectedConversation: (state, action: PayloadAction<SelectedUser>) => {
+    setSelectedConversation: (state, action: PayloadAction<AvatarUser>) => {
       state.selectedConversation = action.payload;
     },
   },
