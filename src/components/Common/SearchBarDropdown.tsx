@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AvatarUser } from "../../types/users";
+import { BaseUser } from "../../types/users";
 import useAxios from "../../utilities/useAxios";
 
 type SearchBarDropDownProps = {
@@ -43,7 +43,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
   const [focusSearchBar, setFocusSearchBar] = useState(false);
   const [keywords, setKeywords] = useState("");
   const [loading, setLoading] = useState(false);
-  const [searchOptions, setSearchOptions] = useState<AvatarUser[]>([]);
+  const [searchOptions, setSearchOptions] = useState<BaseUser[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { sendRequest } = useAxios();

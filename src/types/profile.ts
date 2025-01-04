@@ -1,14 +1,13 @@
-export type ProfileContent = {
+import { BaseUser } from "./users";
+
+export type ProfileContent = BaseUser & {
   bio?: string;
   birthDate?: string;
-  displayName: string;
   followerCount: number;
   followingCount: number;
   isFollowing?: boolean;
   joinedDate: string;
   postCount: number;
-  userId: number;
-  username: string;
 };
 
 export type EditableProfileContent = Pick<

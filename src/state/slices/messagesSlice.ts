@@ -1,11 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Conversation, Message } from "../../types/messages";
-import { AvatarUser } from "../../types/users";
+import { BaseUser } from "../../types/users";
 
 type MessageState = {
   conversations: Conversation[];
   messages: Message[];
-  selectedConversation: AvatarUser;
+  selectedConversation: BaseUser;
 };
 
 const initialState: MessageState = {
@@ -54,7 +54,7 @@ const messagesSlice = createSlice({
     setMessages: (state, action: PayloadAction<Message[]>) => {
       state.messages = action.payload;
     },
-    setSelectedConversation: (state, action: PayloadAction<AvatarUser>) => {
+    setSelectedConversation: (state, action: PayloadAction<BaseUser>) => {
       state.selectedConversation = action.payload;
     },
   },

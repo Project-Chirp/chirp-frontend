@@ -1,6 +1,6 @@
-import { AvatarUser } from "./users";
+import { BaseUser } from "./users";
 
-export type Conversation = AvatarUser & {
+export type Conversation = BaseUser & {
   textContent?: string;
   timestamp?: string;
 };
