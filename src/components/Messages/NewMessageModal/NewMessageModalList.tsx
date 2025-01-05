@@ -1,15 +1,30 @@
-import { List } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  List,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
 import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../state/hooks";
 import { Conversation } from "../../../types/messages";
 import useAxios from "../../../utilities/useAxios";
-import NewMessageModalListItem from "./NewMessageModalListItem";
 
-type NewMessageModalListProps = {
-  onClose: () => void;
+const styles = {
+  avatar: { margin: "auto" },
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+  },
 };
 
-const NewMessageModalList = ({ onClose }: NewMessageModalListProps) => {
+type NewMessageModalListProps = {
+  onSelect: (userId: number) => void;
+};
+
+const NewMessageModalList = ({ onSelect }: NewMessageModalListProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const [conversationList, setConversationList] = useState<Conversation[]>([]);
   const { sendRequest } = useAxios();
@@ -31,15 +46,19 @@ const NewMessageModalList = ({ onClose }: NewMessageModalListProps) => {
   return (
     <List component="div">
       {conversationList.map((o) => (
-        <NewMessageModalListItem
-          key={o.userId}
-          onClose={onClose}
-          otherUser={{
-            displayName: o.displayName,
-            userId: o.userId,
-            username: o.username,
-          }}
-        />
+        <ListItemButton key={o.userId} onClick={() => onSelect(o.userId)}>
+          <Box sx={styles.container}>
+            <ListItemAvatar sx={styles.avatar}>
+              <Avatar />
+            </ListItemAvatar>
+            <ListItemText
+              primary={o.displayName}
+              primaryTypographyProps={{ variant: "subtitle1" }}
+              secondary={`@${o.username}`}
+              secondaryTypographyProps={{ variant: "subtitle2" }}
+            />
+          </Box>
+        </ListItemButton>
       ))}
     </List>
   );

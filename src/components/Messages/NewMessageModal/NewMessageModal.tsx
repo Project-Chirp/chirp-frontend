@@ -1,10 +1,23 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { Dialog, DialogTitle, DialogContent, IconButton } from "@mui/material/";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  IconButton,
+  Box,
+} from "@mui/material/";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../state/hooks";
+import SearchBarDropDown from "../../Common/SearchBarDropdown";
 import NewMessageModalList from "./NewMessageModalList";
-import NewMessageModalSearch from "./NewMessageModalSearch";
 
 const styles = {
+  box: {
+    paddingBottom: 1,
+    paddingTop: 0,
+    paddingX: 2,
+  },
   dialog: {
     height: "60%",
     borderRadius: 5,
@@ -15,6 +28,9 @@ const styles = {
     paddingY: 1,
     gap: 3,
   },
+  listBox: {
+    maxHeight: "450px",
+  },
 };
 
 type NewMessageModalProps = {
@@ -24,6 +40,14 @@ type NewMessageModalProps = {
 
 const NewMessageModal = ({ onClose, open }: NewMessageModalProps) => {
   const [focusSearchBar, setFocusSearchBar] = useState(false);
+  const userId = useAppSelector((state) => state.user.userId);
+  const navigate = useNavigate();
+
+  const onSelectUser = (otherUserId: number) => {
+    onClose();
+    const path = `/messages/${userId}/${otherUserId}`;
+    navigate(path);
+  };
 
   return (
     <Dialog
@@ -39,13 +63,18 @@ const NewMessageModal = ({ onClose, open }: NewMessageModalProps) => {
         </IconButton>
         New Message
       </DialogTitle>
-      <NewMessageModalSearch
-        onBlur={() => setFocusSearchBar(false)}
-        onFocus={() => setFocusSearchBar(true)}
-        onSelect={onClose}
-      />
+      <Box sx={styles.box}>
+        <SearchBarDropDown
+          listBoxStyle={styles.listBox}
+          onBlur={() => setFocusSearchBar(false)}
+          onFocus={() => setFocusSearchBar(true)}
+          onSelect={(o) => onSelectUser(o.userId)}
+        />
+      </Box>
       <DialogContent>
-        {!focusSearchBar && <NewMessageModalList onClose={onClose} />}
+        {!focusSearchBar && (
+          <NewMessageModalList onSelect={(o) => onSelectUser(o)} />
+        )}
       </DialogContent>
     </Dialog>
   );
