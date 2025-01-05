@@ -23,15 +23,15 @@ const styles = {
   },
 };
 
-type MessageModalListItemProps = {
+type NewMessageModalListItemProps = {
   otherUser: BaseUser;
   onClose: () => void;
 };
 
-const MessageModalListItem = ({
+const NewMessageModalListItem = ({
   otherUser,
   onClose,
-}: MessageModalListItemProps) => {
+}: NewMessageModalListItemProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const { displayName, userId: otherUserId, username } = otherUser;
   const navigate = useNavigate();
@@ -58,4 +58,4 @@ const MessageModalListItem = ({
   );
 };
 
-export default MessageModalListItem;
+export default NewMessageModalListItem;

@@ -25,19 +25,19 @@ const styles = {
   searchIcon: { paddingRight: 0 },
 };
 
-type MessagesSearchBarProps = {
+type NewMessageModalSearchProps = {
   placeholder: string;
   onSearchOpen: () => void;
   onSearchClose: () => void;
   onSelect: (state: number) => void;
 };
 
-const MessagesSearchBar = ({
+const NewMessageModalSearch = ({
   placeholder,
   onSearchOpen,
   onSearchClose,
   onSelect,
-}: MessagesSearchBarProps) => {
+}: NewMessageModalSearchProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const [followedList, setFollowedList] = useState<BaseUser[]>([]);
   const { sendRequest } = useAxios();
@@ -114,4 +114,4 @@ const MessagesSearchBar = ({
   );
 };
 
-export default MessagesSearchBar;
+export default NewMessageModalSearch;

@@ -3,8 +3,8 @@ import { Dialog, DialogTitle, DialogContent, IconButton } from "@mui/material/";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
-import MessagesModalList from "./MessagesModalList";
-import MessagesSearchBar from "./MessagesSearchBar";
+import NewMessageModalList from "./NewMessageModalList";
+import NewMessageModalSearch from "./NewMessageModalSearch";
 
 const styles = {
   dialog: {
@@ -19,15 +19,12 @@ const styles = {
   },
 };
 
-type CreateMessageModalProps = {
+type NewMessageModalProps = {
   onClose: () => void;
   open: boolean;
 };
 
-export default function CreateMessageModal({
-  onClose,
-  open,
-}: CreateMessageModalProps) {
+const NewMessageModal = ({ onClose, open }: NewMessageModalProps) => {
   const [focusSearchBar, setFocusSearchBar] = useState(false);
   const user = useAppSelector((state) => state.user);
   const navigate = useNavigate();
@@ -51,15 +48,17 @@ export default function CreateMessageModal({
         </IconButton>
         New Message
       </DialogTitle>
-      <MessagesSearchBar
+      <NewMessageModalSearch
         onSearchClose={() => setFocusSearchBar(false)}
         onSearchOpen={() => setFocusSearchBar(true)}
         onSelect={onSelect}
         placeholder="Search following"
       />
       <DialogContent>
-        {!focusSearchBar && <MessagesModalList onClose={onClose} />}
+        {!focusSearchBar && <NewMessageModalList onClose={onClose} />}
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default NewMessageModal;

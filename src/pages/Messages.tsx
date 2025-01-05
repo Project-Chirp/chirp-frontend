@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import ConversationList from "../components/Messages/ConversationList";
-import CreateMessageModal from "../components/Messages/CreateMessageModal/CreateMessageModal";
+import NewMessageModal from "../components/Messages/NewMessageModal/NewMessageModal";
 import NavBar from "../components/NavBar/NavBar";
 
 const styles = {
@@ -50,7 +50,7 @@ const Messages = () => {
           </Box>
         </Box>
       </Stack>
-      <CreateMessageModal
+      <NewMessageModal
         onClose={() => showMessageModal(false)}
         open={messageModal}
       />

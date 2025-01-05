@@ -7,7 +7,7 @@ import { setConversations } from "../../state/slices/messagesSlice";
 import useAxios from "../../utilities/useAxios";
 import SearchBar from "../Common/SearchBar";
 import ConversationListItem from "./ConversationListItem";
-import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
+import NewMessageModal from "./NewMessageModal/NewMessageModal";
 
 const styles = {
   header: {
@@ -72,7 +72,7 @@ const ConversationList = () => {
           />
         ))}
       </List>
-      <CreateMessageModal
+      <NewMessageModal
         onClose={() => showMessageModal(false)}
         open={messageModal}
       />

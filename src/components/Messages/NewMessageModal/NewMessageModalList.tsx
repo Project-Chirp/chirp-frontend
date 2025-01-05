@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../state/hooks";
 import { Conversation } from "../../../types/messages";
 import useAxios from "../../../utilities/useAxios";
-import MessagesModalListItem from "./MessagesModalListItem";
+import NewMessageModalListItem from "./NewMessageModalListItem";
 
-type MessagesListProps = {
+type NewMessageModalListProps = {
   onClose: () => void;
 };
 
-const MessagesList = ({ onClose }: MessagesListProps) => {
+const NewMessageModalList = ({ onClose }: NewMessageModalListProps) => {
   const userId = useAppSelector((state) => state.user.userId);
   const [conversationList, setConversationList] = useState<Conversation[]>([]);
   const { sendRequest } = useAxios();
@@ -31,7 +31,7 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
   return (
     <List component="div">
       {conversationList.map((o) => (
-        <MessagesModalListItem
+        <NewMessageModalListItem
           key={o.userId}
           onClose={onClose}
           otherUser={{
@@ -45,4 +45,4 @@ const MessagesList = ({ onClose }: MessagesListProps) => {
   );
 };
 
-export default MessagesList;
+export default NewMessageModalList;
