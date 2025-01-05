@@ -13,11 +13,6 @@ import SearchBarDropDown from "../../Common/SearchBarDropdown";
 import NewMessageModalList from "./NewMessageModalList";
 
 const styles = {
-  box: {
-    paddingBottom: 1,
-    paddingTop: 0,
-    paddingX: 2,
-  },
   dialog: {
     height: "60%",
     borderRadius: 5,
@@ -30,6 +25,11 @@ const styles = {
   },
   listBox: {
     maxHeight: "450px",
+  },
+  searchBarContainer: {
+    paddingBottom: 1,
+    paddingTop: 0,
+    paddingX: 2,
   },
 };
 
@@ -63,7 +63,7 @@ const NewMessageModal = ({ onClose, open }: NewMessageModalProps) => {
         </IconButton>
         New Message
       </DialogTitle>
-      <Box sx={styles.box}>
+      <Box sx={styles.searchBarContainer}>
         <SearchBarDropDown
           listBoxStyle={styles.listBox}
           onBlur={() => setFocusSearchBar(false)}

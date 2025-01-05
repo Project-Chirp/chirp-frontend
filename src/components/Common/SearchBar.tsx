@@ -2,10 +2,10 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { InputAdornment, TextField } from "@mui/material";
 
 type SearchBarProps = {
-  placeholder: string;
+  placeholder?: string;
 };
 
-const SearchBar = ({ placeholder }: SearchBarProps) => {
+const SearchBar = ({ placeholder = "Search" }: SearchBarProps) => {
   return (
     <TextField
       fullWidth

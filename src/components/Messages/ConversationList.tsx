@@ -57,7 +57,7 @@ const ConversationList = () => {
         </IconButton>
       </Box>
       <Box sx={styles.searchBarContainer}>
-        <SearchBar placeholder="Search Messages" />
+        <SearchBar placeholder="Search messages" />
       </Box>
       <Divider />
       <List component="div">

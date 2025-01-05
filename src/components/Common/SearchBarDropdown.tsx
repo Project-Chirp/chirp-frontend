@@ -117,7 +117,7 @@ const SearchBarDropDown = ({
         ListboxProps={{ style: listBoxStyle || styles.listBox }}
         loading={loading}
         noOptionsText={
-          !keywords ? "Start typing to search..." : "No users found"
+          !keywords ? "Start typing to search..." : "No people found"
         }
         onBlur={() => {
           onBlur?.();
@@ -136,7 +136,7 @@ const SearchBarDropDown = ({
             {...params}
             fullWidth
             inputRef={inputRef}
-            placeholder="Search users"
+            placeholder="Search people"
             size="small"
             slotProps={{
               input: {
