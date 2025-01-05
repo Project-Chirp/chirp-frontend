@@ -1,19 +1,7 @@
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import {
-  Autocomplete,
-  Avatar,
-  Box,
-  IconButton,
-  InputAdornment,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemText,
-  TextField,
-} from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
-import { BaseUser } from "../../../types/users";
-import useAxios from "../../../utilities/useAxios";
+import SearchBarDropDown from "../../Common/SearchBarDropdown";
 
 const styles = {
   autocomplete: { "&.MuiAutocomplete-input": { paddingLeft: 0 } },
@@ -23,92 +11,36 @@ const styles = {
     paddingX: 2,
   },
   searchIcon: { paddingRight: 0 },
+  listBox: {
+    maxHeight: "450px",
+  },
 };
 
 type NewMessageModalSearchProps = {
-  placeholder: string;
-  onSearchOpen: () => void;
-  onSearchClose: () => void;
-  onSelect: (state: number) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
+  onSelect?: () => void;
 };
 
 const NewMessageModalSearch = ({
-  placeholder,
-  onSearchOpen,
-  onSearchClose,
+  onBlur,
+  onFocus,
   onSelect,
 }: NewMessageModalSearchProps) => {
   const userId = useAppSelector((state) => state.user.userId);
-  const [followedList, setFollowedList] = useState<BaseUser[]>([]);
-  const { sendRequest } = useAxios();
-
-  useEffect(() => {
-    const fetchDMList = async () => {
-      const result = await sendRequest(
-        {
-          method: "GET",
-          params: { userId },
-        },
-        "messages/followedList",
-      );
-      setFollowedList(result);
-    };
-    fetchDMList();
-  }, [userId, sendRequest]);
+  const navigate = useNavigate();
 
   return (
     <Box sx={styles.box}>
-      <Autocomplete
-        fullWidth
-        getOptionLabel={(option) => `${option.displayName} @${option.username}`}
-        onClose={onSearchClose}
-        onOpen={onSearchOpen}
-        openOnFocus
-        options={followedList}
-        popupIcon={false}
-        renderInput={(params) => {
-          return (
-            <TextField
-              {...params}
-              fullWidth
-              hiddenLabel
-              placeholder={placeholder}
-              size="small"
-              slotProps={{
-                input: {
-                  ...params.InputProps,
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton disabled sx={styles.searchIcon}>
-                        <SearchRoundedIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                },
-              }}
-            />
-          );
+      <SearchBarDropDown
+        listBoxStyle={styles.listBox}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        onSelect={(o) => {
+          onSelect?.();
+          const path = `/messages/${userId}/${o.userId}`;
+          navigate(path);
         }}
-        renderOption={(_, option) => {
-          return (
-            <ListItemButton
-              component="li"
-              key={option.userId}
-              onClick={() => onSelect(option.userId)}
-            >
-              <ListItemAvatar>
-                <Avatar />
-              </ListItemAvatar>
-              <ListItemText
-                primary={option.displayName}
-                primaryTypographyProps={{ variant: "subtitle1" }}
-                secondary={`@${option.username}`}
-                secondaryTypographyProps={{ variant: "subtitle2" }}
-              />
-            </ListItemButton>
-          );
-        }}
-        sx={styles.autocomplete}
       />
     </Box>
   );

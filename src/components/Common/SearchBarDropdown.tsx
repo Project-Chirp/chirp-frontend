@@ -13,12 +13,14 @@ import {
   debounce,
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { BaseUser } from "../../types/users";
 import useAxios from "../../utilities/useAxios";
 
 type SearchBarDropDownProps = {
-  placeholder: string;
+  listBoxStyle?: React.CSSProperties;
+  onBlur?: () => void;
+  onFocus?: () => void;
+  onSelect: (o: BaseUser) => void;
 };
 
 const styles = {
@@ -39,13 +41,17 @@ const styles = {
   },
 };
 
-const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
+const SearchBarDropDown = ({
+  listBoxStyle,
+  onBlur,
+  onFocus,
+  onSelect,
+}: SearchBarDropDownProps) => {
   const [focusSearchBar, setFocusSearchBar] = useState(false);
   const [keywords, setKeywords] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchOptions, setSearchOptions] = useState<BaseUser[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
   const { sendRequest } = useAxios();
 
   const fetchUsers = async (keywords: string) => {
@@ -81,11 +87,11 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
     debouncedFetch(keywords);
   }, [keywords]);
 
-  const handleSelect = (selectedUsername: string) => {
+  const handleSelect = (selectedUsername: BaseUser) => {
     setKeywords("");
     setSearchOptions([]);
     inputRef.current?.blur();
-    navigate(`/${selectedUsername}`);
+    onSelect(selectedUsername);
   };
 
   const handleInputChange = (newInputValue: string) => {
@@ -108,14 +114,20 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
         fullWidth
         getOptionLabel={() => ""}
         inputValue={keywords}
-        ListboxProps={{ style: styles.listBox }}
+        ListboxProps={{ style: listBoxStyle || styles.listBox }}
         loading={loading}
         noOptionsText={
-          !keywords ? "Start typing to search..." : "No user found"
+          !keywords ? "Start typing to search..." : "No users found"
         }
-        onBlur={() => setFocusSearchBar(false)}
-        onChange={(_, value) => value && handleSelect(value.username)}
-        onFocus={() => setFocusSearchBar(true)}
+        onBlur={() => {
+          onBlur?.();
+          setFocusSearchBar(false);
+        }}
+        onChange={(_, value) => value && handleSelect(value)}
+        onFocus={() => {
+          onFocus?.();
+          setFocusSearchBar(true);
+        }}
         onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
         open={focusSearchBar}
         options={searchOptions}
@@ -124,7 +136,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
             {...params}
             fullWidth
             inputRef={inputRef}
-            placeholder={placeholder}
+            placeholder="Search users"
             size="small"
             slotProps={{
               input: {
@@ -161,7 +173,7 @@ const SearchBarDropDown = ({ placeholder }: SearchBarDropDownProps) => {
               {...params}
               component="li"
               key={option.userId}
-              onClick={() => handleSelect(option.username)}
+              onClick={() => handleSelect(option)}
             >
               <ListItemAvatar>
                 <Avatar />

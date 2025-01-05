@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import SearchBarDropdown from "../Common/SearchBarDropdown";
 import Advertisement from "./Advertisement";
 import RelevantUsers from "./RelevantUsers";
@@ -17,9 +18,11 @@ const styles = {
 };
 
 const ExpandedPostSidebar = () => {
+  const navigate = useNavigate();
+
   return (
     <Box sx={styles.rightContent}>
-      <SearchBarDropdown placeholder="Search users" />
+      <SearchBarDropdown onSelect={(o) => navigate(`/${o.username}`)} />
       <RelevantUsers />
       <Advertisement />
       <SidebarFooter />
