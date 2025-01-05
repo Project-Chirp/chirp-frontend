@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SearchBarDropdown from "../Common/SearchBarDropdown";
 import Advertisement from "./Advertisement";
+import RelevantUsers from "./RelevantUsers";
 import SidebarFooter from "./SidebarFooter";
 import SuggestedUserItem from "./SuggestedUsers";
 
@@ -11,21 +12,23 @@ const styles = {
     flexDirection: "column",
     gap: 2,
     height: "100vh",
+    paddingTop: 1,
     position: "fixed",
     width: "310px",
   },
-  searchBarContainer: { paddingTop: 1 },
 };
 
-const SideBar = () => {
+type SideBarProps = {
+  isExpandedPost?: boolean;
+};
+
+const SideBar = ({ isExpandedPost }: SideBarProps) => {
   const navigate = useNavigate();
 
   return (
     <Box sx={styles.rightContent}>
-      <Box sx={styles.searchBarContainer}>
-        <SearchBarDropdown onSelect={(o) => navigate(`/${o.username}`)} />
-      </Box>
-      <SuggestedUserItem />
+      <SearchBarDropdown onSelect={(o) => navigate(`/${o.username}`)} />
+      {isExpandedPost ? <RelevantUsers /> : <SuggestedUserItem />}
       <Advertisement />
       <SidebarFooter />
     </Box>
