@@ -139,7 +139,7 @@ const EditPostModal = ({
                   />
                 </Stack>
                 <Button
-                  disabled={!postTextContent.trim()}
+                  disabled={!postTextContent?.trim()}
                   size="small"
                   type="submit"
                   variant="contained"

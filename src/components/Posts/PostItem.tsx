@@ -30,7 +30,6 @@ import {
   Post,
   toggleLikePost,
   toggleRepost,
-  undoRepost,
 } from "../../state/slices/postsSlice";
 import { useNavigate } from "react-router-dom";
 import { setExpandedPost } from "../../state/slices/postsSlice";
@@ -91,7 +90,7 @@ const PostItem = ({ post }: PostProps) => {
   const repostMenuRef = useRef<HTMLButtonElement>(null);
 
   const routeChange = () => {
-    if (post.isRepost) {
+    if (post.repostedBy && post.parentPostId) {
       navigate(`/post/${post.parentPostId}`);
     } else {
       navigate(`/post/${post.postId}`);
@@ -105,26 +104,8 @@ const PostItem = ({ post }: PostProps) => {
   };
 
   const handleRepost = async () => {
+    dispatch(toggleRepost(post.postId));
     setOpenRepostMenu(false);
-    const targetPostId =
-      post.isRepost && post.parentPostId ? post.parentPostId : post.postId;
-
-    await toggleRepostRequest(
-      post.isRepostedByCurrentUser,
-      targetPostId,
-      user.userId
-    );
-
-    if (post.isRepostedByCurrentUser) {
-      dispatch(
-        undoRepost({
-          parentPostId: targetPostId,
-          repostedUsername: user.username,
-        })
-      );
-    } else {
-      dispatch(toggleRepost(post.postId));
-    }
   };
 
   return (
@@ -153,16 +134,16 @@ const PostItem = ({ post }: PostProps) => {
             >
               @{post.username}
             </Link>
-            {post.isRepost && (
+            {post.repostedBy && post.parentPostId && (
               <Link
                 color={theme.typography.subtitle2.color}
                 component={Routerlink}
-                to={`/${post.repostedUsername}`}
+                to={`/${post.repostedBy}`}
                 variant="subtitle2"
                 sx={{ paddingLeft: 1 }}
                 underline="hover"
               >
-                Reposted by @{post.repostedUsername}
+                Reposted by @{post.repostedBy}
               </Link>
             )}
           </Box>

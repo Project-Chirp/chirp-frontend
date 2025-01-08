@@ -1,23 +1,52 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+// export type Post = {
+//   displayName: string;
+//   followStatus: boolean;
+//   imagePath?: string;
+//   isLikedByCurrentUser: boolean;
+//   isRepostedByCurrentUser: boolean;
+//   isQuotePost?: boolean;
+//   isRepost?: boolean;
+//   numberOfLikes: number;
+//   numberOfReplies: number;
+//   numberOfReposts: number;
+//   parentPostId?: number;
+//   postId: number;
+//   textContent: string;
+//   timestamp: string;
+//   userId: number;
+//   username: string;
+//   repostedUsername?: string;
+//   editedTimestamp: string;
+// };
+
 export type Post = {
   displayName: string;
   followStatus: boolean;
   imagePath?: string;
   isLikedByCurrentUser: boolean;
   isRepostedByCurrentUser: boolean;
-  isQuotePost?: boolean;
-  isRepost?: boolean;
   numberOfLikes: number;
   numberOfReplies: number;
   numberOfReposts: number;
+  repostedBy?: string;
+  originalPostContent?: {
+    textContent: string;
+    timestamp: string;
+    userId: number;
+    username: string;
+    editedTimestamp: string;
+    displayName: string;
+    followStatus: boolean;
+    imagePath?: string;
+  };
   parentPostId?: number;
   postId: number;
-  textContent: string;
+  textContent?: string;
   timestamp: string;
   userId: number;
   username: string;
-  repostedUsername?: string;
   editedTimestamp: string;
 };
 
@@ -36,12 +65,24 @@ const initialState: PostState = {
     numberOfLikes: 0,
     numberOfReplies: 0,
     numberOfReposts: 0,
+    parentPostId: 0,
     postId: 0,
     textContent: "",
     timestamp: "",
     userId: 0,
     username: "",
     editedTimestamp: "",
+    originalPostContent: {
+      textContent: "",
+      timestamp: "",
+      userId: 0,
+      username: "",
+      editedTimestamp: "",
+      displayName: "",
+      followStatus: false,
+      imagePath: "",
+    },
+    repostedBy: "",
   },
 };
 
@@ -92,29 +133,22 @@ export const postsSlice = createSlice({
     },
     toggleRepost: (state, action: PayloadAction<number>) => {
       const newPosts = state.posts.map((o) => {
-        if (o.postId === action.payload) {
+        console.log(action.payload);
+
+        if (o.postId || o.parentPostId === action.payload) {
           const isRepostedByCurrentUser = !o.isRepostedByCurrentUser;
           return {
             ...o,
             isRepostedByCurrentUser,
             numberOfReposts: isRepostedByCurrentUser
-              ? Number(o.numberOfReposts + 1)
-              : Number(o.numberOfReposts - 1),
+              ? o.numberOfReposts + 1
+              : o.numberOfReposts - 1,
           };
         }
         return o;
       });
 
       state.posts = newPosts;
-
-      if (action.payload === state.expandedPost.postId) {
-        const isRepostedByCurrentUser =
-          !state.expandedPost.isRepostedByCurrentUser;
-        state.expandedPost.isRepostedByCurrentUser = isRepostedByCurrentUser;
-        isRepostedByCurrentUser
-          ? state.expandedPost.numberOfReposts++
-          : state.expandedPost.numberOfReposts--;
-      }
     },
     toggleLikePost: (state, action: PayloadAction<number>) => {
       const newPosts = state.posts.map((o) => {
@@ -142,32 +176,6 @@ export const postsSlice = createSlice({
     },
     toggleFollow: (state) => {
       state.expandedPost.followStatus = !state.expandedPost.followStatus;
-    },
-    undoRepost: (
-      state,
-      action: PayloadAction<{ parentPostId: number; repostedUsername?: string }>
-    ) => {
-      const { parentPostId, repostedUsername } = action.payload;
-
-      state.posts = state.posts
-        .filter((post) => {
-          return !(
-            post.isRepost &&
-            post.parentPostId === parentPostId &&
-            post.isRepostedByCurrentUser &&
-            post.repostedUsername === repostedUsername
-          );
-        })
-        .map((post) => {
-          if (
-            post.postId === parentPostId ||
-            post.parentPostId === parentPostId
-          ) {
-            return { ...post, isRepostedByCurrentUser: false };
-          }
-
-          return post;
-        });
     },
     updateDisplayNames: (
       state,
@@ -199,7 +207,6 @@ export const {
   toggleRepost,
   toggleLikePost,
   toggleFollow,
-  undoRepost,
   updateDisplayNames,
   updatePost,
 } = postsSlice.actions;
