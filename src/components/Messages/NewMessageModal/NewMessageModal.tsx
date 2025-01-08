@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
-import SearchBarDropDown from "../../Common/SearchBarDropdown";
+import UserSearchBar from "../../Common/UserSearchBar";
 import NewMessageModalList from "./NewMessageModalList";
 
 const styles = {
@@ -64,7 +64,7 @@ const NewMessageModal = ({ onClose, open }: NewMessageModalProps) => {
         New Message
       </DialogTitle>
       <Box sx={styles.searchBarContainer}>
-        <SearchBarDropDown
+        <UserSearchBar
           listBoxStyle={styles.listBox}
           onBlur={() => setFocusSearchBar(false)}
           onFocus={() => setFocusSearchBar(true)}

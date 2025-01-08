@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import SearchBarDropdown from "../Common/SearchBarDropdown";
+import UserSearchBar from "../Common/UserSearchBar";
 import Advertisement from "./Advertisement";
 import RelevantUsers from "./RelevantUsers";
 import SidebarFooter from "./SidebarFooter";
@@ -27,7 +27,7 @@ const SideBar = ({ isExpandedPost }: SideBarProps) => {
 
   return (
     <Box sx={styles.rightContent}>
-      <SearchBarDropdown onSelect={(o) => navigate(`/${o.username}`)} />
+      <UserSearchBar onSelect={(o) => navigate(`/${o.username}`)} />
       {isExpandedPost ? <RelevantUsers /> : <SuggestedUserItem />}
       <Advertisement />
       <SidebarFooter />

@@ -16,7 +16,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { BaseUser } from "../../types/users";
 import useAxios from "../../utilities/useAxios";
 
-type SearchBarDropDownProps = {
+type UserSearchBarProps = {
   listBoxStyle?: React.CSSProperties;
   onBlur?: () => void;
   onFocus?: () => void;
@@ -41,12 +41,12 @@ const styles = {
   },
 };
 
-const SearchBarDropDown = ({
+const UserSearchBar = ({
   listBoxStyle,
   onBlur,
   onFocus,
   onSelect,
-}: SearchBarDropDownProps) => {
+}: UserSearchBarProps) => {
   const [focusSearchBar, setFocusSearchBar] = useState(false);
   const [keywords, setKeywords] = useState("");
   const [loading, setLoading] = useState(false);
@@ -193,4 +193,4 @@ const SearchBarDropDown = ({
   );
 };
 
-export default SearchBarDropDown;
+export default UserSearchBar;
