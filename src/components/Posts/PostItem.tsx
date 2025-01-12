@@ -4,7 +4,6 @@ import {
   FavoriteOutlined,
   RepeatOutlined,
   ShareOutlined,
-  RateReview,
   Repeat,
 } from "@mui/icons-material";
 import {
@@ -18,14 +17,10 @@ import {
   CardMedia,
   IconButton,
   Link,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
   Typography,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
@@ -36,6 +31,7 @@ import {
 import { enqueueToast } from "../../state/slices/toastSlice";
 import toggleLikePostRequest from "../../utilities/postUtilities";
 import useAxios from "../../utilities/useAxios";
+import RepostMenu from "../Common/RepostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
@@ -137,10 +133,10 @@ const PostItem = ({ post }: PostProps) => {
               <Link
                 color={theme.typography.subtitle2.color}
                 component={Routerlink}
-                to={`/${post.repostedBy}`}
-                variant="subtitle2"
                 sx={{ paddingLeft: 1 }}
+                to={`/${post.repostedBy}`}
                 underline="hover"
+                variant="subtitle2"
               >
                 Reposted by @{post.repostedBy}
               </Link>
@@ -163,8 +159,8 @@ const PostItem = ({ post }: PostProps) => {
       <CardActions>
         <Box sx={styles.cardActions}>
           <Button
-            ref={repostMenuRef}
             onClick={() => setOpenRepostMenu(true)}
+            ref={repostMenuRef}
             startIcon={
               post.isLikedByCurrentUser ? <RepeatOutlined /> : <Repeat />
             }
@@ -177,10 +173,10 @@ const PostItem = ({ post }: PostProps) => {
             {post.numberOfReposts}
           </Button>
           <RepostMenu
-            postId={post.postId}
             isReposted={post.isRepostedByCurrentUser}
-            ref={repostMenuRef}
             open={openRepostMenu}
+            postId={post.postId}
+            ref={repostMenuRef}
             setCloseMenu={() => setOpenRepostMenu(false)}
           />
           <Button
