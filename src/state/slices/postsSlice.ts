@@ -135,7 +135,7 @@ export const postsSlice = createSlice({
       const newPosts = state.posts.map((o) => {
         console.log(action.payload);
 
-        if (o.postId || o.parentPostId === action.payload) {
+        if ((o.postId || o.parentPostId) === action.payload) {
           const isRepostedByCurrentUser = !o.isRepostedByCurrentUser;
           return {
             ...o,

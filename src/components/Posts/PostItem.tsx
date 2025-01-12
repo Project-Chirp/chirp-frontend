@@ -44,6 +44,7 @@ import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import RepostMenu from "../Common/RepostMenu";
 
 type PostProps = {
   post: Post;
@@ -101,11 +102,6 @@ const PostItem = ({ post }: PostProps) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
-  };
-
-  const handleRepost = async () => {
-    dispatch(toggleRepost(post.postId));
-    setOpenRepostMenu(false);
   };
 
   return (
@@ -184,37 +180,13 @@ const PostItem = ({ post }: PostProps) => {
           >
             {post.numberOfReposts}
           </Button>
-          <Menu
-            anchorEl={repostMenuRef.current}
+          <RepostMenu
+            postId={post.postId}
+            isReposted={post.isRepostedByCurrentUser}
+            ref={repostMenuRef}
             open={openRepostMenu}
-            onClose={() => setOpenRepostMenu(false)}
-            slotProps={{
-              paper: {
-                sx: styles.menu,
-              },
-            }}
-            MenuListProps={{ sx: styles.menuList }}
-          >
-            <MenuItem sx={styles.menuItem} onClick={handleRepost}>
-              <ListItemIcon>
-                <RepeatOutlined sx={styles.icon} />
-              </ListItemIcon>
-              <ListItemText primaryTypographyProps={{ variant: "subtitle1" }}>
-                {post.isRepostedByCurrentUser ? "Undo repost" : "Repost"}
-              </ListItemText>
-            </MenuItem>
-            <MenuItem
-              sx={styles.menuItem}
-              onClick={() => setOpenRepostMenu(false)}
-            >
-              <ListItemIcon>
-                <RateReview sx={styles.icon} />
-              </ListItemIcon>
-              <ListItemText primaryTypographyProps={{ variant: "subtitle1" }}>
-                Quote Post
-              </ListItemText>
-            </MenuItem>
-          </Menu>
+            setCloseMenu={() => setOpenRepostMenu(false)}
+          />
           <Button
             onClick={() => {
               setOpenReplies(true);
