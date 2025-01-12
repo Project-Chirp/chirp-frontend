@@ -1,4 +1,12 @@
 import {
+  AddCommentOutlined,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  KeyboardBackspace,
+  RepeatOutlined,
+  ShareOutlined,
+} from "@mui/icons-material";
+import {
   Box,
   Button,
   Card,
@@ -12,29 +20,22 @@ import {
   Divider,
   Link,
 } from "@mui/material";
-import {
-  AddCommentOutlined,
-  FavoriteBorderOutlined,
-  FavoriteOutlined,
-  KeyboardBackspace,
-  RepeatOutlined,
-  ShareOutlined,
-} from "@mui/icons-material";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { useNavigate, useParams } from "react-router-dom";
-import { toggleLikePost } from "../../state/slices/postsSlice";
-import { setExpandedPost } from "../../state/slices/postsSlice";
-import { useEffect, useState } from "react";
-import RepliesModal from "./RepliesModal";
-import { Post } from "../../state/slices/postsSlice";
-import { toggleLikePostRequest } from "../../utilities/postUtilities";
-import { Link as Routerlink } from "react-router-dom";
-import UserAvatar from "../Common/UserAvatar";
 import { useTheme } from "@mui/material/styles";
-import PostMenu from "./PostMenu";
-import TooltipTimestamp from "../Common/TooltipTimestamp";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import {
+  toggleLikePost,
+  setExpandedPost,
+  Post,
+} from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import toggleLikePostRequest from "../../utilities/postUtilities";
+import useAxios from "../../utilities/useAxios";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
+import UserAvatar from "../Common/UserAvatar";
+import PostMenu from "./PostMenu";
+import { RepliesModal } from "./RepliesModal";
 
 const styles = {
   actionButton: {
@@ -87,23 +88,18 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const urlParams = useParams();
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
-      try {
-        const backupFetch = await axios.get(
-          "http://localhost:3001/api/posts/fetchPost",
-          {
-            params: {
-              userId: user.userId,
-              postId: urlParams.postId,
-            },
-          }
-        );
-        dispatch(setExpandedPost(backupFetch.data as Post));
-      } catch (error) {
-        console.error("Failed to fetch post", error);
-      }
+      const backupFetch = await sendRequest(
+        {
+          method: "GET",
+          params: { userId: user.userId, postId: urlParams.postId },
+        },
+        "posts/fetchPost",
+      );
+      dispatch(setExpandedPost(backupFetch as Post));
     };
     updatedExpandedPost();
   }, [dispatch, user.userId, urlParams.postId]);
@@ -122,19 +118,8 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
         <Typography variant="h3">Post</Typography>
       </Box>
       <CardHeader
-        avatar={<UserAvatar username={post.username} />}
         action={<PostMenu isExpandedPost post={post} />}
-        title={
-          <Link
-            color={theme.typography.subtitle1.color}
-            component={Routerlink}
-            to={`/${post.username}`}
-            underline="hover"
-            variant="subtitle1"
-          >
-            {post.displayName}
-          </Link>
-        }
+        avatar={<UserAvatar username={post.username} />}
         subheader={
           <Link
             color={theme.typography.subtitle2.color}
@@ -146,21 +131,32 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             @{post.username}
           </Link>
         }
+        title={
+          <Link
+            color={theme.typography.subtitle1.color}
+            component={Routerlink}
+            to={`/${post.username}`}
+            underline="hover"
+            variant="subtitle1"
+          >
+            {post.displayName}
+          </Link>
+        }
       />
       <CardContent>
         <Typography>{post.textContent}</Typography>
       </CardContent>
       {post.imagePath && (
         <CardMedia
-          sx={styles.cardMedia}
           component="img"
           image={post.imagePath}
+          sx={styles.cardMedia}
         />
       )}
       <Box sx={styles.timestampBox}>
         <TooltipTimestamp
-          timestamp={post.editedTimestamp || post.timestamp}
           isEdited={Boolean(post.editedTimestamp)}
+          timestamp={post.editedTimestamp || post.timestamp}
         />
       </Box>
       <Divider variant="middle" />
@@ -208,11 +204,12 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
             <AddCommentOutlined />
           </IconButton>
           <IconButton
-            onClick={() => {
+            onClick={async () => {
               toggleLikePostRequest(
+                sendRequest,
                 post.isLikedByCurrentUser,
                 post.postId,
-                user.userId
+                user.userId,
               );
               dispatch(toggleLikePost(post.postId));
             }}

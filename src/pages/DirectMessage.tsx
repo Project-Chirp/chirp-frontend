@@ -1,3 +1,7 @@
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import SendIcon from "@mui/icons-material/Send";
 import {
   Avatar,
   Box,
@@ -13,28 +17,23 @@ import {
   useTheme,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
+import { EmojiClickData } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
-import SendIcon from "@mui/icons-material/Send";
+import { useParams, Link as Routerlink, useNavigate } from "react-router-dom";
+import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
+import TooltipTimestamp from "../components/Common/TooltipTimestamp";
+import UserAvatar from "../components/Common/UserAvatar";
 import ConversationList from "../components/Messages/ConversationList";
+import NavBar from "../components/NavBar/NavBar";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
 import {
   appendConversation,
   setSelectedConversation,
   updateConversation,
 } from "../state/slices/messagesSlice";
-import NavBar from "../components/NavBar/NavBar";
-import UserAvatar from "../components/Common/UserAvatar";
-import EmojiPickerIconButton from "../components/Common/EmojiPickerIconButton";
-import { EmojiClickData } from "emoji-picker-react";
-import TooltipTimestamp from "../components/Common/TooltipTimestamp";
 import formatTimestamp from "../utilities/formatTimestamp";
+import useAxios from "../utilities/useAxios";
 import PageLoader from "./PageLoader";
-import { Link as Routerlink } from "react-router-dom";
 
 const styles = {
   avatar: {
@@ -140,39 +139,44 @@ const DirectMessage = () => {
   const [textContent, setTextContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
+  const { sendRequest } = useAxios();
   const user = useAppSelector((state) => state.user);
   const { selectedConversation, conversations } = useAppSelector(
-    (state) => state.messages
+    (state) => state.messages,
   );
   const messageRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const userExists = conversations.find(
-    (o) => o.otherUserId === Number(userId2)
+    (o) => o.otherUserId === Number(userId2),
   );
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchDirectMessage = async () => {
-      try {
-        setLoading(true);
-        const result = await axios.get(
-          `http://localhost:3001/api/messages/${userId1}/${userId2}`
+    try {
+      setLoading(true);
+      const fetchDirectMessage = async () => {
+        const result = await sendRequest(
+          {
+            method: "GET",
+          },
+          `messages/${userId1}/${userId2}`,
         );
-        setMessages(result.data.messages as Message[]);
+        setMessages(result.messages as Message[]);
         dispatch(
           setSelectedConversation({
-            ...result.data.otherUser,
+            ...result.otherUser,
             userId: Number(userId2),
-          })
+          }),
         );
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchDirectMessage();
-  }, [dispatch, userId1, userId2]);
+      };
+
+      fetchDirectMessage();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [dispatch, userId1, userId2, sendRequest]);
 
   useEffect(() => {
     messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
@@ -181,20 +185,24 @@ const DirectMessage = () => {
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const newMessage = (
-        await axios.post("http://localhost:3001/api/messages", {
-          sentUserId: user.userId,
-          receivedUserId: selectedConversation.userId,
-          textContent,
-        })
-      ).data as Message;
+      const newMessage = (await sendRequest(
+        {
+          method: "POST",
+          data: {
+            receivedUserId: selectedConversation.userId,
+            textContent,
+            sentUserId: user.userId,
+          },
+        },
+        "messages",
+      )) as Message;
       setTextContent("");
       setMessages([...messages, newMessage]);
       if (userExists) {
         dispatch(
           setSelectedConversation({
             ...selectedConversation,
-          })
+          }),
         );
       } else {
         dispatch(
@@ -204,7 +212,7 @@ const DirectMessage = () => {
             textContent: "",
             timestamp: new Date().toString(),
             otherUserId: Number(userId2),
-          })
+          }),
         );
       }
       dispatch(
@@ -214,7 +222,7 @@ const DirectMessage = () => {
           textContent: newMessage.textContent,
           timestamp: newMessage.timestamp,
           username: selectedConversation.username,
-        })
+        }),
       );
     } catch (err) {
       console.log(err);
@@ -252,8 +260,8 @@ const DirectMessage = () => {
           <Box sx={styles.chatContainer}>
             <List component="div" ref={messageRef} sx={styles.messageList}>
               <Box
-                sx={styles.bioContainer}
                 onClick={() => navigate(`/${selectedConversation.username}`)}
+                sx={styles.bioContainer}
               >
                 {loading && <PageLoader />}
                 {!loading && (
@@ -262,9 +270,9 @@ const DirectMessage = () => {
                       <Avatar sx={styles.avatar} />
                       <Link
                         color={theme.typography.subtitle1.color}
-                        underline="hover"
                         component={Routerlink}
                         to={`/${selectedConversation.username}`}
+                        underline="hover"
                         variant="subtitle1"
                       >
                         {selectedConversation.displayName}
@@ -280,7 +288,7 @@ const DirectMessage = () => {
                       {selectedConversation.joinedDate &&
                         `Joined
                           ${formatTimestamp(
-                            selectedConversation.joinedDate
+                            selectedConversation.joinedDate,
                           )} • `}
                       {`${selectedConversation.followerCount ?? 0} Followers`}
                     </Typography>
@@ -291,11 +299,6 @@ const DirectMessage = () => {
               {messages.map((o) => (
                 <ListItem component="div" key={o.messageId}>
                   <ListItemText
-                    sx={
-                      o.sentUserId === user.userId
-                        ? styles.sentMessage
-                        : styles.message
-                    }
                     disableTypography
                     primary={
                       <Box
@@ -315,6 +318,11 @@ const DirectMessage = () => {
                           variant="body2"
                         />
                       </Box>
+                    }
+                    sx={
+                      o.sentUserId === user.userId
+                        ? styles.sentMessage
+                        : styles.message
                     }
                   />
                 </ListItem>
@@ -340,7 +348,7 @@ const DirectMessage = () => {
                           <EmojiPickerIconButton
                             onEmojiClick={(emoji: EmojiClickData) => {
                               setTextContent(
-                                (prevContent) => prevContent + emoji.emoji
+                                (prevContent) => prevContent + emoji.emoji,
                               );
                             }}
                             topPosition
@@ -353,8 +361,8 @@ const DirectMessage = () => {
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
-                            type="submit"
                             disabled={!textContent.trim()}
+                            type="submit"
                           >
                             <SendIcon />
                           </IconButton>

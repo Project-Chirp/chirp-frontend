@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import CakeIcon from "@mui/icons-material/Cake";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import EditIcon from "@mui/icons-material/Edit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
   Button,
@@ -12,26 +13,24 @@ import {
   Link,
   useTheme,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import ProfilePosts from "../components/Profile/ProfilePosts";
-import axios from "axios";
-import ProfileReplies from "../components/Profile/ProfileReplies";
-import ProfileLikes from "../components/Profile/ProfileLikes";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import CakeIcon from "@mui/icons-material/Cake";
-import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton/IconButton";
-import Layout from "./Layout";
-import SideBar from "../components/SideBar/SideBar";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
-import FollowingButton from "../components/Common/FollowingButton";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import FollowButton from "../components/Common/FollowButton";
+import FollowingButton from "../components/Common/FollowingButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
-import { setDisplayName } from "../state/slices/userSlice";
-import { updateDisplayNames } from "../state/slices/postsSlice";
 import FollowListModal, {
   NetworkUsers,
 } from "../components/Profile/FollowListModal";
+import ProfileLikes from "../components/Profile/ProfileLikes";
+import ProfilePosts from "../components/Profile/ProfilePosts";
+import ProfileReplies from "../components/Profile/ProfileReplies";
+import SideBar from "../components/SideBar/SideBar";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { updateDisplayNames } from "../state/slices/postsSlice";
+import { setDisplayName } from "../state/slices/userSlice";
+import useAxios from "../utilities/useAxios";
+import Layout from "./Layout";
 
 const styles = {
   avatar: {
@@ -125,6 +124,7 @@ const Profile = () => {
     username: "",
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
+  const { sendRequest } = useAxios();
   const [loading, setLoading] = useState(true);
   const [followListModalLoading, setFollowListModalLoading] = useState(true);
   const [followerListModalOpen, setFollowerListModalOpen] = useState(false);
@@ -144,8 +144,8 @@ const Profile = () => {
     setProfileContents((prevProfileContents) => ({
       ...prevProfileContents,
       followingCount: isFollowing
-        ? --prevProfileContents.followingCount
-        : ++prevProfileContents.followingCount,
+        ? Number(prevProfileContents.followingCount - 1)
+        : Number(prevProfileContents.followingCount + 1),
     }));
   };
 
@@ -153,14 +153,17 @@ const Profile = () => {
     setFollowerListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      const endpoint = "http://localhost:3001/api/follow/getFollowerList";
-      const result = await axios.get(endpoint, {
-        params: {
-          visitedUserId: profileContents.userId,
-          currentUserId: currentUserId,
+      const result = await sendRequest(
+        {
+          method: "GET",
+          params: {
+            visitedUserId: profileContents.userId,
+            currentUserId: currentUserId,
+          },
         },
-      });
-      setFollowListModalData(result.data);
+        "follow/getFollowerList",
+      );
+      setFollowListModalData(result);
     } catch (error) {
       console.log(error);
     } finally {
@@ -172,14 +175,17 @@ const Profile = () => {
     setFollowingListModalOpen(true);
     try {
       setFollowListModalLoading(true);
-      const endpoint = "http://localhost:3001/api/follow/getFollowingList";
-      const result = await axios.get(endpoint, {
-        params: {
-          visitedUserId: profileContents.userId,
-          currentUserId: currentUserId,
+      const result = await sendRequest(
+        {
+          method: "GET",
+          params: {
+            visitedUserId: profileContents.userId,
+            currentUserId: currentUserId,
+          },
         },
-      });
-      setFollowListModalData(result.data);
+        "follow/getFollowingList",
+      );
+      setFollowListModalData(result);
     } catch (error) {
       console.log(error);
     } finally {
@@ -188,25 +194,22 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const fetchProfileContents = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const result = await axios.get(
-          "http://localhost:3001/api/profile/getProfileContents",
+        const result = await sendRequest(
           {
-            params: {
-              currentUserId,
-              visitedUsername: username,
-            },
-          }
+            method: "GET",
+            params: { currentUserId, visitedUsername: username },
+          },
+          "profile/getProfileContents",
         );
         setProfileContents({
-          ...result.data,
+          ...result,
         });
-        setLoading(false);
       } catch (error) {
         console.log(error);
+      } finally {
         setLoading(false);
       }
     };
@@ -261,8 +264,8 @@ const Profile = () => {
                     (profileContents.userId === currentUserId ? (
                       <Button
                         onClick={() => setEditProfileModalOpen(true)}
-                        startIcon={<EditIcon />}
                         size="small"
+                        startIcon={<EditIcon />}
                         sx={styles.editProfileButton}
                         variant="outlined"
                       >
@@ -293,10 +296,10 @@ const Profile = () => {
                     ))}
                 </Box>
                 <Box sx={styles.nameContainer}>
-                  <Typography variant="h3" sx={styles.displayName}>
+                  <Typography sx={styles.displayName} variant="h3">
                     {profileContents.displayName}
                   </Typography>
-                  <Typography variant="subtitle2" sx={styles.username}>
+                  <Typography sx={styles.username} variant="subtitle2">
                     @{profileContents.username}
                   </Typography>
                 </Box>
@@ -323,10 +326,10 @@ const Profile = () => {
                   <Link
                     color={theme.palette.black.main}
                     component="button"
-                    underline="hover"
                     onClick={() => {
                       handleOpenFollowersModal();
                     }}
+                    underline="hover"
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followerCount}
@@ -336,10 +339,10 @@ const Profile = () => {
                   <Link
                     color={theme.palette.black.main}
                     component="button"
-                    underline="hover"
                     onClick={() => {
                       handleOpenFollowingModal();
                     }}
+                    underline="hover"
                   >
                     <Typography component="span" sx={styles.followerCount}>
                       {profileContents.followingCount}
@@ -356,21 +359,21 @@ const Profile = () => {
               value={value}
               variant="fullWidth"
             >
-              <Tab value="one" label="Posts" sx={styles.tab} />
-              <Tab value="two" label="Replies" sx={styles.tab} />
-              <Tab value="three" label="Likes" sx={styles.tab} />
+              <Tab label="Posts" sx={styles.tab} value="one" />
+              <Tab label="Replies" sx={styles.tab} value="two" />
+              <Tab label="Likes" sx={styles.tab} value="three" />
             </Tabs>
             <Divider />
             {!loading && profileContents.userId && (
               <Box>
                 {value === "one" && (
-                  <ProfilePosts userId={profileContents.userId} />
+                  <ProfilePosts visitedUserId={profileContents.userId} />
                 )}
                 {value === "two" && (
-                  <ProfileReplies userId={profileContents.userId} />
+                  <ProfileReplies visitedUserId={profileContents.userId} />
                 )}
                 {value === "three" && (
-                  <ProfileLikes userId={profileContents.userId} />
+                  <ProfileLikes visitedUserId={profileContents.userId} />
                 )}
               </Box>
             )}
@@ -390,14 +393,14 @@ const Profile = () => {
               updateDisplayNames({
                 prevDisplayName: profileContents.displayName,
                 newDisplayName: editedProfile.displayName,
-              })
+              }),
             );
             setProfileContents({ ...profileContents, ...editedProfile });
           }}
           open={editProfileModalOpen}
         />
       )}
-      {followerListModalOpen && (
+      {!loading && followerListModalOpen && (
         <FollowListModal
           list={followListModalData}
           loading={followListModalLoading}
@@ -409,7 +412,7 @@ const Profile = () => {
           title="Followers"
         />
       )}
-      {followingListModalOpen && (
+      {!loading && followingListModalOpen && (
         <FollowListModal
           list={followListModalData}
           loading={followListModalLoading}

@@ -1,37 +1,37 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
 import { List } from "@mui/material";
+import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../state/hooks";
-import MessagesModalListItem from "./MessagesModalListItem";
 import { SelectedUser } from "../../../state/slices/messagesSlice";
+import useAxios from "../../../utilities/useAxios";
+import MessagesModalListItem from "./MessagesModalListItem";
 
 type MessagesListProps = {
   onClose: () => void;
 };
 
 const MessagesList = ({ onClose }: MessagesListProps) => {
-  const user = useAppSelector((state) => state.user);
+  const userId = useAppSelector((state) => state.user.userId);
   const [conversationList, setConversationList] = useState<SelectedUser[]>([]);
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchConversationList = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/messages/getModalConversations",
+      const result = await sendRequest(
         {
-          params: {
-            userId: user.userId,
-          },
-        }
+          method: "GET",
+          params: { userId },
+        },
+        "messages/getModalConversations",
       );
-      setConversationList(result.data as SelectedUser[]);
+      setConversationList(result as SelectedUser[]);
     };
     fetchConversationList();
-  }, [user]);
+  }, [userId, sendRequest]);
 
   return (
     <List component="div">
       {conversationList.map((o) => (
-        <MessagesModalListItem otherUser={o} key={o.userId} onClose={onClose} />
+        <MessagesModalListItem key={o.userId} onClose={onClose} otherUser={o} />
       ))}
     </List>
   );

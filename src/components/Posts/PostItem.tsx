@@ -1,4 +1,13 @@
 import {
+  AddCommentOutlined,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  RepeatOutlined,
+  ShareOutlined,
+  RateReview,
+  Repeat,
+} from "@mui/icons-material";
+import {
   Box,
   Button,
   Card,
@@ -16,35 +25,21 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import {
-  AddCommentOutlined,
-  FavoriteBorderOutlined,
-  FavoriteOutlined,
-  RepeatOutlined,
-  ShareOutlined,
-  RateReview,
-  Repeat,
-} from "@mui/icons-material";
+import { useState } from "react";
+import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
   Post,
   toggleLikePost,
-  toggleRepost,
+  setExpandedPost,
 } from "../../state/slices/postsSlice";
-import { useNavigate } from "react-router-dom";
-import { setExpandedPost } from "../../state/slices/postsSlice";
-import { useRef, useState } from "react";
-import RepliesModal from "./RepliesModal";
-import {
-  toggleLikePostRequest,
-  toggleRepostRequest,
-} from "../../utilities/postUtilities";
-import { Link as Routerlink } from "react-router-dom";
+import { enqueueToast } from "../../state/slices/toastSlice";
+import toggleLikePostRequest from "../../utilities/postUtilities";
+import useAxios from "../../utilities/useAxios";
+import TooltipTimestamp from "../Common/TooltipTimestamp";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
-import TooltipTimestamp from "../Common/TooltipTimestamp";
-import { enqueueToast } from "../../state/slices/toastSlice";
-import RepostMenu from "../Common/RepostMenu";
+import { RepliesModal } from "./RepliesModal";
 
 type PostProps = {
   post: Post;
@@ -89,6 +84,7 @@ const PostItem = ({ post }: PostProps) => {
   const [openReplies, setOpenReplies] = useState(false);
   const [openRepostMenu, setOpenRepostMenu] = useState(false);
   const repostMenuRef = useRef<HTMLButtonElement>(null);
+  const { sendRequest } = useAxios();
 
   const routeChange = () => {
     if (post.repostedBy && post.parentPostId) {
@@ -107,16 +103,23 @@ const PostItem = ({ post }: PostProps) => {
   return (
     <Card sx={styles.card}>
       <CardHeader
-        avatar={<UserAvatar username={post.username} />}
         action={<PostMenu post={post} />}
+        avatar={<UserAvatar username={post.username} />}
+        subheader={
+          <TooltipTimestamp
+            isEdited={Boolean(post.editedTimestamp)}
+            timestamp={post.editedTimestamp || post.timestamp}
+          />
+        }
+        subheaderTypographyProps={{ sx: styles.tooltipText }}
         title={
           <Box>
             <Link
               color={theme.typography.subtitle1.color}
               component={Routerlink}
+              sx={styles.displayName}
               to={`/${post.username}`}
               underline="hover"
-              sx={styles.displayName}
               variant="subtitle1"
             >
               {post.displayName}
@@ -144,13 +147,6 @@ const PostItem = ({ post }: PostProps) => {
             )}
           </Box>
         }
-        subheader={
-          <TooltipTimestamp
-            timestamp={post.editedTimestamp || post.timestamp}
-            isEdited={Boolean(post.editedTimestamp)}
-          />
-        }
-        subheaderTypographyProps={{ sx: styles.tooltipText }}
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent>
@@ -158,9 +154,9 @@ const PostItem = ({ post }: PostProps) => {
         </CardContent>
         {post.imagePath && (
           <CardMedia
-            sx={styles.cardMedia}
             component="img"
             image={post.imagePath}
+            sx={styles.cardMedia}
           />
         )}
       </CardActionArea>
@@ -197,11 +193,12 @@ const PostItem = ({ post }: PostProps) => {
             {post.numberOfReplies}
           </Button>
           <Button
-            onClick={() => {
-              toggleLikePostRequest(
+            onClick={async () => {
+              await toggleLikePostRequest(
+                sendRequest,
                 post.isLikedByCurrentUser,
                 post.postId,
-                user.userId
+                user.userId,
               );
               dispatch(toggleLikePost(post.postId));
             }}

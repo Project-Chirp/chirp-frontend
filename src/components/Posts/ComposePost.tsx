@@ -1,12 +1,12 @@
-import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
+import { EmojiClickData } from "emoji-picker-react";
 import { useState } from "react";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { appendPost } from "../../state/slices/postsSlice";
-import UserAvatar from "../Common/UserAvatar";
-import { EmojiClickData } from "emoji-picker-react";
+import useAxios from "../../utilities/useAxios";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
+import UserAvatar from "../Common/UserAvatar";
 
 type ComposePostProps = {
   placeholder: string;
@@ -36,22 +36,26 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
   const [postTextContent, setPostTextContent] = useState("");
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      const newPost = await axios.post("http://localhost:3001/api/posts", {
-        userId: user.userId,
-        textContent,
-      });
+      const newPost = await sendRequest(
+        {
+          method: "POST",
+          data: { textContent, userId: user.userId },
+        },
+        "posts",
+      );
       setPostTextContent("");
       dispatch(
         appendPost({
-          ...newPost.data,
+          ...newPost,
           username: user.username,
           displayName: user.displayName,
-        })
+        }),
       );
       onClose?.();
     } catch (err) {
@@ -84,7 +88,7 @@ const ComposePost = ({ placeholder, onClose }: ComposePostProps) => {
               <EmojiPickerIconButton
                 onEmojiClick={(emoji: EmojiClickData) => {
                   setPostTextContent(
-                    (prevContent) => prevContent + emoji.emoji
+                    (prevContent) => prevContent + emoji.emoji,
                   );
                 }}
               />

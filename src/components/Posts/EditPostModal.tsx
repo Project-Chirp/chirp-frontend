@@ -1,3 +1,5 @@
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
   DialogTitle,
@@ -9,19 +11,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { EmojiClickData } from "emoji-picker-react";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { EmojiClickData } from "emoji-picker-react";
-import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
-import UserAvatar from "../Common/UserAvatar";
-import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import axios from "axios";
 import {
   Post,
   setExpandedPost,
   updatePost,
 } from "../../state/slices/postsSlice";
+import useAxios from "../../utilities/useAxios";
+import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
+import UserAvatar from "../Common/UserAvatar";
 
 type EditPostModalProps = {
   isExpandedPost: boolean;
@@ -70,24 +70,33 @@ const EditPostModal = ({
   post,
 }: EditPostModalProps) => {
   const user = useAppSelector((state) => state.user);
+  const { sendRequest } = useAxios();
   const dispatch = useAppDispatch();
   const [postTextContent, setPostTextContent] = useState(post.textContent);
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     try {
-      await axios.put("http://localhost:3001/api/posts/editPost", {
-        postId: post.postId,
-        textContent: postTextContent,
-      });
+      await sendRequest(
+        {
+          method: "PUT",
+          data: {
+            postId: post.postId,
+            textContent: postTextContent,
+          },
+        },
+        "posts/editPost",
+      );
       const editedPost = {
         ...post,
         editedTimestamp: new Date().toString(),
         textContent: postTextContent,
       };
-      isExpandedPost
-        ? dispatch(setExpandedPost(editedPost))
-        : dispatch(updatePost(editedPost));
+      if (isExpandedPost) {
+        dispatch(setExpandedPost(editedPost));
+      } else {
+        dispatch(updatePost(editedPost));
+      }
       onClose?.();
     } catch (error) {
       console.log(error);
@@ -133,7 +142,7 @@ const EditPostModal = ({
                   <EmojiPickerIconButton
                     onEmojiClick={(emoji: EmojiClickData) => {
                       setPostTextContent(
-                        (prevContent) => prevContent + emoji.emoji
+                        (prevContent) => prevContent + emoji.emoji,
                       );
                     }}
                   />

@@ -1,45 +1,45 @@
-import Welcome from "./pages/Welcome";
-import Timeline from "./pages/Timeline";
-import { Route, Routes } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
 import { useEffect } from "react";
-import Register from "./pages/Register";
+import { Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./components/Auth/ProtectedRoute";
+import Toast from "./components/Common/Toast";
+import ComingSoon from "./pages/ComingSoon";
+import DirectMessage from "./pages/DirectMessage";
+import ExpandedPost from "./pages/ExpandedPost";
+import Messages from "./pages/Messages";
 import PageLoader from "./pages/PageLoader";
 import Profile from "./pages/Profile";
+import Register from "./pages/Register";
+import Timeline from "./pages/Timeline";
+import Welcome from "./pages/Welcome";
 import "./styles/App.css";
 import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { setUser } from "./state/slices/userSlice";
-import ExpandedPost from "./pages/ExpandedPost";
-import Messages from "./pages/Messages";
-import DirectMessage from "./pages/DirectMessage";
-import ComingSoon from "./pages/ComingSoon";
-import Toast from "./components/Common/Toast";
+import useAxios from "./utilities/useAxios";
 
 function App() {
-  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-
+  const { isLoading, isAuthenticated } = useAuth0();
   const userIsLoading = useAppSelector((state) => state.user.isLoading);
   const username = useAppSelector((state) => state.user.username);
   const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3001/api/users/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const response = await sendRequest(
+          {
+            method: "GET",
           },
-        });
-        dispatch(setUser(response.data));
+          "users",
+        );
+        dispatch(setUser(response));
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
-  }, [getAccessTokenSilently, dispatch]);
+  }, [dispatch, sendRequest]);
 
   if (isLoading || (isAuthenticated && userIsLoading)) {
     return <PageLoader />;
@@ -57,26 +57,26 @@ function App() {
     <>
       <Toast />
       <Routes>
-        <Route path="/" element={<ProtectedRoute component={Timeline} />} />
+        <Route element={<ProtectedRoute component={Timeline} />} path="/" />
         <Route
-          path="/messages"
           element={<ProtectedRoute component={Messages} />}
+          path="/messages"
         />
         <Route
-          path="/messages/:userId1/:userId2"
           element={<ProtectedRoute component={DirectMessage} />}
+          path="/messages/:userId1/:userId2"
         />
         <Route
-          path="/:username"
           element={<ProtectedRoute component={Profile} />}
+          path="/:username"
         />
         <Route
-          path="/post/:postId"
           element={<ProtectedRoute component={ExpandedPost} />}
+          path="/post/:postId"
         />
         <Route
-          path="/coming-soon"
           element={<ProtectedRoute component={ComingSoon} />}
+          path="/coming-soon"
         />
       </Routes>
     </>

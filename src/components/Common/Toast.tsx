@@ -1,11 +1,11 @@
 import { Alert, Snackbar } from "@mui/material";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
   clearCurrentToast,
   dequeueToast,
   setToastOpen,
 } from "../../state/slices/toastSlice";
-import { useEffect } from "react";
 
 const Toast = () => {
   const { currentToast, loaf, open } = useAppSelector((state) => state.toast);
@@ -44,9 +44,9 @@ const Toast = () => {
       TransitionProps={{ onExited: handleExited }}
     >
       <Alert
+        action={currentToast.action}
         onClose={handleClose}
         severity={currentToast.severity}
-        action={currentToast.action}
       >
         {currentToast.message}
       </Alert>

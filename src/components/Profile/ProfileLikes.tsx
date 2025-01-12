@@ -1,32 +1,32 @@
+import { Divider, Stack } from "@mui/material";
 import { useEffect } from "react";
-import PostItem from "../Posts/PostItem";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Post, setPosts } from "../../state/slices/postsSlice";
-import { Divider, Stack } from "@mui/material";
+import useAxios from "../../utilities/useAxios";
+import PostItem from "../Posts/PostItem";
 
 type ProfileLikesProps = {
-  userId: number;
+  visitedUserId: number;
 };
 
-const ProfileLikes = ({ userId }: ProfileLikesProps) => {
+const ProfileLikes = ({ visitedUserId }: ProfileLikesProps) => {
   const { posts } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const result = await axios.get(
-        "http://localhost:3001/api/profile/getUserLikes",
+      const result = await sendRequest(
         {
-          params: {
-            visitedUserId: userId,
-          },
-        }
+          method: "GET",
+          params: { visitedUserId },
+        },
+        "profile/getUserLikes",
       );
-      dispatch(setPosts(result.data as Post[]));
+      dispatch(setPosts(result as Post[]));
     };
     fetchPosts();
-  }, [dispatch, userId]);
+  }, [dispatch, visitedUserId]);
 
   return (
     <Stack divider={<Divider />}>

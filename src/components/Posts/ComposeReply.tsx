@@ -1,12 +1,12 @@
-import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
-import { useState } from "react";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import { addReply } from "../../state/slices/postsSlice";
-import UserAvatar from "../Common/UserAvatar";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { EmojiClickData } from "emoji-picker-react";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { addReply } from "../../state/slices/postsSlice";
+import useAxios from "../../utilities/useAxios";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
+import UserAvatar from "../Common/UserAvatar";
 
 type ComposeReplyProps = {
   placeholder: string;
@@ -42,26 +42,26 @@ const ComposeReply = ({
   const [focusReply, setFocusReply] = useState(true);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const textContent = postTextContent;
-      const reply = await axios.post(
-        "http://localhost:3001/api/posts/postReply",
+      const reply = await sendRequest(
         {
-          userId: user.userId,
-          parentPostId,
-          textContent,
-        }
+          method: "POST",
+          data: { parentPostId, textContent, userId: user.userId },
+        },
+        "posts/postReply",
       );
       setPostTextContent("");
       dispatch(
         addReply({
-          ...reply.data,
+          ...reply,
           username: user.username,
           displayName: user.displayName,
-        })
+        }),
       );
       onClose?.();
     } catch (err) {
@@ -96,7 +96,7 @@ const ComposeReply = ({
                 <EmojiPickerIconButton
                   onEmojiClick={(emoji: EmojiClickData) => {
                     setPostTextContent(
-                      (prevContent) => prevContent + emoji.emoji
+                      (prevContent) => prevContent + emoji.emoji,
                     );
                   }}
                 />

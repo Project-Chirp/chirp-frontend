@@ -1,12 +1,11 @@
-import { useState } from "react";
 import { Box, Button, Typography, TextField } from "@mui/material/";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useAppDispatch, useAppSelector } from "./../state/hooks";
-import { setUser } from "../state/slices/userSlice";
 import dayjs, { Dayjs } from "dayjs";
+import { useState } from "react";
+import { setUser } from "../state/slices/userSlice";
+import useAxios from "../utilities/useAxios";
+import { useAppDispatch, useAppSelector } from "./../state/hooks";
 
 const styles = {
   container: { height: "100%" },
@@ -24,33 +23,26 @@ const styles = {
 };
 
 const Register = () => {
-  const { getAccessTokenSilently } = useAuth0();
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [birthDate, setBirthDate] = useState<Dayjs | undefined>();
 
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
 
   const submitUserInfo = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const token = await getAccessTokenSilently();
     try {
       dispatch(setUser({ ...user, isLoading: true }));
-      const newUserInfo = await axios.put(
-        `http://localhost:3001/api/users/${user.userId}`,
+      const newUserInfo = await sendRequest(
         {
-          username,
-          displayName,
-          birthDate,
+          method: "PUT",
+          data: { username, displayName, userId: user.userId, birthDate },
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `users/${user.userId}`,
       );
-      dispatch(setUser(newUserInfo.data));
+      dispatch(setUser(newUserInfo));
     } catch (error) {
       console.log(error);
     }
@@ -58,12 +50,11 @@ const Register = () => {
 
   return (
     <form onSubmit={submitUserInfo} style={styles.container}>
-      <Typography variant="h1" sx={styles.title}>
-        Let's get to know a little more about you
+      <Typography sx={styles.title} variant="h1">
+        {`Let's get to know a little more about you`}
       </Typography>
       <Box sx={styles.inputs}>
         <TextField
-          id="displayname"
           label="Username"
           onChange={(e) => {
             setUsername(e.target.value);
@@ -75,7 +66,6 @@ const Register = () => {
           variant="outlined"
         />
         <TextField
-          id="displayname"
           label="Display Name"
           onChange={(e) => {
             setDisplayName(e.target.value);
@@ -89,8 +79,10 @@ const Register = () => {
           <DatePicker
             label="Date of Birth"
             maxDate={dayjs(new Date())}
-            onChange={(e) => {
-              e && setBirthDate(e);
+            onChange={(value) => {
+              if (value) {
+                setBirthDate(value);
+              }
             }}
             slotProps={{
               textField: { placeholder: "Date of Birth", variant: "outlined" },

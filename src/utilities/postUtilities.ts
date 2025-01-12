@@ -1,29 +1,34 @@
-import axios from "axios";
+import { AxiosRequestConfig } from "axios";
 
-export const toggleLikePostRequest = async (
+const toggleLikePostRequest = async (
+  sendRequest: (config: AxiosRequestConfig, endpoint: string) => Promise<any>,
   isLikedByCurrentUser: boolean,
   postId: number,
-  userId?: number
+  userId?: number,
 ) => {
   if (isLikedByCurrentUser) {
-    await axios.delete("http://localhost:3001/api/posts/unlikePost", {
-      params: {
-        postId,
-        userId,
+    await sendRequest(
+      {
+        method: "DELETE",
+        data: { postId, userId },
       },
-    });
+      "posts/unlikePost",
+    );
   } else {
-    await axios.post("http://localhost:3001/api/posts/likePost", {
-      postId,
-      userId,
-    });
+    await sendRequest(
+      {
+        method: "POST",
+        data: { postId, userId },
+      },
+      "posts/likePost",
+    );
   }
 };
 
 export const toggleRepostRequest = async (
   isRepostedByCurrentUser: boolean,
   parentPostId: number,
-  userId?: number
+  userId?: number,
 ) => {
   if (isRepostedByCurrentUser) {
     await axios.delete("http://localhost:3001/api/posts/deleteRepost", {
@@ -39,3 +44,5 @@ export const toggleRepostRequest = async (
     });
   }
 };
+
+export default toggleLikePostRequest;
