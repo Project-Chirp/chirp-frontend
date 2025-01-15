@@ -17,8 +17,7 @@ const styles = {
     alignItems: "center",
     display: "flex",
     justifyContent: "space-between",
-    paddingLeft: 2,
-    paddingRight: 2,
+    paddingX: 2,
   },
   headerContent: { alignItems: "center", display: "flex", gap: 2, padding: 1 },
 };
