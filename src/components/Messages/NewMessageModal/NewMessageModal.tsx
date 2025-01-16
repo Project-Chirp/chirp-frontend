@@ -39,7 +39,7 @@ type NewMessageModalProps = {
 };
 
 const NewMessageModal = ({ onClose, open }: NewMessageModalProps) => {
-  const [focusSearchBar, setFocusSearchBar] = useState(false);
+  const [showUserList, setShowUserList] = useState(false);
   const userId = useAppSelector((state) => state.user.userId);
   const navigate = useNavigate();
 
@@ -66,13 +66,13 @@ const NewMessageModal = ({ onClose, open }: NewMessageModalProps) => {
       <Box sx={styles.searchBarContainer}>
         <UserSearchBar
           listBoxStyle={styles.listBox}
-          onBlur={() => setFocusSearchBar(false)}
-          onFocus={() => setFocusSearchBar(true)}
+          onBlur={() => setShowUserList(false)}
+          onFocus={() => setShowUserList(true)}
           onSelect={(o) => onSelectUser(o.userId)}
         />
       </Box>
       <DialogContent>
-        {!focusSearchBar && (
+        {showUserList && (
           <NewMessageModalList onSelect={(o) => onSelectUser(o)} />
         )}
       </DialogContent>
