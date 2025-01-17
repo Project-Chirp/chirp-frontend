@@ -81,23 +81,46 @@ const PostItem = ({ post }: PostProps) => {
   const [openRepostMenu, setOpenRepostMenu] = useState(false);
   const repostMenuRef = useRef<HTMLButtonElement>(null);
   const { sendRequest } = useAxios();
+  const isRepost = post.originalPostContent && !post.textContent;
+  const resolvedPostId = isRepost ? post.parentPostId : post.postId;
 
   const routeChange = () => {
-    if (post.repostedBy && post.parentPostId) {
-      navigate(`/post/${post.parentPostId}`);
-    } else {
-      navigate(`/post/${post.postId}`);
-    }
+    navigate(`/post/${resolvedPostId}`);
     dispatch(setExpandedPost(post));
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
+    navigator.clipboard.writeText(
+      `http://localhost:3000/post/${resolvedPostId}`,
+    );
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 
+  console.log(post);
+
   return (
     <Card sx={styles.card}>
+      {isRepost && (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            color: "#808080",
+          }}
+        >
+          <RepeatOutlined sx={{ fontSize: "1rem" }} />
+          <Link
+            color={theme.typography.subtitle2.color}
+            component={Routerlink}
+            sx={{ paddingLeft: 0.5, fontSize: "0.8125rem" }}
+            to={`/${post.username}`}
+            underline="hover"
+            variant="subtitle2"
+          >
+            Reposted by {post.displayName}
+          </Link>
+        </Box>
+      )}
       <CardHeader
         action={<PostMenu post={post} />}
         avatar={<UserAvatar username={post.username} />}
@@ -129,24 +152,16 @@ const PostItem = ({ post }: PostProps) => {
             >
               @{post.username}
             </Link>
-            {post.repostedBy && post.parentPostId && (
-              <Link
-                color={theme.typography.subtitle2.color}
-                component={Routerlink}
-                sx={{ paddingLeft: 1 }}
-                to={`/${post.repostedBy}`}
-                underline="hover"
-                variant="subtitle2"
-              >
-                Reposted by @{post.repostedBy}
-              </Link>
-            )}
           </Box>
         }
       />
       <CardActionArea onClick={() => routeChange()}>
         <CardContent>
-          <Typography>{post.textContent}</Typography>
+          <Typography>
+            {isRepost
+              ? post.originalPostContent?.textContent
+              : post.textContent}
+          </Typography>
         </CardContent>
         {post.imagePath && (
           <CardMedia
@@ -172,13 +187,13 @@ const PostItem = ({ post }: PostProps) => {
           >
             {post.numberOfReposts}
           </Button>
-          <RepostMenu
+          {/* <RepostMenu
             isReposted={post.isRepostedByCurrentUser}
             open={openRepostMenu}
             postId={post.postId}
             ref={repostMenuRef}
             setCloseMenu={() => setOpenRepostMenu(false)}
-          />
+          /> */}
           <Button
             onClick={() => {
               setOpenReplies(true);

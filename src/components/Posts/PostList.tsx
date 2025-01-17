@@ -33,9 +33,7 @@ const PostList = () => {
   return (
     <Stack divider={<Divider />}>
       {posts
-        .filter(
-          (o) => o.parentPostId == null || (o.repostedBy && o.parentPostId)
-        )
+        .filter((o) => !o.parentPostId)
         .map((o) => (
           <PostItem key={o.postId} post={o} />
         ))}

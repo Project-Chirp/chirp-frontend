@@ -1,26 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-// export type Post = {
-//   displayName: string;
-//   followStatus: boolean;
-//   imagePath?: string;
-//   isLikedByCurrentUser: boolean;
-//   isRepostedByCurrentUser: boolean;
-//   isQuotePost?: boolean;
-//   isRepost?: boolean;
-//   numberOfLikes: number;
-//   numberOfReplies: number;
-//   numberOfReposts: number;
-//   parentPostId?: number;
-//   postId: number;
-//   textContent: string;
-//   timestamp: string;
-//   userId: number;
-//   username: string;
-//   repostedUsername?: string;
-//   editedTimestamp: string;
-// };
-
 export type Post = {
   displayName: string;
   followStatus: boolean;
@@ -30,22 +9,18 @@ export type Post = {
   numberOfLikes: number;
   numberOfReplies: number;
   numberOfReposts: number;
-  repostedBy?: string;
   originalPostContent?: {
     textContent: string;
     timestamp: string;
-    userId: number;
     username: string;
     editedTimestamp: string;
     displayName: string;
-    followStatus: boolean;
     imagePath?: string;
   };
   parentPostId?: number;
   postId: number;
   textContent?: string;
   timestamp: string;
-  userId: number;
   username: string;
   editedTimestamp: string;
 };
@@ -69,20 +44,8 @@ const initialState: PostState = {
     postId: 0,
     textContent: "",
     timestamp: "",
-    userId: 0,
     username: "",
     editedTimestamp: "",
-    originalPostContent: {
-      textContent: "",
-      timestamp: "",
-      userId: 0,
-      username: "",
-      editedTimestamp: "",
-      displayName: "",
-      followStatus: false,
-      imagePath: "",
-    },
-    repostedBy: "",
   },
 };
 
