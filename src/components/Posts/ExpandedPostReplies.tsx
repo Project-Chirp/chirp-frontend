@@ -1,7 +1,7 @@
 import { Divider } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { Post, setPosts } from "../../state/slices/postsSlice";
+import { setPosts } from "../../state/slices/postsSlice";
 import useAxios from "../../utilities/useAxios";
 import PostItem from "./PostItem";
 
@@ -25,7 +25,7 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
           },
           "posts/fetchReplies",
         );
-        dispatch(setPosts(resultReplies as Post[]));
+        dispatch(setPosts(resultReplies));
       } catch (e) {
         console.log(e.message);
       }

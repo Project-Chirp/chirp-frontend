@@ -4,7 +4,7 @@ import ConversationList from "../components/Messages/ConversationList";
 import NavBar from "../components/NavBar/NavBar";
 
 const styles = {
-  chatContanier: {
+  chatContainer: {
     display: "flex",
     flex: "0 0 600px",
     flexDirection: "column",
@@ -26,7 +26,7 @@ const DirectMessage = () => {
       <Box sx={styles.conversationContainer}>
         <ConversationList />
       </Box>
-      <Box sx={styles.chatContanier}>
+      <Box sx={styles.chatContainer}>
         <ChatContainer />
       </Box>
     </Stack>
