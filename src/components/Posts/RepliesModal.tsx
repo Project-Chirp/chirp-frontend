@@ -77,7 +77,7 @@ type PostModalProps = {
   post: Post;
 };
 
-export const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
+const RepliesModal = ({ onClose, open, post }: PostModalProps) => {
   return (
     <Dialog
       fullWidth

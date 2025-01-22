@@ -33,10 +33,11 @@ const MessageModalListItem = ({
   onClose,
 }: MessageModalListItemProps) => {
   const userId = useAppSelector((state) => state.user.userId);
+  const { displayName, userId: otherUserId, username } = otherUser;
   const navigate = useNavigate();
   const routeChange = () => {
     onClose();
-    const path = `/messages/${userId}/${otherUser.userId}`;
+    const path = `/messages/${userId}/${otherUserId}`;
     navigate(path);
   };
 
@@ -47,9 +48,9 @@ const MessageModalListItem = ({
           <Avatar />
         </ListItemAvatar>
         <ListItemText
-          primary={otherUser.displayName}
+          primary={displayName}
           primaryTypographyProps={{ variant: "subtitle1" }}
-          secondary={`@${otherUser.username}`}
+          secondary={`@${username}`}
           secondaryTypographyProps={{ variant: "subtitle2" }}
         />
       </Box>

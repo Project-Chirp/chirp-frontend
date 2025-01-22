@@ -22,12 +22,15 @@ const styles = {
 };
 
 const ConversationList = () => {
-  const { conversations, selectedConversation } = useAppSelector(
-    (state) => state.messages,
-  );
   const [messageModal, showMessageModal] = useState(false);
+
+  const conversations = useAppSelector((state) => state.messages.conversations);
+  const selectedConversationUserId = useAppSelector(
+    (state) => state.messages.selectedConversation.userId,
+  );
   const userId = useAppSelector((state) => state.user.userId);
   const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
   const { sendRequest } = useAxios();
 
@@ -46,7 +49,7 @@ const ConversationList = () => {
   }, [dispatch, userId, sendRequest]);
 
   return (
-    <Box>
+    <>
       <Box sx={styles.header}>
         <Typography variant="h2">Messages</Typography>
         <IconButton onClick={() => showMessageModal(true)}>
@@ -61,11 +64,11 @@ const ConversationList = () => {
         {conversations.map((o) => (
           <ConversationListItem
             conversation={o}
-            key={o.otherUserId}
+            key={o.userId}
             onClick={() => {
-              navigate(`/messages/${userId}/${o.otherUserId}`);
+              navigate(`/messages/${userId}/${o.userId}`);
             }}
-            selected={selectedConversation.userId === o.otherUserId}
+            selected={selectedConversationUserId === o.userId}
           />
         ))}
       </List>
@@ -73,7 +76,7 @@ const ConversationList = () => {
         onClose={() => showMessageModal(false)}
         open={messageModal}
       />
-    </Box>
+    </>
   );
 };
 

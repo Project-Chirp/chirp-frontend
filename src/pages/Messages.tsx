@@ -8,20 +8,16 @@ const styles = {
   button: {
     marginTop: 1,
   },
-  container: { height: "auto", justifyContent: "center" },
-  divider: { height: "auto" },
-  middleContent: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
-  nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
-  rightContent: {
-    height: "100vh",
-    flex: "0 0 600px",
-  },
-  selectMessageContainer: {
-    display: "flex",
-    height: "100%",
-    justifyContent: "center",
+  chatContainer: {
     alignItems: "center",
+    display: "flex",
+    flex: "0 0 600px",
+    height: "100vh",
+    justifyContent: "center",
   },
+  container: { height: "auto", justifyContent: "center" },
+  conversationContainer: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
+  divider: { height: "auto" },
 };
 
 const Messages = () => {
@@ -34,27 +30,23 @@ const Messages = () => {
         divider={<Divider orientation="vertical" sx={styles.divider} />}
         sx={styles.container}
       >
-        <Box component="header" sx={styles.nav}>
-          <NavBar />
-        </Box>
-        <Box sx={styles.middleContent}>
+        <NavBar />
+        <Box sx={styles.conversationContainer}>
           <ConversationList />
         </Box>
-        <Box sx={styles.rightContent}>
-          <Box sx={styles.selectMessageContainer}>
-            <Box>
-              <Typography variant="h1">Select a Message</Typography>
-              <Typography>
-                Choose one of your existing conversations or start a new one!
-              </Typography>
-              <Button
-                onClick={() => showMessageModal(true)}
-                sx={styles.button}
-                variant="contained"
-              >
-                New Message
-              </Button>
-            </Box>
+        <Box sx={styles.chatContainer}>
+          <Box>
+            <Typography variant="h1">Select a Message</Typography>
+            <Typography>
+              Choose one of your existing conversations or start a new one!
+            </Typography>
+            <Button
+              onClick={() => showMessageModal(true)}
+              sx={styles.button}
+              variant="contained"
+            >
+              New Message
+            </Button>
           </Box>
         </Box>
       </Stack>
