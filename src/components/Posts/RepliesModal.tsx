@@ -9,7 +9,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { Post } from "../../state/slices/postsSlice";
+import { Post } from "../../types/posts";
 import UserAvatar from "../Common/UserAvatar";
 import ComposeReply from "./ComposeReply";
 
