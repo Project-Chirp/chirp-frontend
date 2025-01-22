@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
+import { BaseUser } from "../../../types/users";
 import UserSearchBar from "../../Common/UserSearchBar";
 import NewMessageModalList from "./NewMessageModalList";
 
@@ -34,12 +35,17 @@ const styles = {
 };
 
 type NewMessageModalProps = {
+  activeConversations: BaseUser[];
   onClose: () => void;
   open: boolean;
 };
 
-const NewMessageModal = ({ onClose, open }: NewMessageModalProps) => {
-  const [showUserList, setShowUserList] = useState(false);
+const NewMessageModal = ({
+  activeConversations,
+  onClose,
+  open,
+}: NewMessageModalProps) => {
+  const [showUserList, setShowUserList] = useState(true);
   const userId = useAppSelector((state) => state.user.userId);
   const navigate = useNavigate();
 
@@ -66,14 +72,17 @@ const NewMessageModal = ({ onClose, open }: NewMessageModalProps) => {
       <Box sx={styles.searchBarContainer}>
         <UserSearchBar
           listBoxStyle={styles.listBox}
-          onBlur={() => setShowUserList(false)}
-          onFocus={() => setShowUserList(true)}
+          onBlur={() => setShowUserList(true)}
+          onFocus={() => setShowUserList(false)}
           onSelect={(o) => onSelectUser(o.userId)}
         />
       </Box>
       <DialogContent>
         {showUserList && (
-          <NewMessageModalList onSelect={(o) => onSelectUser(o)} />
+          <NewMessageModalList
+            activeConversations={activeConversations}
+            onSelect={(o) => onSelectUser(o)}
+          />
         )}
       </DialogContent>
     </Dialog>

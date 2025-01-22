@@ -73,6 +73,12 @@ const ConversationList = () => {
         ))}
       </List>
       <NewMessageModal
+        activeConversations={conversations.map((o) => ({
+          displayName: o.displayName,
+          imageUrl: o.imageUrl,
+          userId: o.userId,
+          username: o.username,
+        }))}
         onClose={() => showMessageModal(false)}
         open={messageModal}
       />
