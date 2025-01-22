@@ -1,13 +1,11 @@
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import { Box, Divider, IconButton, List, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { setConversations } from "../../state/slices/messagesSlice";
-import useAxios from "../../utilities/useAxios";
+import { useAppSelector } from "../../state/hooks";
 import SearchBar from "../Common/SearchBar";
 import ConversationListItem from "./ConversationListItem";
-import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
+import NewMessageModal from "./NewMessageModal/NewMessageModal";
 
 const styles = {
   header: {
@@ -29,24 +27,8 @@ const ConversationList = () => {
     (state) => state.messages.selectedConversation.userId,
   );
   const userId = useAppSelector((state) => state.user.userId);
-  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-  const { sendRequest } = useAxios();
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const result = await sendRequest(
-        {
-          method: "GET",
-          params: { userId },
-        },
-        "messages",
-      );
-      dispatch(setConversations(result));
-    };
-    fetchMessages();
-  }, [dispatch, userId, sendRequest]);
 
   return (
     <>
@@ -57,7 +39,7 @@ const ConversationList = () => {
         </IconButton>
       </Box>
       <Box sx={styles.searchBarContainer}>
-        <SearchBar placeholder="Search Messages" />
+        <SearchBar placeholder="Search messages" />
       </Box>
       <Divider />
       <List component="div">
@@ -72,7 +54,13 @@ const ConversationList = () => {
           />
         ))}
       </List>
-      <CreateMessageModal
+      <NewMessageModal
+        activeConversations={conversations.map((o) => ({
+          displayName: o.displayName,
+          imageUrl: o.imageUrl,
+          userId: o.userId,
+          username: o.username,
+        }))}
         onClose={() => showMessageModal(false)}
         open={messageModal}
       />

@@ -1,7 +1,11 @@
 import { Box, Divider, Stack } from "@mui/material";
+import { useEffect } from "react";
 import ChatContainer from "../components/Messages/ChatContainer";
 import ConversationList from "../components/Messages/ConversationList";
 import NavBar from "../components/NavBar/NavBar";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { setConversations } from "../state/slices/messagesSlice";
+import useAxios from "../utilities/useAxios";
 
 const styles = {
   chatContainer: {
@@ -16,6 +20,25 @@ const styles = {
 };
 
 const DirectMessage = () => {
+  const userId = useAppSelector((state) => state.user.userId);
+
+  const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const result = await sendRequest(
+        {
+          method: "GET",
+          params: { userId },
+        },
+        "messages",
+      );
+      dispatch(setConversations(result));
+    };
+    fetchMessages();
+  }, [dispatch, userId, sendRequest]);
+
   return (
     <Stack
       direction="row"

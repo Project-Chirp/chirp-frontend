@@ -89,7 +89,7 @@ const FollowListModal = ({
       </DialogTitle>
       <Divider />
       <Box sx={styles.searchBarContainer}>
-        <SearchBar placeholder="Search" />
+        <SearchBar />
       </Box>
       <DialogContent>
         {loading && <PageLoader />}

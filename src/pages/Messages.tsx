@@ -1,8 +1,11 @@
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ConversationList from "../components/Messages/ConversationList";
-import CreateMessageModal from "../components/Messages/CreateMessageModal/CreateMessageModal";
+import NewMessageModal from "../components/Messages/NewMessageModal/NewMessageModal";
 import NavBar from "../components/NavBar/NavBar";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { setConversations } from "../state/slices/messagesSlice";
+import useAxios from "../utilities/useAxios";
 
 const styles = {
   button: {
@@ -22,6 +25,26 @@ const styles = {
 
 const Messages = () => {
   const [messageModal, showMessageModal] = useState(false);
+
+  const userId = useAppSelector((state) => state.user.userId);
+  const conversations = useAppSelector((state) => state.messages.conversations);
+
+  const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const result = await sendRequest(
+        {
+          method: "GET",
+          params: { userId },
+        },
+        "messages",
+      );
+      dispatch(setConversations(result));
+    };
+    fetchMessages();
+  }, [dispatch, userId, sendRequest]);
 
   return (
     <>
@@ -50,7 +73,13 @@ const Messages = () => {
           </Box>
         </Box>
       </Stack>
-      <CreateMessageModal
+      <NewMessageModal
+        activeConversations={conversations.map((o) => ({
+          displayName: o.displayName,
+          imageUrl: o.imageUrl,
+          userId: o.userId,
+          username: o.username,
+        }))}
         onClose={() => showMessageModal(false)}
         open={messageModal}
       />
