@@ -19,7 +19,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import FollowButton from "../components/Common/FollowButton";
 import FollowingButton from "../components/Common/FollowingButton";
 import EditProfileModal from "../components/Profile/EditProfileModal";
-import FollowListModal from "../components/Profile/FollowListModal";
+import FollowListModal, {
+  NetworkUsers,
+} from "../components/Profile/FollowListModal";
 import ProfileLikes from "../components/Profile/ProfileLikes";
 import ProfilePosts from "../components/Profile/ProfilePosts";
 import ProfileReplies from "../components/Profile/ProfileReplies";
@@ -27,8 +29,6 @@ import SideBar from "../components/SideBar/SideBar";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { updateDisplayNames } from "../state/slices/postsSlice";
 import { setDisplayName } from "../state/slices/userSlice";
-import { EditableProfileContent, ProfileContent } from "../types/profile";
-import { FollowableUser } from "../types/users";
 import useAxios from "../utilities/useAxios";
 import Layout from "./Layout";
 
@@ -87,6 +87,24 @@ const styles = {
   username: { fontSize: 16 },
 };
 
+export type EditableProfileContents = Pick<
+  ProfileContent,
+  "bio" | "birthDate" | "displayName"
+>;
+
+export type ProfileContent = {
+  bio?: string;
+  birthDate?: string;
+  displayName: string;
+  followerCount: number;
+  followingCount: number;
+  followStatus: boolean;
+  joinedDate: string;
+  postCount: number;
+  userId?: number;
+  username: string;
+};
+
 const Profile = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -100,10 +118,9 @@ const Profile = () => {
     displayName: "",
     followerCount: 0,
     followingCount: 0,
-    isFollowing: false,
+    followStatus: false,
     joinedDate: "",
     postCount: 0,
-    userId: 0,
     username: "",
   });
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
@@ -113,7 +130,7 @@ const Profile = () => {
   const [followerListModalOpen, setFollowerListModalOpen] = useState(false);
   const [followingListModalOpen, setFollowingListModalOpen] = useState(false);
   const [followListModalData, setFollowListModalData] = useState<
-    FollowableUser[]
+    NetworkUsers[]
   >([]);
 
   const handleFollowToggle = (userId: number, isFollowing: boolean) => {
@@ -254,12 +271,12 @@ const Profile = () => {
                       >
                         Edit Profile
                       </Button>
-                    ) : profileContents.isFollowing ? (
+                    ) : profileContents.followStatus ? (
                       <FollowingButton
                         onClick={() => {
                           setProfileContents({
                             ...profileContents,
-                            isFollowing: false,
+                            followStatus: false,
                             followerCount: --profileContents.followerCount,
                           });
                         }}
@@ -270,7 +287,7 @@ const Profile = () => {
                         onClick={() => {
                           setProfileContents({
                             ...profileContents,
-                            isFollowing: true,
+                            followStatus: true,
                             followerCount: ++profileContents.followerCount,
                           });
                         }}
@@ -370,7 +387,7 @@ const Profile = () => {
           birthDate={profileContents.birthDate}
           displayName={profileContents.displayName}
           onClose={() => setEditProfileModalOpen(false)}
-          onSubmit={(editedProfile: EditableProfileContent) => {
+          onSubmit={(editedProfile: EditableProfileContents) => {
             dispatch(setDisplayName(editedProfile.displayName));
             dispatch(
               updateDisplayNames({

@@ -6,7 +6,7 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { Conversation } from "../../types/messages";
+import { Conversation } from "../../state/slices/messagesSlice";
 import formatTimestamp from "../../utilities/formatTimestamp";
 import UserAvatar from "../Common/UserAvatar";
 

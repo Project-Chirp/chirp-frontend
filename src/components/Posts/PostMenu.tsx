@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { Post } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
-import { Post } from "../../types/posts";
 import EditPostModal from "./EditPostModal";
 import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
 

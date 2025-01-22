@@ -9,8 +9,7 @@ import {
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../state/hooks";
-import { ChatBioType } from "../../types/chatBio";
-import { Message } from "../../types/messages";
+import { Message, SelectedUser } from "../../state/slices/messagesSlice";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import ChatBio from "./ChatBio";
 
@@ -59,10 +58,11 @@ const styles = {
 
 type ChatListProps = {
   messages: Message[];
-  bioContents: ChatBioType;
+  userDetail: SelectedUser;
 };
 
-const ChatList = ({ messages, bioContents }: ChatListProps) => {
+const ChatList = ({ messages, userDetail }: ChatListProps) => {
+  const { bio, displayName, followerCount, joinedDate, username } = userDetail;
   const messageRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -75,11 +75,14 @@ const ChatList = ({ messages, bioContents }: ChatListProps) => {
   return (
     <Box sx={styles.chatList}>
       <List component="div" ref={messageRef} sx={styles.messageList}>
-        <Box
-          onClick={() => navigate(`/${bioContents.username}`)}
-          sx={styles.bioContainer}
-        >
-          <ChatBio bioContents={bioContents} />
+        <Box onClick={() => navigate(`/${username}`)} sx={styles.bioContainer}>
+          <ChatBio
+            bio={bio}
+            displayName={displayName}
+            followerCount={followerCount}
+            joinedDate={joinedDate}
+            username={username}
+          />
         </Box>
         <Divider />
         {messages.map((o) => (

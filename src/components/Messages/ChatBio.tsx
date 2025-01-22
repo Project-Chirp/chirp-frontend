@@ -1,6 +1,5 @@
 import { Avatar, Box, Link, Typography, useTheme } from "@mui/material";
 import { Link as Routerlink } from "react-router-dom";
-import { ChatBioType } from "../../types/chatBio";
 import formatTimestamp from "../../utilities/formatTimestamp";
 
 const styles = {
@@ -27,11 +26,20 @@ const styles = {
 };
 
 type ChatBioProps = {
-  bioContents: ChatBioType;
+  bio?: string;
+  displayName: string;
+  followerCount?: string;
+  joinedDate?: string;
+  username: string;
 };
 
-const ChatBio = ({ bioContents }: ChatBioProps) => {
-  const { username, displayName, bio, joinedDate, followerCount } = bioContents;
+const ChatBio = ({
+  bio,
+  displayName,
+  followerCount,
+  joinedDate,
+  username,
+}: ChatBioProps) => {
   const theme = useTheme();
 
   return (
@@ -51,7 +59,8 @@ const ChatBio = ({ bioContents }: ChatBioProps) => {
       </Box>
       {bio && <Typography>{bio}</Typography>}
       <Typography variant="body2">
-        {`Joined ${formatTimestamp(joinedDate)} • ${followerCount} Followers`}
+        {joinedDate && `Joined ${formatTimestamp(joinedDate)} • `}
+        {`${followerCount ?? 0} Followers`}
       </Typography>
     </Box>
   );

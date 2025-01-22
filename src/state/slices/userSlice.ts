@@ -1,13 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type CurrentUser = {
+type User = {
   isLoading: boolean;
   userId?: number;
   username?: string;
   displayName?: string;
 };
 
-const initialState: CurrentUser = {
+const initialState: User = {
   isLoading: true,
 };
 
@@ -18,7 +18,7 @@ const userSlice = createSlice({
     setDisplayName: (state, action: PayloadAction<string>) => {
       state.displayName = action.payload;
     },
-    setUser: (_, action: PayloadAction<CurrentUser>) => {
+    setUser: (_, action: PayloadAction<User>) => {
       return { ...action.payload };
     },
   },

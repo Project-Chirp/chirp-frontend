@@ -1,18 +1,39 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Conversation, Message } from "../../types/messages";
-import { BaseUser } from "../../types/users";
 
-type MessageState = {
-  conversations: Conversation[];
-  messages: Message[];
-  selectedConversation: BaseUser;
+export type Conversation = SelectedUser & {
+  textContent?: string;
+  timestamp?: string;
 };
 
-const initialState: MessageState = {
+export type Message = {
+  messageId: number;
+  timestamp: string;
+  textContent: string;
+  sentUserId: number;
+  receivedUserId: number;
+};
+
+export type SelectedUser = {
+  bio?: string;
+  displayName: string;
+  followerCount?: string;
+  joinedDate?: string;
+  userId: number;
+  username: string;
+};
+
+type ConversationDetails = {
+  conversations: Conversation[];
+  messages: Message[];
+  selectedConversation: SelectedUser;
+};
+
+const initialState: ConversationDetails = {
   conversations: [],
   messages: [],
   selectedConversation: {
     displayName: "",
+    followerCount: "0",
     username: "",
     userId: 0,
   },
@@ -54,7 +75,7 @@ const messagesSlice = createSlice({
     setMessages: (state, action: PayloadAction<Message[]>) => {
       state.messages = action.payload;
     },
-    setSelectedConversation: (state, action: PayloadAction<BaseUser>) => {
+    setSelectedConversation: (state, action: PayloadAction<SelectedUser>) => {
       state.selectedConversation = action.payload;
     },
   },

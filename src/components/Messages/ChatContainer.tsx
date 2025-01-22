@@ -1,13 +1,12 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Box, Divider, IconButton, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
   setMessages,
   setSelectedConversation,
 } from "../../state/slices/messagesSlice";
-import { ChatBioType } from "../../types/chatBio";
 import useAxios from "../../utilities/useAxios";
 import UserAvatar from "../Common/UserAvatar";
 import ChatInput from "./ChatInput";
@@ -27,14 +26,6 @@ const ChatContainer = () => {
   const { messages, selectedConversation } = useAppSelector(
     (state) => state.messages,
   );
-  const [chatBio, setChatBio] = useState<ChatBioType>({
-    bio: "",
-    username: "",
-    userId: 0,
-    displayName: "",
-    followerCount: 0,
-    joinedDate: "",
-  });
   const dispatch = useAppDispatch();
 
   const { userId1: currentUserId, userId2: otherUserId } = useParams();
@@ -49,16 +40,8 @@ const ChatContainer = () => {
           },
           `messages/${currentUserId}/${otherUserId}`,
         );
-        const { displayName, imageUrl, userId, username } = result.chatBio;
-        const newSelectedConversation = {
-          displayName,
-          imageUrl,
-          userId,
-          username,
-        };
         dispatch(setMessages(result.messages));
-        dispatch(setSelectedConversation(newSelectedConversation));
-        setChatBio(result.chatBio);
+        dispatch(setSelectedConversation(result.otherUserDetail));
       };
       fetchDirectMessage();
     } catch (error) {
@@ -82,7 +65,7 @@ const ChatContainer = () => {
           <InfoOutlinedIcon />
         </IconButton>
       </Box>
-      <ChatList bioContents={chatBio} messages={messages} />
+      <ChatList messages={messages} userDetail={selectedConversation} />
       <Divider />
       <ChatInput />
     </>

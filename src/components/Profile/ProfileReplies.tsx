@@ -1,7 +1,7 @@
 import { Divider, Stack } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { setPosts } from "../../state/slices/postsSlice";
+import { Post, setPosts } from "../../state/slices/postsSlice";
 import useAxios from "../../utilities/useAxios";
 import PostItem from "../Posts/PostItem";
 
@@ -23,7 +23,7 @@ const ProfileReplies = ({ visitedUserId }: ProfileRepliesProps) => {
         },
         "profile/getUserReplies",
       );
-      dispatch(setPosts(result));
+      dispatch(setPosts(result as Post[]));
     };
     fetchPosts();
   }, [dispatch, visitedUserId]);

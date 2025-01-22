@@ -14,8 +14,8 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { useState } from "react";
+import { EditableProfileContents } from "../../pages/Profile";
 import { useAppSelector } from "../../state/hooks";
-import { EditableProfileContent } from "../../types/profile";
 import useAxios from "../../utilities/useAxios";
 
 const styles = {
@@ -43,7 +43,7 @@ type EditProfileModalProps = {
   birthDate?: string | Date;
   displayName: string;
   onClose: () => void;
-  onSubmit: (editedBio: EditableProfileContent) => void;
+  onSubmit: (editedBio: EditableProfileContents) => void;
   open: boolean;
 };
 

@@ -22,9 +22,12 @@ import {
 import { useState } from "react";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { toggleLikePost, setExpandedPost } from "../../state/slices/postsSlice";
+import {
+  Post,
+  toggleLikePost,
+  setExpandedPost,
+} from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
-import { Post } from "../../types/posts";
 import toggleLikePostRequest from "../../utilities/postUtilities";
 import useAxios from "../../utilities/useAxios";
 import TooltipTimestamp from "../Common/TooltipTimestamp";

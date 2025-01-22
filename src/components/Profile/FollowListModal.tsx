@@ -18,14 +18,21 @@ import {
 import { Link as Routerlink, useNavigate } from "react-router-dom";
 import PageLoader from "../../pages/PageLoader";
 import { useAppSelector } from "../../state/hooks";
-import { FollowableUser } from "../../types/users";
 import FollowButton from "../Common/FollowButton";
 import FollowingButton from "../Common/FollowingButton";
 import SearchBar from "../Common/SearchBar";
 import UserAvatar from "../Common/UserAvatar";
 
+export type NetworkUsers = {
+  userId: number;
+  username: string;
+  displayName: string;
+  imageURL: string;
+  isFollowing: boolean;
+};
+
 type FollowListModalProps = {
-  list: FollowableUser[];
+  list: NetworkUsers[];
   loading: boolean;
   onClose: () => void;
   onToggleFollow: (userId: number, isFollowing: boolean) => void;
