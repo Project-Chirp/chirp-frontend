@@ -24,18 +24,15 @@ import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import {
-  toggleLikePost,
-  setExpandedPost,
-  Post,
-} from "../../state/slices/postsSlice";
+import { toggleLikePost, setExpandedPost } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import { Post } from "../../types/posts";
 import toggleLikePostRequest from "../../utilities/postUtilities";
 import useAxios from "../../utilities/useAxios";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
-import { RepliesModal } from "./RepliesModal";
+import RepliesModal from "./RepliesModal";
 
 const styles = {
   actionButton: {

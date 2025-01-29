@@ -14,11 +14,8 @@ import {
 import { EmojiClickData } from "emoji-picker-react";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import {
-  Post,
-  setExpandedPost,
-  updatePost,
-} from "../../state/slices/postsSlice";
+import { setExpandedPost, updatePost } from "../../state/slices/postsSlice";
+import { Post } from "../../types/posts";
 import useAxios from "../../utilities/useAxios";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 import UserAvatar from "../Common/UserAvatar";

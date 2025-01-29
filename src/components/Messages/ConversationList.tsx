@@ -1,13 +1,11 @@
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import { Box, Divider, IconButton, List, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { setConversations } from "../../state/slices/messagesSlice";
-import useAxios from "../../utilities/useAxios";
+import { useAppSelector } from "../../state/hooks";
 import SearchBar from "../Common/SearchBar";
 import ConversationListItem from "./ConversationListItem";
-import CreateMessageModal from "./CreateMessageModal/CreateMessageModal";
+import NewMessageModal from "./NewMessageModal/NewMessageModal";
 
 const styles = {
   header: {
@@ -22,31 +20,18 @@ const styles = {
 };
 
 const ConversationList = () => {
-  const { conversations, selectedConversation } = useAppSelector(
-    (state) => state.messages,
-  );
   const [messageModal, showMessageModal] = useState(false);
-  const userId = useAppSelector((state) => state.user.userId);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { sendRequest } = useAxios();
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const result = await sendRequest(
-        {
-          method: "GET",
-          params: { userId },
-        },
-        "messages",
-      );
-      dispatch(setConversations(result));
-    };
-    fetchMessages();
-  }, [dispatch, userId, sendRequest]);
+  const conversations = useAppSelector((state) => state.messages.conversations);
+  const selectedConversationUserId = useAppSelector(
+    (state) => state.messages.selectedConversation.userId,
+  );
+  const userId = useAppSelector((state) => state.user.userId);
+
+  const navigate = useNavigate();
 
   return (
-    <Box>
+    <>
       <Box sx={styles.header}>
         <Typography variant="h2">Messages</Typography>
         <IconButton onClick={() => showMessageModal(true)}>
@@ -54,26 +39,32 @@ const ConversationList = () => {
         </IconButton>
       </Box>
       <Box sx={styles.searchBarContainer}>
-        <SearchBar placeholder="Search Messages" />
+        <SearchBar placeholder="Search messages" />
       </Box>
       <Divider />
       <List component="div">
         {conversations.map((o) => (
           <ConversationListItem
             conversation={o}
-            key={o.otherUserId}
+            key={o.userId}
             onClick={() => {
-              navigate(`/messages/${userId}/${o.otherUserId}`);
+              navigate(`/messages/${userId}/${o.userId}`);
             }}
-            selected={selectedConversation.userId === o.otherUserId}
+            selected={selectedConversationUserId === o.userId}
           />
         ))}
       </List>
-      <CreateMessageModal
+      <NewMessageModal
+        activeConversations={conversations.map((o) => ({
+          displayName: o.displayName,
+          imageUrl: o.imageUrl,
+          userId: o.userId,
+          username: o.username,
+        }))}
         onClose={() => showMessageModal(false)}
         open={messageModal}
       />
-    </Box>
+    </>
   );
 };
 

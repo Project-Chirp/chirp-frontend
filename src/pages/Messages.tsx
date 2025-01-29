@@ -1,31 +1,50 @@
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ConversationList from "../components/Messages/ConversationList";
-import CreateMessageModal from "../components/Messages/CreateMessageModal/CreateMessageModal";
+import NewMessageModal from "../components/Messages/NewMessageModal/NewMessageModal";
 import NavBar from "../components/NavBar/NavBar";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { setConversations } from "../state/slices/messagesSlice";
+import useAxios from "../utilities/useAxios";
 
 const styles = {
   button: {
     marginTop: 1,
   },
-  container: { height: "auto", justifyContent: "center" },
-  divider: { height: "auto" },
-  middleContent: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
-  nav: { flex: "0 0 275px", height: "100vh", position: "sticky", top: 0 },
-  rightContent: {
-    height: "100vh",
-    flex: "0 0 600px",
-  },
-  selectMessageContainer: {
-    display: "flex",
-    height: "100%",
-    justifyContent: "center",
+  chatContainer: {
     alignItems: "center",
+    display: "flex",
+    flex: "0 0 600px",
+    height: "100vh",
+    justifyContent: "center",
   },
+  container: { height: "auto", justifyContent: "center" },
+  conversationContainer: { flex: "0 0 350px", height: "100vh", minWidth: 0 },
+  divider: { height: "auto" },
 };
 
 const Messages = () => {
   const [messageModal, showMessageModal] = useState(false);
+
+  const userId = useAppSelector((state) => state.user.userId);
+  const conversations = useAppSelector((state) => state.messages.conversations);
+
+  const dispatch = useAppDispatch();
+  const { sendRequest } = useAxios();
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const result = await sendRequest(
+        {
+          method: "GET",
+          params: { userId },
+        },
+        "messages",
+      );
+      dispatch(setConversations(result));
+    };
+    fetchMessages();
+  }, [dispatch, userId, sendRequest]);
 
   return (
     <>
@@ -34,31 +53,33 @@ const Messages = () => {
         divider={<Divider orientation="vertical" sx={styles.divider} />}
         sx={styles.container}
       >
-        <Box component="header" sx={styles.nav}>
-          <NavBar />
-        </Box>
-        <Box sx={styles.middleContent}>
+        <NavBar />
+        <Box sx={styles.conversationContainer}>
           <ConversationList />
         </Box>
-        <Box sx={styles.rightContent}>
-          <Box sx={styles.selectMessageContainer}>
-            <Box>
-              <Typography variant="h1">Select a Message</Typography>
-              <Typography>
-                Choose one of your existing conversations or start a new one!
-              </Typography>
-              <Button
-                onClick={() => showMessageModal(true)}
-                sx={styles.button}
-                variant="contained"
-              >
-                New Message
-              </Button>
-            </Box>
+        <Box sx={styles.chatContainer}>
+          <Box>
+            <Typography variant="h1">Select a Message</Typography>
+            <Typography>
+              Choose one of your existing conversations or start a new one!
+            </Typography>
+            <Button
+              onClick={() => showMessageModal(true)}
+              sx={styles.button}
+              variant="contained"
+            >
+              New Message
+            </Button>
           </Box>
         </Box>
       </Stack>
-      <CreateMessageModal
+      <NewMessageModal
+        activeConversations={conversations.map((o) => ({
+          displayName: o.displayName,
+          imageUrl: o.imageUrl,
+          userId: o.userId,
+          username: o.username,
+        }))}
         onClose={() => showMessageModal(false)}
         open={messageModal}
       />
