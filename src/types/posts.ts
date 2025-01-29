@@ -3,16 +3,22 @@ export type Post = {
   followStatus: boolean;
   imagePath?: string;
   isLikedByCurrentUser: boolean;
-  isQuotePost?: boolean;
-  isRepost?: boolean;
+  isRepostedByCurrentUser: boolean;
   numberOfLikes: number;
   numberOfReplies: number;
   numberOfReposts: number;
+  originalPostContent?: {
+    textContent: string;
+    timestamp: string;
+    username: string;
+    editedTimestamp: string;
+    displayName: string;
+    imagePath?: string;
+  };
   parentPostId?: number;
   postId: number;
-  textContent: string;
+  textContent?: string;
   timestamp: string;
-  userId: number;
   username: string;
   editedTimestamp: string;
 };
