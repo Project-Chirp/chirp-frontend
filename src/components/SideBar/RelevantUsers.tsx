@@ -10,6 +10,7 @@ import {
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { toggleFollow } from "../../state/slices/postsSlice";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import FollowButton from "../Common/FollowButton";
 import FollowingButton from "../Common/FollowingButton";
 import UserAvatar from "../Common/UserAvatar";
@@ -33,7 +34,7 @@ const styles = {
 const RelevantUsers = () => {
   const theme = useTheme();
   const relevantUser = useAppSelector((state) => state.posts.expandedPost);
-  const currentUserId = useAppSelector((state) => state.user.userId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

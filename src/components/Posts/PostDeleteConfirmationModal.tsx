@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { deletePost } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import useAxios from "../../utilities/useAxios";
 
 const styles = {
@@ -54,7 +55,7 @@ const PostDeleteModal = ({
   postId,
   isExpandedPost,
 }: PostDeleteModalProps) => {
-  const userId = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector(selectCurrentUserId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { sendRequest } = useAxios();

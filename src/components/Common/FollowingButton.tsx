@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { useAppSelector } from "../../state/hooks";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import useAxios from "../../utilities/useAxios";
 
 const styles = {
@@ -27,7 +28,7 @@ type FollowingButtonProps = {
 };
 
 const FollowingButton = ({ onClick, visitedUserId }: FollowingButtonProps) => {
-  const currentUserId = useAppSelector((state) => state.user.userId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const [isHovered, setIsHovered] = useState(false);
   const { sendRequest } = useAxios();
 

@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { useAppSelector } from "../../state/hooks";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import useAxios from "../../utilities/useAxios";
 
 const styles = {
@@ -19,7 +20,7 @@ type FollowButtonProps = {
 };
 
 const FollowButton = ({ onClick, visitedUserId }: FollowButtonProps) => {
-  const currentUserId = useAppSelector((state) => state.user.userId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const { sendRequest } = useAxios();
 
   const handleFollow = async (e: React.MouseEvent) => {

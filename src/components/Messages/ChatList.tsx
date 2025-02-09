@@ -9,6 +9,7 @@ import {
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../state/hooks";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import { ChatBioType } from "../../types/chatBio";
 import { Message } from "../../types/messages";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
@@ -66,7 +67,7 @@ const ChatList = ({ messages, bioContents }: ChatListProps) => {
   const messageRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  const currentUserId = useAppSelector((state) => state.user.userId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
 
   useEffect(() => {
     messageRef.current?.scrollTo(0, messageRef.current.scrollHeight);
