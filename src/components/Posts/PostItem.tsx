@@ -24,6 +24,7 @@ import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { toggleLikePost, setExpandedPost } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import { Post } from "../../types/posts";
 import toggleLikePostRequest from "../../utilities/postUtilities";
 import useAxios from "../../utilities/useAxios";
@@ -67,7 +68,7 @@ const PostItem = ({ post }: PostProps) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user = useAppSelector((state) => state.user);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const [open, setOpen] = useState(false);
   const { sendRequest } = useAxios();
 
@@ -149,7 +150,7 @@ const PostItem = ({ post }: PostProps) => {
                 sendRequest,
                 post.isLikedByCurrentUser,
                 post.postId,
-                user.userId,
+                currentUserId,
               );
               dispatch(toggleLikePost(post.postId));
             }}

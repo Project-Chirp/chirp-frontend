@@ -6,6 +6,7 @@ import { EmojiClickData } from "emoji-picker-react";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { addMessage } from "../../state/slices/messagesSlice";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import useAxios from "../../utilities/useAxios";
 import EmojiPickerIconButton from "../Common/EmojiPickerIconButton";
 
@@ -21,7 +22,7 @@ const styles = {
 const ChatInput = () => {
   const [textContent, setTextContent] = useState("");
 
-  const user = useAppSelector((state) => state.user);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const { selectedConversation } = useAppSelector((state) => state.messages);
   const dispatch = useAppDispatch();
 
@@ -36,7 +37,7 @@ const ChatInput = () => {
           data: {
             receivedUserId: selectedConversation.userId,
             textContent,
-            sentUserId: user.userId,
+            sentUserId: currentUserId,
           },
         },
         "messages",

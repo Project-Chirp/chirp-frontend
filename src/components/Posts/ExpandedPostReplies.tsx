@@ -2,6 +2,7 @@ import { Divider } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setPosts } from "../../state/slices/postsSlice";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import useAxios from "../../utilities/useAxios";
 import PostItem from "./PostItem";
 
@@ -11,7 +12,7 @@ type ExpandedPostRepliesProps = {
 
 const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
   const { posts } = useAppSelector((state) => state.posts);
-  const user = useAppSelector((state) => state.user);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const dispatch = useAppDispatch();
   const { sendRequest } = useAxios();
 
@@ -21,7 +22,7 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
         const resultReplies = await sendRequest(
           {
             method: "GET",
-            params: { userId: user.userId, postId },
+            params: { userId: currentUserId, postId },
           },
           "posts/fetchReplies",
         );
@@ -31,7 +32,7 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
       }
     };
     fetchPosts();
-  }, [dispatch, user, postId]);
+  }, [dispatch, currentUserId, postId]);
 
   return (
     <>

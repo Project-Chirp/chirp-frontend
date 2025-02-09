@@ -26,6 +26,7 @@ import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { toggleLikePost, setExpandedPost } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import { Post } from "../../types/posts";
 import toggleLikePostRequest from "../../utilities/postUtilities";
 import useAxios from "../../utilities/useAxios";
@@ -83,7 +84,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const urlParams = useParams();
-  const user = useAppSelector((state) => state.user);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const [open, setOpen] = useState(false);
   const { sendRequest } = useAxios();
 
@@ -92,14 +93,14 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
       const backupFetch = await sendRequest(
         {
           method: "GET",
-          params: { userId: user.userId, postId: urlParams.postId },
+          params: { userId: currentUserId, postId: urlParams.postId },
         },
         "posts/fetchPost",
       );
       dispatch(setExpandedPost(backupFetch as Post));
     };
     updatedExpandedPost();
-  }, [dispatch, user.userId, urlParams.postId]);
+  }, [dispatch, currentUserId, urlParams.postId]);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
@@ -206,7 +207,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
                 sendRequest,
                 post.isLikedByCurrentUser,
                 post.postId,
-                user.userId,
+                currentUserId,
               );
               dispatch(toggleLikePost(post.postId));
             }}
