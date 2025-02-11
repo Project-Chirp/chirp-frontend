@@ -7,14 +7,7 @@ export type Post = {
   numberOfLikes: number;
   numberOfReplies: number;
   numberOfReposts: number;
-  originalPostContent?: {
-    textContent: string;
-    timestamp: string;
-    username: string;
-    editedTimestamp: string;
-    displayName: string;
-    imagePath?: string;
-  };
+  originalPostContent?: ReferencePost;
   parentPostId?: number;
   postId: number;
   textContent?: string;
@@ -22,3 +15,15 @@ export type Post = {
   username: string;
   editedTimestamp: string;
 };
+
+type ReferencePost = {
+  textContent: string;
+  timestamp: string;
+  username: string;
+  editedTimestamp: string;
+  displayName: string;
+  imagePath?: string;
+};
+
+//quote posts have both original post content and textContent
+//reposts has original post content but do not have textContent
