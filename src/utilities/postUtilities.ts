@@ -25,4 +25,33 @@ const toggleLikePostRequest = async (
   }
 };
 
-export default toggleLikePostRequest;
+const toggleRepostPostRequest = async (
+  sendRequest: (config: AxiosRequestConfig, endpoint: string) => Promise<any>,
+  isRepostedByCurrentUser: boolean,
+  postId: number,
+  userId?: number,
+) => {
+  try {
+    if (isRepostedByCurrentUser) {
+      await sendRequest(
+        {
+          method: "PUT",
+          data: { parentPostId: postId },
+        },
+        "posts/deleteRepost",
+      );
+    } else {
+      await sendRequest(
+        {
+          method: "PUT",
+          data: { parentPostId: postId, userId },
+        },
+        "posts/addRepost",
+      );
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { toggleLikePostRequest, toggleRepostPostRequest };

@@ -1,8 +1,6 @@
 import { RateReview, RepeatOutlined } from "@mui/icons-material";
 import { ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
-import { RefObject, useState } from "react";
-import { useAppDispatch } from "../../state/hooks";
-import { toggleRepost } from "../../state/slices/postsSlice";
+import { RefObject } from "react";
 
 const styles = {
   icon: { color: "black.main" },
@@ -12,40 +10,39 @@ const styles = {
 };
 
 type RepostMenuProps = {
-  postId: number;
   isReposted: boolean;
-  ref: RefObject<HTMLButtonElement>;
+  anchorRef: RefObject<HTMLButtonElement>;
   open: boolean;
   setCloseMenu: () => void;
+  handleRepost: () => void;
 };
 
 const RepostMenu = ({
-  postId,
   isReposted,
-  ref,
+  anchorRef,
   open,
   setCloseMenu,
+  handleRepost,
 }: RepostMenuProps) => {
-  const dispatch = useAppDispatch();
-
-  const handleRepost = async () => {
-    dispatch(toggleRepost(postId));
-    setCloseMenu();
-  };
-
   return (
     <Menu
-      anchorEl={ref.current}
-      open={open}
+      anchorEl={anchorRef.current}
+      MenuListProps={{ sx: styles.menuList }}
       onClose={setCloseMenu}
+      open={open}
       slotProps={{
         paper: {
           sx: styles.menu,
         },
       }}
-      MenuListProps={{ sx: styles.menuList }}
     >
-      <MenuItem sx={styles.menuItem} onClick={handleRepost}>
+      <MenuItem
+        onClick={() => {
+          handleRepost();
+          setCloseMenu();
+        }}
+        sx={styles.menuItem}
+      >
         <ListItemIcon>
           <RepeatOutlined sx={styles.icon} />
         </ListItemIcon>
@@ -53,7 +50,7 @@ const RepostMenu = ({
           {isReposted ? "Undo repost" : "Repost"}
         </ListItemText>
       </MenuItem>
-      <MenuItem sx={styles.menuItem} onClick={setCloseMenu}>
+      <MenuItem onClick={setCloseMenu} sx={styles.menuItem}>
         <ListItemIcon>
           <RateReview sx={styles.icon} />
         </ListItemIcon>

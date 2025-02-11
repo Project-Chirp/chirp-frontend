@@ -23,10 +23,17 @@ import {
 import { useRef, useState } from "react";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { toggleLikePost, setExpandedPost } from "../../state/slices/postsSlice";
+import {
+  toggleLikePost,
+  setExpandedPost,
+  toggleRepost,
+} from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
 import { Post } from "../../types/posts";
-import toggleLikePostRequest from "../../utilities/postUtilities";
+import {
+  toggleLikePostRequest,
+  toggleRepostPostRequest,
+} from "../../utilities/postUtilities";
 import useAxios from "../../utilities/useAxios";
 import RepostMenu from "../Common/RepostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
@@ -93,7 +100,15 @@ const PostItem = ({ post }: PostProps) => {
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 
-  console.log(post);
+  const handleRepost = async () => {
+    await toggleRepostPostRequest(
+      sendRequest,
+      post.isRepostedByCurrentUser,
+      post.postId,
+      user.userId,
+    );
+    dispatch(toggleRepost(post.postId));
+  };
 
   return (
     <Card sx={styles.card}>
@@ -184,13 +199,13 @@ const PostItem = ({ post }: PostProps) => {
           >
             {post.numberOfReposts}
           </Button>
-          {/* <RepostMenu
+          <RepostMenu
+            anchorRef={repostMenuRef}
+            handleRepost={handleRepost}
             isReposted={post.isRepostedByCurrentUser}
             open={openRepostMenu}
-            postId={post.postId}
-            ref={repostMenuRef}
             setCloseMenu={() => setOpenRepostMenu(false)}
-          /> */}
+          />
           <Button
             onClick={() => {
               setOpenReplies(true);

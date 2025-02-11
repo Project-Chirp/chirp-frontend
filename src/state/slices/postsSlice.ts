@@ -80,8 +80,8 @@ const postsSlice = createSlice({
             ...o,
             isRepostedByCurrentUser,
             numberOfReposts: isRepostedByCurrentUser
-              ? o.numberOfReposts + 1
-              : o.numberOfReposts - 1,
+              ? Number(o.numberOfReposts + 1)
+              : Number(o.numberOfReposts - 1),
           };
         }
         return o;

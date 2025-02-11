@@ -27,7 +27,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { toggleLikePost, setExpandedPost } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
 import { Post } from "../../types/posts";
-import toggleLikePostRequest from "../../utilities/postUtilities";
+import { toggleLikePostRequest } from "../../utilities/postUtilities";
 import useAxios from "../../utilities/useAxios";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import UserAvatar from "../Common/UserAvatar";
