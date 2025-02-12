@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setPosts } from "../../state/slices/postsSlice";
 import useAxios from "../../utilities/useAxios";
 import PostItem from "./PostItem";
+import RepostItem from "./RepostItem";
 
 const PostList = () => {
   const { posts } = useAppSelector((state) => state.posts);
@@ -33,10 +34,14 @@ const PostList = () => {
   return (
     <Stack divider={<Divider />}>
       {posts
-        .filter((o) => !o.parentPostId)
-        .map((o) => (
-          <PostItem key={o.postId} post={o} />
-        ))}
+        .filter((o) => !o.parentPostId || o.originalPostContent)
+        .map((o) =>
+          o.originalPostContent && !o.textContent ? (
+            <RepostItem key={o.postId} post={o} />
+          ) : (
+            <PostItem key={o.postId} post={o} />
+          ),
+        )}
     </Stack>
   );
 };

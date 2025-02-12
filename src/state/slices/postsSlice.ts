@@ -57,6 +57,9 @@ const postsSlice = createSlice({
         numberOfLikes: 0,
         numberOfReplies: 0,
         numberOfReposts: 0,
+        followStatus: false,
+        isLikedByCurrentUser: false,
+        isRepostedByCurrentUser: false,
       });
     },
     deletePost: (state, action: PayloadAction<number>) => {
@@ -70,24 +73,46 @@ const postsSlice = createSlice({
     setExpandedPost: (state, action: PayloadAction<Post>) => {
       state.expandedPost = action.payload;
     },
-    toggleRepost: (state, action: PayloadAction<number>) => {
-      const newPosts = state.posts.map((o) => {
-        console.log(action.payload);
+    addRepost: (state, action: PayloadAction<Post>) => {
+      const newPost = action.payload;
 
-        if ((o.postId || o.parentPostId) === action.payload) {
-          const isRepostedByCurrentUser = !o.isRepostedByCurrentUser;
+      if (newPost.textContent) {
+        state.posts.unshift({
+          ...newPost,
+          textContent: "",
+          originalPostContent: {
+            displayName: newPost.displayName,
+            editedTimestamp: newPost.editedTimestamp,
+            textContent: newPost.textContent,
+            timestamp: newPost.timestamp,
+            username: newPost.username,
+            imagePath: newPost.imagePath,
+          },
+          isRepostedByCurrentUser: true,
+          followStatus: newPost.followStatus,
+          isLikedByCurrentUser: newPost.isLikedByCurrentUser,
+          numberOfLikes: newPost.numberOfLikes,
+          numberOfReposts: newPost.numberOfReposts,
+          numberOfReplies: newPost.numberOfReplies,
+          displayName: newPost.displayName,
+        });
+      }
+
+      const updatedRepostsWithPosts = state.posts.map((post) => {
+        if (post.parentPostId || post.postId === newPost.parentPostId) {
           return {
-            ...o,
-            isRepostedByCurrentUser,
-            numberOfReposts: isRepostedByCurrentUser
-              ? Number(o.numberOfReposts + 1)
-              : Number(o.numberOfReposts - 1),
+            ...post,
+            numberOfReposts: post.numberOfReposts + 1,
+            isRepostedByCurrentUser: true,
           };
         }
-        return o;
+
+        return post;
       });
 
-      state.posts = newPosts;
+      console.log(updatedRepostsWithPosts);
+
+      state.posts = updatedRepostsWithPosts;
     },
     toggleLikePost: (state, action: PayloadAction<number>) => {
       const newPosts = state.posts.map((o) => {
@@ -148,7 +173,7 @@ export const {
   deletePost,
   setPosts,
   setExpandedPost,
-  toggleRepost,
+  addRepost,
   toggleLikePost,
   toggleFollow,
   updateDisplayNames,

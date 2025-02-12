@@ -35,19 +35,23 @@ const toggleRepostPostRequest = async (
     if (isRepostedByCurrentUser) {
       await sendRequest(
         {
-          method: "PUT",
-          data: { parentPostId: postId },
+          method: "DELETE",
+          data: { postId },
         },
-        "posts/deleteRepost",
+        "posts/deletePost",
       );
+
+      return null;
     } else {
-      await sendRequest(
+      const newPost = await sendRequest(
         {
           method: "PUT",
           data: { parentPostId: postId, userId },
         },
         "posts/addRepost",
       );
+
+      return newPost;
     }
   } catch (error) {
     console.error(error);
