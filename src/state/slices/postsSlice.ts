@@ -110,8 +110,6 @@ const postsSlice = createSlice({
         return post;
       });
 
-      console.log(updatedRepostsWithPosts);
-
       state.posts = updatedRepostsWithPosts;
     },
     toggleLikePost: (state, action: PayloadAction<number>) => {

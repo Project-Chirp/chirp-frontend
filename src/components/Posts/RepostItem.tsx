@@ -15,8 +15,6 @@ const RepostItem = ({ post }: RepostProps) => {
     return null;
   }
 
-  console.log(post);
-
   return (
     <Box>
       <Box
