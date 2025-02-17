@@ -88,7 +88,10 @@ const PostItem = ({ post }: PostProps) => {
   const { sendRequest } = useAxios();
 
   const routeChange = () => {
-    navigate(`/post/${post.postId}`);
+    const rootPostId = post.originalPostContent
+      ? post.parentPostId
+      : post.postId;
+    navigate(`/post/${rootPostId}`);
     dispatch(setExpandedPost(post));
   };
 
@@ -101,7 +104,9 @@ const PostItem = ({ post }: PostProps) => {
     const newPost = await toggleRepostPostRequest(
       sendRequest,
       post.isRepostedByCurrentUser,
-      post.postId,
+      post.originalPostContent && post.parentPostId !== undefined
+        ? post.parentPostId
+        : post.postId,
       user.userId,
     );
 
@@ -112,6 +117,7 @@ const PostItem = ({ post }: PostProps) => {
         addRepost({
           ...post,
           ...newPost,
+          repostedByDisplayName: user.displayName,
         }),
       );
     }
@@ -199,10 +205,15 @@ const PostItem = ({ post }: PostProps) => {
           </Button>
           <Button
             onClick={async () => {
+              const postIdToLike =
+                post.originalPostContent && post.parentPostId !== undefined
+                  ? post.parentPostId
+                  : post.postId;
+
               await toggleLikePostRequest(
                 sendRequest,
                 post.isLikedByCurrentUser,
-                post.postId,
+                postIdToLike,
                 user.userId,
               );
               dispatch(toggleLikePost(post.postId));

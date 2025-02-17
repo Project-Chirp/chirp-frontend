@@ -14,6 +14,8 @@ export type Post = {
   timestamp: string;
   username: string;
   editedTimestamp: string;
+  repostedByDisplayName?: string;
+  userId: number;
 };
 
 type ReferencePost = {

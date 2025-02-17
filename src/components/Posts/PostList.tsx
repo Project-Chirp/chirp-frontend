@@ -2,6 +2,7 @@ import { Divider, Stack } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setPosts } from "../../state/slices/postsSlice";
+import { Post } from "../../types/posts";
 import useAxios from "../../utilities/useAxios";
 import PostItem from "./PostItem";
 import RepostItem from "./RepostItem";
@@ -23,7 +24,8 @@ const PostList = () => {
           },
           "posts",
         );
-        dispatch(setPosts(resultPosts));
+        console.log(resultPosts);
+        dispatch(setPosts(resultPosts as Post[]));
       } catch (e) {
         console.log(e.message);
       }

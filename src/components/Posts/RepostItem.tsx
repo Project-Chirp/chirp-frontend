@@ -2,6 +2,7 @@ import { RepeatOutlined } from "@mui/icons-material";
 import { Box, Link, useTheme } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { Post } from "../../types/posts";
+import { convertRepostToPost } from "../../utilities/postTransform";
 import PostItem from "./PostItem";
 
 type RepostProps = {
@@ -14,6 +15,9 @@ const RepostItem = ({ post }: RepostProps) => {
   if (!post.originalPostContent) {
     return null;
   }
+
+  const convertedPost = convertRepostToPost(post);
+  console.log(convertedPost);
 
   return (
     <Box>
@@ -35,21 +39,10 @@ const RepostItem = ({ post }: RepostProps) => {
           underline="hover"
           variant="subtitle2"
         >
-          Reposted by {post.displayName}
+          Reposted by {post.repostedByDisplayName}
         </Link>
       </Box>
-      <PostItem
-        post={{
-          ...post.originalPostContent,
-          isLikedByCurrentUser: post.isLikedByCurrentUser,
-          isRepostedByCurrentUser: post.isRepostedByCurrentUser,
-          numberOfLikes: post.numberOfLikes,
-          numberOfReposts: post.numberOfReposts,
-          numberOfReplies: post.numberOfReplies,
-          followStatus: post.followStatus,
-          postId: post.postId,
-        }}
-      />
+      <PostItem post={convertedPost} />
     </Box>
   );
 };
