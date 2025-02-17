@@ -86,17 +86,15 @@ const PostItem = ({ post }: PostProps) => {
   const [openRepostMenu, setOpenRepostMenu] = useState(false);
   const repostMenuRef = useRef<HTMLButtonElement>(null);
   const { sendRequest } = useAxios();
+  const rootPostId = post.originalPostContent ? post.parentPostId : post.postId;
 
   const routeChange = () => {
-    const rootPostId = post.originalPostContent
-      ? post.parentPostId
-      : post.postId;
     navigate(`/post/${rootPostId}`);
     dispatch(setExpandedPost(post));
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/post/${post.postId}`);
+    navigator.clipboard.writeText(`http://localhost:3000/post/${rootPostId}`);
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 

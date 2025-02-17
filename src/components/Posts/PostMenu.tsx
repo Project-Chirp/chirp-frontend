@@ -62,7 +62,7 @@ const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
           sx: styles.menu,
         }}
       >
-        {userId === authorId && (
+        {userId === authorId && !post.originalPostContent && (
           <MenuItem
             onClick={() => {
               setMenuOpen(false);
@@ -78,7 +78,7 @@ const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
             </ListItemText>
           </MenuItem>
         )}
-        {userId === authorId && (
+        {userId === authorId && !post.originalPostContent && (
           <MenuItem
             onClick={() => {
               setMenuOpen(false);

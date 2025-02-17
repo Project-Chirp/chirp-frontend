@@ -1,6 +1,7 @@
 import { RepeatOutlined } from "@mui/icons-material";
 import { Box, Link, useTheme } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../state/hooks";
 import { Post } from "../../types/posts";
 import { convertRepostToPost } from "../../utilities/postTransform";
 import PostItem from "./PostItem";
@@ -11,6 +12,8 @@ type RepostProps = {
 
 const RepostItem = ({ post }: RepostProps) => {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const username = useAppSelector((state) => state.user.username);
 
   if (!post.originalPostContent) {
     return null;
@@ -22,6 +25,7 @@ const RepostItem = ({ post }: RepostProps) => {
   return (
     <Box>
       <Box
+        onClick={() => navigate(`/${username}`)}
         sx={{
           display: "flex",
           alignItems: "center",
