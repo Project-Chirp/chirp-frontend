@@ -1,13 +1,13 @@
 import { Divider, Stack } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { setPosts } from "../../state/slices/postsSlice";
+import { selectPosts, setPosts } from "../../state/slices/postsSlice";
 import { selectCurrentUserId } from "../../state/slices/userSlice";
 import useAxios from "../../utilities/useAxios";
 import PostItem from "./PostItem";
 
 const PostList = () => {
-  const { posts } = useAppSelector((state) => state.posts);
+  const posts = useAppSelector(selectPosts);
   const currentUserId = useAppSelector(selectCurrentUserId);
   const dispatch = useAppDispatch();
 

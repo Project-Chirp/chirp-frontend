@@ -3,6 +3,10 @@ import { Box, Divider, IconButton, List, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../state/hooks";
+import {
+  selectConversations,
+  selectSelectedConversation,
+} from "../../state/slices/messagesSlice";
 import { selectCurrentUserId } from "../../state/slices/userSlice";
 import SearchBar from "../Common/SearchBar";
 import ConversationListItem from "./ConversationListItem";
@@ -23,9 +27,9 @@ const styles = {
 const ConversationList = () => {
   const [messageModal, showMessageModal] = useState(false);
 
-  const conversations = useAppSelector((state) => state.messages.conversations);
-  const selectedConversationUserId = useAppSelector(
-    (state) => state.messages.selectedConversation.userId,
+  const conversations = useAppSelector(selectConversations);
+  const { userId: selectedConversationUserId } = useAppSelector(
+    selectSelectedConversation,
   );
   const userId = useAppSelector(selectCurrentUserId);
 

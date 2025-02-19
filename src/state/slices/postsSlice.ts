@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Post } from "../../types/posts";
+import { RootState } from "../store";
 
 type PostState = {
   posts: Post[];
@@ -121,6 +122,11 @@ const postsSlice = createSlice({
     },
   },
 });
+
+export const selectPosts = (state: RootState) => state.posts.posts;
+
+export const selectExpandedPost = (state: RootState) =>
+  state.posts.expandedPost;
 
 export const {
   addReply,

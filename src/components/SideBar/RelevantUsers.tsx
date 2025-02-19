@@ -9,7 +9,10 @@ import {
 } from "@mui/material";
 import { useNavigate, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { toggleFollow } from "../../state/slices/postsSlice";
+import {
+  selectExpandedPost,
+  toggleFollow,
+} from "../../state/slices/postsSlice";
 import { selectCurrentUserId } from "../../state/slices/userSlice";
 import FollowButton from "../Common/FollowButton";
 import FollowingButton from "../Common/FollowingButton";
@@ -33,7 +36,7 @@ const styles = {
 
 const RelevantUsers = () => {
   const theme = useTheme();
-  const relevantUser = useAppSelector((state) => state.posts.expandedPost);
+  const relevantPost = useAppSelector(selectExpandedPost);
   const currentUserId = useAppSelector(selectCurrentUserId);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -43,20 +46,20 @@ const RelevantUsers = () => {
       <Typography sx={styles.title} variant="h6">
         Relevant People
       </Typography>
-      <ListItemButton onClick={() => navigate(`/${relevantUser.username}`)}>
+      <ListItemButton onClick={() => navigate(`/${relevantPost.username}`)}>
         <ListItemAvatar>
-          <UserAvatar username={relevantUser.username} />
+          <UserAvatar username={relevantPost.username} />
         </ListItemAvatar>
         <ListItemText
           primary={
             <Link
               color={theme.typography.subtitle1.color}
               component={Routerlink}
-              to={`/${relevantUser.username}`}
+              to={`/${relevantPost.username}`}
               underline="hover"
               variant="subtitle1"
             >
-              {relevantUser.displayName}
+              {relevantPost.displayName}
             </Link>
           }
           secondary={
@@ -65,22 +68,22 @@ const RelevantUsers = () => {
               component="span"
               variant="subtitle2"
             >
-              {`@${relevantUser.username}`}
+              {`@${relevantPost.username}`}
             </Typography>
           }
           sx={styles.listItemText}
         />
-        {relevantUser.userId !== 0 &&
-          relevantUser.userId !== currentUserId &&
-          (relevantUser.followStatus ? (
+        {relevantPost.userId !== 0 &&
+          relevantPost.userId !== currentUserId &&
+          (relevantPost.followStatus ? (
             <FollowingButton
               onClick={() => dispatch(toggleFollow())}
-              visitedUserId={relevantUser.userId}
+              visitedUserId={relevantPost.userId}
             />
           ) : (
             <FollowButton
               onClick={() => dispatch(toggleFollow())}
-              visitedUserId={relevantUser.userId}
+              visitedUserId={relevantPost.userId}
             />
           ))}
       </ListItemButton>

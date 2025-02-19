@@ -4,6 +4,7 @@ import ExpandedPostItem from "../components/Posts/ExpandedPostItem";
 import ExpandedPostReplies from "../components/Posts/ExpandedPostReplies";
 import SideBar from "../components/SideBar/SideBar";
 import { useAppSelector } from "../state/hooks";
+import { selectExpandedPost } from "../state/slices/postsSlice";
 import Layout from "./Layout";
 
 const styles = {
@@ -11,7 +12,7 @@ const styles = {
 };
 
 const ExpandedPost = () => {
-  const { expandedPost } = useAppSelector((state) => state.posts);
+  const expandedPost = useAppSelector(selectExpandedPost);
 
   return (
     <Layout
