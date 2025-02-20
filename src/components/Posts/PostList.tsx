@@ -24,7 +24,6 @@ const PostList = () => {
           },
           "posts",
         );
-        console.log(resultPosts);
         dispatch(setPosts(resultPosts as Post[]));
       } catch (e) {
         console.log(e.message);

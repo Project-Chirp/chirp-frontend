@@ -27,7 +27,7 @@ import {
   toggleLikePost,
   setExpandedPost,
   addRepost,
-  deletePost,
+  undoRepost,
 } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
 import { Post } from "../../types/posts";
@@ -99,17 +99,22 @@ const PostItem = ({ post }: PostProps) => {
   };
 
   const handleRepost = async () => {
+    const postIdToSend =
+      post.isRepostedByCurrentUser && post.originalPostContent
+        ? post.postId
+        : post.originalPostContent && post.parentPostId !== undefined
+          ? post.parentPostId
+          : post.postId;
+
     const newPost = await toggleRepostPostRequest(
       sendRequest,
       post.isRepostedByCurrentUser,
-      post.originalPostContent && post.parentPostId !== undefined
-        ? post.parentPostId
-        : post.postId,
+      postIdToSend,
       user.userId,
     );
 
     if (post.isRepostedByCurrentUser) {
-      dispatch(deletePost(post.postId));
+      dispatch(undoRepost(postIdToSend));
     } else {
       dispatch(
         addRepost({

@@ -35,10 +35,10 @@ const toggleRepostPostRequest = async (
     if (isRepostedByCurrentUser) {
       await sendRequest(
         {
-          method: "DELETE",
+          method: "PUT",
           data: { postId },
         },
-        "posts/deletePost",
+        "posts/undoRepost",
       );
 
       return null;

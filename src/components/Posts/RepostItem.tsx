@@ -20,7 +20,6 @@ const RepostItem = ({ post }: RepostProps) => {
   }
 
   const convertedPost = convertRepostToPost(post);
-  console.log(convertedPost);
 
   return (
     <Box>

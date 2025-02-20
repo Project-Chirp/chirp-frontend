@@ -77,12 +77,14 @@ const postsSlice = createSlice({
     addRepost: (state, action: PayloadAction<Post>) => {
       const newPost = action.payload;
 
+      if (!newPost.textContent) return;
+
       state.posts.unshift({
         ...newPost,
         originalPostContent: {
           displayName: newPost.displayName,
           editedTimestamp: newPost.editedTimestamp,
-          textContent: newPost.textContent!,
+          textContent: newPost.textContent,
           timestamp: newPost.timestamp,
           username: newPost.username,
           imagePath: newPost.imagePath,
@@ -91,13 +93,11 @@ const postsSlice = createSlice({
         isRepostedByCurrentUser: true,
       });
 
-      console.log(JSON.stringify(state.posts));
-
       const updatedRepostsWithPosts = state.posts.map((post) => {
         if ((post.parentPostId || post.postId) === newPost.parentPostId) {
           return {
             ...post,
-            numberOfReposts: +post.numberOfReposts + 1,
+            numberOfReposts: post.numberOfReposts + 1,
             isRepostedByCurrentUser: true,
           };
         }
@@ -107,9 +107,31 @@ const postsSlice = createSlice({
 
       state.posts = updatedRepostsWithPosts;
     },
-    toggleLikePost: (state, action: PayloadAction<number>) => {
-      console.log(JSON.stringify(state));
+    undoRepost: (state, action: PayloadAction<number>) => {
+      const repostId = action.payload;
 
+      const repostedPost = state.posts.find((post) => post.postId === repostId);
+      const parentPostId = repostedPost?.parentPostId ?? repostId;
+
+      const updatedRepostsWithPosts = state.posts.map((post) => {
+        if (
+          post.postId === parentPostId ||
+          post.parentPostId === parentPostId
+        ) {
+          return {
+            ...post,
+            numberOfReposts: post.numberOfReposts - 1,
+            isRepostedByCurrentUser: false,
+          };
+        }
+
+        return post;
+      });
+
+      state.posts = updatedRepostsWithPosts;
+      state.posts = state.posts.filter((post) => post.postId !== repostId);
+    },
+    toggleLikePost: (state, action: PayloadAction<number>) => {
       const postToUpdate = state.posts.find((p) => p.postId === action.payload);
       if (!postToUpdate) return;
 
@@ -125,8 +147,6 @@ const postsSlice = createSlice({
           post.postId === originalPostId || // if root post = originalPostId
           (post.originalPostContent && post.parentPostId === originalPostId) //if repost = original post id
         ) {
-          console.log(JSON.stringify(post));
-
           const isLikedByCurrentUser = !post.isLikedByCurrentUser;
           return {
             ...post,
@@ -154,30 +174,6 @@ const postsSlice = createSlice({
             : state.expandedPost.numberOfLikes - 1;
         }
       }
-      // const newPosts = state.posts.map((o) => {
-      //   if (o.postId === action.payload) {
-      //     const isLikedByCurrentUser = !o.isLikedByCurrentUser;
-      //     return {
-      //       ...o,
-      //       isLikedByCurrentUser,
-      //       numberOfLikes: isLikedByCurrentUser
-      //         ? o.numberOfLikes + 1
-      //         : o.numberOfLikes - 1,
-      //     };
-      //   }
-      //   return o;
-      // });
-      // state.posts = newPosts;
-
-      // if (action.payload === state.expandedPost.postId) {
-      //   const isLikedByCurrentUser = !state.expandedPost.isLikedByCurrentUser;
-      //   state.expandedPost.isLikedByCurrentUser = isLikedByCurrentUser;
-      //   if (isLikedByCurrentUser) {
-      //     state.expandedPost.numberOfLikes++;
-      //   } else {
-      //     state.expandedPost.numberOfLikes--;
-      //   }
-      // }
     },
     toggleFollow: (state) => {
       state.expandedPost.followStatus = !state.expandedPost.followStatus;
@@ -217,6 +213,7 @@ export const {
   toggleFollow,
   updateDisplayNames,
   updatePost,
+  undoRepost,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
