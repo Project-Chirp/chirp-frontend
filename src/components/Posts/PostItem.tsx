@@ -86,41 +86,56 @@ const PostItem = ({ post }: PostProps) => {
   const [openRepostMenu, setOpenRepostMenu] = useState(false);
   const repostMenuRef = useRef<HTMLButtonElement>(null);
   const { sendRequest } = useAxios();
-  const rootPostId = post.originalPostContent ? post.parentPostId : post.postId;
+  const originalPostId = post.parentPostId ?? post.postId;
+  const userRepost = useAppSelector((state) =>
+    state.posts.posts.find(
+      (post) =>
+        post.parentPostId === originalPostId && post.userId === user.userId,
+    ),
+  );
 
   const routeChange = () => {
-    navigate(`/post/${rootPostId}`);
+    navigate(`/post/${originalPostId}`);
     dispatch(setExpandedPost(post));
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/post/${rootPostId}`);
+    navigator.clipboard.writeText(
+      `http://localhost:3000/post/${originalPostId}`,
+    );
     dispatch(enqueueToast({ message: "Post URL copied to clipboard!" }));
   };
 
+  /**
+   *  There are three cases where we can click on a repost
+   *  to undo the current user's repost.
+   *  1. original post
+   *  2. repost from current user
+   *  3. repost from another user
+   *
+   *  We want to ensure that regardless of where we
+   *  decide to undo from, we find the repost postId
+   *  and then use that to find the parentPostId of all
+   *  reposts and the original post to update their state.
+   */
   const handleRepost = async () => {
-    const postIdToSend =
-      post.isRepostedByCurrentUser && post.originalPostContent
-        ? post.postId
-        : post.originalPostContent && post.parentPostId !== undefined
-          ? post.parentPostId
-          : post.postId;
+    const repostId = userRepost ? userRepost.postId : originalPostId;
 
     const newPost = await toggleRepostPostRequest(
       sendRequest,
       post.isRepostedByCurrentUser,
-      postIdToSend,
+      repostId,
       user.userId,
     );
 
     if (post.isRepostedByCurrentUser) {
-      dispatch(undoRepost(postIdToSend));
+      dispatch(undoRepost({ repostId, userId: user.userId }));
     } else {
       dispatch(
         addRepost({
           ...post,
           ...newPost,
-          repostedByDisplayName: user.displayName,
+          repostedByDisplayName: user.displayName, // passing here since we cannot access the user state in post slice
         }),
       );
     }

@@ -77,7 +77,8 @@ const postsSlice = createSlice({
     addRepost: (state, action: PayloadAction<Post>) => {
       const newPost = action.payload;
 
-      if (!newPost.textContent) return;
+      // required if statement because textContent in ReferencePost cannot be undefined whilst it can be in Post type.
+      if (!newPost.textContent) return; // assuming there will always be textContent from the original post you plan on retweeting.
 
       state.posts.unshift({
         ...newPost,
@@ -107,16 +108,30 @@ const postsSlice = createSlice({
 
       state.posts = updatedRepostsWithPosts;
     },
-    undoRepost: (state, action: PayloadAction<number>) => {
-      const repostId = action.payload;
+    undoRepost: (
+      state,
+      action: PayloadAction<{ repostId: number; userId?: number }>,
+    ) => {
+      const { repostId, userId } = action.payload;
+      const givenPost = state.posts.find((post) => post.postId === repostId);
+      if (!givenPost) return;
 
-      const repostedPost = state.posts.find((post) => post.postId === repostId);
-      const parentPostId = repostedPost?.parentPostId ?? repostId;
+      const originalPostId = givenPost.parentPostId ?? givenPost.postId; // find original post id
+      const userRepostIndex = state.posts.findIndex(
+        // find userRepostIndex to filter out
+        (post) =>
+          post.parentPostId === originalPostId && post.userId === userId,
+      );
+
+      if (userRepostIndex !== -1) {
+        state.posts.splice(userRepostIndex, 1); // filter out repost belonging to current user
+      }
 
       const updatedRepostsWithPosts = state.posts.map((post) => {
+        // update all existing reposts and original post with numberOfReposts and updating isRepostedByCurrentUser flag.
         if (
-          post.postId === parentPostId ||
-          post.parentPostId === parentPostId
+          post.postId === originalPostId ||
+          post.parentPostId === originalPostId
         ) {
           return {
             ...post,
@@ -129,7 +144,6 @@ const postsSlice = createSlice({
       });
 
       state.posts = updatedRepostsWithPosts;
-      state.posts = state.posts.filter((post) => post.postId !== repostId);
     },
     toggleLikePost: (state, action: PayloadAction<number>) => {
       const postToUpdate = state.posts.find((p) => p.postId === action.payload);
