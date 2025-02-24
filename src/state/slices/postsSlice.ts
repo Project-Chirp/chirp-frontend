@@ -92,58 +92,53 @@ const postsSlice = createSlice({
         },
         textContent: "",
         isRepostedByCurrentUser: true,
+        numberOfReposts: newPost.numberOfReposts + 1,
       });
-
-      const updatedRepostsWithPosts = state.posts.map((post) => {
-        if ((post.parentPostId || post.postId) === newPost.parentPostId) {
-          return {
-            ...post,
-            numberOfReposts: post.numberOfReposts + 1,
-            isRepostedByCurrentUser: true,
-          };
-        }
-
-        return post;
-      });
-
-      state.posts = updatedRepostsWithPosts;
     },
     undoRepost: (
       state,
-      action: PayloadAction<{ repostId: number; userId?: number }>,
+      action: PayloadAction<{ postId: number; userId?: number }>,
     ) => {
-      const { repostId, userId } = action.payload;
-      const givenPost = state.posts.find((post) => post.postId === repostId);
-      if (!givenPost) return;
+      const { postId, userId } = action.payload;
+      if (!postId || !userId) return;
 
-      const originalPostId = givenPost.parentPostId ?? givenPost.postId; // find original post id
       const userRepostIndex = state.posts.findIndex(
-        // find userRepostIndex to filter out
-        (post) =>
-          post.parentPostId === originalPostId && post.userId === userId,
+        (post) => post.parentPostId === postId && post.userId === userId,
       );
 
-      if (userRepostIndex !== -1) {
+      if (postId && userRepostIndex !== -1) {
         state.posts.splice(userRepostIndex, 1); // filter out repost belonging to current user
       }
+    },
+    toggleRepost: (state, action: PayloadAction<number>) => {
+      const postToUpdate = state.posts.find(
+        (post) => post.postId === action.payload,
+      );
+      if (!postToUpdate) return;
 
-      const updatedRepostsWithPosts = state.posts.map((post) => {
-        // update all existing reposts and original post with numberOfReposts and updating isRepostedByCurrentUser flag.
+      const originalPostId = postToUpdate.originalPostContent
+        ? postToUpdate.parentPostId
+        : postToUpdate.postId;
+
+      const newPosts = state.posts.map((post) => {
         if (
           post.postId === originalPostId ||
           post.parentPostId === originalPostId
         ) {
+          const isRepostedByCurrentUser = !post.isRepostedByCurrentUser;
+
           return {
             ...post,
-            numberOfReposts: post.numberOfReposts - 1,
-            isRepostedByCurrentUser: false,
+            isRepostedByCurrentUser,
+            numberOfReposts: isRepostedByCurrentUser
+              ? post.numberOfReposts + 1
+              : post.numberOfReposts - 1,
           };
         }
-
         return post;
       });
 
-      state.posts = updatedRepostsWithPosts;
+      state.posts = newPosts;
     },
     toggleLikePost: (state, action: PayloadAction<number>) => {
       const postToUpdate = state.posts.find((p) => p.postId === action.payload);
@@ -223,6 +218,7 @@ export const {
   setPosts,
   setExpandedPost,
   addRepost,
+  toggleRepost,
   toggleLikePost,
   toggleFollow,
   updateDisplayNames,

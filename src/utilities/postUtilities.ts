@@ -36,7 +36,7 @@ const toggleRepostPostRequest = async (
       await sendRequest(
         {
           method: "PUT",
-          data: { postId },
+          data: { postId, userId },
         },
         "posts/undoRepost",
       );

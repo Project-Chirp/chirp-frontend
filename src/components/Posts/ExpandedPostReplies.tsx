@@ -36,7 +36,7 @@ const ExpandedPostReplies = ({ postId }: ExpandedPostRepliesProps) => {
   return (
     <>
       {posts
-        .filter((o) => o.parentPostId === postId)
+        .filter((o) => o.parentPostId && !o.originalPostContent)
         .map((o) => (
           <PostItem key={o.postId} post={o} />
         ))}

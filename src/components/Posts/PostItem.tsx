@@ -28,6 +28,7 @@ import {
   setExpandedPost,
   addRepost,
   undoRepost,
+  toggleRepost,
 } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
 import { Post } from "../../types/posts";
@@ -86,13 +87,9 @@ const PostItem = ({ post }: PostProps) => {
   const [openRepostMenu, setOpenRepostMenu] = useState(false);
   const repostMenuRef = useRef<HTMLButtonElement>(null);
   const { sendRequest } = useAxios();
-  const originalPostId = post.parentPostId ?? post.postId;
-  const userRepost = useAppSelector((state) =>
-    state.posts.posts.find(
-      (post) =>
-        post.parentPostId === originalPostId && post.userId === user.userId,
-    ),
-  );
+  const originalPostId = post.originalPostContent
+    ? post.parentPostId
+    : post.postId;
 
   const routeChange = () => {
     navigate(`/post/${originalPostId}`);
@@ -119,23 +116,30 @@ const PostItem = ({ post }: PostProps) => {
    *  reposts and the original post to update their state.
    */
   const handleRepost = async () => {
-    const repostId = userRepost ? userRepost.postId : originalPostId;
+    if (!originalPostId) return;
 
     const newPost = await toggleRepostPostRequest(
       sendRequest,
       post.isRepostedByCurrentUser,
-      repostId,
+      originalPostId,
       user.userId,
     );
 
+    dispatch(toggleRepost(originalPostId));
+
     if (post.isRepostedByCurrentUser) {
-      dispatch(undoRepost({ repostId, userId: user.userId }));
+      dispatch(
+        undoRepost({
+          postId: originalPostId,
+          userId: user.userId,
+        }),
+      );
     } else {
       dispatch(
         addRepost({
           ...post,
           ...newPost,
-          repostedByDisplayName: user.displayName, // passing here since we cannot access the user state in post slice
+          repostedByDisplayName: user.displayName, // passing here since we cannot access the user state in post
         }),
       );
     }
