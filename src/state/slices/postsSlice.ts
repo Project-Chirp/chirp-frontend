@@ -114,8 +114,8 @@ const postsSlice = createSlice({
       const postToUpdate = state.posts.find(
         (post) => post.postId === action.payload,
       );
-      if (!postToUpdate) return;
 
+      if (!postToUpdate) return;
       const originalPostId = postToUpdate.originalPostContent
         ? postToUpdate.parentPostId
         : postToUpdate.postId;
@@ -139,6 +139,18 @@ const postsSlice = createSlice({
       });
 
       state.posts = newPosts;
+    },
+    toggleExpandedPostRepost: (state) => {
+      state.expandedPost.isRepostedByCurrentUser =
+        !state.expandedPost.isRepostedByCurrentUser;
+
+      if (state.expandedPost.isRepostedByCurrentUser) {
+        state.expandedPost.numberOfReposts =
+          state.expandedPost.numberOfReposts + 1;
+      } else {
+        state.expandedPost.numberOfReposts =
+          state.expandedPost.numberOfReposts - 1;
+      }
     },
     toggleLikePost: (state, action: PayloadAction<number>) => {
       const postToUpdate = state.posts.find((p) => p.postId === action.payload);
@@ -219,6 +231,7 @@ export const {
   setExpandedPost,
   addRepost,
   toggleRepost,
+  toggleExpandedPostRepost,
   toggleLikePost,
   toggleFollow,
   updateDisplayNames,

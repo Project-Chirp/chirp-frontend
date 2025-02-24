@@ -3,6 +3,7 @@ import {
   FavoriteBorderOutlined,
   FavoriteOutlined,
   KeyboardBackspace,
+  Repeat,
   RepeatOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
@@ -21,14 +22,22 @@ import {
   Link,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { toggleLikePost, setExpandedPost } from "../../state/slices/postsSlice";
+import {
+  toggleLikePost,
+  setExpandedPost,
+  toggleExpandedPostRepost,
+} from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
 import { Post } from "../../types/posts";
-import { toggleLikePostRequest } from "../../utilities/postUtilities";
+import {
+  toggleLikePostRequest,
+  toggleRepostPostRequest,
+} from "../../utilities/postUtilities";
 import useAxios from "../../utilities/useAxios";
+import RepostMenu from "../Common/RepostMenu";
 import TooltipTimestamp from "../Common/TooltipTimestamp";
 import UserAvatar from "../Common/UserAvatar";
 import PostMenu from "./PostMenu";
@@ -55,6 +64,15 @@ const styles = {
     width: "100%",
   },
   cardMedia: { maxWidth: 200, margin: "auto" },
+  coloredButton: {
+    color: "primary.main",
+  },
+  defaultButton: {
+    color: "gray.main",
+    "&:hover": {
+      color: "primary.main",
+    },
+  },
   headerTitle: {
     fontWeight: "bold",
   },
@@ -86,6 +104,8 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
   const user = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const { sendRequest } = useAxios();
+  const [openRepostMenu, setOpenRepostMenu] = useState(false);
+  const repostMenuRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const updatedExpandedPost = async () => {
@@ -190,9 +210,33 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
           justifyContent="space-between"
           sx={styles.cardActions}
         >
-          <IconButton>
-            <RepeatOutlined />
+          <IconButton
+            onClick={() => setOpenRepostMenu(true)}
+            ref={repostMenuRef}
+            sx={
+              post.isRepostedByCurrentUser
+                ? styles.coloredButton
+                : styles.defaultButton
+            }
+          >
+            {post.isLikedByCurrentUser ? <RepeatOutlined /> : <Repeat />}
           </IconButton>
+          <RepostMenu
+            anchorRef={repostMenuRef}
+            handleRepost={async () => {
+              await toggleRepostPostRequest(
+                sendRequest,
+                post.isRepostedByCurrentUser,
+                post.postId,
+                user.userId,
+              );
+
+              dispatch(toggleExpandedPostRepost());
+            }}
+            isReposted={post.isRepostedByCurrentUser}
+            open={openRepostMenu}
+            setCloseMenu={() => setOpenRepostMenu(false)}
+          />
           <IconButton
             onClick={() => {
               setOpen(true);
