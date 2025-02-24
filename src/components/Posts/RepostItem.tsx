@@ -3,7 +3,6 @@ import { Box, Link, useTheme } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../state/hooks";
 import { Post } from "../../types/posts";
-import { convertRepostToPost } from "../../utilities/postTransform";
 import PostItem from "./PostItem";
 
 type RepostProps = {
@@ -33,8 +32,6 @@ const RepostItem = ({ post }: RepostProps) => {
     return null;
   }
 
-  const convertedPost = convertRepostToPost(post);
-
   return (
     <Box>
       <Box onClick={() => navigate(`/${username}`)} sx={styles.container}>
@@ -51,7 +48,7 @@ const RepostItem = ({ post }: RepostProps) => {
           Reposted by {post.repostedByDisplayName}
         </Link>
       </Box>
-      <PostItem post={convertedPost} />
+      <PostItem key={post.postId} post={post} />
     </Box>
   );
 };

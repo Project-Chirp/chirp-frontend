@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setPosts } from "../../state/slices/postsSlice";
 import { Post } from "../../types/posts";
+import { transformPost } from "../../utilities/postUtilities";
 import useAxios from "../../utilities/useAxios";
 import PostItem from "./PostItem";
 import RepostItem from "./RepostItem";
@@ -36,13 +37,15 @@ const PostList = () => {
     <Stack divider={<Divider />}>
       {posts
         .filter((o) => !o.parentPostId || o.originalPostContent)
-        .map((o) =>
-          o.originalPostContent && !o.textContent ? (
-            <RepostItem key={o.postId} post={o} />
+        .map((o) => {
+          const transformedPost = transformPost(o);
+
+          return o.originalPostContent && !o.textContent ? (
+            <RepostItem key={transformedPost.postId} post={transformedPost} />
           ) : (
-            <PostItem key={o.postId} post={o} />
-          ),
-        )}
+            <PostItem key={transformedPost.postId} post={transformedPost} />
+          );
+        })}
     </Stack>
   );
 };
