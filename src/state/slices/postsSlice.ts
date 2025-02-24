@@ -102,13 +102,17 @@ const postsSlice = createSlice({
       const { postId, userId } = action.payload;
       if (!postId || !userId) return;
 
-      const userRepostIndex = state.posts.findIndex(
-        (post) => post.parentPostId === postId && post.userId === userId,
+      /**
+       * Filters out the current user repost of the postId provided.
+       */
+      state.posts = state.posts.filter(
+        (post) =>
+          !(
+            post.originalPostContent &&
+            post.parentPostId === postId &&
+            post.userId === userId
+          ),
       );
-
-      if (postId && userRepostIndex !== -1) {
-        state.posts.splice(userRepostIndex, 1); // filter out repost belonging to current user
-      }
     },
     toggleRepost: (state, action: PayloadAction<number>) => {
       const originalPostId = action.payload;
