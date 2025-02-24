@@ -181,18 +181,26 @@ const postsSlice = createSlice({
       });
       state.posts = newPosts;
 
-      // Update expanded post if it's related
-      if (state.expandedPost) {
-        if (
-          state.expandedPost.postId === originalPostId ||
-          (state.expandedPost.originalPostContent &&
-            state.expandedPost.parentPostId === originalPostId)
-        ) {
-          const isLikedByCurrentUser = !state.expandedPost.isLikedByCurrentUser;
-          state.expandedPost.isLikedByCurrentUser = isLikedByCurrentUser;
-          state.expandedPost.numberOfLikes = isLikedByCurrentUser
-            ? state.expandedPost.numberOfLikes + 1
-            : state.expandedPost.numberOfLikes - 1;
+      if (action.payload === state.expandedPost.postId) {
+        console.log("I got here");
+        const isLikedByCurrentUser = !state.expandedPost.isLikedByCurrentUser;
+        state.expandedPost.isLikedByCurrentUser = isLikedByCurrentUser;
+        if (isLikedByCurrentUser) {
+          state.expandedPost.numberOfLikes++;
+        } else {
+          state.expandedPost.numberOfLikes--;
+        }
+      }
+    },
+    toggleLikeExpandedPost: (state, action: PayloadAction<number>) => {
+      if (action.payload === state.expandedPost.postId) {
+        console.log("I got here");
+        const isLikedByCurrentUser = !state.expandedPost.isLikedByCurrentUser;
+        state.expandedPost.isLikedByCurrentUser = isLikedByCurrentUser;
+        if (isLikedByCurrentUser) {
+          state.expandedPost.numberOfLikes++;
+        } else {
+          state.expandedPost.numberOfLikes--;
         }
       }
     },
@@ -233,6 +241,7 @@ export const {
   toggleRepost,
   toggleExpandedPostRepost,
   toggleLikePost,
+  toggleLikeExpandedPost,
   toggleFollow,
   updateDisplayNames,
   updatePost,

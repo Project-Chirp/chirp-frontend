@@ -9,6 +9,8 @@ import { Post } from "../types/posts";
  * and transforming this data to look like a regular post item so that the
  * post item component can read it like normal without needing to place conditionals
  * depending on whether it is a repost or a regular post.
+ *
+ * TODO: move to postUtilities.ts
  */
 export const convertRepostToPost = (post: Post): Post => {
   if (!post.originalPostContent) return post;

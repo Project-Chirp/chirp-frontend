@@ -26,9 +26,9 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
-  toggleLikePost,
   setExpandedPost,
   toggleExpandedPostRepost,
+  toggleLikeExpandedPost,
 } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
 import { Post } from "../../types/posts";
@@ -252,7 +252,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
                 post.postId,
                 user.userId,
               );
-              dispatch(toggleLikePost(post.postId));
+              dispatch(toggleLikeExpandedPost(post.postId));
             }}
             sx={post.isLikedByCurrentUser ? styles.likedIcon : undefined}
           >
