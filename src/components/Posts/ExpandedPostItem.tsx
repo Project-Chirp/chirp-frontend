@@ -27,8 +27,8 @@ import { useNavigate, useParams, Link as Routerlink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
   setExpandedPost,
-  toggleExpandedPostRepost,
-  toggleLikeExpandedPost,
+  toggleRepost,
+  toggleLikePost,
 } from "../../state/slices/postsSlice";
 import { enqueueToast } from "../../state/slices/toastSlice";
 import { Post } from "../../types/posts";
@@ -231,7 +231,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
                 user.userId,
               );
 
-              dispatch(toggleExpandedPostRepost());
+              dispatch(toggleRepost(post.postId));
             }}
             isReposted={post.isRepostedByCurrentUser}
             open={openRepostMenu}
@@ -252,7 +252,7 @@ const ExpandedPostItem = ({ post }: ExpandedPostItemProps) => {
                 post.postId,
                 user.userId,
               );
-              dispatch(toggleLikeExpandedPost(post.postId));
+              dispatch(toggleLikePost(post.postId));
             }}
             sx={post.isLikedByCurrentUser ? styles.likedIcon : undefined}
           >

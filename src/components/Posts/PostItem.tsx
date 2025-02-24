@@ -227,6 +227,7 @@ const PostItem = ({ post }: PostProps) => {
           </Button>
           <Button
             onClick={async () => {
+              if (!originalPostId) return;
               const postIdToLike =
                 post.originalPostContent && post.parentPostId !== undefined
                   ? post.parentPostId
@@ -238,7 +239,7 @@ const PostItem = ({ post }: PostProps) => {
                 postIdToLike,
                 user.userId,
               );
-              dispatch(toggleLikePost(post.postId));
+              dispatch(toggleLikePost(originalPostId));
             }}
             startIcon={
               post.isLikedByCurrentUser ? (

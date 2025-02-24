@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setPosts } from "../../state/slices/postsSlice";
 import useAxios from "../../utilities/useAxios";
 import PostItem from "../Posts/PostItem";
+import RepostItem from "../Posts/RepostItem";
 
 type ProfilePostsProps = {
   visitedUserId: number;
@@ -30,9 +31,15 @@ const ProfilePosts = ({ visitedUserId }: ProfilePostsProps) => {
 
   return (
     <Stack divider={<Divider />}>
-      {posts.map((o, index) => (
-        <PostItem key={index} post={o} />
-      ))}
+      {posts
+        .filter((o) => !o.parentPostId || o.originalPostContent)
+        .map((o) =>
+          o.originalPostContent && !o.textContent ? (
+            <RepostItem key={o.postId} post={o} />
+          ) : (
+            <PostItem key={o.postId} post={o} />
+          ),
+        )}
       <Divider />
     </Stack>
   );

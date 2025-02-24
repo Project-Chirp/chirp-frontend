@@ -10,6 +10,20 @@ type RepostProps = {
   post: Post;
 };
 
+const styles = {
+  container: {
+    display: "flex",
+    alignItems: "center",
+    color: "gray.main",
+    paddingLeft: 2,
+    paddingTop: 1,
+    cursor: "pointer",
+  },
+  link: {
+    paddingLeft: 0.5,
+  },
+};
+
 const RepostItem = ({ post }: RepostProps) => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -23,21 +37,13 @@ const RepostItem = ({ post }: RepostProps) => {
 
   return (
     <Box>
-      <Box
-        onClick={() => navigate(`/${username}`)}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          color: "#808080",
-          paddingLeft: 2,
-          paddingTop: 1,
-        }}
-      >
-        <RepeatOutlined sx={{ fontSize: "1rem" }} />
+      <Box onClick={() => navigate(`/${username}`)} sx={styles.container}>
+        <RepeatOutlined fontSize="small" />
         <Link
           color={theme.typography.subtitle2.color}
           component={RouterLink}
-          sx={{ paddingLeft: 0.5, fontSize: "0.8125rem" }}
+          fontSize={"small"}
+          sx={styles.link}
           to={`/${post.username}`}
           underline="hover"
           variant="subtitle2"

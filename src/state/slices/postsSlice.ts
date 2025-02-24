@@ -111,15 +111,7 @@ const postsSlice = createSlice({
       }
     },
     toggleRepost: (state, action: PayloadAction<number>) => {
-      const postToUpdate = state.posts.find(
-        (post) => post.postId === action.payload,
-      );
-
-      if (!postToUpdate) return;
-      const originalPostId = postToUpdate.originalPostContent
-        ? postToUpdate.parentPostId
-        : postToUpdate.postId;
-
+      const originalPostId = action.payload;
       const newPosts = state.posts.map((post) => {
         if (
           post.postId === originalPostId ||
@@ -139,27 +131,20 @@ const postsSlice = createSlice({
       });
 
       state.posts = newPosts;
-    },
-    toggleExpandedPostRepost: (state) => {
-      state.expandedPost.isRepostedByCurrentUser =
-        !state.expandedPost.isRepostedByCurrentUser;
 
-      if (state.expandedPost.isRepostedByCurrentUser) {
-        state.expandedPost.numberOfReposts =
-          state.expandedPost.numberOfReposts + 1;
-      } else {
-        state.expandedPost.numberOfReposts =
-          state.expandedPost.numberOfReposts - 1;
+      if (action.payload === state.expandedPost.postId) {
+        const isRepostedByCurrentUser =
+          !state.expandedPost.isRepostedByCurrentUser;
+        state.expandedPost.isRepostedByCurrentUser = isRepostedByCurrentUser;
+        if (isRepostedByCurrentUser) {
+          state.expandedPost.numberOfReposts++;
+        } else {
+          state.expandedPost.numberOfReposts--;
+        }
       }
     },
     toggleLikePost: (state, action: PayloadAction<number>) => {
-      const postToUpdate = state.posts.find((p) => p.postId === action.payload);
-      if (!postToUpdate) return;
-
-      // Get the original post ID - either from originalPostContent or the post itself
-      const originalPostId = postToUpdate.originalPostContent
-        ? postToUpdate.parentPostId
-        : postToUpdate.postId;
+      const originalPostId = action.payload;
 
       // Update all instances of this post (original and reposts)
       const newPosts = state.posts.map((post) => {
@@ -182,19 +167,6 @@ const postsSlice = createSlice({
       state.posts = newPosts;
 
       if (action.payload === state.expandedPost.postId) {
-        console.log("I got here");
-        const isLikedByCurrentUser = !state.expandedPost.isLikedByCurrentUser;
-        state.expandedPost.isLikedByCurrentUser = isLikedByCurrentUser;
-        if (isLikedByCurrentUser) {
-          state.expandedPost.numberOfLikes++;
-        } else {
-          state.expandedPost.numberOfLikes--;
-        }
-      }
-    },
-    toggleLikeExpandedPost: (state, action: PayloadAction<number>) => {
-      if (action.payload === state.expandedPost.postId) {
-        console.log("I got here");
         const isLikedByCurrentUser = !state.expandedPost.isLikedByCurrentUser;
         state.expandedPost.isLikedByCurrentUser = isLikedByCurrentUser;
         if (isLikedByCurrentUser) {
@@ -239,9 +211,7 @@ export const {
   setExpandedPost,
   addRepost,
   toggleRepost,
-  toggleExpandedPostRepost,
   toggleLikePost,
-  toggleLikeExpandedPost,
   toggleFollow,
   updateDisplayNames,
   updatePost,
