@@ -133,7 +133,7 @@ export const selectNonReplyPosts = createSelector([selectPosts], (posts) =>
 );
 
 export const selectReplies = createSelector(
-  [selectPosts, (state, parentPostId) => parentPostId],
+  [selectPosts, (_: RootState, parentPostId: number) => parentPostId],
   (posts, parentPostId) => posts.filter((o) => o.parentPostId === parentPostId),
 );
 
