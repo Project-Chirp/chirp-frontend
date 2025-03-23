@@ -64,6 +64,9 @@ const messagesSlice = createSlice({
 export const selectSelectedConversation = (state: RootState) =>
   state.messages.selectedConversation;
 
+export const selectSelectedConversationUserIds = (state: RootState) =>
+  state.messages.selectedConversation.userId;
+
 export const selectConversations = (state: RootState) =>
   state.messages.conversations;
 

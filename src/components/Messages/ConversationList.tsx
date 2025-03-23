@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../state/hooks";
 import {
   selectConversations,
-  selectSelectedConversation,
+  selectSelectedConversationUserIds,
 } from "../../state/slices/messagesSlice";
 import { selectCurrentUserId } from "../../state/slices/userSlice";
 import SearchBar from "../Common/SearchBar";
@@ -28,8 +28,8 @@ const ConversationList = () => {
   const [messageModal, showMessageModal] = useState(false);
 
   const conversations = useAppSelector(selectConversations);
-  const { userId: selectedConversationUserId } = useAppSelector(
-    selectSelectedConversation,
+  const selectedConversationUserId = useAppSelector(
+    selectSelectedConversationUserIds,
   );
   const userId = useAppSelector(selectCurrentUserId);
 
