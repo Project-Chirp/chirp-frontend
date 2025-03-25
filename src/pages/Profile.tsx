@@ -26,7 +26,7 @@ import ProfileReplies from "../components/Profile/ProfileReplies";
 import SideBar from "../components/SideBar/SideBar";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { updateDisplayNames } from "../state/slices/postsSlice";
-import { setDisplayName } from "../state/slices/userSlice";
+import { selectCurrentUserId, setDisplayName } from "../state/slices/userSlice";
 import { EditableProfileContent, ProfileContent } from "../types/profile";
 import { FollowableUser } from "../types/users";
 import useAxios from "../utilities/useAxios";
@@ -93,7 +93,7 @@ const Profile = () => {
   const dispatch = useAppDispatch();
   const { username } = useParams();
   const [value, setValue] = useState("one");
-  const currentUserId = useAppSelector((state) => state.user.userId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const [profileContents, setProfileContents] = useState<ProfileContent>({
     bio: "",
     birthDate: undefined,

@@ -9,6 +9,7 @@ import {
 import { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { enqueueToast } from "../../state/slices/toastSlice";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import { Post } from "../../types/posts";
 import EditPostModal from "./EditPostModal";
 import PostDeleteConfirmationModal from "./PostDeleteConfirmationModal";
@@ -34,7 +35,7 @@ const styles = {
 
 const PostMenu = ({ isExpandedPost = false, post }: PostMenuProps) => {
   const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector(selectCurrentUserId);
   const menuRef = useRef<HTMLButtonElement>(null);
   const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
     useState(false);

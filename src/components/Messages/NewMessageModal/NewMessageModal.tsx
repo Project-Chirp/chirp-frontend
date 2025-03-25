@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
+import { selectCurrentUserId } from "../../../state/slices/userSlice";
 import { BaseUser } from "../../../types/users";
 import UserSearchBar from "../../Common/UserSearchBar";
 import NewMessageModalList from "./NewMessageModalList";
@@ -46,7 +47,7 @@ const NewMessageModal = ({
   open,
 }: NewMessageModalProps) => {
   const [showUserList, setShowUserList] = useState(true);
-  const userId = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector(selectCurrentUserId);
   const navigate = useNavigate();
 
   const onSelectUser = (otherUserId: number) => {

@@ -1,5 +1,6 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import { Post } from "../../types/posts";
+import { RootState } from "../store";
 
 type PostState = {
   posts: Post[];
@@ -121,6 +122,20 @@ const postsSlice = createSlice({
     },
   },
 });
+
+export const selectPosts = (state: RootState) => state.posts.posts;
+
+export const selectExpandedPost = (state: RootState) =>
+  state.posts.expandedPost;
+
+export const selectNonReplyPosts = createSelector([selectPosts], (posts) =>
+  posts.filter((o) => o.parentPostId == undefined),
+);
+
+export const selectReplies = createSelector(
+  [selectPosts, (_: RootState, parentPostId: number) => parentPostId],
+  (posts, parentPostId) => posts.filter((o) => o.parentPostId === parentPostId),
+);
 
 export const {
   addReply,

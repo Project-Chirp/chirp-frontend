@@ -4,7 +4,11 @@ import ConversationList from "../components/Messages/ConversationList";
 import NewMessageModal from "../components/Messages/NewMessageModal/NewMessageModal";
 import NavBar from "../components/NavBar/NavBar";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { setConversations } from "../state/slices/messagesSlice";
+import {
+  selectConversations,
+  setConversations,
+} from "../state/slices/messagesSlice";
+import { selectCurrentUserId } from "../state/slices/userSlice";
 import useAxios from "../utilities/useAxios";
 
 const styles = {
@@ -26,8 +30,8 @@ const styles = {
 const Messages = () => {
   const [messageModal, showMessageModal] = useState(false);
 
-  const userId = useAppSelector((state) => state.user.userId);
-  const conversations = useAppSelector((state) => state.messages.conversations);
+  const userId = useAppSelector(selectCurrentUserId);
+  const conversations = useAppSelector(selectConversations);
 
   const dispatch = useAppDispatch();
   const { sendRequest } = useAxios();

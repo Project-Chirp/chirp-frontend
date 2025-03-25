@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 type CurrentUser = {
   isLoading: boolean;
@@ -23,6 +24,8 @@ const userSlice = createSlice({
     },
   },
 });
+
+export const selectCurrentUserId = (state: RootState) => state.user.userId;
 
 export const { setDisplayName, setUser } = userSlice.actions;
 

@@ -18,6 +18,7 @@ import {
 import { Link as Routerlink, useNavigate } from "react-router-dom";
 import PageLoader from "../../pages/PageLoader";
 import { useAppSelector } from "../../state/hooks";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import { FollowableUser } from "../../types/users";
 import FollowButton from "../Common/FollowButton";
 import FollowingButton from "../Common/FollowingButton";
@@ -64,7 +65,7 @@ const FollowListModal = ({
   open,
   title,
 }: FollowListModalProps) => {
-  const currentUserId = useAppSelector((state) => state.user.userId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const navigate = useNavigate();
   const theme = useTheme();
 

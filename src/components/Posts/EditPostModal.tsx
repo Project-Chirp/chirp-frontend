@@ -66,7 +66,7 @@ const EditPostModal = ({
   open,
   post,
 }: EditPostModalProps) => {
-  const user = useAppSelector((state) => state.user);
+  const username = useAppSelector((state) => state.user.username);
   const { sendRequest } = useAxios();
   const dispatch = useAppDispatch();
   const [postTextContent, setPostTextContent] = useState(post.textContent);
@@ -120,7 +120,7 @@ const EditPostModal = ({
         <form onSubmit={onSubmit}>
           <Box sx={styles.dialogContentContainer}>
             <Box sx={styles.avatar}>
-              <UserAvatar username={user.username} />
+              <UserAvatar username={username} />
             </Box>
             <Box sx={styles.textFieldContainer}>
               <TextField

@@ -5,6 +5,7 @@ import ConversationList from "../components/Messages/ConversationList";
 import NavBar from "../components/NavBar/NavBar";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { setConversations } from "../state/slices/messagesSlice";
+import { selectCurrentUserId } from "../state/slices/userSlice";
 import useAxios from "../utilities/useAxios";
 
 const styles = {
@@ -20,7 +21,7 @@ const styles = {
 };
 
 const DirectMessage = () => {
-  const userId = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector(selectCurrentUserId);
 
   const dispatch = useAppDispatch();
   const { sendRequest } = useAxios();

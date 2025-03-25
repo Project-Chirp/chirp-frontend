@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useLocation, Link as Routerlink } from "react-router-dom";
 import Logo from "../../assets/logo.svg?react";
 import { useAppSelector } from "../../state/hooks";
+import { selectSelectedConversationUserIds } from "../../state/slices/messagesSlice";
 import ComposePost from "../Posts/ComposePost";
 import AccountMenu from "./AccountMenu";
 import NavItem from "./NavItem";
@@ -65,7 +66,7 @@ const NavBar = () => {
   const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
   const selectedConversationUserId = useAppSelector(
-    (state) => state.messages.selectedConversation.userId,
+    selectSelectedConversationUserIds,
   );
   const user = useAppSelector((state) => state.user);
 

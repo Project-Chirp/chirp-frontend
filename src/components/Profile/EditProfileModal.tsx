@@ -15,6 +15,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useAppSelector } from "../../state/hooks";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import { EditableProfileContent } from "../../types/profile";
 import useAxios from "../../utilities/useAxios";
 
@@ -60,7 +61,7 @@ const EditProfileModal = ({
     dayjs(birthDate || new Date()),
   );
   const [displayNameValue, setDisplayNameValue] = useState(displayName);
-  const user = useAppSelector((state) => state.user);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const { sendRequest } = useAxios();
 
   const saveProfile = async (e: React.SyntheticEvent) => {
@@ -73,7 +74,7 @@ const EditProfileModal = ({
             bio: bioValue,
             birthDate: birthDateValue,
             displayName: displayNameValue,
-            userId: user.userId,
+            userId: currentUserId,
           },
         },
         "profile",

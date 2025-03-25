@@ -1,13 +1,14 @@
 import { Divider, Stack } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { setPosts } from "../../state/slices/postsSlice";
+import { selectNonReplyPosts, setPosts } from "../../state/slices/postsSlice";
+import { selectCurrentUserId } from "../../state/slices/userSlice";
 import useAxios from "../../utilities/useAxios";
 import PostItem from "./PostItem";
 
 const PostList = () => {
-  const { posts } = useAppSelector((state) => state.posts);
-  const user = useAppSelector((state) => state.user);
+  const posts = useAppSelector(selectNonReplyPosts);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const dispatch = useAppDispatch();
 
   const { sendRequest } = useAxios();
@@ -18,7 +19,7 @@ const PostList = () => {
         const resultPosts = await sendRequest(
           {
             method: "GET",
-            params: { userId: user.userId },
+            params: { userId: currentUserId },
           },
           "posts",
         );
@@ -28,15 +29,13 @@ const PostList = () => {
       }
     };
     fetchPosts();
-  }, [dispatch, sendRequest, user.userId]);
+  }, [dispatch, sendRequest, currentUserId]);
 
   return (
     <Stack divider={<Divider />}>
-      {posts
-        .filter((o) => o.parentPostId == null)
-        .map((o) => (
-          <PostItem key={o.postId} post={o} />
-        ))}
+      {posts.map((o) => (
+        <PostItem key={o.postId} post={o} />
+      ))}
     </Stack>
   );
 };

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import {
+  selectMessages,
+  selectSelectedConversation,
   setMessages,
   setSelectedConversation,
 } from "../../state/slices/messagesSlice";
@@ -24,9 +26,8 @@ const styles = {
 };
 
 const ChatContainer = () => {
-  const { messages, selectedConversation } = useAppSelector(
-    (state) => state.messages,
-  );
+  const messages = useAppSelector(selectMessages);
+  const selectedConversation = useAppSelector(selectSelectedConversation);
   const [chatBio, setChatBio] = useState<ChatBioType>({
     bio: "",
     username: "",
